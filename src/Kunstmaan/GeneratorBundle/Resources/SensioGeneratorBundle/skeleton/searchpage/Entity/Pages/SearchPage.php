@@ -11,6 +11,11 @@ use Kunstmaan\NodeSearchBundle\Entity\AbstractSearchPage;
  */
 class SearchPage extends AbstractSearchPage
 {
+    public function getSearcher()
+    {
+        return 'hgabka_lucene.search.node';
+    }	
+    
     /*
      * return string
      */
