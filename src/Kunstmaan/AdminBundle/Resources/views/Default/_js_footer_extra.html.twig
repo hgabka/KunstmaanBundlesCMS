@@ -1,21 +1,15 @@
-{#
-  Don't edit this file in the Kunstmaan Bundles.
-  You can extend this file to add javascript without removing the complete configuration.
-  
-  Example extra ckEditor config:
-  
-  ckEditorConfigs['simple'] = {
-        skin: 'bootstrapck',
-        startupFocus: false,
-        bodyClass: 'CKEditor',
-        filebrowserWindowWidth: 970,
-        filebrowserImageWindowWidth: 970,
-        filebrowserImageUploadUrl: '',
-            toolbar: [
-        {
-            name: 'basicstyles',
-            items: ['Bold', 'Italic', 'Underline', 'RemoveFormat']
-        }
-    ]};
-
-#}
+<script src="{{ asset('bundles/webtownkunstmaanextension/lib/ui/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('bundles/ujhazpublic/js/jquery-ui-sortable.min.js') }}"></script>
+<script src="{{ asset('bundles/webtownkunstmaanextension/js/adminsorter.js') }}"></script>
+<script>
+    $(function() {
+        {% for data in kuma_disabled_node_fields %}
+        $('[name$="[{{ data.inputname }}]"').each(function() {
+            if ($(this).val() == '{{ data.value }}')
+            {
+                $(this).prop('readonly', true);
+            }
+        });
+        {% endfor %}
+    });
+</script>

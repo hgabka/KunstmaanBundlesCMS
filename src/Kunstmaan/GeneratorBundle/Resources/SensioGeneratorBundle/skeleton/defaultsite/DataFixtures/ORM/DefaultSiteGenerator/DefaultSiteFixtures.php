@@ -27,6 +27,11 @@ use {{ namespace }}\Entity\Bike;
  */
 class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
+	/**
+	 * Translation domain
+	 */
+	const TRANSLATION_DOMAIN = 'fixtures';
+
     /**
      * Username that is used for creating pages
      */
@@ -86,6 +91,7 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
 	$this->createSearchPage();
 {% endif %}
         $this->createDashboard();
+		$this->setAdminPassword('admin');
     }
 
     /**
@@ -110,7 +116,7 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
     private function createHomePage()
     {
         $homePage = new HomePage();
-        $homePage->setTitle('Home');
+        $homePage->setTitle('Főoldal');
 
         $translations = array();
 	foreach ($this->requiredLocales as $locale) {
@@ -980,5 +986,24 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
+    }
+	
+	protected function trans($id, $locale)
+	{
+		return $this->container->get('translator')->trans($id, [], static::TRANSLATION_DOMAIN, $locale);
+    }
+
+    /**
+     * Sets the admin user's password to 'admin'
+     *
+     */
+    protected function setAdminPassword($password)
+    {
+        $adminUser = $this->getReference('adminuser');
+
+        $adminUser->setPlainPassword('szigmati76');
+        $adminUser->setPasswordChanged(true);
+        $this->manager->persist($adminUser);
+        $this->manager->flush();
     }
 }
