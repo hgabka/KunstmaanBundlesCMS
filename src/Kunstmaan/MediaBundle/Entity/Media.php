@@ -137,9 +137,9 @@ class Media extends AbstractEntity
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", name="removed_from_file_system")
+     * @ORM\Column(type="boolean", name="removed_from_file_system", options={"default" : false})
      */
-    protected $removedFromFileSystem;
+    protected $removedFromFileSystem = false;
 
     /**
      * constructor
