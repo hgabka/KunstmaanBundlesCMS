@@ -17,6 +17,8 @@ modal:
 
 pages:
     copynotavailable: Másolás nem lehetséges
+    list:
+        help_text: A lista az összes oldalt tartalmazza a módosítás idejének sorrendjében.
 
 kuma_node:
     form:

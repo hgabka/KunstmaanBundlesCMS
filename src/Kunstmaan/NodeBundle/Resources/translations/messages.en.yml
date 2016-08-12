@@ -17,6 +17,8 @@ modal:
 
 pages:
     copynotavailable: "Please translate the parent page first"
+    list:
+        help_text: This list contains all the pages, chronologically ordered by updated date.
 
 kuma_node:
     form:
