@@ -58,5 +58,19 @@
 %}
     <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
+<script src="{{ asset('bundles/hgabkakunstmaanextension/lib/ui/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('bundles/hgabkakunstmaanextension/js/adminsorter.js') }}"></script>
+<script>
+    $(function() {
+        {% for data in kuma_disabled_node_fields %}
+        $('[name$="[{{ data.inputname }}]"').each(function() {
+            if ($(this).val() == '{{ data.value }}')
+            {
+                $(this).prop('readonly', true);
+            }
+        });
+        {% endfor %}
+    });
+</script>
 
 {% include "@KunstmaanAdminBundle/Resources/views/Default/_js_footer_extra.html.twig" %}
