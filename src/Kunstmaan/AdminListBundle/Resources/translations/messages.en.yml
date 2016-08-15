@@ -1,3 +1,11 @@
 kuma_admin_list:
     form:
         export_to: Export to
+    list:
+        title: %entity% list
+    new:
+        title: Add new %entity%
+    edit:
+        title: Edit %entity%
+    view:
+        title: View %entity%

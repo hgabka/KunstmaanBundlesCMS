@@ -1,9 +1,26 @@
 {% extends '@KunstmaanAdmin/Default/layout.html.twig' %}
 {% form_theme form '@KunstmaanAdmin/Form/fields.html.twig' %}
 
+{%  set isNew = entity is not defined %}
+
 {% block header %}
     {{ form_start(form, {'method': 'POST', 'action': path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')), 'attr': {'novalidate': 'novalidate'}}) }}
     {{ parent() }}
+{% endblock %}
+
+{% block admin_page_title %}
+    <div class="col-sm-6 col-md-8">
+        <h1 class="app__content__header__title">
+            {% set title = isNew ? adminlistconfigurator.getNewTitle() : adminlistconfigurator.getEditTitle() %}
+            {% if title is not empty %}
+                {{ title | trans({'%entity%' : adminlistconfigurator.getEntityName()}) }}
+            {% elseif adminmenu.current %}
+                {{ adminmenu.current.label | trans }} {% block page_header_addition %}{% endblock %}
+            {% else %}
+                {{ adminlistconfigurator.getEntityName() }}
+            {% endif %}
+        </h1>
+    </div>
 {% endblock %}
 
 {% block extra_actions_header %}
@@ -13,7 +30,7 @@
             <div class="btn-group">
                 {% block actions %}
                     <button type="submit" class="btn btn-primary btn--raise-on-hover">
-                        {{ 'Save' | trans }}
+                        {{ 'form.add' | trans }}
                     </button>
                     <a href="{{ path(adminlistconfigurator.getIndexUrl()["path"], adminlistconfigurator.getIndexUrl()["params"]) }}" class="btn btn-default btn--raise-on-hover">
                         {{ 'form.cancel' | trans }}

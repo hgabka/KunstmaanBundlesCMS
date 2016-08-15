@@ -873,4 +873,44 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
     {
         return array();
     }
+	
+    /**
+     * Return list title
+     *
+     * @return null|string
+     */
+    public function getListTitle()
+    {
+        return 'kuma_admin_list.list.title';
+    }
+
+    /**
+     * Returns edit title
+     *
+     * @return null|string
+     */
+    public function getViewTitle()
+    {
+        return 'kuma_admin_list.view.title';
+    }
+
+    /**
+     * Returns edit title
+     *
+     * @return null|string
+     */
+    public function getEditTitle()
+    {
+        return 'kuma_admin_list.edit.title';
+    }
+
+    /**
+     * Returns new title
+     *
+     * @return null|string
+     */
+    public function getNewTitle()
+    {
+        return 'kuma_admin_list.new.title';
+    }
 }
