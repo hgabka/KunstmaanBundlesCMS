@@ -42,7 +42,7 @@ form:
     deletesure: Biztos benne?
     edit: Szerkesztés
     add: Hozzáad
-    'add.%subject%': '%subject% hozzadása'
+    'add.%subject%': '%subject% hozzáadása'
     save: Mentés
     publish: Publikál
     unpublish: Publikálás visszavonása
