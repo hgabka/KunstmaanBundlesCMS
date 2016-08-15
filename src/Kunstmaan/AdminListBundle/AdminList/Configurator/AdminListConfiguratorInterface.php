@@ -289,4 +289,18 @@ interface AdminListConfiguratorInterface
      * @return string
      */
     public function getNewTitle();
+	
+    /**
+     * Returns entity name singular
+     *
+     * @return string
+     */
+    public function getEntityNameSingular();
+	
+    /**
+     * Returns entity name plural
+     *
+     * @return string
+     */
+    public function getEntityNamePlural();
 }

@@ -5,7 +5,7 @@
         <h1 class="app__content__header__title">
             {% set title = adminlist.configurator.getViewTitle() %}
             {% if title is not empty %}
-                {{ title | trans({'%entity%' : adminlistconfigurator.getEntityName()}) }}
+                {{ title | trans({'%entity%' : adminlistconfigurator.getEntityNameSingular() | trans }) }}
             {% elseif adminmenu.current %}
                 {{ adminmenu.current.label | trans }} {% block page_header_addition %}{% endblock %}
             {% else %}

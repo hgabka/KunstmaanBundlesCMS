@@ -913,4 +913,24 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
     {
         return 'kuma_admin_list.new.title';
     }
+	
+    /**
+     * Returns entity name singular
+     *
+     * @return string
+     */
+    public function getEntityNameSingular()
+    {
+        return $this->getEntityName();
+    }
+	
+    /**
+     * Returns entity name plural
+     *
+     * @return string
+     */
+    public function getEntityNamePlural()
+    {
+        return $this->getEntityName().'s';
+    }
 }
