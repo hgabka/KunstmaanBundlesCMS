@@ -11,7 +11,6 @@
             {% for widget in widgets %}
                 {% if form[widget] is defined and not form[widget].vars.valid %}
                     {% set hasError = hasError|merge({('i'~i) : true}) %}
-                    {{ dump(i) }}
                     {% if firstTab == -1 %}
                         {% set firstTab = i %}
                     {% endif %}
@@ -65,6 +64,4 @@
         </div>
     {% endif %}
     {{ form_rest(form) }}
-{% endif %}    
-    
-{{ dump(hasError) }}
+{% endif %}
