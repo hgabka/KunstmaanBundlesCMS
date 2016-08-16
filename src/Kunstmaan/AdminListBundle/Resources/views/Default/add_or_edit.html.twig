@@ -73,7 +73,7 @@
                 {% if tabPane is defined %}
                     {{ tabs_widget(tabPane) }}
                 {% else %}
-                    {{ form_rest(form) }}
+                    {% include '@KunstmaanAdminList/Default/form_fields.html.twig' %}
                 {% endif %}
             {% endblock %}
         </fieldset>

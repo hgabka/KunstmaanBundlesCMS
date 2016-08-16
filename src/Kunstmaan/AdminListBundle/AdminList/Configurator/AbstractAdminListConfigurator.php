@@ -933,4 +933,14 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
     {
         return $this->getEntityName().'s';
     }
+	
+    /**
+     * Returns tab fields
+     *
+     * @return null|array
+     */
+    public function getTabFields()
+    {
+        return null;
+    }
 }

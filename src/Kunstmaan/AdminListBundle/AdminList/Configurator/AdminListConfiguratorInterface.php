@@ -303,4 +303,11 @@ interface AdminListConfiguratorInterface
      * @return string
      */
     public function getEntityNamePlural();
+	
+    /**
+     * Returns tab fields
+     *
+     * @return null|array
+     */
+    public function getTabFields();
 }
