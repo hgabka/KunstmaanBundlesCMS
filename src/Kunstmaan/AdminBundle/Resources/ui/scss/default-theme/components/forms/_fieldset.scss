@@ -10,6 +10,6 @@
     padding: 1em;
 }
 
-.form__fieldset--padded ul.nav-tabs li.error {
-  color: red;
+.form__fieldset--padded ul.nav-tabs > li.error > a {
+    color: red;
 }
