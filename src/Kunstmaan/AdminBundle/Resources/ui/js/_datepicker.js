@@ -59,7 +59,7 @@ kunstmaanbundles.datepicker = (function($, window, undefined) {
         var format = (elFormat !== undefined) ? elFormat : defaultFormat,
             collapse = (elCollapse !== undefined) ? elCollapse : defaultCollapse,
             keepOpen = (elKeepOpen !== undefined) ? elKeepOpen : defaultKeepOpen,
-            minDate = (elMinDate === 'tomorrow') ? _tomorrow : (elMinDate === 'today') ? _today : defaultMinDate,
+            minDate = (elMinDate === 'tomorrow') ? _tomorrow : ((elMinDate === 'today') ? _today : defaultMinDate),
             defaultDate = (elShowDefaultDate) ? _setDefaultDate(elMinDate) : defaultShowDefaultDate,
             locale = (elLocale !== undefined) ? elLocale : defaultLocale,
             options = (elLocale !== undefined) ? elOptions : {},
