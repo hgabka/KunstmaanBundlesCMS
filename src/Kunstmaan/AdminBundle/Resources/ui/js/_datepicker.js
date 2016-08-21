@@ -95,7 +95,7 @@ kunstmaanbundles.datepicker = (function($, window, undefined) {
             locale: locale
         };           
 
-        options = $.extend(options, defOptions);
+        options = $.extend(defOptions, options);
         $input.datetimepicker(options);
         
         $el.addClass('datepicker--enabled');
