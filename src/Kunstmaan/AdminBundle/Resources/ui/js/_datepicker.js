@@ -12,6 +12,7 @@ kunstmaanbundles.datepicker = (function($, window, undefined) {
         defaultKeepOpen = false,
         defaultMinDate = false,
         defaultShowDefaultDate = false,
+        defaultLocale = 'en',
         defaultStepping = 1;
 
 
@@ -49,6 +50,7 @@ kunstmaanbundles.datepicker = (function($, window, undefined) {
             elKeepOpen = $el.data('keep-open'),
             elMinDate = $el.data('min-date'),
             elShowDefaultDate = $el.data('default-date'),
+            elLocale = $el.data('locale'),
             elStepping = $el.data('stepping');
 
 
@@ -86,7 +88,8 @@ kunstmaanbundles.datepicker = (function($, window, undefined) {
                 today: 'fa fa-crosshairs',
                 clear: 'fa fa-trash-o'
             },
-            stepping: stepping
+            stepping: stepping,
+            locale: locale
         });
 
         $el.addClass('datepicker--enabled');
