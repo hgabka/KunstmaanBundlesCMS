@@ -62,7 +62,7 @@ kunstmaanbundles.datepicker = (function($, window, undefined) {
             minDate = (elMinDate === 'tomorrow') ? _tomorrow : ((elMinDate === 'today') ? _today : defaultMinDate),
             defaultDate = (elShowDefaultDate) ? _setDefaultDate(elMinDate) : defaultShowDefaultDate,
             locale = (elLocale !== undefined) ? elLocale : defaultLocale,
-            options = (elLocale !== undefined) ? elOptions : {},
+            options = (elOptions !== undefined) ? elOptions : {},
             stepping = (elStepping !== undefined) ? elStepping : defaultStepping;
 
 
@@ -95,8 +95,9 @@ kunstmaanbundles.datepicker = (function($, window, undefined) {
             locale: locale
         };           
 
-        $input.datetimepicker($.extend(options, defOptions));
-
+        options = $.extend(options, defOptions);
+        $input.datetimepicker(options);
+        
         $el.addClass('datepicker--enabled');
 
         $addon.on('click', function() {
