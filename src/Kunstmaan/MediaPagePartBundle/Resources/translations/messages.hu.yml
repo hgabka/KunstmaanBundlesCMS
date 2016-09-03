@@ -6,7 +6,7 @@ mediapagepart:
     image:
         choosefile: Fájl kiválasztása
         alttext: Kép hiánya esetén megjelenítendő szöveg
-        link: Ide linkkeljen a kép
+        link: Ide linkeljen a kép
         openinnewwindow: Új ablakban nyíljon meg
 
 

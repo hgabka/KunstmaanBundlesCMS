@@ -35,13 +35,13 @@ kuma_node:
                 label:  Elérési út az URL-ben
             weight:
                 label:  Súlyozás
-                title:  Az oldalak újrarendezéséhez használd
+                title:  Az oldalak újrarendezéséhez használt
         page:
             title:
                 label:  Navigációs cím
             page_title:
                 label:  Oldal cím
-                info_text: Belső hivatkozásoknál használd.
+                info_text: Belső hivatkozásoknál használt.
     status:
         "will_be_publish_at.%date%.raw": "Ez az oldal publikálva lesz: %date%"
         "will_be_unpublish_at.%date%.raw": "Az oldal rejtett lesz (publikálás visszavonása): %date%"
@@ -111,27 +111,27 @@ kuma_node:
                 add:
                     label: Hozzáadás
                 cancel:
-                    label: Mégse
+                    label: Mégsem
         unpublish:
             title: Elrejtés
             body: Biztos benne, hogy el szeretné rejteni az oldalt - publikálás visszavonása? Ha elrejti, nem lesz az oldal elérhető!
             later:
                 label: Elrejtés később
                 button: Elrejtés később
-                cancel: Mégse
+                cancel: Mégsem
             now:
                 button: Elrejtés
-                cancel: Mégse
+                cancel: Mégsem
         publish:
             title: Publikálás
             body: Biztos benne, hogy nyilvánossá szeretné tenni ezt az oldalt? Ha nyilvánossá teszi, elérhető lesz!
             later:
                 label: Publikálás később
                 button: Publikálás később
-                cancel: Mégse
+                cancel: Mégsem
             now:
                 button: Publikálás
-                cancel: Mégse
+                cancel: Mégsem
         versions:
             title: Verziók
             table:
@@ -149,21 +149,21 @@ kuma_node:
                 type: Típus
             button:
                 add: Hozzáad
-                cancel: Mégse
+                cancel: Mégsem
         delete_page:
             'title.%page%': "'%page%' oldal törlése"
             'body.%page%': A törlés végleges és teljes! Biztosan törölni szeretné az oldalt?
             button:
                 delete: Törlés
-                cancel: Mégse
+                cancel: Mégsem
         duplicate_page:
             'title.%page%': "A(z) '%page%' oldal duplikálása"
             label:
                 new_title: Új cím
             button:
                 duplicate: Duplikálás
-                cancel: Mégse
+                cancel: Mégsem
         recopyfromlanguage:
             button:
-                copy: Másol
-                cancel: Mégse
+                copy: Másolás
+                cancel: Mégsem

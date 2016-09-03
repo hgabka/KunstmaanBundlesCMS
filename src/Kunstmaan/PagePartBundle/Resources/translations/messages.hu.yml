@@ -33,7 +33,7 @@ kuma_pagepart:
     modal:
         delete:
             'title.%type%':  "'%type%' oldalelem törlése"
-            'text.%type%': Ez nem távolítja el teljesen az oldalelemet, mentsd az oldalt, hogy a módosítás végleges legyen.
+            'text.%type%': Ez nem távolítja el teljesen az oldalelemet, mentse az oldalt, hogy a módosítás végleges legyen.
             button:
                 delete: Törlés
                 cancel: Mégse

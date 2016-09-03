@@ -7,7 +7,7 @@ seo:
 
     action:
         save: Mentés
-        cancel: Mégse
+        cancel: Mégsem
         preview: Előnézet
 
     form:
@@ -46,7 +46,7 @@ seo:
                 label: Meta leírás
             meta_robots:
                 label: Meta robotok
-                placeholder: Válassz robot tageket
+                placeholder: Robot tagek
             extra_metadata:
                 label: Extra meta adat
 

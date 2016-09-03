@@ -6,7 +6,7 @@ settings:
         edit: Csoport szerkesztése
         add: Csoport hozzáadása
         roles: Csoport szerepkörök
-        roles_placeholder: Válassz egy jogosultságot...
+        roles_placeholder: Válasszon egy jogosultságot...
     users: Felhasználók
     user:
         username: Felhasználónév
@@ -16,7 +16,7 @@ settings:
         email: E-mail cím
         enabled: Engedélyezett
         roles: Felhasználó szerepkörei
-        roles_placeholder: Válassz ki a jogosultság csoportokat...
+        roles_placeholder: Válasszon ki a jogosultság csoportokat...
         add: Felhasználó hozzáadása
         edit: Felhasználó szerkesztése
     roles: Szerepkörök

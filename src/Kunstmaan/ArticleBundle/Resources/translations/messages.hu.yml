@@ -1,6 +1,6 @@
 article:
     warning:
-        create_overview_page: Létre kell hoznod egy áttekintő oldalt, hogy csinálhass %type% oldalt!
+        create_overview_page: Létre kell hoznia egy áttekintő oldalt, hogy %type% oldalt készíthessen!
     form:
         date:
             label: Dátum
