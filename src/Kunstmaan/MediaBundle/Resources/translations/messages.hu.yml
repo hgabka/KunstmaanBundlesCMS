@@ -8,7 +8,7 @@ media:
         no: Még nincs fájl ebben a könyvtárban.
         dnd:
             tip: "Tip:"
-            tiptext: Tudtad, hogy a fájlokat egyből ebbe a mappába is feltöltheted?
+            tiptext: Tudta, hogy a fájlokat közvetlenül ebbe a mappába is feltöltheti?
             alert:
                 title: Érkezik!
                 text: Húzd ide a fájlokat az azonnali feltöltéshez ebbe a könyvtárba.
@@ -20,7 +20,7 @@ media:
             title: Részletek
         title: Média
         add:
-            action: Hozzáadása
+            action: Hozzáadás
         edit:
             action: Szerkesztés
         download:
@@ -54,8 +54,8 @@ media:
             action_short: Ürítés
             modal:
                 title: Mappa ürítése
-                text: Bitzos benne, hogy törölni akarja a(z) `%folder%` mappa tartalmát?
-                checkbox: Alkönyvtárak törlése is
+                text: Biztos benne, hogy törölni akarja a(z) `%folder%` mappa tartalmát?
+                checkbox: Törölje az alkönyvtárakat is
                 save: Ürítés
             success:
                 text: A `%folder%` mappa üres!
@@ -113,7 +113,7 @@ media:
             save: Hozzáadás
 
     widget:
-        choose: Válassz
+        choose: Kiválasztás
         delete: Törlés
         media_chooser: Média választó
         icon_chooser: Ikon választó
