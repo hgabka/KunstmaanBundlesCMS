@@ -79,6 +79,7 @@ kuma_node:
             title:
                 default: New page
         list:
+            title:          List of pages
             header:
                 title:      Title
                 created_at: Created At

@@ -259,4 +259,9 @@ class NodeAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
                 ->setParameter('right', $rootNode->getRight());
         }
     }
+	
+    public function getListTitle()
+    {
+        return 'kuma_node.admin.list.title';
+    }
 }

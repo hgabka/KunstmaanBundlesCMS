@@ -79,6 +79,7 @@ kuma_node:
             title:
                 default: Új oldal
         list:
+            title:          Oldalak listája
             header:
                 title:      Cím
                 created_at: Létrehozva
