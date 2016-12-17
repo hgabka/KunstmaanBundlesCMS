@@ -4,13 +4,13 @@ namespace Kunstmaan\AdminListBundle\AdminList\Configurator;
 
 use InvalidArgumentException;
 use Kunstmaan\AdminListBundle\AdminList\BulkAction\BulkActionInterface;
-use Kunstmaan\AdminListBundle\AdminList\ListAction\ListActionInterface;
-use Kunstmaan\AdminListBundle\AdminList\ItemAction\ItemActionInterface;
 use Kunstmaan\AdminListBundle\AdminList\Field;
 use Kunstmaan\AdminListBundle\AdminList\FilterBuilder;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\AbstractType;
+use Kunstmaan\AdminListBundle\AdminList\ItemAction\ItemActionInterface;
+use Kunstmaan\AdminListBundle\AdminList\ListAction\ListActionInterface;
 use Pagerfanta\Pagerfanta;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Implement this interface to create your own admin list
@@ -261,53 +261,4 @@ interface AdminListConfiguratorInterface
      * @return array
      */
     public function getExtraParameters();
-	
-    /**
-     * Returns list title
-     *
-     * @return null|string
-     */
-    public function getListTitle();
-
-    /**
-     * Returns view title
-     *
-     * @return null|string
-     */
-    public function getViewTitle();
-	
-    /**
-     * Returns edit title
-     *
-     * @return null|string
-     */
-    public function getEditTitle();
-
-    /**
-     * Returns new title
-     *
-     * @return string
-     */
-    public function getNewTitle();
-	
-    /**
-     * Returns entity name singular
-     *
-     * @return string
-     */
-    public function getEntityNameSingular();
-	
-    /**
-     * Returns entity name plural
-     *
-     * @return string
-     */
-    public function getEntityNamePlural();
-	
-    /**
-     * Returns tab fields
-     *
-     * @return null|array
-     */
-    public function getTabFields();
 }

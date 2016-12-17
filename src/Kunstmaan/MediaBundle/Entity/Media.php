@@ -137,9 +137,9 @@ class Media extends AbstractEntity
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", name="removed_from_file_system", options={"default" : false})
+     * @ORM\Column(type="boolean", name="removed_from_file_system")
      */
-    protected $removedFromFileSystem = false;
+    protected $removedFromFileSystem;
 
     /**
      * constructor
@@ -149,6 +149,7 @@ class Media extends AbstractEntity
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
         $this->deleted = false;
+        $this->removedFromFileSystem = false;
     }
 
     /**

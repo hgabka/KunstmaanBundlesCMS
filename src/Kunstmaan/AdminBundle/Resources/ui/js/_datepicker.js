@@ -12,7 +12,6 @@ kunstmaanbundles.datepicker = (function($, window, undefined) {
         defaultKeepOpen = false,
         defaultMinDate = false,
         defaultShowDefaultDate = false,
-        defaultLocale = 'en',
         defaultStepping = 1;
 
 
@@ -50,8 +49,6 @@ kunstmaanbundles.datepicker = (function($, window, undefined) {
             elKeepOpen = $el.data('keep-open'),
             elMinDate = $el.data('min-date'),
             elShowDefaultDate = $el.data('default-date'),
-            elLocale = $el.data('locale'),
-            elOptions = $el.data('options'),
             elStepping = $el.data('stepping');
 
 
@@ -59,18 +56,16 @@ kunstmaanbundles.datepicker = (function($, window, undefined) {
         var format = (elFormat !== undefined) ? elFormat : defaultFormat,
             collapse = (elCollapse !== undefined) ? elCollapse : defaultCollapse,
             keepOpen = (elKeepOpen !== undefined) ? elKeepOpen : defaultKeepOpen,
-            minDate = (elMinDate === 'tomorrow') ? _tomorrow : ((elMinDate === 'today') ? _today : defaultMinDate),
+            minDate = (elMinDate === 'tomorrow') ? _tomorrow : (elMinDate === 'today') ? _today : defaultMinDate,
             defaultDate = (elShowDefaultDate) ? _setDefaultDate(elMinDate) : defaultShowDefaultDate,
-            locale = (elLocale !== undefined) ? elLocale : defaultLocale,
-            options = (elOptions !== undefined) ? elOptions : {},
             stepping = (elStepping !== undefined) ? elStepping : defaultStepping;
 
 
         // Setup
         var $input = $el.find('input'),
             $addon = $el.find('.input-group-addon');
-           
-        var defOptions = {
+
+        $input.datetimepicker({
             format: format,
             collapse: collapse,
             keepOpen: keepOpen,
@@ -91,13 +86,9 @@ kunstmaanbundles.datepicker = (function($, window, undefined) {
                 today: 'fa fa-crosshairs',
                 clear: 'fa fa-trash-o'
             },
-            stepping: stepping,
-            locale: locale
-        };           
+            stepping: stepping
+        });
 
-        options = $.extend(defOptions, options);
-        $input.datetimepicker(options);
-        
         $el.addClass('datepicker--enabled');
 
         $addon.on('click', function() {

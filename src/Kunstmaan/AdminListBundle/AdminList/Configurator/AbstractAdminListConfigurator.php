@@ -5,14 +5,16 @@ namespace Kunstmaan\AdminListBundle\AdminList\Configurator;
 use Doctrine\ORM\PersistentCollection;
 use InvalidArgumentException;
 use Kunstmaan\AdminListBundle\AdminList\BulkAction\BulkActionInterface;
-use Kunstmaan\AdminListBundle\AdminList\ListAction\ListActionInterface;
+use Kunstmaan\AdminListBundle\AdminList\Field;
+use Kunstmaan\AdminListBundle\AdminList\FieldAlias;
+use Kunstmaan\AdminListBundle\AdminList\FilterBuilder;
+use Kunstmaan\AdminListBundle\AdminList\FilterType\FilterTypeInterface;
 use Kunstmaan\AdminListBundle\AdminList\ItemAction\ItemActionInterface;
 use Kunstmaan\AdminListBundle\AdminList\ItemAction\SimpleItemAction;
-use Kunstmaan\AdminListBundle\AdminList\FilterType\FilterTypeInterface;
-use Kunstmaan\AdminListBundle\AdminList\FilterBuilder;
-use Kunstmaan\AdminListBundle\AdminList\Field;
+use Kunstmaan\AdminListBundle\AdminList\ListAction\ListActionInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * Abstract admin list configurator, this implements the most common functionality from the
@@ -365,12 +367,13 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
      * @param string $header The header title
      * @param string $sort Sortable column or not
      * @param string $template The template
+     * @param FieldAlias $alias The alias
      *
      * @return AbstractAdminListConfigurator
      */
-    public function addField($name, $header, $sort, $template = null)
+    public function addField($name, $header, $sort, $template = null, FieldAlias $alias = null)
     {
-        $this->fields[] = new Field($name, $header, $sort, $template);
+        $this->fields[] = new Field($name, $header, $sort, $template, $alias);
 
         return $this;
     }
@@ -379,12 +382,13 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
      * @param string $name The field name
      * @param string $header The header title
      * @param string $template The template
+     * @param FieldAlias $alias The alias
      *
      * @return AbstractAdminListConfigurator
      */
-    public function addExportField($name, $header, $template = null)
+    public function addExportField($name, $header, $template = null, FieldAlias $alias = null)
     {
-        $this->exportFields[] = new Field($name, $header, false, $template);
+        $this->exportFields[] = new Field($name, $header, false, $template, $alias);
 
         return $this;
     }
@@ -584,26 +588,13 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
                 return '';
             }
         }
-        $methodName = $columnName;
-        if (method_exists($item, $methodName)) {
-            $result = $item->$methodName();
+
+        $accessor = PropertyAccess::createPropertyAccessor();
+
+        if ($accessor->isReadable($item, $columnName)) {
+            $result = $accessor->getValue($item, $columnName);
         } else {
-            $methodName = 'get'.$columnName;
-            if (method_exists($item, $methodName)) {
-                $result = $item->$methodName();
-            } else {
-                $methodName = 'is'.$columnName;
-                if (method_exists($item, $methodName)) {
-                    $result = $item->$methodName();
-                } else {
-                    $methodName = 'has'.$columnName;
-                    if (method_exists($item, $methodName)) {
-                        $result = $item->$methodName();
-                    } else {
-                        return sprintf('undefined function [get/is/has]%s()', $columnName);
-                    }
-                }
-            }
+            return sprintf('undefined function [get/is/has]%s()', $columnName);
         }
 
         return $result;
@@ -872,75 +863,5 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
     public function getExtraParameters()
     {
         return array();
-    }
-	
-    /**
-     * Return list title
-     *
-     * @return null|string
-     */
-    public function getListTitle()
-    {
-        return 'kuma_admin_list.list.title';
-    }
-
-    /**
-     * Returns edit title
-     *
-     * @return null|string
-     */
-    public function getViewTitle()
-    {
-        return 'kuma_admin_list.view.title';
-    }
-
-    /**
-     * Returns edit title
-     *
-     * @return null|string
-     */
-    public function getEditTitle()
-    {
-        return 'kuma_admin_list.edit.title';
-    }
-
-    /**
-     * Returns new title
-     *
-     * @return null|string
-     */
-    public function getNewTitle()
-    {
-        return 'kuma_admin_list.new.title';
-    }
-	
-    /**
-     * Returns entity name singular
-     *
-     * @return string
-     */
-    public function getEntityNameSingular()
-    {
-        return $this->getEntityName();
-    }
-	
-    /**
-     * Returns entity name plural
-     *
-     * @return string
-     */
-    public function getEntityNamePlural()
-    {
-        return $this->getEntityName().'s';
-    }
-	
-    /**
-     * Returns tab fields
-     *
-     * @return null|array
-     */
-    public function getTabFields()
-    {
-        return null;
     }
 }

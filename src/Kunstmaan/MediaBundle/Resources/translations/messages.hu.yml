@@ -8,7 +8,7 @@ media:
         no: Még nincs fájl ebben a könyvtárban.
         dnd:
             tip: "Tip:"
-            tiptext: Tudta, hogy a fájlokat közvetlenül ebbe a mappába is feltöltheti?
+            tiptext: Tudtad, hogy a fájlokat egyből ebbe a mappába is feltöltheted?
             alert:
                 title: Érkezik!
                 text: Húzd ide a fájlokat az azonnali feltöltéshez ebbe a könyvtárba.
@@ -20,7 +20,7 @@ media:
             title: Részletek
         title: Média
         add:
-            action: Hozzáadás
+            action: Hozzáadása
         edit:
             action: Szerkesztés
         download:
@@ -54,8 +54,8 @@ media:
             action_short: Ürítés
             modal:
                 title: Mappa ürítése
-                text: Biztos benne, hogy törölni akarja a(z) `%folder%` mappa tartalmát?
-                checkbox: Törölje az alkönyvtárakat is
+                text: Bitzos benne, hogy törölni akarja a(z) `%folder%` mappa tartalmát?
+                checkbox: Alkönyvtárak törlése is
                 save: Ürítés
             success:
                 text: A `%folder%` mappa üres!
@@ -113,7 +113,7 @@ media:
             save: Hozzáadás
 
     widget:
-        choose: Kiválasztás
+        choose: Válassz
         delete: Törlés
         media_chooser: Média választó
         icon_chooser: Ikon választó
@@ -154,8 +154,6 @@ media:
                 label: Szerzői jog
             description:
                 label: Leírás
-            file:
-                label: Fájl
             originalFilename:
                 label: Eredeti fájlnév
         remote_audio:

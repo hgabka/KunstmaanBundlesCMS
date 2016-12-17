@@ -38,11 +38,11 @@ kuma_lead_generation:
         locale_black_list:
             locale:
                 label: Nyelvi környezet
-                info_text: Megadhat nyelvi környezeteket, amik fekete listára kerülnek.
+                info_text: Megadhatsz nyelvi környezeteket, amik fekete listára kerülnek.
         locale_white_list:
             locale:
                 label: Nyelvi környezet
-                info_text: Megadhat nyelvi környezeteket, amik fehér listára kerülnek.
+                info_text: Megadhatsz nyelvi környezeteket, amik fehér listára kerülnek.
         max_x_time:
             times:
                 label: Idő
@@ -101,7 +101,7 @@ kuma_lead_generation:
                 button:
                     open:   Jogosultság hozzáadása
                     add:    Hozzáadás
-                    cancel: Mégsem
+                    cancel: Mégse
         list:
             header:
                 id:         Id

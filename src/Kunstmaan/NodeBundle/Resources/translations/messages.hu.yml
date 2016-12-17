@@ -17,8 +17,6 @@ modal:
 
 pages:
     copynotavailable: Másolás nem lehetséges
-    list:
-        help_text: A lista az összes oldalt tartalmazza a módosítás idejének sorrendjében.
 
 kuma_node:
     form:
@@ -32,16 +30,16 @@ kuma_node:
                 label:  Belső név
         menu_tab_translation:
             slug:
-                label:  Elérési út az URL-ben
+                label:  Elérési útaz URL-ben
             weight:
                 label:  Súlyozás
-                title:  Az oldalak újrarendezéséhez használt
+                title:  Az oldalak újrarendezéséhez használd
         page:
             title:
                 label:  Navigációs cím
             page_title:
                 label:  Oldal cím
-                info_text: Belső hivatkozásoknál használt.
+                info_text: Belső hivatkozásoknál használd.
     status:
         "will_be_publish_at.%date%.raw": "Ez az oldal publikálva lesz: %date%"
         "will_be_unpublish_at.%date%.raw": "Az oldal rejtett lesz (publikálás visszavonása): %date%"
@@ -79,7 +77,6 @@ kuma_node:
             title:
                 default: Új oldal
         list:
-            title:          Oldalak listája
             header:
                 title:      Cím
                 created_at: Létrehozva
@@ -112,27 +109,27 @@ kuma_node:
                 add:
                     label: Hozzáadás
                 cancel:
-                    label: Mégsem
+                    label: Mégse
         unpublish:
             title: Elrejtés
             body: Biztos benne, hogy el szeretné rejteni az oldalt - publikálás visszavonása? Ha elrejti, nem lesz az oldal elérhető!
             later:
                 label: Elrejtés később
                 button: Elrejtés később
-                cancel: Mégsem
+                cancel: Mégse
             now:
                 button: Elrejtés
-                cancel: Mégsem
+                cancel: Mégse
         publish:
             title: Publikálás
             body: Biztos benne, hogy nyilvánossá szeretné tenni ezt az oldalt? Ha nyilvánossá teszi, elérhető lesz!
             later:
                 label: Publikálás később
                 button: Publikálás később
-                cancel: Mégsem
+                cancel: Mégse
             now:
                 button: Publikálás
-                cancel: Mégsem
+                cancel: Mégse
         versions:
             title: Verziók
             table:
@@ -150,21 +147,21 @@ kuma_node:
                 type: Típus
             button:
                 add: Hozzáad
-                cancel: Mégsem
+                cancel: Mégse
         delete_page:
             'title.%page%': "'%page%' oldal törlése"
             'body.%page%': A törlés végleges és teljes! Biztosan törölni szeretné az oldalt?
             button:
                 delete: Törlés
-                cancel: Mégsem
+                cancel: Mégse
         duplicate_page:
             'title.%page%': "A(z) '%page%' oldal duplikálása"
             label:
                 new_title: Új cím
             button:
                 duplicate: Duplikálás
-                cancel: Mégsem
+                cancel: Mégse
         recopyfromlanguage:
             button:
-                copy: Másolás
-                cancel: Mégsem
+                copy: Másol
+                cancel: Mégse

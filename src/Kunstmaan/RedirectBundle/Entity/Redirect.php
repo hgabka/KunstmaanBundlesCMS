@@ -3,12 +3,20 @@
 namespace Kunstmaan\RedirectBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Kunstmaan\AdminBundle\Entity\AbstractEntity;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
- * @ORM\Table(name="kuma_redirects")
+ * @ORM\Table(
+ *     name="kuma_redirects",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="kuma_redirects_idx_domain_origin", columns={"domain", "origin"})
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="Kunstmaan\RedirectBundle\Repository\RedirectRepository")
+ * @UniqueEntity(fields={"domain", "origin"})
  */
 class Redirect extends AbstractEntity
 {
@@ -81,7 +89,7 @@ class Redirect extends AbstractEntity
     /**
      * Get origin
      *
-     * @return string 
+     * @return string
      */
     public function getOrigin()
     {
@@ -104,7 +112,7 @@ class Redirect extends AbstractEntity
     /**
      * Get target
      *
-     * @return string 
+     * @return string
      */
     public function getTarget()
     {
@@ -132,5 +140,19 @@ class Redirect extends AbstractEntity
     public function isPermanent()
     {
         return $this->permanent;
+    }
+
+    /**
+     * @Assert\Callback
+     *
+     * @param ExecutionContextInterface $context
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+        if ($this->getOrigin() === $this->getTarget()) {
+            $context->buildViolation('errors.redirect.origin_same_as_target')
+                ->atPath('target')
+                ->addViolation();
+        }
     }
 }

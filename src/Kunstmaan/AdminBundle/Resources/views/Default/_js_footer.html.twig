@@ -13,7 +13,6 @@
     "@KunstmaanAdminBundle/Resources/ui/vendor_bower/cargobay/src/toggle/js/jquery.toggle.min.js"
     "@KunstmaanAdminBundle/Resources/ui/vendor_bower/cargobay/src/scroll-to-top/js/jquery.scroll-to-top.min.js"
     "@KunstmaanAdminBundle/Resources/ui/vendor_bower/moment/min/moment.min.js"
-    "@KunstmaanAdminBundle/Resources/ui/vendor_bower/moment/min/moment-with-locales.min.js"
     "@KunstmaanAdminBundle/Resources/ui/vendor_bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"
     "@KunstmaanAdminBundle/Resources/ui/vendor_bower/Sortable/Sortable.js"
     "@KunstmaanAdminBundle/Resources/ui/vendor_bower/select2/dist/js/select2.full.min.js"
@@ -23,6 +22,7 @@
     "@KunstmaanAdminBundle/Resources/ui/js/_app-sidebar-toggle.js"
     "@KunstmaanAdminBundle/Resources/ui/js/_app-sidebar-search-focus.js"
     "@KunstmaanAdminBundle/Resources/ui/js/_app-main-actions.js"
+    "@KunstmaanAdminBundle/Resources/ui/js/_app-node-version-lock.js"
     "@KunstmaanAdminBundle/Resources/ui/js/_app-filter.js"
     "@KunstmaanAdminBundle/Resources/ui/js/_app-sortable-table.js"
     "@KunstmaanAdminBundle/Resources/ui/js/_app-check-if-edited.js"
@@ -59,19 +59,5 @@
 %}
     <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
-<script src="{{ asset('bundles/hgabkakunstmaanextension/lib/ui/jquery-ui.min.js') }}"></script>
-<script src="{{ asset('bundles/hgabkakunstmaanextension/js/adminsorter.js') }}"></script>
-<script>
-    $(function() {
-        {% for data in kuma_disabled_node_fields %}
-        $('[name$="[{{ data.inputname }}]"').each(function() {
-            if ($(this).val() == '{{ data.value }}')
-            {
-                $(this).prop('readonly', true);
-            }
-        });
-        {% endfor %}
-    });
-</script>
 
 {% include "@KunstmaanAdminBundle/Resources/views/Default/_js_footer_extra.html.twig" %}

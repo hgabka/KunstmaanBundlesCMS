@@ -17,8 +17,6 @@ modal:
 
 pages:
     copynotavailable: "Please translate the parent page first"
-    list:
-        help_text: This list contains all the pages, chronologically ordered by updated date.
 
 kuma_node:
     form:
@@ -75,11 +73,12 @@ kuma_node:
         edit:
             flash:
                 success: The page has been edited
+                locked: The page is currently being edited by %users%
+                locked_success: An automatic backup has been created because the page is being edited by another user
         new_page:
             title:
                 default: New page
         list:
-            title:          List of pages
             header:
                 title:      Title
                 created_at: Created At
@@ -153,7 +152,7 @@ kuma_node:
                 cancel:     Cancel
         delete_page:
             'title.%page%': Delete page '%page%'
-            'body.%page%':  This will remove the page completely! Are you really sure about this?
+            'body.%page%':  This will remove the page completely in all languages! Are you really sure about this?
             button:
                 delete:     Delete
                 cancel:     Cancel

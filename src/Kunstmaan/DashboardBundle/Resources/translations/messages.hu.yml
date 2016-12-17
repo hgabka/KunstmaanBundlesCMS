@@ -21,7 +21,7 @@ dashboard:
         setup:
             goals:
                 disable: Célok leállítása
-            title: Állítsa be a Google Analytics widgetet
+            title: Állítsd be a Google Analytics  widgetet
             content: "Bővebben a Google Analytics widget beállításairól ezen a linket találhat információkat:"
             docs_url: "http://bundles.kunstmaan.be/getting-started/advanced/setting-up-the-google-analytics-dashboard"
             docs: a dokumentáció
@@ -30,15 +30,15 @@ dashboard:
             connect: Kapcsolódás a Google fiókhoz
             confirm: Kapcsolódás
             profile:
-                title: Válasszon egy profilt
-                select: Válasszon egy profilt..
-                content: Válasszon egy profilt a kiválasztott weboldalhoz
+                title: Válassz egy profilt
+                select: Válassz egy profilt..
+                content: Válassz egy profilt a kiválasztott weboldalhoz
             property:
-              title: Válasszon egy weboldalt a követéshez
+              title: Válassz egy weboldalt a követéshez
               select: Válasszon egy weboldalt
-              content: Válassza ki azt a domaint, ami a Google Analyticshez van rendelve.
+              content: Válaszd ki azt a domaint, ami a Google Analyticshez van rendelve.
             account:
-                title: Válasszon egy felhasználót
+                title: Válassz egy felhasználót
                 select: Válasszon egy fiókot..
             link: Beállítások
             back: Vissza a vezérlőpultra
