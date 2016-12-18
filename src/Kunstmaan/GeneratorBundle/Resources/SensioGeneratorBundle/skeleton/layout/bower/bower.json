@@ -6,10 +6,8 @@
     "bootstrap-sass-official": "~3.3",
     "jquery": "~2.1",
     "velocity": "~1.2",
-    {% if demosite %}
     "fitvids": "~1.1",
     "modernizr": "~2.8",
-    {% endif %}
     "cargobay": "~0.8",
     "picturefill": "~3.0.1"
     }
