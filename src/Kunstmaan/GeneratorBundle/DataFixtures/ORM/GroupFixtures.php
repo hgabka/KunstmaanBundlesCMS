@@ -23,16 +23,16 @@ class GroupFixtures extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $group1 = $this->createGroup($manager, 'Administrators', array(
+        $group1 = $this->createGroup($manager, 'Adminisztrátorok', array(
             $this->getReference(RoleFixtures::REFERENCE_PERMISSIONMANAGER_ROLE),
             $this->getReference(RoleFixtures::REFERENCE_ADMIN_ROLE)
         ));
 
-        $group2 = $this->createGroup($manager, 'Guests', array(
+        $group2 = $this->createGroup($manager, 'Vendégek', array(
             $this->getReference(RoleFixtures::REFERENCE_GUEST_ROLE)
         ));
 
-        $group3 = $this->createGroup($manager, 'Super administrators', array(
+        $group3 = $this->createGroup($manager, 'Szuper adminisztrátorok', array(
             $this->getReference(RoleFixtures::REFERENCE_PERMISSIONMANAGER_ROLE),
             $this->getReference(RoleFixtures::REFERENCE_ADMIN_ROLE),
             $this->getReference(RoleFixtures::REFERENCE_SUPERADMIN_ROLE),
