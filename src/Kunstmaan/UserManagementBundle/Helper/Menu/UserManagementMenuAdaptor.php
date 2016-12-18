@@ -82,7 +82,7 @@ class UserManagementMenuAdaptor implements MenuAdaptorInterface
                     $menuItem
                         ->setRoute('KunstmaanUserManagementBundle_settings_users_add')
                         ->setUniqueId('Add user')
-                        ->setLabel('Add user')
+                        ->setLabel('settings.user.add')
                         ->setParent($parent)
                         ->setAppearInNavigation(false);
                     if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
@@ -94,7 +94,7 @@ class UserManagementMenuAdaptor implements MenuAdaptorInterface
                     $menuItem
                         ->setRoute('KunstmaanUserManagementBundle_settings_users_edit')
                         ->setUniqueId('Edit user')
-                        ->setLabel('Edit user')
+                        ->setLabel('settings.user.edit')
                         ->setParent($parent)
                         ->setAppearInNavigation(false);
                     if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
@@ -109,7 +109,7 @@ class UserManagementMenuAdaptor implements MenuAdaptorInterface
                         $menuItem
                             ->setRoute('KunstmaanUserManagementBundle_settings_groups_add')
                             ->setUniqueId('Add group')
-                            ->setLabel('Add group')
+                            ->setLabel('settings.group.add')
                             ->setParent($parent)
                             ->setAppearInNavigation(false);
                         if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
@@ -121,7 +121,7 @@ class UserManagementMenuAdaptor implements MenuAdaptorInterface
                         $menuItem
                             ->setRoute('KunstmaanUserManagementBundle_settings_groups_edit')
                             ->setUniqueId('Edit group')
-                            ->setLabel('Edit group')
+                            ->setLabel('settings.group.edit')
                             ->setParent($parent)
                             ->setAppearInNavigation(false);
                         if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
@@ -136,7 +136,7 @@ class UserManagementMenuAdaptor implements MenuAdaptorInterface
                             $menuItem
                                 ->setRoute('KunstmaanUserManagementBundle_settings_roles_add')
                                 ->setUniqueId('Add role')
-                                ->setLabel('Add role')
+                                ->setLabel('settings.role.add')
                                 ->setParent($parent)
                                 ->setAppearInNavigation(false);
                             if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
@@ -148,7 +148,7 @@ class UserManagementMenuAdaptor implements MenuAdaptorInterface
                             $menuItem
                                 ->setRoute('KunstmaanUserManagementBundle_settings_roles_edit')
                                 ->setUniqueId('Edit role')
-                                ->setLabel('Edit role')
+                                ->setLabel('settings.role.edit')
                                 ->setParent($parent)
                                 ->setAppearInNavigation(false);
                             if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
