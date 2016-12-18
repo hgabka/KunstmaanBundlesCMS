@@ -29,9 +29,9 @@ class FolderFixtures extends AbstractFixture implements OrderedFixtureInterface
         $manager->flush();
         $this->addReference('media-folder-en', $gal);
 
-        $gal->setTranslatableLocale('nl');
+        $gal->setTranslatableLocale('hu');
         $manager->refresh($gal);
-        $gal->setName('Media');
+        $gal->setName('Média');
         $manager->persist($gal);
         $manager->flush();
 
@@ -50,9 +50,9 @@ class FolderFixtures extends AbstractFixture implements OrderedFixtureInterface
         $manager->flush();
         $this->addReference('images-folder-en', $subgal);
 
-        $subgal->setTranslatableLocale('nl');
+        $subgal->setTranslatableLocale('hu');
         $manager->refresh($subgal);
-        $subgal->setName('Afbeeldingen');
+        $subgal->setName('Képek');
         $manager->persist($subgal);
         $manager->flush();
 
@@ -71,9 +71,9 @@ class FolderFixtures extends AbstractFixture implements OrderedFixtureInterface
         $manager->flush();
         $this->addReference('files-folder-en', $subgal);
 
-        $subgal->setTranslatableLocale('nl');
+        $subgal->setTranslatableLocale('hu');
         $manager->refresh($subgal);
-        $subgal->setName('Bestanden');
+        $subgal->setName('Fájlok');
         $manager->persist($subgal);
         $manager->flush();
 
@@ -92,9 +92,9 @@ class FolderFixtures extends AbstractFixture implements OrderedFixtureInterface
         $manager->flush();
         $this->addReference('slides-folder-en', $subgal);
 
-        $subgal->setTranslatableLocale('nl');
+        $subgal->setTranslatableLocale('hu');
         $manager->refresh($subgal);
-        $subgal->setName('Presentaties');
+        $subgal->setName('Bemutatók');
         $manager->persist($subgal);
         $manager->flush();
 
@@ -113,9 +113,9 @@ class FolderFixtures extends AbstractFixture implements OrderedFixtureInterface
         $manager->flush();
         $this->addReference('videos-folder-en', $subgal);
 
-        $subgal->setTranslatableLocale('nl');
+        $subgal->setTranslatableLocale('hu');
         $manager->refresh($subgal);
-        $subgal->setName('Video\'s');
+        $subgal->setName('Videók');
         $manager->persist($subgal);
         $manager->flush();
 
