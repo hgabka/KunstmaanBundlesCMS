@@ -18,6 +18,8 @@ modal:
 pages:
     copynotavailable: Másolás nem lehetséges
 
+"This list contains all the pages, chronologically ordered by updated date.": "A lista az összes oldalt tartalmazza az utolsó frissítés idejének sorrendjében."
+
 kuma_node:
     form:
         controller_action:

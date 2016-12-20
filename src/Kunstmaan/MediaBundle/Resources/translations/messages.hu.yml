@@ -7,7 +7,7 @@ media:
     media:
         no: Még nincs fájl ebben a könyvtárban.
         dnd:
-            tip: "Tip:"
+            tip: "Tipp:"
             tiptext: Tudtad, hogy a fájlokat egyből ebbe a mappába is feltöltheted?
             alert:
                 title: Érkezik!
@@ -20,7 +20,7 @@ media:
             title: Részletek
         title: Média
         add:
-            action: Hozzáadása
+            action: Feltöltés
         edit:
             action: Szerkesztés
         download:
