@@ -21,3 +21,11 @@ kuma_admin_list:
         true: igen
         false: nem
         
+    list:
+        title: %entity% lista
+    new:
+        title: Új %entity% hozzáadása
+    edit:
+        title: %entity% szerkesztése
+    view:
+        title: %entity% adatai

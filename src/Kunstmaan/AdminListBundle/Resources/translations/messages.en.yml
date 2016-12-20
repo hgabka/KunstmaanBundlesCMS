@@ -20,3 +20,12 @@ kuma_admin_list:
         dateafter: after
         true: true
         false: false
+
+    list:
+        title: %entity% list
+    new:
+        title: New %entity%
+    edit:
+        title: Edit %entity%
+    view:
+        title: View %entity%
