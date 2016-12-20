@@ -16,4 +16,8 @@ kuma_admin_list:
         notempty: nem üres
         numequals: egyenlő ezzel
         numnotequals: nem egyenlő ezzel
+        datebefore: ezelőtt
+        dateafter: ezután
+        true: igen
+        false: nem
         

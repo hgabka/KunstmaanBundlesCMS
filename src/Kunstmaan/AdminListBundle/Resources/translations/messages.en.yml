@@ -16,3 +16,7 @@ kuma_admin_list:
         notempty: not empty
         numequals: equals
         numnotequals: not equals
+        datebefore: before
+        dateafter: after
+        true: true
+        false: false
