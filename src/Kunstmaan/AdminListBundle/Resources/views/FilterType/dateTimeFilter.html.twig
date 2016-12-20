@@ -6,9 +6,9 @@
 </div>
 
 <div class="form-group">
-    <input type="text" class="form-control form_datepicker{{ nameprefix }}{{ namesuffix }}" name="{{nameprefix}}value{{namesuffix}}[date]" {% if data.value['date'] is defined %}value="{{data.value['date']}}"{% endif %}>
+    <input type="text" class="form-control form_datepicker{{ nameprefix }}{{ namesuffix }}" data-locale="{{ app.request.locale }}" data-date-format="{% if app.request.locale == 'hu' %}YYYY-MM-DD{% else %}DD/MM/YYYY{% endif %}" name="{{nameprefix}}value{{namesuffix}}[date]" {% if data.value['date'] is defined %}value="{{data.value['date']}}"{% endif %}>
 </div>
 
 <div class="form-group">
-    <input type="text" class="form-control form_timepicker{{ nameprefix }}{{ namesuffix }}" name="{{nameprefix}}value{{namesuffix}}[time]" {% if data.value['time'] is defined %}value="{{data.value['time']}}"{% endif %}>
+    <input type="text" class="form-control form_timepicker{{ nameprefix }}{{ namesuffix }}" data-locale="{{ app.request.locale }}" data-date-format="{% if app.request.locale == 'hu' %}YYYY-MM-DD{% else %}DD/MM/YYYY{% endif %}" name="{{nameprefix}}value{{namesuffix}}[time]" {% if data.value['time'] is defined %}value="{{data.value['time']}}"{% endif %}>
 </div>
