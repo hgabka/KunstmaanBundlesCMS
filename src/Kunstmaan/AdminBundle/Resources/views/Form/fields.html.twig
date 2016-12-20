@@ -68,7 +68,7 @@
         {% set reInitMethods = reInitMethods|merge(['"richEditor"']) %}
     {% endif %}
 
-    <textarea {{ block('widget_attributes') }} {% if reInitMethods|length > 0 %}data-reinit-js="[{{ reInitMethods|join(',') }}]"{% endif %} rows="5" {% if attr['maxlength'] is defined %} data-target="#counter-for-{{ form.vars.id }}" {% endif %}>{{ value }}</textarea>
+    <textarea {{ block('widget_attributes') }} {% if reInitMethods|length > 0 %}data-reinit-js="[{{ reInitMethods|join(',') }}]"{% endif %}{% if attr['type'] is defined and 'js-rich-editor' in attr.class %} data-editor-mode="{{ attr['type'] }}"{% endif %} rows="5" {% if attr['maxlength'] is defined %} data-target="#counter-for-{{ form.vars.id }}" {% endif %}>{{ value }}</textarea>
     {% if attr['maxlength'] is defined %}
         <span id="counter-for-{{ form.vars.id }}" class="form-control__character-counter js-max-length-counter"></span>
     {% endif %}

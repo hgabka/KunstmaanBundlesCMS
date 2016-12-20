@@ -59,7 +59,7 @@ form:
     createdat: Létrehozva
     updatedat: Frissítve
     actions: Műveletek
-    addfilter: Szűrés beállítása
+    addfilter: Szűrés hozzáadása
     choosetypefilter: Válasszon szűrési lehetőséget
     versions: Verziók
     button:
