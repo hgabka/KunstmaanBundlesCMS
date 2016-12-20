@@ -90,8 +90,8 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
 {% if demosite %}
         $this->createAdminListPages();
         $this->createFormPage();
-	$this->createSearchPage();
 {% endif %}
+        $this->createSearchPage();
         $this->createDashboard();
         $this->setAdminPassword('admin');
     }
@@ -763,7 +763,7 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
 
 	$this->manager->flush();
     }
-
+{% endif %}
     /**
      * Create a FormPage
      */
@@ -799,7 +799,7 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
 
         $this->manager->flush();
     }
-{% endif %}
+
 
     /**
      * Insert all translations
