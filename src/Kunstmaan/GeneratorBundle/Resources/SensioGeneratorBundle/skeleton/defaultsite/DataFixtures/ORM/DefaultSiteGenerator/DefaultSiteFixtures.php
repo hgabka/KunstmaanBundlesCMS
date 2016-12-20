@@ -20,9 +20,7 @@ use {{ namespace }}\Entity\Pages\ContentPage;
 use {{ namespace }}\Entity\Pages\FormPage;
 {% endif %}
 use {{ namespace }}\Entity\Pages\HomePage;
-{% if demosite %}
 use {{ namespace }}\Entity\Pages\SearchPage;
-{% endif %}
 
 /**
  * DefaultSiteFixtures
@@ -765,7 +763,7 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
     }
 {% endif %}
     /**
-     * Create a FormPage
+     * Create a SearchPage
      */
     private function createSearchPage()
     {
