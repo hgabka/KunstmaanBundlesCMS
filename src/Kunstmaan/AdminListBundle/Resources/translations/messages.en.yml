@@ -1,3 +1,18 @@
 kuma_admin_list:
     form:
         export_to: Export to
+    filter:
+        contains: contains
+        doesnotcontain: doesn't contain
+        equals: equals
+        notequals: not equals
+        startswith: starts with
+        endswith: ends with
+        lowerthan: lower than
+        lowerthanorequal: lower than or equal
+        greaterthan: greater than
+        greaterthanorequal: greater than or equal
+        empty: empty
+        notempty: not empty
+        numequals: equals
+        numnotequals: not equals
