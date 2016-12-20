@@ -18,8 +18,8 @@ kuma_admin_list:
         numnotequals: nem egyenlő ezzel
         datebefore: ezelőtt
         dateafter: ezután
-        true: igen
-        false: nem
+        'true': igen
+        'false': nem
         
     list:
         title: %entity% lista

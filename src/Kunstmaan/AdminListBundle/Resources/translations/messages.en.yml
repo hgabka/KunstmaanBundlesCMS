@@ -18,8 +18,8 @@ kuma_admin_list:
         numnotequals: not equals
         datebefore: before
         dateafter: after
-        true: true
-        false: false
+        'true': 'true'
+        'false': 'false'
 
     list:
         title: %entity% list
