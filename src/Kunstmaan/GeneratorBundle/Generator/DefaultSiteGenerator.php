@@ -265,15 +265,15 @@ class DefaultSiteGenerator extends KunstmaanGenerator
         $targetDir = $this->bundle->getPath().$relPath;
 
         $this->renderSingleFile($sourceDir, $targetDir, 'main.yml', $parameters);
-
+        $this->renderSingleFile($sourceDir, $targetDir, 'form.yml', $parameters);
+		
         if ($this->demosite) {
-        $this->renderSingleFile($sourceDir, $targetDir, 'header.yml', $parameters);
-        $this->renderSingleFile($sourceDir, $targetDir, 'section1.yml', $parameters);
-        $this->renderSingleFile($sourceDir, $targetDir, 'section2.yml', $parameters);
-        $this->renderSingleFile($sourceDir, $targetDir, 'section3.yml', $parameters);
-        $this->renderSingleFile($sourceDir, $targetDir, 'section4.yml', $parameters);
-        $this->renderSingleFile($sourceDir, $targetDir, 'section5.yml', $parameters);
-            $this->renderSingleFile($sourceDir, $targetDir, 'form.yml', $parameters);
+			$this->renderSingleFile($sourceDir, $targetDir, 'header.yml', $parameters);
+			$this->renderSingleFile($sourceDir, $targetDir, 'section1.yml', $parameters);
+			$this->renderSingleFile($sourceDir, $targetDir, 'section2.yml', $parameters);
+			$this->renderSingleFile($sourceDir, $targetDir, 'section3.yml', $parameters);
+			$this->renderSingleFile($sourceDir, $targetDir, 'section4.yml', $parameters);
+			$this->renderSingleFile($sourceDir, $targetDir, 'section5.yml', $parameters);
         }
 
         $this->assistant->writeLine('Generating pagepart configuration : <info>OK</info>');
