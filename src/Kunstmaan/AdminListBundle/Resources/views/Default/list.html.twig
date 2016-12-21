@@ -3,7 +3,10 @@
 {% block admin_page_title %}
     <div class="col-sm-6 col-md-8">
         <h1 class="app__content__header__title">
-            {% if adminmenu.current %}
+            {% set title = adminlist.configurator.getListTitle() %}
+            {% if title is not empty %}
+                {{ title | trans({'%entity%' : adminlist.configurator.getEntityNamePlural() | trans }) }}
+            {% elseif adminmenu.current %}
                 {{ adminmenu.current.label | trans }} {% block page_header_addition %}{% endblock %}
             {% else %}
                 {{ adminlist.configurator.getEntityName() }}
@@ -41,7 +44,7 @@
                         {% else %}
                             {% for key,add in adminaddlist %}
                                 <a class="btn btn-primary btn--raise-on-hover" href="{{ path(add["path"], add[("params")]) }}">
-                                    {{ 'form.add.%subject%' | trans({ '%subject%': key|trans }) }}
+                                    {{ 'form.add.%subject%' | trans({ '%subject%': adminlist.configurator.getEntityNameSingular()|trans }) }}
                                 </a>
                             {% endfor %}
                         {% endif %}

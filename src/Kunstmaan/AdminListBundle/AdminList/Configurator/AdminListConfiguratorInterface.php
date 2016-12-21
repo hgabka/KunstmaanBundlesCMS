@@ -261,4 +261,53 @@ interface AdminListConfiguratorInterface
      * @return array
      */
     public function getExtraParameters();
+
+    /**
+     * Returns list title
+     *
+     * @return null|string
+     */
+    public function getListTitle();
+
+    /**
+     * Returns view title
+     *
+     * @return null|string
+     */
+    public function getViewTitle();
+	
+    /**
+     * Returns edit title
+     *
+     * @return null|string
+     */
+    public function getEditTitle();
+
+    /**
+     * Returns new title
+     *
+     * @return string
+     */
+    public function getNewTitle();
+	
+    /**
+     * Returns entity name singular
+     *
+     * @return string
+     */
+    public function getEntityNameSingular();
+	
+    /**
+     * Returns entity name plural
+     *
+     * @return string
+     */
+    public function getEntityNamePlural();
+	
+    /**
+     * Returns tab fields
+     *
+     * @return null|array
+     */
+    public function getTabFields();
 }
