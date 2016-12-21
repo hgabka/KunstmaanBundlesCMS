@@ -14,11 +14,11 @@ use Kunstmaan\PagePartBundle\Helper\Services\PagePartCreatorService;
 use Kunstmaan\TranslatorBundle\Entity\Translation;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use {{ namespace }}\Entity\Bike;
 use {{ namespace }}\Entity\Pages\ContentPage;
 {% if demosite %}
-use {{ namespace }}\Entity\Pages\FormPage;
+use {{ namespace }}\Entity\Bike;
 {% endif %}
+use {{ namespace }}\Entity\Pages\FormPage;
 use {{ namespace }}\Entity\Pages\HomePage;
 use {{ namespace }}\Entity\Pages\SearchPage;
 
@@ -87,8 +87,8 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
         $this->createContentPages();
 {% if demosite %}
         $this->createAdminListPages();
-        $this->createFormPage();
 {% endif %}
+        $this->createFormPage();
         $this->createSearchPage();
         $this->createDashboard();
         $this->setAdminPassword('admin');
@@ -677,7 +677,7 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
 
         $this->manager->flush();
     }
-
+{% endif %}
     /**
      * Create a FormPage
      */
@@ -761,7 +761,7 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
 
 	$this->manager->flush();
     }
-{% endif %}
+
     /**
      * Create a SearchPage
      */

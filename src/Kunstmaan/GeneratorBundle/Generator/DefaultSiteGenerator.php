@@ -120,10 +120,8 @@ class DefaultSiteGenerator extends KunstmaanGenerator
         $this->renderSingleFile($sourceDir, $targetDir, 'ContentPage.php', $parameters);
         $this->renderSingleFile($sourceDir, $targetDir, 'BehatTestPage.php', $parameters);
 
-        if ($this->demosite) {
-            $this->renderSingleFile($sourceDir, $targetDir, 'FormPage.php', $parameters);
+        $this->renderSingleFile($sourceDir, $targetDir, 'FormPage.php', $parameters);
         $this->renderSingleFile($sourceDir, $targetDir, 'SearchPage.php', $parameters);
-        }
 
         if ($this->demosite) {
             $relPath = '/Entity/PageParts/';
@@ -163,9 +161,7 @@ class DefaultSiteGenerator extends KunstmaanGenerator
         $this->renderSingleFile($sourceDir, $targetDir, 'ContentPageAdminType.php', $parameters);
         $this->renderSingleFile($sourceDir, $targetDir, 'BehatTestPageAdminType.php', $parameters);
 
-        if ($this->demosite) {
-            $this->renderSingleFile($sourceDir, $targetDir, 'FormPageAdminType.php', $parameters);
-        }
+        $this->renderSingleFile($sourceDir, $targetDir, 'FormPageAdminType.php', $parameters);
 
         if ($this->demosite) {
         $relPath = '/Form/PageParts/';
@@ -300,9 +296,9 @@ class DefaultSiteGenerator extends KunstmaanGenerator
 
         if ($this->demosite) {
         $this->renderSingleFile($sourceDir, $targetDir, 'contentpage-with-submenu.yml', $parameters);
-            $this->renderSingleFile($sourceDir, $targetDir, 'formpage.yml', $parameters);
+		}
+        $this->renderSingleFile($sourceDir, $targetDir, 'formpage.yml', $parameters);
         $this->renderSingleFile($sourceDir, $targetDir, 'searchpage.yml', $parameters);
-        }
 
         $this->assistant->writeLine('Generating pagetemplate configuration : <info>OK</info>');
     }
@@ -365,13 +361,11 @@ class DefaultSiteGenerator extends KunstmaanGenerator
         $relPath = '/Resources/views/Pages/ContentPage/';
         $this->renderFiles($this->skeletonDir.$relPath, $this->bundle->getPath().$relPath, $parameters, true);
 
-        if ($this->demosite) {
-            $relPath = '/Resources/views/Pages/FormPage/';
-            $this->renderFiles($this->skeletonDir.$relPath, $this->bundle->getPath().$relPath, $parameters, true);
+        $relPath = '/Resources/views/Pages/FormPage/';
+        $this->renderFiles($this->skeletonDir.$relPath, $this->bundle->getPath().$relPath, $parameters, true);
 
         $relPath = '/Resources/views/Pages/SearchPage/';
-            $this->renderFiles($this->skeletonDir.$relPath, $this->bundle->getPath().$relPath, $parameters, true);
-        }
+        $this->renderFiles($this->skeletonDir.$relPath, $this->bundle->getPath().$relPath, $parameters, true);
 
         // Pageparts
 
@@ -404,11 +398,10 @@ class DefaultSiteGenerator extends KunstmaanGenerator
             $targetPath = $this->rootDir.'/app/Resources/KunstmaanSitemapBundle/';
 
             $this->renderFiles($this->skeletonDir.$sourcePath, $targetPath, $parameters, true);
-
-            $sourcePath = '/app/KunstmaanFormBundle/';
-            $targetPath = $this->rootDir.'/app/Resources/KunstmaanFormBundle/';
-            $this->renderFiles($this->skeletonDir.$sourcePath, $targetPath, $parameters, true);
         }
+        $sourcePath = '/app/KunstmaanFormBundle/';
+        $targetPath = $this->rootDir.'/app/Resources/KunstmaanFormBundle/';
+        $this->renderFiles($this->skeletonDir.$sourcePath, $targetPath, $parameters, true);
 
         $this->assistant->writeLine('Generating template files : <info>OK</info>');
     }
