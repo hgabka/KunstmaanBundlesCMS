@@ -12,16 +12,24 @@ kunstmaanbundles.richEditor = (function (window, undefined) {
             filebrowserWindowWidth: 970,
             filebrowserImageWindowWidth: 970,
             filebrowserImageUploadUrl: '',
-            extraAllowedContent: 'div(*)',
+			allowedContent: true,
+			extraPlugins: 'listblock,indent,indentblock,indentlist,panel,button,letterspacing,richcombo,floatpanel,simplebutton,panelbutton,lineheight,dialog,dialogui,lineutils,clipboard,widget,widgetcommon',
+            extraAllowedContent: '*[*](*){*}',
             toolbar: [
-                {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'RemoveFormat']},
-                {name: 'lists', items: ['NumberedList', 'BulletedList']},
-                {name: 'dents', items: ['Outdent', 'Indent']},
-                {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
-                {name: 'insert', items: ['Image', 'Table', 'SpecialChar']},
-                {name: 'clipboard', items: ['SelectAll', 'Cut', 'Copy', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
-                {name: 'editing', items: []},
-                {name: 'document', items: ['Source']}
+                { name: 'basicstyles', items : ['Source','-','Save','NewPage','Preview','-','Templates'] },
+                { name: 'lists', items : ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Print', 'SpellChecker', 'Scayt'] },
+                { name: 'dents', items : ['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'] },
+                { name: 'links', items : ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'] },
+				'/',
+                { name: 'insert', items : ['Bold','Italic','Underline','Strike','-','Subscript','Superscript'] },
+                { name: 'clipboard', items : ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','CreateDiv'] },
+                { name: 'editing', items : ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'] },
+                { name: 'link', items : ['Link','Unlink','Anchor'] },
+                { name: 'adds', items : ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak'] },
+				'/',
+                { name: 'document', items : ['Styles','Format','Font','FontSize', 'lineheight', 'letterspacing'] },
+                { name: 'color', items : ['TextColor','BGColor'] },
+                { name: 'others', items : ['Maximize', 'ShowBlocks','-','About'] }
             ]
         }
     };
