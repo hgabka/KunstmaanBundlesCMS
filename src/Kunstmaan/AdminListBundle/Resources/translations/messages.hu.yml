@@ -24,10 +24,10 @@ kuma_admin_list:
         'false': nem
         
     list:
-        title: %entity% lista
+        title: "%entity% lista"
     new:
-        title: Új %entity% hozzáadása
+        title: "Új %entity% hozzáadása"
     edit:
-        title: %entity% szerkesztése
+        title: "%entity% szerkesztése"
     view:
-        title: %entity% adatai
+        title: "%entity% adatai"
