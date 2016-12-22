@@ -1,3 +1,10 @@
+login:
+    username: Username
+    password: Password
+    remember: Remember Me
+    submit: Log in
+    error: Wrong password or email
+
 # Pages
 pages:
     title: Pages

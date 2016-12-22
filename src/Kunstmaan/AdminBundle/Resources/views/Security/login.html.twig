@@ -7,7 +7,7 @@
         {% endif %}
         {% if error %}
             <div class="alert alert-danger">
-                {{ 'Wrong password or email' | trans }}
+                {{ 'login.error' | trans }}
                 <button type="button" class="close" aria-label="Close" data-dismiss="alert">
                     <i class="fa fa-times"></i>
                 </button>
@@ -16,29 +16,29 @@
 
         <div class="form-group form-group--icon-in-control">
             <label for="username" class="label--lighter">
-                {{ 'Username:' | trans }}
+                {{ 'login.username' | trans }}:
             </label>
-            <input class="form-control form-group--icon-in-control__form-control" id="username" type="text" name="_username" value="{{ last_username }}" placeholder="{{ 'Username' | trans }}" autofocus>
+            <input class="form-control form-group--icon-in-control__form-control" id="username" type="text" name="_username" value="{{ last_username }}" placeholder="{{ 'login.username' | trans }}" autofocus>
             <i class="fa fa-user form-group--icon-in-control__icon"></i>
         </div>
 
         <div class="form-group form-group--icon-in-control">
             <label for="password" class="label--lighter">
-                {{ 'Password:' | trans }}
+                {{ 'login.password' | trans }}:
             </label>
-            <input class="form-control form-group--icon-in-control__form-control" id="password" type="password" name="_password" value="" placeholder="{{ 'Password' | trans }}">
+            <input class="form-control form-group--icon-in-control__form-control" id="password" type="password" name="_password" value="" placeholder="{{ 'login.password' | trans }}">
             <i class="fa fa-key form-group--icon-in-control__icon"></i>
         </div>
 
         <div class="form-group login__form__remember-me">
             <label class="checkbox login__form__remember-me__check">
                 <input type="checkbox" id="remember_me" name="_remember_me" value="on">
-                {{ 'Remember Me' | trans }}
+                {{ 'login.remember' | trans }}
             </label>
         </div>
 
         <button type="submit" id="_submit" name="_submit" class="btn btn-brand btn-block btn--raise-on-hover">
-            {{ 'Log In' | trans }}
+            {{ 'login.submit' | trans }}
         </button>
     </form>
 

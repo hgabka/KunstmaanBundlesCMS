@@ -1,3 +1,10 @@
+login:
+    username: Felhasználónév
+    password: Jelszó
+    remember: Emlékezzen rám
+    submit: Belépés
+    error: A felhasználónév/jelszó nem megfelelő
+    
 # Pages
 pages:
     title: Oldalak
