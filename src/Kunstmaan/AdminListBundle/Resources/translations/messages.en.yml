@@ -1,6 +1,8 @@
 kuma_admin_list:
     form:
         export_to: Export to
+        save: Save
+        cancel: Cancel
     filter:
         contains: contains
         doesnotcontain: doesn't contain

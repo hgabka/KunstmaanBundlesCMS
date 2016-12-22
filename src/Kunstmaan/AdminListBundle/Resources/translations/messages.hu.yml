@@ -1,6 +1,8 @@
 kuma_admin_list:
     form:
         export_to: Exportálás
+        save: Mentés
+        cancel: Mégsem
     filter:
         contains: tartalmazza ezt
         doesnotcontain: nem tartalmazza ezt
