@@ -3,6 +3,9 @@ form:
         label: Kiválaszt
         modal:
             title: URL választó
+            selection:
+                title: Kiválasztva
+                empty: üres
 
 subaction:
     versions: Verziók

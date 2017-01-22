@@ -56,12 +56,12 @@
                         {% if mediaChooserLink is defined and mediaChooserLink %}
                             <li class="active">
                                 <a href="javascript:void(0)">
-                                    Pages
+                                    {{ 'pages.title' | trans }}
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ mediaChooserLink }}">
-                                    Media
+                                    {{ 'media.media.title' | trans }}
                                 </a>
                             </li>
                         {% endif %}
@@ -93,7 +93,7 @@
                     <span class="input-group-addon">
                         <i class="fa fa-search"></i>
                     </span>
-                    <input type="text" placeholder="{{ 'Search' | trans }}" id="app__sidebar__search" class="form-control">
+                    <input type="text" placeholder="{{ 'search.search' | trans }}" id="app__sidebar__search" class="form-control">
                 </div>
                 <hr>
             </div>
@@ -111,7 +111,7 @@
         <!-- Content -->
         <div class="url-chooser__link-select">
             <p id="url-chooser__selection-preview">
-                Selection: empty
+                {{ 'form.urlchooser.modal.selection.title' | trans }}: {{ 'form.urlchooser.modal.selection.empty' | trans }}
             </p>
             <button type="button" id="save-url-chooser-modal" class="btn btn-primary btn--raise-on-hover" data-cke="{% if cke %}true{% else %}false{% endif %}">
                 Ok

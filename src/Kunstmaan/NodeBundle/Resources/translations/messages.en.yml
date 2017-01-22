@@ -3,6 +3,9 @@ form:
         label: Choose
         modal:
             title: URL chooser
+            selection:
+                title: Selection
+                empty: empty
 
 subaction:
     versions: "Versions"
