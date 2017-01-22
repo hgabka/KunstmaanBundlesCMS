@@ -1,3 +1,9 @@
+form:
+    urlchooser:
+        label: Kiválaszt
+        modal:
+            title: URL választó
+
 subaction:
     versions: Verziók
 

@@ -1,3 +1,9 @@
+form:
+    urlchooser:
+        label: Choose
+        modal:
+            title: URL chooser
+
 subaction:
     versions: "Versions"
 

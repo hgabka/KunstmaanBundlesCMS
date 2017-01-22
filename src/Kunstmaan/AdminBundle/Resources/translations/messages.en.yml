@@ -1,3 +1,8 @@
+pagepart:
+    link:
+        internal: Internal page
+        external: External link
+
 login:
     username: Username
     password: Password
