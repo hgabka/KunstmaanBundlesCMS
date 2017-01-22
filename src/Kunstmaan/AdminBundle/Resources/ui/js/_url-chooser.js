@@ -36,8 +36,11 @@ kunstmaanbundles.urlChooser = (function (window, undefined) {
                 success: function (response) {
                     replacedUrl = response.text;
 
+					if (typeof selectionText == 'undefined' || selectionText.length == 0) {
+						selectionText = 'Selection';
+					}
                     // Update preview
-                    $('#url-chooser__selection-preview').text('Selection: ' + replacedUrl);
+                    $('#url-chooser__selection-preview').text(selectionText + ': ' + replacedUrl);
                 }
             });
         });
