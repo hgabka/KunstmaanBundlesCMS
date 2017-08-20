@@ -38,4 +38,9 @@ class SearchPage extends AbstractSearchPage implements HasPageTemplateInterface
     {
         return array('{{ bundle.getName() }}:searchpage');
     }
+    
+    public function getSearcher()
+    {
+        return 'hgabka_lucene.search.node';
+    }
 }
