@@ -62,8 +62,7 @@ demo:
         menu_description: On holiday in Leuven and want to explore the town by bike? We rent out electric bikes per hour or for one or more days.
     contactpage:
         title: Kapcsolat
-        slug: kapcsolat
-    
+        slug: kapcsolat    
     formpage:
         thanks: '<p>We have received your submission.</p>'
         name:
