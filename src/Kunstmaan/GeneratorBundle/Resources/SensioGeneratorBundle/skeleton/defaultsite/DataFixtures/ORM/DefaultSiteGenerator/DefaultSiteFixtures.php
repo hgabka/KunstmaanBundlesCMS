@@ -116,7 +116,7 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
     private function createHomePage()
     {
         $homePage = new HomePage();
-        $homePage->setTitle('Home');
+        $homePage->setTitle('Főoldal');
 
         $translations = array();
 	foreach ($this->requiredLocales as $locale) {
@@ -270,7 +270,7 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
         $homePage = $nodeRepo->findOneBy(array('internalName' => 'homepage'));
 
         $contentPage = new ContentPage();
-	$contentPage->setTitle('Services');
+	$contentPage->setTitle('Szolgáltatások');
 
         $translations = array();
 	foreach ($this->requiredLocales as $locale) {
@@ -771,7 +771,7 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
         $homePage = $nodeRepo->findOneBy(array('internalName' => 'homepage'));
 
 	$searchPage = new SearchPage();
-	$searchPage->setTitle('Search');
+	$searchPage->setTitle('Keresési találatok');
 
         $translations = array();
 	foreach ($this->requiredLocales as $locale) {
