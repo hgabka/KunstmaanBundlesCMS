@@ -694,7 +694,7 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
 	    $translations[] = array(
 		'language' => $locale,
 		'callback' => function ($page, $translation, $seo) use ($locale) {
-		    $translation->setTitle($this->trans('demo.contactpage.name.label', $locale));
+		    $translation->setTitle($this->trans('demo.contactpage.title', $locale));
 		    $translation->setSlug($this->trans('demo.contactpage.slug', $locale));
 		    $translation->setWeight(60);
 
