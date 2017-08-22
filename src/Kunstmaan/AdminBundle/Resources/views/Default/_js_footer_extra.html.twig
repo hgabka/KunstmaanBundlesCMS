@@ -19,3 +19,15 @@
     ]};
 
 #}
+<script>
+    $(function() {
+        {% for data in kuma_disabled_node_fields %}
+        $('[name$="[{{ data.inputname }}]"').each(function() {
+            if ($(this).val() == '{{ data.value }}')
+            {
+                $(this).prop('readonly', true);
+            }
+        });
+        {% endfor %}
+    });
+</script>
