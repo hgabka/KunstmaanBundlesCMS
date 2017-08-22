@@ -1,13 +1,13 @@
 page:
     home:
-        title:  Home
+        title:  Főoldal
     services:
-        title:  Services
-        slug:   services
+        title:  Szolgáltatások
+        slug:   szolgaltatasok
 demo:
     services:
         header:
-            title:      Our services
+            title:      Szolgáltatásaink
             content:    We are the place to go for a selection of the best bikes, but also for the maintenance of your bike. Our skilled professionals will help you gladly in our store.
         page_template:  Content page with submenu
     our_bikes:
@@ -78,8 +78,8 @@ demo:
         send:
             label: Send
         search:
-            title: Search
-            slug: search
+            title: Keresési találatok
+            slug: kereses
 warning:
     outdated:
         title: Uw browser is verouderd.
