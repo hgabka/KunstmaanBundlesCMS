@@ -59,6 +59,7 @@ kuma_user:
                 'success.%username%': "A(z) '%username%' felhasználó törölve!"
     group:
         adminlist:
+            title: Csoportok
             header:
                 name:   Név
                 roles:  Jogok
