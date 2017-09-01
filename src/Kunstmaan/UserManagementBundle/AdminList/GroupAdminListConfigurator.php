@@ -39,7 +39,7 @@ class GroupAdminListConfigurator extends AbstractSettingsAdminListConfigurator
     
     public function getListTitle()
     {
-        return 'group.adminlist.title';
+        return 'kuma_user.group.adminlist.title';
     }
 
 }
