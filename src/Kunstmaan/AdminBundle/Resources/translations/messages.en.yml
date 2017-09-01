@@ -10,6 +10,7 @@ login:
     submit: Log in
     error: Wrong password or email
     reset: Reset password
+    choose_new: Choose new password
 
 # Pages
 pages:
