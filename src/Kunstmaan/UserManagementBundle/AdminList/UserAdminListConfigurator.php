@@ -53,7 +53,7 @@ class UserAdminListConfigurator extends AbstractSettingsAdminListConfigurator
         return 'User';
     }
     
-    public function getAdminlistTitle()
+    public function getListTitle()
     {
         return 'kuma_user.users.adminlist.title';
     }
