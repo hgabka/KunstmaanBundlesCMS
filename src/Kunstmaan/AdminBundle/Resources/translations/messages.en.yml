@@ -11,6 +11,7 @@ login:
     error: Wrong password or email
     reset: Reset password
     choose_new: Choose new password
+    reset_label: Username or email address
 
 # Pages
 pages:
