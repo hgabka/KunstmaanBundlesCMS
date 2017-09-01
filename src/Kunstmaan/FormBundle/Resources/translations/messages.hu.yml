@@ -83,6 +83,7 @@ kuma_form:
             path:       Űrlap útvonala
     submission:
         list:
+            title: Űrlap kitöltések
             header:
                 created:    Dátum
                 language:   Nyelv
