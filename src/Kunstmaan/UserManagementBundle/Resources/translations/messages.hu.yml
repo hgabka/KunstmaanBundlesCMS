@@ -40,6 +40,7 @@ kuma_user:
                 'success.%role%': "A(z) '%role%' jogosultság törölve!"
     users:
         adminlist:
+            title: Felhasználók
             header:
                 username:   Felhasználónév
                 email:      E-mail
