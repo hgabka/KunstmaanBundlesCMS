@@ -35,5 +35,10 @@ class RoleAdminListConfigurator extends AbstractSettingsAdminListConfigurator
     {
         return 'Role';
     }
+    
+    public function getListTitle()
+    {
+        return 'kuma_user.role.adminlist.title';
+    }
 
 }
