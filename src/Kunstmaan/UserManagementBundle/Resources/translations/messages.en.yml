@@ -27,6 +27,8 @@ settings:
 
 kuma_user:
     roles:
+        adminlist:
+            title: Roles
         add:
             flash:
                 'success.%role%': Role '%role%' has been created!
