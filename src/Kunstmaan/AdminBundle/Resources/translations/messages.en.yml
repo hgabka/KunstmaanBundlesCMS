@@ -9,6 +9,7 @@ login:
     remember: Remember Me
     submit: Log in
     error: Wrong password or email
+    reset: Reset password
 
 # Pages
 pages:
