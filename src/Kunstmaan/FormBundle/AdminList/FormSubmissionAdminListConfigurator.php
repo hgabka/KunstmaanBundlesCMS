@@ -199,5 +199,10 @@ class FormSubmissionAdminListConfigurator extends AbstractDoctrineORMAdminListCo
                 ->setParameter('lang', $this->nodeTranslation->getLang())
                 ->addOrderBy('b.created', 'DESC');
     }
+    
+    public function getListTitle()
+    {
+        return 'kuma_form.submission.list.title';
+    }
 
 }
