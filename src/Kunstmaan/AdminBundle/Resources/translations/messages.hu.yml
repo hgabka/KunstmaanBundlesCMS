@@ -9,6 +9,7 @@ login:
     remember: Emlékezzen rám
     submit: Belépés
     error: A felhasználónév/jelszó nem megfelelő
+    reset: Jelszó visszaállítása
     
 # Pages
 pages:
