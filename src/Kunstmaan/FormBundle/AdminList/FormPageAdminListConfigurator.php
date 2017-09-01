@@ -187,4 +187,10 @@ class FormPageAdminListConfigurator extends AbstractDoctrineORMAdminListConfigur
             )
             ->addOrderBy('n.id', 'DESC');
     }
+    
+    public function getListTitle()
+    {
+        return 'kuma_form.submission.list.title';
+    }
 }
+
