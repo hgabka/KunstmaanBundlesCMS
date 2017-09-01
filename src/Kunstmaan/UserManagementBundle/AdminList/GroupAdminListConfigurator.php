@@ -36,5 +36,10 @@ class GroupAdminListConfigurator extends AbstractSettingsAdminListConfigurator
     {
         return 'Group';
     }
+    
+    public function getListTitle()
+    {
+        return 'group.adminlist.title';
+    }
 
 }
