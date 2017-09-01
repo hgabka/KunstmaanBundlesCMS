@@ -5,7 +5,7 @@
 <form action="{{ path('fos_user_resetting_send_email') }}" method="POST">
     <div class="form-group form-group--icon-in-control">
         <label for="username" class="label--lighter">
-            {{ 'Username or email address' |trans }}:
+            {{ 'login.reset_label' |trans }}:
         </label>
 
         <input class="form-control form-group--icon-in-control__form-control" id="username" type="text" name="username" value="" placeholder="{{ 'Username or email address' |trans }}" autofocus>
