@@ -83,6 +83,7 @@ kuma_form:
             path:       Form path
     submission:
         list:
+            title: Form submissions
             header:
                 created:    Date
                 language:   Language
