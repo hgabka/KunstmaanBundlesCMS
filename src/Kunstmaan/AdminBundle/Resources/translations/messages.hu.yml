@@ -10,6 +10,7 @@ login:
     submit: Belépés
     error: A felhasználónév/jelszó nem megfelelő
     reset: Jelszó visszaállítása
+    choose_new: Válassz új jelszót
     
 # Pages
 pages:
