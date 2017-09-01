@@ -11,6 +11,7 @@ login:
     error: A felhasználónév/jelszó nem megfelelő
     reset: Jelszó visszaállítása
     choose_new: Válassz új jelszót
+    reset_label: Felhasználónév vagy email
     
 # Pages
 pages:
