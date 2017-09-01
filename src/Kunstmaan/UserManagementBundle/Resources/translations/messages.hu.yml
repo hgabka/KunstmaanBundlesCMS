@@ -27,6 +27,8 @@ settings:
 
 kuma_user:
     roles:
+        adminlist:
+            title: Szerepkörök
         add:
             flash:
                 'success.%role%': "A(z) '%role%' jogosultság létrehozva!"
