@@ -1,5 +1,5 @@
 <p>
-    {{ 'Choose a new password' |trans }}
+    {{ 'login.choose_new' |trans }}
 </p>
 
 {{ form_start(form, {'method': 'POST', 'action': path('fos_user_resetting_reset', { 'token' : token })}) }}
