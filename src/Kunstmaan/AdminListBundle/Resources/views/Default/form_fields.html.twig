@@ -41,20 +41,19 @@
     {% endif %}
 
     {% if tabStarted %}
-    <div class="tab-content">
-    <br />
+    <div class="tab-content panel panel-default form-properties">
     {% endif %}
     {% set i=0 %}
     {% for key, widgets in tabFields %}
         {% if widgets is iterable %}
-            <div id="formtab-{{key|slugify}}" class="tab-pane{% if i==firstTab %} fade in active{% endif %}">
+            <div id="formtab-{{key|slugify}}" class="tab-pane{% if i==firstTab %} fade in active{% endif %} panel-body">
             {% for widget in widgets %}
                 {% if form[widget] is defined %}
                     {{ form_row(form[widget]) }}
                 {% endif %}
             {% endfor %}
                 {% set i=i+1 %}
-            </div>   
+            </div>
         {% elseif form[widgets] is defined %}
             {{ form_row(form[widgets]) }}
         {% endif %} 
@@ -65,3 +64,4 @@
     {% endif %}
     {{ form_rest(form) }}
 {% endif %}
+
