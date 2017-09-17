@@ -2,6 +2,7 @@ pagepart:
     link:
         internal: Internal page
         external: External link
+        email: Email address
 
 login:
     username: Username
