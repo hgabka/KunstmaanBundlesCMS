@@ -2,6 +2,7 @@ pagepart:
     link:
         internal: Aloldal
         external: Külső link
+        email: Email cím
 
 login:
     username: Felhasználónév
