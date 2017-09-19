@@ -16,8 +16,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Class ConfigController
- * @package Kunstmaan\ConfigBundle\Controller
+ * Class ConfigController.
  *
  * @Route(service="kunstmaan_config.controller.config")
  */
@@ -39,33 +38,33 @@ class ConfigController
     private $authorizationChecker;
 
     /**
-     * @var EntityManagerInterface $em
+     * @var EntityManagerInterface
      */
     private $em;
 
     /**
-     * @var array $configuration
+     * @var array
      */
     private $configuration;
 
     /**
-     * @var ContainerInterface $container
+     * @var ContainerInterface
      */
     private $container;
 
     /**
-     * @var FormFactoryInterface $formFactory
+     * @var FormFactoryInterface
      */
     private $formFactory;
 
     /**
-     * @param RouterInterface $router
-     * @param EngineInterface $templating
+     * @param RouterInterface               $router
+     * @param EngineInterface               $templating
      * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param EntityManagerInterface $em
-     * @param array $configuration
-     * @param ContainerInterface $container
-     * @param FormFactoryInterface $formFactory
+     * @param EntityManagerInterface        $em
+     * @param array                         $configuration
+     * @param ContainerInterface            $container
+     * @param FormFactoryInterface          $formFactory
      */
     public function __construct(
         RouterInterface $router,
@@ -89,14 +88,14 @@ class ConfigController
      * Generates the site config administration form and fills it with a default value if needed.
      *
      * @param Request $request
-     * @param string $internalName
+     * @param string  $internalName
      *
      * @return array|RedirectResponse
      */
     public function indexAction(Request $request, $internalName)
     {
         /**
-         * @var $entity AbstractConfig
+         * @var AbstractConfig
          */
         $entity = $this->getConfigEntityByInternalName($internalName);
         $entityClass = get_class($entity);
@@ -108,7 +107,7 @@ class ConfigController
         }
 
         $repo = $this->em->getRepository($entityClass);
-        $config = $repo->findOneBy(array());
+        $config = $repo->findOneBy([]);
 
         if (!$config) {
             $config = new $entityClass();
@@ -133,34 +132,35 @@ class ConfigController
                 $this->em->persist($config);
                 $this->em->flush();
 
-                return new RedirectResponse($this->router->generate('kunstmaanconfigbundle_default', array('internal_name' => $internalName)));
+                return new RedirectResponse($this->router->generate('kunstmaanconfigbundle_default', ['internal_name' => $internalName]));
             }
         }
 
         return $this->templating->renderResponse(
             '@KunstmaanConfig/Settings/configSettings.html.twig',
-            array(
+            [
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
     /**
      * Get site config entity by a given internal name
-     * If entity not found, throw new NotFoundHttpException()
+     * If entity not found, throw new NotFoundHttpException().
      *
      * @param string $internalName
      *
-     * @return AbstractConfig
      * @throws NotFoundHttpException
+     *
+     * @return AbstractConfig
      */
     private function getConfigEntityByInternalName($internalName)
     {
         foreach ($this->configuration['entities'] as $class) {
             /** @var AbstractConfig $entity */
-            $entity = new $class;
+            $entity = new $class();
 
-            if ($entity->getInternalName() == $internalName) {
+            if ($entity->getInternalName() === $internalName) {
                 return $entity;
             }
         }
@@ -169,7 +169,7 @@ class ConfigController
     }
 
     /**
-     * Check permission
+     * Check permission.
      *
      * @param string $roleToCheck
      *

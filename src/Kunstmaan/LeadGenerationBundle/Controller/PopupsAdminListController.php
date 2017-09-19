@@ -19,6 +19,8 @@ class PopupsAdminListController extends AdminListController
     private $configurator;
 
     /**
+     * @param mixed $listAction
+     *
      * @return AdminListConfiguratorInterface
      */
     public function getAdminListConfigurator($listAction = false)
@@ -28,10 +30,10 @@ class PopupsAdminListController extends AdminListController
 
             if ($listAction) {
                 $create_route = function (EntityInterface $item) {
-                    return array(
+                    return [
                         'path' => 'kunstmaanleadgenerationbundle_admin_rule_abstractrule_detail',
-                        'params' => array('popup' => $item->getId())
-                    );
+                        'params' => ['popup' => $item->getId()],
+                    ];
                 };
                 $this->configurator->addItemAction(new SimpleItemAction($create_route, 'th-list', 'Manage rules'));
             }
@@ -41,7 +43,7 @@ class PopupsAdminListController extends AdminListController
     }
 
     /**
-     * The index action
+     * The index action.
      *
      * @Route("/", name="kunstmaanleadgenerationbundle_admin_popup_abstractpopup")
      */
@@ -51,7 +53,7 @@ class PopupsAdminListController extends AdminListController
     }
 
     /**
-     * The delete action
+     * The delete action.
      *
      * @param int $id
      *
@@ -66,7 +68,7 @@ class PopupsAdminListController extends AdminListController
     }
 
     /**
-     * The edit action
+     * The edit action.
      *
      * @param int $id
      *
@@ -81,7 +83,7 @@ class PopupsAdminListController extends AdminListController
     }
 
     /**
-     * The add action
+     * The add action.
      *
      * @Route("/add",  name="kunstmaanleadgenerationbundle_admin_popup_abstractpopup_add")
      * @Method({"GET", "POST"})

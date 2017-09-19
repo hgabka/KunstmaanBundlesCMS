@@ -13,11 +13,6 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class NodeListener
 {
     /**
-     * AuthorizationCheckerInterface
-     */
-    private $authorizationChecker;
-
-    /**
      * @var PermissionAdmin
      */
     protected $permissionAdmin;
@@ -26,6 +21,10 @@ class NodeListener
      * @var PermissionMapInterface
      */
     protected $permissionMap;
+    /**
+     * AuthorizationCheckerInterface.
+     */
+    private $authorizationChecker;
 
     /**
      * @param AuthorizationCheckerInterface $authorizationChecker The security context

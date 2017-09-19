@@ -12,7 +12,7 @@ use Kunstmaan\UtilitiesBundle\Helper\ClassLookup;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Node
+ * Node.
  *
  * @ORM\Entity(repositoryClass="Kunstmaan\NodeBundle\Repository\NodeRepository")
  * @ORM\Table(
@@ -29,7 +29,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Node extends AbstractEntity implements GedmoNode
 {
-
     /**
      * @var Node
      *
@@ -106,14 +105,22 @@ class Node extends AbstractEntity implements GedmoNode
     protected $internalName;
 
     /**
-     * constructor
+     * constructor.
      */
     public function __construct()
     {
-        $this->children         = new ArrayCollection();
+        $this->children = new ArrayCollection();
         $this->nodeTranslations = new ArrayCollection();
-        $this->deleted          = false;
-        $this->hiddenFromNav    = false;
+        $this->deleted = false;
+        $this->hiddenFromNav = false;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return 'node '.$this->getId().', refEntityName: '.$this->getRefEntityName();
     }
 
     /**
@@ -173,7 +180,7 @@ class Node extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Add children
+     * Add children.
      *
      * @param Node $child
      *
@@ -195,13 +202,14 @@ class Node extends AbstractEntity implements GedmoNode
     public function getNodeTranslations($includeOffline = false)
     {
         return $this->nodeTranslations
-            ->filter(function (NodeTranslation $entry) use ($includeOffline) {
-                if ($includeOffline || $entry->isOnline()) {
-                    return true;
-                }
+            ->filter(
+                function (NodeTranslation $entry) use ($includeOffline) {
+                    if ($includeOffline || $entry->isOnline()) {
+                        return true;
+                    }
 
-                return false;
-            }
+                    return false;
+                }
             );
     }
 
@@ -221,14 +229,14 @@ class Node extends AbstractEntity implements GedmoNode
      * @param string $lang           The locale
      * @param bool   $includeOffline Include offline pages or not
      *
-     * @return NodeTranslation|null
+     * @return null|NodeTranslation
      */
     public function getNodeTranslation($lang, $includeOffline = false)
     {
         $nodeTranslations = $this->getNodeTranslations($includeOffline);
-        /* @var NodeTranslation $nodeTranslation */
+        // @var NodeTranslation $nodeTranslation
         foreach ($nodeTranslations as $nodeTranslation) {
-            if ($lang == $nodeTranslation->getLang()) {
+            if ($lang === $nodeTranslation->getLang()) {
                 return $nodeTranslation;
             }
         }
@@ -237,7 +245,7 @@ class Node extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Add nodeTranslation
+     * Add nodeTranslation.
      *
      * @param NodeTranslation $nodeTranslation
      *
@@ -252,7 +260,7 @@ class Node extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Set parent
+     * Set parent.
      *
      * @param Node $parent
      *
@@ -266,7 +274,7 @@ class Node extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Get parent
+     * Get parent.
      *
      * @return Node
      */
@@ -280,11 +288,11 @@ class Node extends AbstractEntity implements GedmoNode
      */
     public function getParents()
     {
-        $parent  = $this->getParent();
-        $parents = array();
-        while ($parent !== null) {
+        $parent = $this->getParent();
+        $parents = [];
+        while (null !== $parent) {
             $parents[] = $parent;
-            $parent    = $parent->getParent();
+            $parent = $parent->getParent();
         }
 
         return array_reverse($parents);
@@ -311,7 +319,7 @@ class Node extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Set referenced entity
+     * Set referenced entity.
      *
      * @param HasNodeInterface $entity
      *
@@ -325,21 +333,7 @@ class Node extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Set class name of referenced entity
-     *
-     * @param string $refEntityName
-     *
-     * @return Node
-     */
-    protected function setRefEntityName($refEntityName)
-    {
-        $this->refEntityName = $refEntityName;
-
-        return $this;
-    }
-
-    /**
-     * Get class name of referenced entity
+     * Get class name of referenced entity.
      *
      * @return string
      */
@@ -349,7 +343,7 @@ class Node extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Set internal name
+     * Set internal name.
      *
      * @param string $internalName
      *
@@ -363,7 +357,7 @@ class Node extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Get internal name
+     * Get internal name.
      *
      * @return string
      */
@@ -381,7 +375,7 @@ class Node extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Get tree left
+     * Get tree left.
      *
      * @return int
      */
@@ -391,7 +385,7 @@ class Node extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Get tree right
+     * Get tree right.
      *
      * @return int
      */
@@ -401,7 +395,7 @@ class Node extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Get tree level
+     * Get tree level.
      *
      * @return int
      */
@@ -411,10 +405,16 @@ class Node extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * @return string
+     * Set class name of referenced entity.
+     *
+     * @param string $refEntityName
+     *
+     * @return Node
      */
-    public function __toString()
+    protected function setRefEntityName($refEntityName)
     {
-        return "node " . $this->getId() . ", refEntityName: " . $this->getRefEntityName();
+        $this->refEntityName = $refEntityName;
+
+        return $this;
     }
 }

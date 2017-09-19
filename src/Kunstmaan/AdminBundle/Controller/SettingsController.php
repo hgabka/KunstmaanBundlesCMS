@@ -7,33 +7,35 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Main settings controller
+ * Main settings controller.
  */
 class SettingsController extends BaseSettingsController
 {
     /**
-     * Index page for the settings
+     * Index page for the settings.
      *
      * @Route("/", name="KunstmaanAdminBundle_settings")
      * @Template()
      *
      * @throws AccessDeniedException
+     *
      * @return array
      */
     public function indexAction()
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        return array();
+        return [];
     }
 
     /**
-     * Show bundles version update information
+     * Show bundles version update information.
      *
      * @Route("/bundle-version", name="KunstmaanAdminBundle_settings_bundle_version")
      * @Template("KunstmaanAdminBundle:Settings:bundleVersion.html.twig")
      *
      * @throws AccessDeniedException
+     *
      * @return array
      */
     public function bundleVersionAction()
@@ -42,21 +44,22 @@ class SettingsController extends BaseSettingsController
 
         $versionChecker = $this->container->get('kunstmaan_admin.versionchecker');
         if (!$versionChecker->isEnabled()) {
-            return array('data' => null);
+            return ['data' => null];
         }
 
         $data = null;
+
         try {
             $data = $versionChecker->check();
         } catch (\Exception $e) {
             $this->container->get('logger')->error(
                 $e->getMessage(),
-                array('exception' => $e)
+                ['exception' => $e]
             );
         }
 
-        return array(
-            'data' => $data
-        );
+        return [
+            'data' => $data,
+        ];
     }
 }

@@ -1,8 +1,12 @@
 <?php
+
 namespace Kunstmaan\TranslatorBundle\Tests\Service\Migrations;
 
 use Kunstmaan\TranslatorBundle\Tests\BaseTestCase;
 
+/**
+ * @coversNothing
+ */
 class MigrationsServiceTest extends BaseTestCase
 {
     private $migrationsService;

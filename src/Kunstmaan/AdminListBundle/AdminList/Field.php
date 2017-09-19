@@ -5,11 +5,10 @@ namespace Kunstmaan\AdminListBundle\AdminList;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
- * Field
+ * Field.
  */
 class Field
 {
-
     /**
      * @var string
      */
@@ -36,11 +35,11 @@ class Field
     private $alias;
 
     /**
-     * @param string $name The name
-     * @param string $header The header
-     * @param bool $sort Sort or not
-     * @param string $template The template
-     * @param FieldAlias $alias The alias
+     * @param string     $name     The name
+     * @param string     $header   The header
+     * @param bool       $sort     Sort or not
+     * @param string     $template The template
+     * @param FieldAlias $alias    The alias
      */
     public function __construct($name, $header, $sort = false, $template = null, FieldAlias $alias = null)
     {
@@ -84,7 +83,7 @@ class Field
     }
 
     /**
-     * @return FieldAlias|null
+     * @return null|FieldAlias
      */
     public function getAlias()
     {
@@ -96,7 +95,7 @@ class Field
      */
     public function hasAlias()
     {
-        if (is_null($this->alias)) {
+        if (null === $this->alias) {
             return false;
         }
 
@@ -119,7 +118,7 @@ class Field
     {
         $abbr = $this->alias->getAbbr().'.';
 
-        if (strpos($column, $abbr) !== false) {
+        if (false !== strpos($column, $abbr)) {
             $column = str_replace($abbr, '', $column);
         } else {
             throw new \Exception(" '".$abbr."' can not be found in your column name: '".$column."' ");

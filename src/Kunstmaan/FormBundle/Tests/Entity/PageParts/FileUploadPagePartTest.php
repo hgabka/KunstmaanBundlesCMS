@@ -3,15 +3,14 @@
 namespace Kunstmaan\FormBundle\Tests\Entity\PageParts;
 
 use ArrayObject;
-
 use Kunstmaan\FormBundle\Entity\PageParts\FileUploadPagePart;
 use Kunstmaan\FormBundle\Form\FileUploadPagePartAdminType;
-
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Tests for FileUploadPagePart
+ * Tests for FileUploadPagePart.
+ *
+ * @coversNothing
  */
 class FileUploadPagePartTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,7 +25,7 @@ class FileUploadPagePartTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new FileUploadPagePart;
+        $this->object = new FileUploadPagePart();
     }
 
     /**
@@ -38,7 +37,7 @@ class FileUploadPagePartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\FileUploadPagePart::adaptForm
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\FileUploadPagePart::adaptForm
      */
     public function testAdaptForm()
     {
@@ -51,28 +50,28 @@ class FileUploadPagePartTest extends \PHPUnit_Framework_TestCase
 
         $formBuilder->expects($this->any())
             ->method('getData')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $fields = new ArrayObject();
 
-        $this->assertTrue(sizeof($fields) == 0);
-        /* @var $formBuilder FormBuilderInterface */
+        $this->assertTrue(0 === count($fields));
+        // @var $formBuilder FormBuilderInterface
         $object->adaptForm($formBuilder, $fields, 0);
-        $this->assertTrue(sizeof($fields) > 0);
+        $this->assertTrue(count($fields) > 0);
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\FileUploadPagePart::getDefaultView
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\FileUploadPagePart::getDefaultView
      */
     public function testGetDefaultView()
     {
         $stringValue = $this->object->getDefaultView();
         $this->assertNotNull($stringValue);
-        $this->assertTrue(is_string($stringValue));
+        $this->assertInternalType('string', $stringValue);
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\FileUploadPagePart::getDefaultAdminType
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\FileUploadPagePart::getDefaultAdminType
      */
     public function testGetDefaultAdminType()
     {

@@ -26,11 +26,11 @@ class LogPageEventsSubscriber implements EventSubscriberInterface
     /**
      * @var UserInterface
      */
-    private $user = null;
+    private $user;
 
     /**
-     * @param Logger                  $logger        The logger
-     * @param TokenStorageInterface   $tokenStorage  The security token storage
+     * @param Logger                $logger       The logger
+     * @param TokenStorageInterface $tokenStorage The security token storage
      */
     public function __construct(Logger $logger, TokenStorageInterface $tokenStorage)
     {
@@ -60,7 +60,7 @@ class LogPageEventsSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             Events::COPY_PAGE_TRANSLATION => 'onCopyPageTranslation',
             Events::RECOPY_PAGE_TRANSLATION => 'onRecopyPageTranslation',
             Events::ADD_EMPTY_PAGE_TRANSLATION => 'onAddEmptyPageTranslation',
@@ -71,20 +71,7 @@ class LogPageEventsSubscriber implements EventSubscriberInterface
             Events::POST_PERSIST => 'postPersist',
             Events::CREATE_PUBLIC_VERSION => 'onCreatePublicVersion',
             Events::CREATE_DRAFT_VERSION => 'onCreateDraftVersion',
-
-        );
-    }
-
-    /**
-     * @return \Symfony\Component\Security\Core\User\UserInterface
-     */
-    private function getUser()
-    {
-        if (is_null($this->user)) {
-            $this->user = $this->tokenStorage->getToken()->getUser();
-        }
-
-        return $this->user;
+        ];
     }
 
     /**
@@ -165,5 +152,17 @@ class LogPageEventsSubscriber implements EventSubscriberInterface
     public function onCreateDraftVersion(NodeEvent $event)
     {
         $this->logger->addInfo(sprintf('%s just created a draft version %d for node %d in language %s', $this->getUser()->getUsername(), $event->getNodeVersion()->getId(), $event->getNode()->getId(), $event->getNodeTranslation()->getLang()));
+    }
+
+    /**
+     * @return \Symfony\Component\Security\Core\User\UserInterface
+     */
+    private function getUser()
+    {
+        if (null === $this->user) {
+            $this->user = $this->tokenStorage->getToken()->getUser();
+        }
+
+        return $this->user;
     }
 }

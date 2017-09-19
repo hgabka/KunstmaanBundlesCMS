@@ -16,16 +16,16 @@ class UrlBlackListAdminType extends AbstractRuleAdminType
      * @see FormTypeExtensionInterface::buildForm()
      *
      * @param FormBuilderInterface $builder The form builder
-     * @param array $options The options
+     * @param array                $options The options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('urls', TextareaType::class, array(
+        $builder->add('urls', TextareaType::class, [
             'label' => 'kuma_lead_generation.form.url_black_list.urls.label',
-            'attr' => array(
+            'attr' => [
                 'info_text' => 'kuma_lead_generation.form.url_black_list.urls.info_text',
-            ),
-        ));
+            ],
+        ]);
     }
 
     /**

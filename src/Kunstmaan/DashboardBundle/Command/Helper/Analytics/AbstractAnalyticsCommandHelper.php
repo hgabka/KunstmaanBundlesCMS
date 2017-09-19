@@ -1,4 +1,5 @@
 <?php
+
 namespace Kunstmaan\DashboardBundle\Command\Helper\Analytics;
 
 use Doctrine\ORM\EntityManager;
@@ -7,7 +8,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class AbstractAnalyticsCommandHelper
 {
-
     /** @var ConfigHelper $configHelper */
     protected $configHelper;
     /** @var GooglequeryHelper $queryHelper */
@@ -18,7 +18,7 @@ abstract class AbstractAnalyticsCommandHelper
     protected $output;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param $configHelper
      * @param $queryHelper
@@ -33,14 +33,17 @@ abstract class AbstractAnalyticsCommandHelper
         $this->em = $em;
     }
 
+    abstract public function getData(&$overview);
+
     /**
-     * Constructor
+     * Constructor.
      *
      * @param AnalyticsOverview $overview
      *
      * @return array
      */
-    protected function getTimestamps(AnalyticsOverview &$overview) {
+    protected function getTimestamps(AnalyticsOverview &$overview)
+    {
         // if yearoverview set the begin time to the first day of this year
         $profileStartDate = explode('T', $this->configHelper->getActiveProfile()['created'])[0];
         if ($overview->getUseYear()) {
@@ -48,21 +51,22 @@ abstract class AbstractAnalyticsCommandHelper
             $begin = strtotime($profileStartDate) > strtotime($begin_date) ? date('Y-m-d', strtotime($profileStartDate)) : $begin_date;
         } else {
             // check if timespan is't more than existence of the profile; if so, use the creation time in stead of the timespan time
-            $begin = strtotime($profileStartDate) > strtotime('-' . $overview->getTimespan() . ' days') ? date('Y-m-d', strtotime($profileStartDate)) : date('Y-m-d', strtotime('-' . $overview->getTimespan() . ' days'));
+            $begin = strtotime($profileStartDate) > strtotime('-'.$overview->getTimespan().' days') ? date('Y-m-d', strtotime($profileStartDate)) : date('Y-m-d', strtotime('-'.$overview->getTimespan().' days'));
         }
         // set the end time
-        $end = date('Y-m-d', strtotime('-' . $overview->getStartOffset() . ' days'));
+        $end = date('Y-m-d', strtotime('-'.$overview->getStartOffset().' days'));
 
-        return array('begin' => $begin, 'end' => $end);
+        return ['begin' => $begin, 'end' => $end];
     }
 
     /**
-     * get the extra data for an overview, can be overridden
+     * get the extra data for an overview, can be overridden.
      *
      * @return array
      */
-    protected function getExtra(AnalyticsOverview $overview) {
-        $extra = array();
+    protected function getExtra(AnalyticsOverview $overview)
+    {
+        $extra = [];
 
         // add segment
         if ($overview->getSegment()) {
@@ -73,11 +77,14 @@ abstract class AbstractAnalyticsCommandHelper
     }
 
     /**
-     * Executes the query
+     * Executes the query.
+     *
+     * @param mixed $metrics
      *
      * @return array the resultset
      */
-    protected function executeQuery(AnalyticsOverview $overview, $metrics) {
+    protected function executeQuery(AnalyticsOverview $overview, $metrics)
+    {
         $timestamps = $this->getTimestamps($overview);
         $extra = $this->getExtra($overview);
 
@@ -91,7 +98,4 @@ abstract class AbstractAnalyticsCommandHelper
 
         return $results->getRows();
     }
-
-    public abstract function getData(&$overview);
-
 }

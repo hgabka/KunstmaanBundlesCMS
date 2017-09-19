@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * IconFontController
+ * IconFontController.
  */
 class IconFontController extends Controller
 {
@@ -33,8 +33,8 @@ class IconFontController extends Controller
         }
         $loader->setData($loaderData);
 
-        return array(
-            'loader' => $loader
-        );
+        return [
+            'loader' => $loader,
+        ];
     }
 }

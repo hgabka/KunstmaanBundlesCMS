@@ -32,7 +32,7 @@ class TestListener implements \PHPUnit_Framework_TestListener
 
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-        if (strpos($suite->getName(), 'KunstmaanTranslationBundle') === false) {
+        if (false === strpos($suite->getName(), 'KunstmaanTranslationBundle')) {
             return true;
         }
 
@@ -47,7 +47,7 @@ class TestListener implements \PHPUnit_Framework_TestListener
         $tool->createSchema($meta);
 
         // insert fixtures
-        $fixtures = array(__DIR__.'/files/fixtures.yml');
+        $fixtures = [__DIR__.'/files/fixtures.yml'];
         $em = $kernel->getContainer()->get('doctrine.orm.default_entity_manager');
         $objects = \Nelmio\Alice\Fixtures::load($fixtures, $em);
         $persister = new \Nelmio\Alice\Persister\Doctrine($em);
@@ -57,5 +57,4 @@ class TestListener implements \PHPUnit_Framework_TestListener
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
     }
-
 }

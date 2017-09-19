@@ -8,17 +8,15 @@ use Kunstmaan\MediaBundle\Validator\Constraints\MediaValidator;
 use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
 use Symfony\Component\Validator\Validation;
 
+/**
+ * @coversNothing
+ */
 class MediaValidatorTest extends AbstractConstraintValidatorTest
 {
-    protected function createValidator()
-    {
-        return new MediaValidator();
-    }
-
     public function testMimeTypeIsIgnoredWhenNotSpecified()
     {
         $constraint = new Media();
-        $media = new MediaObject;
+        $media = new MediaObject();
 
         $this->validator->validate($media, $constraint);
 
@@ -37,7 +35,7 @@ class MediaValidatorTest extends AbstractConstraintValidatorTest
     public function testMimeTypeMatches($contentType, $allowed, $message = null, array $parameters = [], $code = null)
     {
         $constraint = new Media(['mimeTypes' => $allowed]);
-        $media = (new MediaObject)->setContentType($contentType);
+        $media = (new MediaObject())->setContentType($contentType);
 
         $this->validator->validate($media, $constraint);
 
@@ -54,7 +52,7 @@ class MediaValidatorTest extends AbstractConstraintValidatorTest
     public function testSvgIsNotTestedForDimensions()
     {
         $constraint = new Media(['minHeight' => 100]);
-        $media = (new MediaObject)->setContentType('image/svg+xml');
+        $media = (new MediaObject())->setContentType('image/svg+xml');
 
         $this->validator->validate($media, $constraint);
 
@@ -65,7 +63,7 @@ class MediaValidatorTest extends AbstractConstraintValidatorTest
      * @param string $dimension
      * @param int    $value
      * @param string $message
-     * @param array $parameters
+     * @param array  $parameters
      * @param int    $code
      *
      * @dataProvider dataDimensions
@@ -73,7 +71,7 @@ class MediaValidatorTest extends AbstractConstraintValidatorTest
     public function testDimensionsAreChecked($dimension, $value, $message = null, array $parameters = [], $code = null)
     {
         $constraint = new Media([$dimension => $value]);
-        $media = (new MediaObject)
+        $media = (new MediaObject())
             ->setMetadataValue('original_width', 100)
             ->setMetadataValue('original_height', 100)
             ->setContentType('image/png');
@@ -116,6 +114,11 @@ class MediaValidatorTest extends AbstractConstraintValidatorTest
             ['minHeight', 200, 'The image height is too small ({{ height }}px). Minimum height expected is {{ min_height }}px.', ['{{ height }}' => 100, '{{ min_height }}' => 200], Media::TOO_LOW_ERROR],
             ['maxHeight', 50, 'The image height is too big ({{ height }}px). Allowed maximum height is {{ max_height }}px.', ['{{ height }}' => 100, '{{ max_height }}' => 50], Media::TOO_HIGH_ERROR],
         ];
+    }
+
+    protected function createValidator()
+    {
+        return new MediaValidator();
     }
 
     protected function getApiVersion()

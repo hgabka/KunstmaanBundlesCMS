@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * This class represents the type for the EmailPagePart
+ * This class represents the type for the EmailPagePart.
  */
 class EmailPagePartAdminType extends AbstractType
 {
@@ -20,22 +20,22 @@ class EmailPagePartAdminType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('label', null, array(
+            ->add('label', null, [
                 'required' => false,
                 'label' => 'kuma_form.form.email_page_part.label.label',
-            ))
-            ->add('required', CheckboxType::class, array(
+            ])
+            ->add('required', CheckboxType::class, [
                 'required' => false,
                 'label' => 'kuma_form.form.email_page_part.required.label',
-            ))
-            ->add('errorMessageRequired', TextType::class, array(
+            ])
+            ->add('errorMessageRequired', TextType::class, [
                 'required' => false,
                 'label' => 'kuma_form.form.email_page_part.errorMessageRequired.label',
-            ))
-            ->add('errorMessageInvalid', TextType::class, array(
+            ])
+            ->add('errorMessageInvalid', TextType::class, [
                 'required' => false,
                 'label' => 'kuma_form.form.email_page_part.errorMessageInvalid.label',
-            ))
+            ])
         ;
     }
 
@@ -52,6 +52,6 @@ class EmailPagePartAdminType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array('data_class' => 'Kunstmaan\FormBundle\Entity\PageParts\EmailPagePart'));
+        $resolver->setDefaults(['data_class' => 'Kunstmaan\FormBundle\Entity\PageParts\EmailPagePart']);
     }
 }

@@ -17,7 +17,7 @@ use Kunstmaan\NodeBundle\Entity\Node;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
- * NodeAdminListConfigurator
+ * NodeAdminListConfigurator.
  */
 class NodeAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
 {
@@ -42,17 +42,17 @@ class NodeAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
     protected $showAddHomepage;
 
     /**
-     * @var AuthorizationCheckerInterface $authorizationChecker
+     * @var AuthorizationCheckerInterface
      */
     protected $authorizationChecker;
 
     /**
-     * @param EntityManager                $em                  The entity
-     *                                                          manager
-     * @param AclHelper                    $aclHelper           The ACL helper
-     * @param string                       $locale              The current
-     *                                                          locale
-     * @param string                       $permission          The permission
+     * @param EntityManager $em         The entity
+     *                                  manager
+     * @param AclHelper     $aclHelper  The ACL helper
+     * @param string        $locale     The current
+     *                                  locale
+     * @param string        $permission The permission
      */
     public function __construct(EntityManager $em, AclHelper $aclHelper, $locale, $permission, AuthorizationCheckerInterface $authorizationChecker)
     {
@@ -61,7 +61,7 @@ class NodeAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
         $this->authorizationChecker = $authorizationChecker;
         $this->setPermissionDefinition(
             new PermissionDefinition(
-                array($permission),
+                [$permission],
                 'Kunstmaan\NodeBundle\Entity\Node',
                 'n'
             )
@@ -93,16 +93,16 @@ class NodeAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
             return;
         }
 
-        $addHomepageRoute = array(
-            'path'       => '',
-            'attributes' => array(
-                'class'         => 'btn btn-default btn--raise-on-hover',
-                'data-target'   => '#add-homepage-modal',
+        $addHomepageRoute = [
+            'path' => '',
+            'attributes' => [
+                'class' => 'btn btn-default btn--raise-on-hover',
+                'data-target' => '#add-homepage-modal',
                 'data-keyboard' => 'true',
-                'data-toggle'   => 'modal',
-                'type'          => 'button',
-            )
-        );
+                'data-toggle' => 'modal',
+                'type' => 'button',
+            ],
+        ];
 
         $this->addListAction(
             new SimpleListAction(
@@ -115,7 +115,7 @@ class NodeAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
     }
 
     /**
-     * Configure filters
+     * Configure filters.
      */
     public function buildFilters()
     {
@@ -127,7 +127,7 @@ class NodeAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
     }
 
     /**
-     * Configure the visible columns
+     * Configure the visible columns.
      */
     public function buildFields()
     {
@@ -145,13 +145,13 @@ class NodeAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
      */
     public function getEditUrlFor($item)
     {
-        /* @var Node $node */
+        // @var Node $node
         $node = $item->getNode();
 
-        return array(
-            'path'   => 'KunstmaanNodeBundle_nodes_edit',
-            'params' => array('id' => $node->getId())
-        );
+        return [
+            'path' => 'KunstmaanNodeBundle_nodes_edit',
+            'params' => ['id' => $node->getId()],
+        ];
     }
 
     /**
@@ -168,7 +168,7 @@ class NodeAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
     }
 
     /**
-     * Return if current user can delete the specified item
+     * Return if current user can delete the specified item.
      *
      * @param array|object $item
      *
@@ -186,7 +186,7 @@ class NodeAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
      */
     public function getDeleteUrlFor($item)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -206,7 +206,7 @@ class NodeAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
     }
 
     /**
-     * Override path convention (because settings is a virtual admin subtree)
+     * Override path convention (because settings is a virtual admin subtree).
      *
      * @param string $suffix
      *
@@ -252,16 +252,16 @@ class NodeAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
         }
 
         $rootNode = $this->domainConfiguration->getRootNode();
-        if (!is_null($rootNode)) {
+        if (null !== $rootNode) {
             $queryBuilder->andWhere('n.lft >= :left')
                 ->andWhere('n.rgt <= :right')
                 ->setParameter('left', $rootNode->getLeft())
                 ->setParameter('right', $rootNode->getRight());
         }
     }
-	
-	public function getListTitle()
-	{
-		return null;
-	}
+
+    public function getListTitle()
+    {
+        return null;
+    }
 }

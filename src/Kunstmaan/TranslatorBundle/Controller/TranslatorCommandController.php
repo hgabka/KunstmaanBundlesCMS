@@ -15,7 +15,6 @@ class TranslatorCommandController extends Controller
      */
     public function clearCacheAction()
     {
-
         $this->get('kunstmaan_translator.service.translator.resource_cacher')->flushCache();
         $this->addFlash(
             FlashTypes::SUCCESS,

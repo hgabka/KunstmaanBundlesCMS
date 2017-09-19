@@ -14,7 +14,7 @@ class DomainConfiguration extends BaseDomainConfiguration
     /**
      * @var Node
      */
-    protected $rootNode = null;
+    protected $rootNode;
 
     /**
      * @var array
@@ -24,7 +24,7 @@ class DomainConfiguration extends BaseDomainConfiguration
     /**
      * @var array
      */
-    protected $aliases = array();
+    protected $aliases = [];
 
     /**
      * @param ContainerInterface $container
@@ -82,7 +82,7 @@ class DomainConfiguration extends BaseDomainConfiguration
     }
 
     /**
-     * @param string|null $host
+     * @param null|string $host
      *
      * @return bool
      */
@@ -93,14 +93,14 @@ class DomainConfiguration extends BaseDomainConfiguration
         if (isset($this->hosts[$host])) {
             $hostInfo = $this->hosts[$host];
 
-            return ('multi_lang' === $hostInfo['type']);
+            return 'multi_lang' === $hostInfo['type'];
         }
 
         return parent::isMultiLanguage();
     }
 
     /**
-     * @param string|null $host
+     * @param null|string $host
      *
      * @return array
      */
@@ -116,7 +116,7 @@ class DomainConfiguration extends BaseDomainConfiguration
     }
 
     /**
-     * @param string|null $host
+     * @param null|string $host
      *
      * @return array
      */
@@ -142,11 +142,11 @@ class DomainConfiguration extends BaseDomainConfiguration
     }
 
     /**
-     * Fetch the root node for the current host
+     * Fetch the root node for the current host.
      *
-     * @param string|null $host
+     * @param null|string $host
      *
-     * @return Node|null
+     * @return null|Node
      */
     public function getRootNode($host = null)
     {
@@ -154,7 +154,7 @@ class DomainConfiguration extends BaseDomainConfiguration
             return parent::getRootNode();
         }
 
-        if (is_null($this->rootNode)) {
+        if (null === $this->rootNode) {
             $host = $this->getRealHost($host);
 
             $internalName = $this->hosts[$host]['root'];
@@ -167,7 +167,7 @@ class DomainConfiguration extends BaseDomainConfiguration
     }
 
     /**
-     * Return (optional) extra config settings for the current host
+     * Return (optional) extra config settings for the current host.
      */
     public function getExtraData()
     {
@@ -181,7 +181,7 @@ class DomainConfiguration extends BaseDomainConfiguration
     }
 
     /**
-     * Return (optional) extra config settings for the locales for the current host
+     * Return (optional) extra config settings for the locales for the current host.
      */
     public function getLocalesExtraData()
     {
@@ -197,43 +197,18 @@ class DomainConfiguration extends BaseDomainConfiguration
     /**
      * @return bool
      */
-    protected function hasHostOverride()
-    {
-        $request = $this->getMasterRequest();
-
-        return !is_null($request) &&
-        $this->isAdminRoute($request->getRequestUri()) &&
-        $request->hasPreviousSession() &&
-        $request->getSession()->has(self::OVERRIDE_HOST);
-    }
-
-    /**
-     * @return bool
-     */
     public function hasHostSwitched()
     {
         $request = $this->getMasterRequest();
 
-        return !is_null($request) &&
+        return null !== $request &&
         $this->isAdminRoute($request->getRequestUri()) &&
         $request->hasPreviousSession() &&
         $request->getSession()->has(self::SWITCH_HOST);
     }
 
     /**
-     * @return string|null
-     */
-    protected function getHostOverride()
-    {
-        if (null !== ($request = $this->getMasterRequest()) && $request->hasPreviousSession()) {
-            return $request->getSession()->get(self::OVERRIDE_HOST);
-        }
-
-        return null;
-    }
-
-    /**
-     * @return string|null
+     * @return null|string
      */
     public function getHostSwitched()
     {
@@ -249,27 +224,6 @@ class DomainConfiguration extends BaseDomainConfiguration
     }
 
     /**
-     * @param string $url
-     *
-     * @return bool
-     */
-    protected function isAdminRoute($url)
-    {
-        preg_match(
-            '/^\/(app_(.*)\.php\/)?([a-zA-Z_-]{2,5}\/)?admin\/(.*)/',
-            $url,
-            $matches
-        );
-
-        // Check if path is part of admin area
-        if (count($matches) === 0) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * @return array
      */
     public function getFullHostConfig()
@@ -278,7 +232,7 @@ class DomainConfiguration extends BaseDomainConfiguration
     }
 
     /**
-     * @param string|null $host
+     * @param null|string $host
      *
      * @return array
      */
@@ -292,7 +246,6 @@ class DomainConfiguration extends BaseDomainConfiguration
 
         return null;
     }
-
 
     /**
      * @param int $id
@@ -313,7 +266,7 @@ class DomainConfiguration extends BaseDomainConfiguration
     }
 
     /**
-     * @param string|null $host
+     * @param null|string $host
      *
      * @return string
      */
@@ -325,7 +278,53 @@ class DomainConfiguration extends BaseDomainConfiguration
     }
 
     /**
-     * @param string|null $host
+     * @return bool
+     */
+    protected function hasHostOverride()
+    {
+        $request = $this->getMasterRequest();
+
+        return null !== $request &&
+        $this->isAdminRoute($request->getRequestUri()) &&
+        $request->hasPreviousSession() &&
+        $request->getSession()->has(self::OVERRIDE_HOST);
+    }
+
+    /**
+     * @return null|string
+     */
+    protected function getHostOverride()
+    {
+        if (null !== ($request = $this->getMasterRequest()) && $request->hasPreviousSession()) {
+            return $request->getSession()->get(self::OVERRIDE_HOST);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return bool
+     */
+    protected function isAdminRoute($url)
+    {
+        preg_match(
+            '/^\/(app_(.*)\.php\/)?([a-zA-Z_-]{2,5}\/)?admin\/(.*)/',
+            $url,
+            $matches
+        );
+
+        // Check if path is part of admin area
+        if (0 === count($matches)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param null|string $host
      *
      * @return null|string
      */

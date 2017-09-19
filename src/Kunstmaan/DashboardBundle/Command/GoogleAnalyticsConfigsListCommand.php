@@ -1,4 +1,5 @@
 <?php
+
 namespace Kunstmaan\DashboardBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -17,6 +18,26 @@ class GoogleAnalyticsConfigsListCommand extends ContainerAwareCommand
             ->setDescription('List available configs');
     }
 
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $this->init();
+
+        $configs = $this->getconfigs();
+
+        if (count($configs)) {
+            $result = "\t".'<fg=green>'.count($configs).'</fg=green> configs found:';
+            $output->writeln($result);
+            foreach ($configs as $config) {
+                $result = "\t".'(id: <fg=cyan>'.$config->getId().'</fg=cyan>)';
+                $result .= "\t".$config->getName();
+
+                $output->writeln($result);
+            }
+        } else {
+            $output->writeln('No configs found');
+        }
+    }
+
     /**
      * Inits instance variables for global usage.
      */
@@ -25,29 +46,8 @@ class GoogleAnalyticsConfigsListCommand extends ContainerAwareCommand
         $this->em = $this->getContainer()->get('doctrine')->getManager();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $this->init();
-
-        $configs = $this->getconfigs();
-
-        if (count($configs)) {
-            $result = "\t".'<fg=green>' . count($configs) . '</fg=green> configs found:';
-            $output->writeln($result);
-            foreach($configs as $config) {
-                $result = "\t".'(id: <fg=cyan>' .$config->getId() . '</fg=cyan>)';
-                $result .= "\t" . $config->getName();
-
-                $output->writeln($result);
-            }
-        } else {
-            $output->writeln('No configs found');
-        }
-
-    }
-
     /**
-     * get all segments
+     * get all segments.
      *
      * @return array
      */
@@ -55,6 +55,7 @@ class GoogleAnalyticsConfigsListCommand extends ContainerAwareCommand
     {
         // get all segments
         $configRepository = $this->em->getRepository('KunstmaanDashboardBundle:AnalyticsConfig');
+
         return $configRepository->findAll();
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Kunstmaan\FixturesBundle\Loader;
 
-
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
@@ -23,7 +22,7 @@ abstract class FixtureLoader implements FixtureInterface, ContainerAwareInterfac
     protected $container;
 
     /**
-     * Load data fixtures with the passed EntityManager
+     * Load data fixtures with the passed EntityManager.
      *
      * @param ObjectManager $manager
      */
@@ -47,18 +46,41 @@ abstract class FixtureLoader implements FixtureInterface, ContainerAwareInterfac
             $builder->addProvider($provider);
         }
 
-        /**
-         * because of faker's magic calls we'll want to add this as last provider
-         */
+        // because of faker's magic calls we'll want to add this as last provider
         $builder->addProvider(Factory::create($locale));
         $builder->setFixtures($fixtures);
         $builder->buildFixtures($manager);
     }
 
+    public function getOptions()
+    {
+        return ['locale' => 'en_US'];
+    }
+
+    public function getProviders()
+    {
+        return [$this];
+    }
+
     /**
-     * Parse specs and initiate fixtures
+     * Sets the Container.
+     *
+     * @param null|ContainerInterface $container A ContainerInterface instance or null
+     *
+     * @api
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
+    abstract protected function getFixtures();
+
+    /**
+     * Parse specs and initiate fixtures.
      *
      * @param $data
+     *
      * @return array|mixed
      */
     private function initFixtures($data)
@@ -76,29 +98,5 @@ abstract class FixtureLoader implements FixtureInterface, ContainerAwareInterfac
         }
 
         return $fixtures;
-    }
-
-    abstract protected function getFixtures();
-
-    public function getOptions()
-    {
-        return ['locale' => 'en_US'];
-    }
-
-    public function getProviders()
-    {
-        return [$this];
-    }
-
-    /**
-     * Sets the Container.
-     *
-     * @param ContainerInterface|null $container A ContainerInterface instance or null
-     *
-     * @api
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
     }
 }

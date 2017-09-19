@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * WidgetsController
+ * WidgetsController.
  */
 class WidgetsController extends Controller
 {
@@ -22,11 +22,12 @@ class WidgetsController extends Controller
      * @Template("KunstmaanNodeBundle:Widgets:selectLink.html.twig")
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return array
      */
     public function ckSelectLinkAction(Request $request)
     {
-        $params        = $this->getTemplateParameters($request);
+        $params = $this->getTemplateParameters($request);
         $params['cke'] = true;
         $params['multilanguage'] = $this->getParameter('multilanguage');
 
@@ -34,17 +35,18 @@ class WidgetsController extends Controller
     }
 
     /**
-     * Select a link
+     * Select a link.
      *
      * @Route   ("/selecturl", name="KunstmaanNodeBundle_selecturl")
      * @Template("KunstmaanNodeBundle:Widgets:selectLink.html.twig")
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return array
      */
     public function selectLinkAction(Request $request)
     {
-        $params        = $this->getTemplateParameters($request);
+        $params = $this->getTemplateParameters($request);
         $params['cke'] = false;
         $params['multilanguage'] = $this->getParameter('multilanguage');
 
@@ -56,12 +58,13 @@ class WidgetsController extends Controller
      * default link chooser and the cke link chooser.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return array
      */
     private function getTemplateParameters(Request $request)
     {
-        /* @var EntityManager $em */
-        $em     = $this->getDoctrine()->getManager();
+        // @var EntityManager $em
+        $em = $this->getDoctrine()->getManager();
         $host = $request->getSession()->get(DomainConfiguration::SWITCH_HOST);
         $locale = $request->getLocale();
 
@@ -87,7 +90,7 @@ class WidgetsController extends Controller
         $mediaChooserLink = null;
 
         if (array_key_exists('KunstmaanMediaBundle', $allBundles)) {
-            $params          = array('linkChooser' => 1);
+            $params = ['linkChooser' => 1];
             $cKEditorFuncNum = $request->get('CKEditorFuncNum');
             if (!empty($cKEditorFuncNum)) {
                 $params['CKEditorFuncNum'] = $cKEditorFuncNum;
@@ -98,10 +101,10 @@ class WidgetsController extends Controller
             );
         }
 
-        return array(
-            'tree'             => $simpleTreeView,
-            'mediaChooserLink' => $mediaChooserLink
-        );
+        return [
+            'tree' => $simpleTreeView,
+            'mediaChooserLink' => $mediaChooserLink,
+        ];
     }
 
     /**
@@ -115,7 +118,7 @@ class WidgetsController extends Controller
     {
         $structureNode = false;
         if (class_exists($refEntityName)) {
-            $page          = new $refEntityName();
+            $page = new $refEntityName();
             $structureNode = ($page instanceof StructureNode);
             unset($page);
         }

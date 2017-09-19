@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * The Abstract ORM Page
+ * The Abstract ORM Page.
  */
 abstract class AbstractPage extends AbstractEntity implements PageInterface
 {
@@ -38,7 +38,15 @@ abstract class AbstractPage extends AbstractEntity implements PageInterface
     protected $parent;
 
     /**
-     * Set title
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
+
+    /**
+     * Set title.
      *
      * @param string $title
      *
@@ -52,7 +60,7 @@ abstract class AbstractPage extends AbstractEntity implements PageInterface
     }
 
     /**
-     * Get title
+     * Get title.
      *
      * @return string
      */
@@ -62,7 +70,7 @@ abstract class AbstractPage extends AbstractEntity implements PageInterface
     }
 
     /**
-     * Set pagetitle
+     * Set pagetitle.
      *
      * @param string $pageTitle
      *
@@ -76,7 +84,7 @@ abstract class AbstractPage extends AbstractEntity implements PageInterface
     }
 
     /**
-     * Get pagetitle
+     * Get pagetitle.
      *
      * @return string
      */
@@ -84,9 +92,9 @@ abstract class AbstractPage extends AbstractEntity implements PageInterface
     {
         if (!empty($this->pageTitle)) {
             return $this->pageTitle;
-        } else {
-            return $this->getTitle();
         }
+
+        return $this->getTitle();
     }
 
     /**
@@ -110,15 +118,7 @@ abstract class AbstractPage extends AbstractEntity implements PageInterface
     }
 
     /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getTitle();
-    }
-
-    /**
-     * Returns the default backend form type for this page
+     * Returns the default backend form type for this page.
      *
      * @return AbstractType
      */
@@ -132,12 +132,11 @@ abstract class AbstractPage extends AbstractEntity implements PageInterface
      * @param Request            $request   The Request
      * @param RenderContext      $context   The Render context
      *
-     * @return void|RedirectResponse
+     * @return RedirectResponse|void
      */
     public function service(ContainerInterface $container, Request $request, RenderContext $context)
     {
     }
-
 
     /**
      * By default this will return false. Pages will always be pages until some class says otherwise.

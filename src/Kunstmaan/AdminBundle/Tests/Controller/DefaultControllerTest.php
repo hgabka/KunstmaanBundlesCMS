@@ -3,11 +3,12 @@
 namespace Kunstmaan\AdminBundle\Tests\Controller;
 
 /**
- * DefaultControllerTest
+ * DefaultControllerTest.
+ *
+ * @coversNothing
  */
 class DefaultControllerTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @return bool
      */

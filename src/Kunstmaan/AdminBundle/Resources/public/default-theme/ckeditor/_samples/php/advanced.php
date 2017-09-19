@@ -32,7 +32,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			</p>
 <?php
 // Include CKEditor class.
-include("../../ckeditor.php");
+include '../../ckeditor.php';
 
 // Create class instance.
 $CKEditor = new CKEditor();
@@ -49,13 +49,13 @@ $CKEditor->basePath = '../../';
 $CKEditor->config['width'] = 600;
 
 // Change default textarea attributes
-$CKEditor->textareaAttributes = array("cols" => 80, "rows" => 10);
+$CKEditor->textareaAttributes = ['cols' => 80, 'rows' => 10];
 
 // The initial value to be displayed in the editor.
 $initialValue = '<p>This is some <strong>sample text</strong>. You are using <a href="http://ckeditor.com/">CKEditor</a>.</p>';
 
 // Create first instance.
-$code = $CKEditor->editor("editor1", $initialValue);
+$code = $CKEditor->editor('editor1', $initialValue);
 
 echo $code;
 ?>
@@ -64,15 +64,15 @@ echo $code;
 			</p>
 <?php
 // Configuration that will be used only by the second editor.
-$config['toolbar'] = array(
-	array( 'Source', '-', 'Bold', 'Italic', 'Underline', 'Strike' ),
-	array( 'Image', 'Link', 'Unlink', 'Anchor' )
-);
+$config['toolbar'] = [
+    ['Source', '-', 'Bold', 'Italic', 'Underline', 'Strike'],
+    ['Image', 'Link', 'Unlink', 'Anchor'],
+];
 
 $config['skin'] = 'v2';
 
 // Create second instance.
-echo $CKEditor->editor("editor2", $initialValue, $config);
+echo $CKEditor->editor('editor2', $initialValue, $config);
 ?>
 			<p>
 				<input type="submit" value="Submit"/>

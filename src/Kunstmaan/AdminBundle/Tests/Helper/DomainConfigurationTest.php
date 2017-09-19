@@ -6,6 +6,9 @@ use Kunstmaan\AdminBundle\Helper\DomainConfiguration;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @coversNothing
+ */
 class DomainConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -35,45 +38,45 @@ class DomainConfigurationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\DomainConfiguration::__construct
-     * @covers Kunstmaan\AdminBundle\Helper\DomainConfiguration::getMasterRequest
-     * @covers Kunstmaan\AdminBundle\Helper\DomainConfiguration::getHost
+     * @covers \Kunstmaan\AdminBundle\Helper\DomainConfiguration::__construct
+     * @covers \Kunstmaan\AdminBundle\Helper\DomainConfiguration::getMasterRequest
+     * @covers \Kunstmaan\AdminBundle\Helper\DomainConfiguration::getHost
      */
     public function testGetHost()
     {
         $object = $this->getSingleLanguageDomainConfiguration();
-        $this->assertEquals('domain.tld', $object->getHost());
+        $this->assertSame('domain.tld', $object->getHost());
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\DomainConfiguration::getHosts
+     * @covers \Kunstmaan\AdminBundle\Helper\DomainConfiguration::getHosts
      */
     public function testGetHosts()
     {
         $object = $this->getSingleLanguageDomainConfiguration();
-        $this->assertEquals(array('domain.tld'), $object->getHosts());
+        $this->assertSame(['domain.tld'], $object->getHosts());
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\DomainConfiguration::getDefaultLocale
+     * @covers \Kunstmaan\AdminBundle\Helper\DomainConfiguration::getDefaultLocale
      */
     public function testGetDefaultLocale()
     {
         $object = $this->getSingleLanguageDomainConfiguration();
-        $this->assertEquals('en', $object->getDefaultLocale());
+        $this->assertSame('en', $object->getDefaultLocale());
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\DomainConfiguration::getExtraData
+     * @covers \Kunstmaan\AdminBundle\Helper\DomainConfiguration::getExtraData
      */
     public function testGetExtraData()
     {
         $object = $this->getSingleLanguageDomainConfiguration();
-        $this->assertEquals(array(), $object->getExtraData());
+        $this->assertSame([], $object->getExtraData());
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\DomainConfiguration::getRootNode
+     * @covers \Kunstmaan\AdminBundle\Helper\DomainConfiguration::getRootNode
      */
     public function testGetRootNode()
     {
@@ -82,7 +85,7 @@ class DomainConfigurationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\DomainConfiguration::isMultiDomainHost
+     * @covers \Kunstmaan\AdminBundle\Helper\DomainConfiguration::isMultiDomainHost
      */
     public function testIsMultiDomainHost()
     {
@@ -91,7 +94,7 @@ class DomainConfigurationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\DomainConfiguration::isMultiLanguage
+     * @covers \Kunstmaan\AdminBundle\Helper\DomainConfiguration::isMultiLanguage
      */
     public function testIsMultiLanguageWithSingleLanguage()
     {
@@ -100,7 +103,7 @@ class DomainConfigurationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\DomainConfiguration::isMultiLanguage
+     * @covers \Kunstmaan\AdminBundle\Helper\DomainConfiguration::isMultiLanguage
      */
     public function testIsMultiLanguageWithMultiLanguage()
     {
@@ -109,39 +112,39 @@ class DomainConfigurationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\DomainConfiguration::getFrontendLocales
+     * @covers \Kunstmaan\AdminBundle\Helper\DomainConfiguration::getFrontendLocales
      */
     public function testGetFrontendLocalesWithSingleLanguage()
     {
         $object = $this->getSingleLanguageDomainConfiguration();
-        $this->assertEquals(array('en'), $object->getFrontendLocales());
+        $this->assertSame(['en'], $object->getFrontendLocales());
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\DomainConfiguration::getFrontendLocales
+     * @covers \Kunstmaan\AdminBundle\Helper\DomainConfiguration::getFrontendLocales
      */
     public function testGetFrontendLocalesWithMultiLanguage()
     {
         $object = $this->getMultiLanguageDomainConfiguration();
-        $this->assertEquals(array('nl', 'fr', 'en'), $object->getFrontendLocales());
+        $this->assertSame(['nl', 'fr', 'en'], $object->getFrontendLocales());
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\DomainConfiguration::getBackendLocales
+     * @covers \Kunstmaan\AdminBundle\Helper\DomainConfiguration::getBackendLocales
      */
     public function testGetBackendLocalesWithSingleLanguage()
     {
         $object = $this->getSingleLanguageDomainConfiguration();
-        $this->assertEquals(array('en'), $object->getBackendLocales());
+        $this->assertSame(['en'], $object->getBackendLocales());
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\DomainConfiguration::getBackendLocales
+     * @covers \Kunstmaan\AdminBundle\Helper\DomainConfiguration::getBackendLocales
      */
     public function testGetBackendLocalesWithMultiLanguage()
     {
         $object = $this->getMultiLanguageDomainConfiguration();
-        $this->assertEquals(array('nl', 'fr', 'en'), $object->getBackendLocales());
+        $this->assertSame(['nl', 'fr', 'en'], $object->getBackendLocales());
     }
 
     private function getContainer($map)
@@ -177,11 +180,11 @@ class DomainConfigurationTest extends \PHPUnit_Framework_TestCase
 
     private function getSingleLanguageDomainConfiguration()
     {
-        $map = array(
-            array('multilanguage', false),
-            array('defaultlocale', 'en'),
-            array('requiredlocales', 'en'),
-        );
+        $map = [
+            ['multilanguage', false],
+            ['defaultlocale', 'en'],
+            ['requiredlocales', 'en'],
+        ];
 
         $object = new DomainConfiguration($this->getContainer($map));
 
@@ -190,11 +193,11 @@ class DomainConfigurationTest extends \PHPUnit_Framework_TestCase
 
     private function getMultiLanguageDomainConfiguration()
     {
-        $map = array(
-            array('multilanguage', true),
-            array('defaultlocale', 'nl'),
-            array('requiredlocales', 'nl|fr|en'),
-        );
+        $map = [
+            ['multilanguage', true],
+            ['defaultlocale', 'nl'],
+            ['requiredlocales', 'nl|fr|en'],
+        ];
 
         $object = new DomainConfiguration($this->getContainer($map));
 

@@ -5,7 +5,7 @@ namespace Kunstmaan\AdminBundle\Twig;
 use Kunstmaan\AdminBundle\Helper\DomainConfigurationInterface;
 
 /**
- * LocaleSwitcherTwigExtension
+ * LocaleSwitcherTwigExtension.
  */
 class LocaleSwitcherTwigExtension extends \Twig_Extension
 {
@@ -29,11 +29,11 @@ class LocaleSwitcherTwigExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('localeswitcher_widget', array($this, 'renderWidget'), array('needs_environment' => true, 'is_safe' => array('html'))),
-            new \Twig_SimpleFunction('get_locales', array($this, 'getLocales')),
-            new \Twig_SimpleFunction('get_backend_locales', array($this, 'getBackendLocales')),
-        );
+        return [
+            new \Twig_SimpleFunction('localeswitcher_widget', [$this, 'renderWidget'], ['needs_environment' => true, 'is_safe' => ['html']]),
+            new \Twig_SimpleFunction('get_locales', [$this, 'getLocales']),
+            new \Twig_SimpleFunction('get_backend_locales', [$this, 'getBackendLocales']),
+        ];
     }
 
     /**
@@ -46,19 +46,19 @@ class LocaleSwitcherTwigExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function renderWidget(\Twig_Environment $env, $locales, $route, array $parameters = array())
+    public function renderWidget(\Twig_Environment $env, $locales, $route, array $parameters = [])
     {
         $template = $env->loadTemplate(
-            "KunstmaanAdminBundle:LocaleSwitcherTwigExtension:widget.html.twig"
+            'KunstmaanAdminBundle:LocaleSwitcherTwigExtension:widget.html.twig'
         );
 
         return $template->render(
             array_merge(
                 $parameters,
-                array(
+                [
                     'locales' => $locales,
-                    'route' => $route
-                )
+                    'route' => $route,
+                ]
             )
         );
     }
@@ -72,6 +72,8 @@ class LocaleSwitcherTwigExtension extends \Twig_Extension
     }
 
     /**
+     * @param null|mixed $switchedHost
+     *
      * @return array
      */
     public function getBackendLocales($switchedHost = null)

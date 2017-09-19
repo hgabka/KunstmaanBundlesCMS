@@ -16,10 +16,13 @@ use Symfony\Component\Security\Acl\Model\AclProviderInterface;
 use Symfony\Component\Security\Acl\Model\ObjectIdentityRetrievalStrategyInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+/**
+ * @coversNothing
+ */
 class PermissionAdminTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PermissionAdmin $object
+     * @var PermissionAdmin
      */
     protected $object;
 
@@ -40,30 +43,30 @@ class PermissionAdminTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::initialize
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::getPermissions
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::initialize
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::getPermissions
      */
     public function testInitialize()
     {
         $object = $this->getInitializedPermissionAdmin();
 
-        $this->assertEquals(array('ROLE_TEST' => new MaskBuilder(1)), $object->getPermissions());
+        $this->assertSame(['ROLE_TEST' => new MaskBuilder(1)], $object->getPermissions());
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::initialize
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::getPermission
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::initialize
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::getPermission
      */
     public function testGetPermissionWithString()
     {
         $object = $this->getInitializedPermissionAdmin();
 
-        $this->assertEquals(new MaskBuilder(1), $object->getPermission('ROLE_TEST'));
+        $this->assertSame(new MaskBuilder(1), $object->getPermission('ROLE_TEST'));
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::initialize
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::getPermission
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::initialize
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::getPermission
      */
     public function testGetPermissionWithRoleObject()
     {
@@ -73,12 +76,12 @@ class PermissionAdminTest extends \PHPUnit_Framework_TestCase
         $role->expects($this->once())
             ->method('getRole')
             ->will($this->returnValue('ROLE_TEST'));
-        $this->assertEquals(new MaskBuilder(1), $object->getPermission($role));
+        $this->assertSame(new MaskBuilder(1), $object->getPermission($role));
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::initialize
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::getPermission
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::initialize
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::getPermission
      */
     public function testGetPermissionWithUnknownRole()
     {
@@ -88,8 +91,8 @@ class PermissionAdminTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::__construct
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::getAllRoles
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::__construct
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::getAllRoles
      */
     public function testGetAllRoles()
     {
@@ -117,9 +120,9 @@ class PermissionAdminTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::__construct
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::getPossiblePermissions
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::initialize
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::__construct
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::getPossiblePermissions
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::initialize
      */
     public function testGetPossiblePermissions()
     {
@@ -136,20 +139,20 @@ class PermissionAdminTest extends \PHPUnit_Framework_TestCase
         $kernel = $this->getKernel();
         $object = new PermissionAdmin($em, $context, $aclProvider, $retrievalStrategy, $dispatcher, $shell, $kernel);
 
-        $permissions = array('PERMISSION1', 'PERMISSION2');
+        $permissions = ['PERMISSION1', 'PERMISSION2'];
         $permissionMap = $this->getMock('Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionMapInterface');
         $permissionMap
             ->expects($this->any())
             ->method('getPossiblePermissions')
             ->will($this->returnValue($permissions));
         $entity = $this->getEntity();
-        /* @var $permissionMap PermissionMapInterface */
+        // @var $permissionMap PermissionMapInterface
         $object->initialize($entity, $permissionMap);
-        $this->assertEquals($permissions, $object->getPossiblePermissions());
+        $this->assertSame($permissions, $object->getPossiblePermissions());
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::createAclChangeset
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin::createAclChangeset
      */
     public function testCreateAclChangeset()
     {
@@ -168,16 +171,16 @@ class PermissionAdminTest extends \PHPUnit_Framework_TestCase
         $object = new PermissionAdmin($em, $context, $aclProvider, $retrievalStrategy, $dispatcher, $shell, $kernel);
 
         $entity = $this->getEntity();
-        /* @var $user User */
+        // @var $user User
         $user = $this->getMockBuilder('Kunstmaan\AdminBundle\Entity\User')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $object->createAclChangeSet($entity, array(), $user);
+        $object->createAclChangeSet($entity, [], $user);
     }
 
     /**
-     * Return entity manager mock
+     * Return entity manager mock.
      *
      * @return EntityManager
      */
@@ -189,7 +192,7 @@ class PermissionAdminTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Return alc provider mock
+     * Return alc provider mock.
      *
      * @return AclProviderInterface
      */
@@ -199,7 +202,7 @@ class PermissionAdminTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Return security token storage
+     * Return security token storage.
      *
      * @return TokenStorageInterface
      */
@@ -209,7 +212,7 @@ class PermissionAdminTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Return oid retrieval strategy mock
+     * Return oid retrieval strategy mock.
      *
      * @return ObjectIdentityRetrievalStrategyInterface
      */
@@ -219,7 +222,7 @@ class PermissionAdminTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Return event dispatcher mock
+     * Return event dispatcher mock.
      *
      * @return EventDispatcherInterface
      */
@@ -245,7 +248,7 @@ class PermissionAdminTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Return permission admin mock
+     * Return permission admin mock.
      *
      * @return PermissionAdmin
      */
@@ -273,7 +276,7 @@ class PermissionAdminTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $acl->expects($this->once())
             ->method('getObjectAces')
-            ->will($this->returnValue(array($entity)));
+            ->will($this->returnValue([$entity]));
 
         $aclProvider = $this->getAclProvider();
         $aclProvider
@@ -297,7 +300,7 @@ class PermissionAdminTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Return entity mock
+     * Return entity mock.
      *
      * @return AbstractEntity
      */
@@ -307,7 +310,7 @@ class PermissionAdminTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Return permission admin mock
+     * Return permission admin mock.
      *
      * @return PermissionAdmin
      */
@@ -315,7 +318,7 @@ class PermissionAdminTest extends \PHPUnit_Framework_TestCase
     {
         $object = $this->getPermissionAdmin();
         $entity = $this->getEntity();
-        /* @var $permissionMap PermissionMapInterface */
+        // @var $permissionMap PermissionMapInterface
         $permissionMap = $this->getMock('Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionMapInterface');
         $object->initialize($entity, $permissionMap);
 

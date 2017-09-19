@@ -1,10 +1,8 @@
 <?php
 
-
 namespace Kunstmaan\MediaBundle\Helper\Media;
 
 use Kunstmaan\MediaBundle\Entity\Media;
-use Symfony\Component\Form\AbstractType;
 
 abstract class AbstractMediaHandler
 {
@@ -13,7 +11,7 @@ abstract class AbstractMediaHandler
     /**
      * @param int $priority
      */
-    function __construct($priority = 0)
+    public function __construct($priority = 0)
     {
         $this->priority = $priority;
     }
@@ -27,13 +25,13 @@ abstract class AbstractMediaHandler
     }
 
     /**
-     * Return the default form type options
+     * Return the default form type options.
      *
      * @return array
      */
     public function getFormTypeOptions()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -65,29 +63,21 @@ abstract class AbstractMediaHandler
 
     /**
      * @param Media $media
-     *
-     * @return void
      */
     abstract public function prepareMedia(Media $media);
 
     /**
      * @param Media $media
-     *
-     * @return void
      */
     abstract public function saveMedia(Media $media);
 
     /**
      * @param Media $media
-     *
-     * @return void
      */
     abstract public function updateMedia(Media $media);
 
     /**
      * @param Media $media
-     *
-     * @return void
      */
     abstract public function removeMedia(Media $media);
 
@@ -98,16 +88,13 @@ abstract class AbstractMediaHandler
      */
     abstract public function createNew($data);
 
-    /**
-     * {@inheritDoc}
-     */
     public function getShowTemplate(Media $media)
     {
         return 'KunstmaanMediaBundle:Media:show.html.twig';
     }
 
     /**
-     * @param Media $media The media entity
+     * @param Media  $media    The media entity
      * @param string $basepath The base path
      *
      * @return string

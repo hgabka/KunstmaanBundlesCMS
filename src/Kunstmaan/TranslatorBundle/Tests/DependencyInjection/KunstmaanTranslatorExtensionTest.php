@@ -3,6 +3,9 @@
 use Kunstmaan\TranslatorBundle\DependencyInjection\KunstmaanTranslatorExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
+/**
+ * @coversNothing
+ */
 class KunstmaanTranslatorExtensionTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -20,19 +23,19 @@ class KunstmaanTranslatorExtensionTest extends \PHPUnit_Framework_TestCase
     public function testEnabledByDefault()
     {
         $container = $this->getContainer();
-        $this->extension->load(array( 'kuma_translator' => array('managed_locales' => array('nl'))), $container);
+        $this->extension->load(['kuma_translator' => ['managed_locales' => ['nl']]], $container);
         $this->assertTrue($container->getParameter('kuma_translator.enabled'));
     }
 
     public function testDisabled()
     {
         $container = $this->getContainer();
-        $this->extension->load(array('kuma_translator' => array('enabled' => false)), $container);
+        $this->extension->load(['kuma_translator' => ['enabled' => false]], $container);
         $this->assertFalse($container->hasParameter('kuma_translator.enabled'));
     }
 
     /**
-     * Returns the Configuration to test
+     * Returns the Configuration to test.
      *
      * @return Configuration
      */
@@ -46,9 +49,9 @@ class KunstmaanTranslatorExtensionTest extends \PHPUnit_Framework_TestCase
      */
     private function getContainer()
     {
-        $container = new ContainerBuilder;
+        $container = new ContainerBuilder();
         $container->setParameter('kernel.root_dir', '');
-        $container->setParameter('kernel.bundles', array());
+        $container->setParameter('kernel.bundles', []);
         $container->setParameter('kernel.debug', true);
         $container->setParameter('defaultlocale', 'en');
 

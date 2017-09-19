@@ -31,10 +31,10 @@ class MenuAdminListController extends AdminListController
             );
 
             $create_route = function (EntityInterface $item) {
-                return array(
+                return [
                     'path' => 'kunstmaanmenubundle_admin_menuitem',
-                    'params' => array('menuid' => $item->getId()),
-                );
+                    'params' => ['menuid' => $item->getId()],
+                ];
             };
             $this->configurator->addItemAction(
                 new SimpleItemAction($create_route, 'th-list', 'Manage')

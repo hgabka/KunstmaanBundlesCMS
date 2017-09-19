@@ -11,11 +11,10 @@ use Kunstmaan\AdminListBundle\AdminList\FilterType\ORM\StringFilterType;
 use Kunstmaan\NodeBundle\Entity\NodeTranslation;
 
 /**
- * Adminlist configuration to list all the form submissions for a given NodeTranslation
+ * Adminlist configuration to list all the form submissions for a given NodeTranslation.
  */
 class FormSubmissionAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
 {
-
     /**
      * @var NodeTranslation
      */
@@ -32,24 +31,24 @@ class FormSubmissionAdminListConfigurator extends AbstractDoctrineORMAdminListCo
     }
 
     /**
-     * Configure the fields you can filter on
+     * Configure the fields you can filter on.
      */
     public function buildFilters()
     {
         $builder = $this->getFilterBuilder();
-        $builder->add('created', new DateFilterType("created"), "Date")
-                ->add('lang', new StringFilterType("lang"), "Language")
-                ->add('ipAddress', new StringFilterType("ipAddress"), "IP Address");
+        $builder->add('created', new DateFilterType('created'), 'Date')
+                ->add('lang', new StringFilterType('lang'), 'Language')
+                ->add('ipAddress', new StringFilterType('ipAddress'), 'IP Address');
     }
 
     /**
-     * Configure the visible columns
+     * Configure the visible columns.
      */
     public function buildFields()
     {
-        $this->addField("created", "kuma_form.submission.list.header.created", true)
-             ->addField("lang", "kuma_form.submission.list.header.language", true)
-             ->addField("ipAddress", "kuma_form.submission.list.header.ip_address", true);
+        $this->addField('created', 'kuma_form.submission.list.header.created', true)
+             ->addField('lang', 'kuma_form.submission.list.header.language', true)
+             ->addField('ipAddress', 'kuma_form.submission.list.header.ip_address', true);
     }
 
     /**
@@ -58,11 +57,12 @@ class FormSubmissionAdminListConfigurator extends AbstractDoctrineORMAdminListCo
     public function buildItemActions()
     {
         $nodeTranslation = $this->nodeTranslation;
-        $create_route = function (EntityInterface $item) use ($nodeTranslation)  {
-            $arr = array("path" => "KunstmaanFormBundle_formsubmissions_list_edit", "params" => array("nodeTranslationId" => $nodeTranslation->getId(), "submissionId" => $item->getId()));
+        $create_route = function (EntityInterface $item) use ($nodeTranslation) {
+            $arr = ['path' => 'KunstmaanFormBundle_formsubmissions_list_edit', 'params' => ['nodeTranslationId' => $nodeTranslation->getId(), 'submissionId' => $item->getId()]];
+
             return $arr;
         };
-        $ia = new \Kunstmaan\AdminListBundle\AdminList\ItemAction\SimpleItemAction($create_route, "eye", "View");
+        $ia = new \Kunstmaan\AdminListBundle\AdminList\ItemAction\SimpleItemAction($create_route, 'eye', 'View');
         $this->addItemAction($ia);
     }
 
@@ -72,7 +72,7 @@ class FormSubmissionAdminListConfigurator extends AbstractDoctrineORMAdminListCo
     }
 
     /**
-     * Return the url to edit the given $item
+     * Return the url to edit the given $item.
      *
      * @param mixed $item
      *
@@ -80,27 +80,27 @@ class FormSubmissionAdminListConfigurator extends AbstractDoctrineORMAdminListCo
      */
     public function getEditUrlFor($item)
     {
-        return array(
+        return [
             'path' => 'KunstmaanFormBundle_formsubmissions_list_edit',
-            'params' => array('nodeTranslationId' => $this->nodeTranslation->getId(), 'submissionId' => $item->getId())
-        );
+            'params' => ['nodeTranslationId' => $this->nodeTranslation->getId(), 'submissionId' => $item->getId()],
+        ];
     }
 
     /**
-     * Return the url to list all the items
+     * Return the url to list all the items.
      *
      * @return array
      */
     public function getIndexUrl()
     {
-        return array(
+        return [
             'path' => 'KunstmaanFormBundle_formsubmissions_list',
-            'params' => array('nodeTranslationId' => $this->nodeTranslation->getId())
-        );
+            'params' => ['nodeTranslationId' => $this->nodeTranslation->getId()],
+        ];
     }
 
     /**
-     * Configure if it's possible to add new items
+     * Configure if it's possible to add new items.
      *
      * @return bool
      */
@@ -110,19 +110,19 @@ class FormSubmissionAdminListConfigurator extends AbstractDoctrineORMAdminListCo
     }
 
     /**
-     * Configure the types of items you can add
+     * Configure the types of items you can add.
      *
      * @param array $params
      *
      * @return string
      */
-    public function getAddUrlFor(array $params = array())
+    public function getAddUrlFor(array $params = [])
     {
-        return "";
+        return '';
     }
 
     /**
-     * Configure if it's possible to delete the given $item
+     * Configure if it's possible to delete the given $item.
      *
      * @param mixed $item
      *
@@ -133,9 +133,8 @@ class FormSubmissionAdminListConfigurator extends AbstractDoctrineORMAdminListCo
         return false;
     }
 
-
     /**
-     * Configure if it's possible to export the listed items
+     * Configure if it's possible to export the listed items.
      *
      * @return bool
      */
@@ -145,7 +144,7 @@ class FormSubmissionAdminListConfigurator extends AbstractDoctrineORMAdminListCo
     }
 
     /**
-     * Get the delete url for the given $item
+     * Get the delete url for the given $item.
      *
      * @param mixed $item
      *
@@ -153,17 +152,17 @@ class FormSubmissionAdminListConfigurator extends AbstractDoctrineORMAdminListCo
      */
     public function getDeleteUrlFor($item)
     {
-        return array();
+        return [];
     }
 
     /**
-     * Get the url to export the listed items
+     * Get the url to export the listed items.
      *
      * @return array|string
      */
     public function getExportUrl()
     {
-        return array('path' => 'KunstmaanFormBundle_formsubmissions_export', 'params' => array('nodeTranslationId' => $this->nodeTranslation->getId()));
+        return ['path' => 'KunstmaanFormBundle_formsubmissions_export', 'params' => ['nodeTranslationId' => $this->nodeTranslation->getId()]];
     }
 
     /**
@@ -183,12 +182,12 @@ class FormSubmissionAdminListConfigurator extends AbstractDoctrineORMAdminListCo
     }
 
     /**
-     * Make some modifications to the default created query builder
+     * Make some modifications to the default created query builder.
      *
      * @param QueryBuilder $queryBuilder The query builder
      * @param array        $params       The parameters
      */
-    public function adaptQueryBuilder(QueryBuilder $queryBuilder, array $params = array())
+    public function adaptQueryBuilder(QueryBuilder $queryBuilder, array $params = [])
     {
         parent::adaptQueryBuilder($queryBuilder);
         $queryBuilder
@@ -199,10 +198,9 @@ class FormSubmissionAdminListConfigurator extends AbstractDoctrineORMAdminListCo
                 ->setParameter('lang', $this->nodeTranslation->getLang())
                 ->addOrderBy('b.created', 'DESC');
     }
-    
+
     public function getListTitle()
     {
         return 'kuma_form.submission.list.title';
     }
-
 }

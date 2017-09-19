@@ -6,11 +6,10 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormView;
 
 /**
- * Helper class for forms
+ * Helper class for forms.
  */
 class FormHelper
 {
-
     /**
      * Return if there are error messages.
      *
@@ -44,12 +43,12 @@ class FormHelper
     /**
      * Get the error messages.
      *
-     * @param FormView[]|FormView $formViews The form views
+     * @param FormView|FormView[] $formViews The form views
      * @param array               &$errors   The errors
      *
      * @return array
      */
-    public function getRecursiveErrorMessages($formViews, array &$errors = array())
+    public function getRecursiveErrorMessages($formViews, array &$errors = [])
     {
         if (is_array($formViews)) {
             foreach ($formViews as $formView) {
@@ -63,12 +62,11 @@ class FormHelper
             }
 
             /**
-             * @var $formViews FormView
-             * @var $error     FormError
+             * @var FormView
+             * @var $error   FormError
              */
             foreach ($viewErrors as $error) {
-
-                $template   = $error->getMessageTemplate();
+                $template = $error->getMessageTemplate();
                 $parameters = $error->getMessageParameters();
 
                 foreach ($parameters as $var => $value) {
@@ -86,5 +84,4 @@ class FormHelper
 
         return $errors;
     }
-
 }

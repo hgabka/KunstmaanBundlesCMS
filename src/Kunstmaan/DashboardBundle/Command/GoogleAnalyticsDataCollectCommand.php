@@ -1,4 +1,5 @@
 <?php
+
 namespace Kunstmaan\DashboardBundle\Command;
 
 use Doctrine\ORM\EntityManager;
@@ -22,6 +23,59 @@ class GoogleAnalyticsDataCollectCommand extends ContainerAwareCommand
 
     /** @var int $errors */
     private $errors = 0;
+
+    /**
+     * update the overviews.
+     *
+     * @param array $overviews collection of all overviews which need to be updated
+     */
+    public function updateData($overviews)
+    {
+        // helpers
+        $queryHelper = $this->getContainer()->get('kunstmaan_dashboard.helper.google.analytics.query');
+        $configHelper = $this->getContainer()->get('kunstmaan_dashboard.helper.google.analytics.config');
+        $metrics = new MetricsCommandHelper($configHelper, $queryHelper, $this->output, $this->em);
+        $chartData = new ChartDataCommandHelper($configHelper, $queryHelper, $this->output, $this->em);
+        $goals = new GoalCommandHelper($configHelper, $queryHelper, $this->output, $this->em);
+        $visitors = new UsersCommandHelper($configHelper, $queryHelper, $this->output, $this->em);
+
+        // get data per overview
+        foreach ($overviews as $overview) {
+            $configHelper->init($overview->getConfig()->getId());
+            // @var AnalyticsOverview $overview
+            $this->output->writeln('Fetching data for overview "<fg=green>'.$overview->getTitle().'</fg=green>"');
+
+            try {
+                // metric data
+                $metrics->getData($overview);
+                if ($overview->getSessions()) { // if there are any visits
+                    // day-specific data
+                    $chartData->getData($overview);
+
+                    // get goals
+                    $goals->getData($overview);
+
+                    // visitor types
+                    $visitors->getData($overview);
+                } else {
+                    // reset overview
+                    $this->reset($overview);
+                    $this->output->writeln("\t".'No visitors');
+                }
+                // persist entity back to DB
+                $this->output->writeln("\t".'Persisting..');
+                $this->em->persist($overview);
+                $this->em->flush($overview);
+
+                $this->em->getRepository('KunstmaanDashboardBundle:AnalyticsConfig')->setUpdated($overview->getConfig()->getId());
+            } catch (\Google_ServiceException $e) {
+                $error = explode(')', $e->getMessage());
+                $error = $error[1];
+                $this->output->writeln("\t".'<fg=red>Invalid segment: </fg=red>'.$error);
+                $this->errors += 1;
+            }
+        }
+    }
 
     /**
      * Configures the current command.
@@ -54,6 +108,55 @@ class GoogleAnalyticsDataCollectCommand extends ContainerAwareCommand
             );
     }
 
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        // init
+        $this->init($output);
+
+        // check if token is set
+        $configHelper = $this->getContainer()->get('kunstmaan_dashboard.helper.google.analytics.config');
+        if (!$configHelper->tokenIsSet()) {
+            $this->output->writeln('You haven\'t configured a Google account yet');
+
+            return;
+        }
+
+        // get params
+        $configId = false;
+        $segmentId = false;
+        $overviewId = false;
+
+        try {
+            $configId = $input->getOption('config');
+            $segmentId = $input->getOption('segment');
+            $overviewId = $input->getOption('overview');
+        } catch (\Exception $e) {
+        }
+
+        // get the overviews
+        try {
+            $overviews = [];
+
+            if ($overviewId) {
+                $overviews[] = $this->getSingleOverview($overviewId);
+            } elseif ($segmentId) {
+                $overviews = $this->getOverviewsOfSegment($segmentId);
+            } elseif ($configId) {
+                $overviews = $this->getOverviewsOfConfig($configId);
+            } else {
+                $overviews = $this->getAllOverviews();
+            }
+
+            // update the overviews
+            $this->updateData($overviews);
+            $result = '<fg=green>Google Analytics data updated with <fg=red>'.$this->errors.'</fg=red> error';
+            $result .= 1 !== $this->errors ? 's</fg=green>' : '</fg=green>';
+            $this->output->writeln($result); // done
+        } catch (\Exception $e) {
+            $this->output->writeln($e->getMessage());
+        }
+    }
+
     /**
      * Inits instance variables for global usage.
      *
@@ -66,56 +169,11 @@ class GoogleAnalyticsDataCollectCommand extends ContainerAwareCommand
         $this->em = $this->getContainer()->get('doctrine')->getManager();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        // init
-        $this->init($output);
-
-        // check if token is set
-        $configHelper = $this->getContainer()->get('kunstmaan_dashboard.helper.google.analytics.config');
-        if (!$configHelper->tokenIsSet()) {
-            $this->output->writeln('You haven\'t configured a Google account yet');
-            return;
-        }
-
-        // get params
-        $configId = false;
-        $segmentId = false;
-        $overviewId = false;
-        try {
-            $configId  = $input->getOption('config');
-            $segmentId = $input->getOption('segment');
-            $overviewId = $input->getOption('overview');
-        } catch (\Exception $e) {}
-
-        // get the overviews
-        try {
-            $overviews = array();
-
-            if ($overviewId) {
-                $overviews[] = $this->getSingleOverview($overviewId);
-            } else if ($segmentId) {
-                $overviews = $this->getOverviewsOfSegment($segmentId);
-            } else if ($configId) {
-                $overviews = $this->getOverviewsOfConfig($configId);
-            } else {
-                $overviews = $this->getAllOverviews();
-            }
-
-            // update the overviews
-            $this->updateData($overviews);
-            $result = '<fg=green>Google Analytics data updated with <fg=red>'.$this->errors.'</fg=red> error';
-            $result .= $this->errors != 1 ? 's</fg=green>' : '</fg=green>';
-            $this->output->writeln($result); // done
-        } catch (\Exception $e) {
-            $this->output->writeln($e->getMessage());
-        }
-
-    }
-
     /**
-     * get a single overview
+     * get a single overview.
+     *
      * @param int $overviewId
+     *
      * @return AnalyticsOverview
      */
     private function getSingleOverview($overviewId)
@@ -132,8 +190,10 @@ class GoogleAnalyticsDataCollectCommand extends ContainerAwareCommand
     }
 
     /**
-     * get all overviews of a segment
+     * get all overviews of a segment.
+     *
      * @param int $segmentId
+     *
      * @return array
      */
     private function getOverviewsOfSegment($segmentId)
@@ -154,8 +214,10 @@ class GoogleAnalyticsDataCollectCommand extends ContainerAwareCommand
     }
 
     /**
-     * get all overviews of a config
+     * get all overviews of a config.
+     *
      * @param int $configId
+     *
      * @return array
      */
     private function getOverviewsOfConfig($configId)
@@ -186,7 +248,7 @@ class GoogleAnalyticsDataCollectCommand extends ContainerAwareCommand
     }
 
     /**
-     * get all overviews
+     * get all overviews.
      *
      * @return array
      */
@@ -199,7 +261,7 @@ class GoogleAnalyticsDataCollectCommand extends ContainerAwareCommand
 
         foreach ($configs as $config) {
             // add overviews if none exist yet
-            if (sizeof($config->getOverviews()) == 0) {
+            if (0 === count($config->getOverviews())) {
                 $overviewRepository->addOverviews($config);
             }
 
@@ -215,61 +277,7 @@ class GoogleAnalyticsDataCollectCommand extends ContainerAwareCommand
     }
 
     /**
-     * update the overviews
-     *
-     * @param array $overviews collection of all overviews which need to be updated
-     */
-    public function updateData($overviews)
-    {
-        // helpers
-        $queryHelper = $this->getContainer()->get('kunstmaan_dashboard.helper.google.analytics.query');
-        $configHelper = $this->getContainer()->get('kunstmaan_dashboard.helper.google.analytics.config');
-        $metrics = new MetricsCommandHelper($configHelper, $queryHelper, $this->output, $this->em);
-        $chartData = new ChartDataCommandHelper($configHelper, $queryHelper, $this->output, $this->em);
-        $goals = new GoalCommandHelper($configHelper, $queryHelper, $this->output, $this->em);
-        $visitors = new UsersCommandHelper($configHelper, $queryHelper, $this->output, $this->em);
-
-        // get data per overview
-        foreach ($overviews as $overview) {
-            $configHelper->init($overview->getConfig()->getId());
-            /** @var AnalyticsOverview $overview */
-            $this->output->writeln('Fetching data for overview "<fg=green>' . $overview->getTitle() . '</fg=green>"');
-
-            try {
-                // metric data
-                $metrics->getData($overview);
-                if ($overview->getSessions()) { // if there are any visits
-                    // day-specific data
-                    $chartData->getData($overview);
-
-                    // get goals
-                    $goals->getData($overview);
-
-                    // visitor types
-                    $visitors->getData($overview);
-                } else {
-                    // reset overview
-                    $this->reset($overview);
-                    $this->output->writeln("\t" . 'No visitors');
-                }
-            // persist entity back to DB
-                $this->output->writeln("\t" . 'Persisting..');
-                $this->em->persist($overview);
-                $this->em->flush($overview);
-
-                $this->em->getRepository('KunstmaanDashboardBundle:AnalyticsConfig')->setUpdated($overview->getConfig()->getId());
-            } catch (\Google_ServiceException $e) {
-                $error = explode(')', $e->getMessage());
-                $error = $error[1];
-                $this->output->writeln("\t" . '<fg=red>Invalid segment: </fg=red>' .$error);
-                $this->errors += 1;
-            }
-        }
-    }
-
-
-    /**
-     * Reset the data for the overview
+     * Reset the data for the overview.
      *
      * @param AnalyticsOverview $overview The overview
      */

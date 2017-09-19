@@ -15,9 +15,9 @@ class AnalysisFactory implements AnalysisFactoryInterface
 
     public function __construct()
     {
-        $this->analyzers  = array();
-        $this->tokenizers = array();
-        $this->filters    = array();
+        $this->analyzers = [];
+        $this->tokenizers = [];
+        $this->filters = [];
     }
 
     /**
@@ -25,11 +25,11 @@ class AnalysisFactory implements AnalysisFactoryInterface
      */
     public function build()
     {
-        $analysis = array(
-            'analyzer'  => $this->analyzers,
+        $analysis = [
+            'analyzer' => $this->analyzers,
             'tokenizer' => $this->tokenizers,
-            'filter'    => $this->filters
-        );
+            'filter' => $this->filters,
+        ];
 
         return $analysis;
     }
@@ -41,18 +41,18 @@ class AnalysisFactory implements AnalysisFactoryInterface
      */
     public function addIndexAnalyzer($language)
     {
-        $this->analyzers['default'] = array(
-            'type'      => $language,
+        $this->analyzers['default'] = [
+            'type' => $language,
             'tokenizer' => 'standard',
-            'filter'    => array(
+            'filter' => [
                 'trim',
                 'lowercase',
                 'asciifolding',
                 'strip_special_chars',
-                $language . '_stop',
-                $language . '_stemmer'
-            )
-        );
+                $language.'_stop',
+                $language.'_stemmer',
+            ],
+        ];
 
         return $this;
     }
@@ -64,18 +64,18 @@ class AnalysisFactory implements AnalysisFactoryInterface
      */
     public function addSuggestionAnalyzer($language)
     {
-        $this->analyzers['default_search'] = array(
-            'type'      => $language,
+        $this->analyzers['default_search'] = [
+            'type' => $language,
             'tokenizer' => 'standard',
-            'filter'    => array(
+            'filter' => [
                 'trim',
                 'lowercase',
                 'asciifolding',
                 'strip_special_chars',
-                $language . '_stop',
-                $language . '_stemmer'
-            )
-        );
+                $language.'_stop',
+                $language.'_stemmer',
+            ],
+        ];
 
         return $this;
     }
@@ -87,27 +87,25 @@ class AnalysisFactory implements AnalysisFactoryInterface
      */
     public function addStopWordsFilter($language)
     {
-        $this->filters[$language . '_stop'] = array(
-            'type'        => 'stop',
-            'stopwords'   => '_' . $language . '_'
-        );
+        $this->filters[$language.'_stop'] = [
+            'type' => 'stop',
+            'stopwords' => '_'.$language.'_',
+        ];
 
         return $this;
     }
 
     /**
-     *
      * @param string $language
      *
      * @return AnalysisFactoryInterface
-
      */
     public function addStemmerFilter($language)
     {
-        $this->filters[$language . '_stemmer'] = array(
-            'type'        => 'stemmer',
-            'language'    => $language
-        );
+        $this->filters[$language.'_stemmer'] = [
+            'type' => 'stemmer',
+            'language' => $language,
+        ];
 
         return $this;
     }
@@ -117,11 +115,11 @@ class AnalysisFactory implements AnalysisFactoryInterface
      */
     public function addStripSpecialCharsFilter()
     {
-        $this->filters['strip_special_chars'] = array(
-            'type'        => 'pattern_replace',
-            'pattern'     => '[^0-9a-zA-Z]',
-            'replacement' => ''
-        );
+        $this->filters['strip_special_chars'] = [
+            'type' => 'pattern_replace',
+            'pattern' => '[^0-9a-zA-Z]',
+            'replacement' => '',
+        ];
 
         return $this;
     }
@@ -133,7 +131,6 @@ class AnalysisFactory implements AnalysisFactoryInterface
     {
         // Ngrams are not used in our default implementation
     }
-
 
     /**
      * @param string $language

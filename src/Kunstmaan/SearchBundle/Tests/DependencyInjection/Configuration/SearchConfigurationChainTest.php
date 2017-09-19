@@ -1,11 +1,12 @@
 <?php
 
-
 namespace Kunstmaan\SearchBundle\Tests\Configuration;
-
 
 use Kunstmaan\SearchBundle\Configuration\SearchConfigurationChain;
 
+/**
+ * @coversNothing
+ */
 class SearchConfigurationChainTest extends \PHPUnit_Framework_TestCase
 {
     public function testAddAndGetConfiguration()
@@ -15,6 +16,6 @@ class SearchConfigurationChainTest extends \PHPUnit_Framework_TestCase
         $chain = new SearchConfigurationChain();
         $chain->addConfiguration($configuration, 'configuration');
 
-        $this->assertEquals($configuration, $chain->getConfiguration('configuration'));
+        $this->assertSame($configuration, $chain->getConfiguration('configuration'));
     }
 }

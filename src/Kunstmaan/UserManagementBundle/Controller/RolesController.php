@@ -3,7 +3,6 @@
 namespace Kunstmaan\UserManagementBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
-
 use Kunstmaan\AdminBundle\Controller\BaseSettingsController;
 use Kunstmaan\AdminBundle\Entity\Role;
 use Kunstmaan\AdminBundle\FlashMessages\FlashTypes;
@@ -18,48 +17,50 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Settings controller handling everything related to creating, editing, deleting and listing roles in an admin list
+ * Settings controller handling everything related to creating, editing, deleting and listing roles in an admin list.
  */
 class RolesController extends BaseSettingsController
 {
     /**
-     * List roles
+     * List roles.
      *
      * @Route   ("/", name="KunstmaanUserManagementBundle_settings_roles")
      * @Template("KunstmaanAdminListBundle:Default:list.html.twig")
      *
      * @throws AccessDeniedException
+     *
      * @return array
      */
     public function listAction(Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
 
-        $em        = $this->getDoctrine()->getManager();
-        /* @var AdminList $adminlist */
-        $adminlist = $this->get("kunstmaan_adminlist.factory")->createList(new RoleAdminListConfigurator($em));
+        $em = $this->getDoctrine()->getManager();
+        // @var AdminList $adminlist
+        $adminlist = $this->get('kunstmaan_adminlist.factory')->createList(new RoleAdminListConfigurator($em));
         $adminlist->bindRequest($request);
 
-        return array(
+        return [
             'adminlist' => $adminlist,
-        );
+        ];
     }
 
     /**
-     * Add a role
+     * Add a role.
      *
      * @Route("/add", name="KunstmaanUserManagementBundle_settings_roles_add")
      * @Method({"GET", "POST"})
      * @Template()
      *
      * @throws AccessDeniedException
+     *
      * @return array|RedirectResponse
      */
     public function addAction(Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
 
-        /* @var $em EntityManager */
+        // @var $em EntityManager
         $em = $this->getDoctrine()->getManager();
         $role = new Role('');
         $form = $this->createForm(RoleType::class, $role);
@@ -73,7 +74,7 @@ class RolesController extends BaseSettingsController
                 $this->addFlash(
                     FlashTypes::SUCCESS,
                     $this->get('translator')->trans('kuma_user.roles.add.flash.success.%role%', [
-                        '%role%' => $role->getRole()
+                        '%role%' => $role->getRole(),
                     ])
                 );
 
@@ -81,13 +82,13 @@ class RolesController extends BaseSettingsController
             }
         }
 
-        return array(
+        return [
             'form' => $form->createView(),
-        );
+        ];
     }
 
     /**
-     * Edit a role
+     * Edit a role.
      *
      * @param int $id
      *
@@ -96,15 +97,16 @@ class RolesController extends BaseSettingsController
      * @Template()
      *
      * @throws AccessDeniedException
+     *
      * @return array|RedirectResponse
      */
     public function editAction(Request $request, $id)
     {
         $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
 
-        /* @var $em EntityManager */
+        // @var $em EntityManager
         $em = $this->getDoctrine()->getManager();
-        /* @var Role $role */
+        // @var Role $role
         $role = $em->getRepository('KunstmaanAdminBundle:Role')->find($id);
         $form = $this->createForm(RoleType::class, $role);
 
@@ -117,7 +119,7 @@ class RolesController extends BaseSettingsController
                 $this->addFlash(
                     FlashTypes::SUCCESS,
                     $this->get('translator')->trans('kuma_user.roles.edit.flash.success.%role%', [
-                        '%role%' => $role->getRole()
+                        '%role%' => $role->getRole(),
                     ])
                 );
 
@@ -125,14 +127,14 @@ class RolesController extends BaseSettingsController
             }
         }
 
-        return array(
+        return [
             'form' => $form->createView(),
-            'role' => $role
-        );
+            'role' => $role,
+        ];
     }
 
     /**
-     * Delete a role
+     * Delete a role.
      *
      * @param int $id
      *
@@ -140,29 +142,29 @@ class RolesController extends BaseSettingsController
      * @Method({"GET", "POST"})
      *
      * @throws AccessDeniedException
+     *
      * @return RedirectResponse
      */
     public function deleteAction($id)
     {
         $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
 
-        /* @var $em EntityManager */
+        // @var $em EntityManager
         $em = $this->getDoctrine()->getManager();
-        /* @var Role $role */
+        // @var Role $role
         $role = $em->getRepository('KunstmaanAdminBundle:Role')->find($id);
-        if (!is_null($role)) {
+        if (null !== $role) {
             $em->remove($role);
             $em->flush();
 
             $this->addFlash(
                 FlashTypes::SUCCESS,
                 $this->get('translator')->trans('kuma_user.roles.delete.flash.success.%role%', [
-                    '%role%' => $role->getRole()
+                    '%role%' => $role->getRole(),
                 ])
             );
         }
 
         return new RedirectResponse($this->generateUrl('KunstmaanUserManagementBundle_settings_roles'));
     }
-
 }

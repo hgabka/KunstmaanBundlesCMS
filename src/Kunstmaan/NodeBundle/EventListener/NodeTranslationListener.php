@@ -20,11 +20,10 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Listens to doctrine postFlush event and updates
- * the urls if the entities are nodetranslations
+ * the urls if the entities are nodetranslations.
  */
 class NodeTranslationListener
 {
-
     private $session;
     private $logger;
     private $nodeTranslations;
@@ -53,10 +52,10 @@ class NodeTranslationListener
         SlugifierInterface $slugifier,
         DomainConfigurationInterface $domainConfiguration
     ) {
-        $this->nodeTranslations    = array();
-        $this->session             = $session;
-        $this->logger              = $logger;
-        $this->slugifier           = $slugifier;
+        $this->nodeTranslations = [];
+        $this->session = $session;
+        $this->logger = $logger;
+        $this->slugifier = $slugifier;
         $this->domainConfiguration = $domainConfiguration;
     }
 
@@ -91,44 +90,9 @@ class NodeTranslationListener
         }
     }
 
-    private function setSlugWhenEmpty(
-        NodeTranslation $nodeTranslation,
-        EntityManager $em
-    ) {
-        $publicNode = $nodeTranslation->getRef($em);
-
-        /** Do nothing for StructureNode objects, skip */
-        if ($publicNode instanceof HasNodeInterface && $publicNode->isStructureNode(
-            )
-        ) {
-            return;
-        }
-
-        /**
-         * If no slug is set and no structure node, apply title as slug
-         */
-        if ($nodeTranslation->getSlug() === null && $nodeTranslation->getNode()
-                ->getParent() !== null
-        ) {
-            $nodeTranslation->setSlug(
-                $this->slugifier->slugify($nodeTranslation->getTitle())
-            );
-        }
-    }
-
-    private function ensureSlugIsSlugified(NodeTranslation $nodeTranslation)
-    {
-        if ($nodeTranslation->getSlug() !== null) {
-            $nodeTranslation->setSlug(
-                $this->slugifier->slugify($nodeTranslation->getSlug())
-            );
-        }
-    }
-
-
     /**
      * onFlush doctrine event - collect all nodetranslations in scheduled
-     * entity updates here
+     * entity updates here.
      *
      * @param OnFlushEventArgs $args
      *
@@ -148,7 +112,7 @@ class NodeTranslationListener
     }
 
     /**
-     * PostUpdate doctrine event - updates the nodetranslation urls if needed
+     * PostUpdate doctrine event - updates the nodetranslation urls if needed.
      *
      * @param PostFlushEventArgs $args
      */
@@ -164,7 +128,7 @@ class NodeTranslationListener
                 /** @var $publicNodeVersion NodeVersion */
                 $publicNode = $publicNodeVersion->getRef($em);
 
-                /** Do nothing for StructureNode objects, skip */
+                // Do nothing for StructureNode objects, skip
                 if ($publicNode instanceof HasNodeInterface && $publicNode->isStructureNode(
                     )
                 ) {
@@ -173,7 +137,7 @@ class NodeTranslationListener
 
                 $entity = $this->updateUrl($entity, $em);
 
-                if ($entity !== false) {
+                if (false !== $entity) {
                     $em->persist($entity);
                     $em->flush($entity);
 
@@ -183,8 +147,40 @@ class NodeTranslationListener
         }
     }
 
+    private function setSlugWhenEmpty(
+        NodeTranslation $nodeTranslation,
+        EntityManager $em
+    ) {
+        $publicNode = $nodeTranslation->getRef($em);
+
+        // Do nothing for StructureNode objects, skip
+        if ($publicNode instanceof HasNodeInterface && $publicNode->isStructureNode(
+            )
+        ) {
+            return;
+        }
+
+        // If no slug is set and no structure node, apply title as slug
+        if (null === $nodeTranslation->getSlug() && null !== $nodeTranslation->getNode()
+                ->getParent()
+        ) {
+            $nodeTranslation->setSlug(
+                $this->slugifier->slugify($nodeTranslation->getTitle())
+            );
+        }
+    }
+
+    private function ensureSlugIsSlugified(NodeTranslation $nodeTranslation)
+    {
+        if (null !== $nodeTranslation->getSlug()) {
+            $nodeTranslation->setSlug(
+                $this->slugifier->slugify($nodeTranslation->getSlug())
+            );
+        }
+    }
+
     /**
-     * Checks if a nodetranslation has children and update their url
+     * Checks if a nodetranslation has children and update their url.
      *
      * @param NodeTranslation $node The node
      * @param EntityManager   $em   The entity manager
@@ -195,7 +191,7 @@ class NodeTranslationListener
     ) {
         $children = $node->getNode()->getChildren();
         if (count($children) > 0) {
-            /* @var Node $child */
+            // @var Node $child
             foreach ($children as $child) {
                 $translation = $child->getNodeTranslation(
                     $node->getLang(),
@@ -204,7 +200,7 @@ class NodeTranslationListener
                 if ($translation) {
                     $translation = $this->updateUrl($translation, $em);
 
-                    if ($translation !== false) {
+                    if (false !== $translation) {
                         $em->persist($translation);
                         $em->flush($translation);
 
@@ -216,13 +212,13 @@ class NodeTranslationListener
     }
 
     /**
-     * Update the url for a nodetranslation
+     * Update the url for a nodetranslation.
      *
      * @param NodeTranslation $nodeTranslation The node translation
      * @param EntityManager   $em              The entity manager
      *
-     * @return NodeTranslation|bool Returns the node when all is well because
-     *                              it has to be saved.
+     * @return bool|NodeTranslation returns the node when all is well because
+     *                              it has to be saved
      */
     private function updateUrl(NodeTranslation $nodeTranslation, $em)
     {
@@ -240,9 +236,9 @@ class NodeTranslationListener
     }
 
     /**
-     * @param NodeTranslation $translation  The node translation
-     * @param EntityManager   $em           The entity manager
-     * @param array           $flashes      Flashes
+     * @param NodeTranslation $translation The node translation
+     * @param EntityManager   $em          The entity manager
+     * @param array           $flashes     Flashes
      *
      * A function that checks the URL and sees if it's unique.
      * It's allowed to be the same when the node is a StructureNode.
@@ -262,24 +258,22 @@ class NodeTranslationListener
      * [1] For all languages for now. The issue is that we need a way to know
      * if a node's URL is prepended with the language or not. For now both
      * scenarios are possible so we check for all languages.
-     *
      * @param NodeTranslation &$translation Reference to the NodeTranslation.
      *                                      This is modified in place.
      * @param EntityManager   $em           The entity manager
      * @param array           $flashes      The flash messages array
      *
      * @return bool
-     *
-     * @return boolean
+     * @return bool
      */
     private function ensureUniqueUrl(
         NodeTranslation &$translation,
         EntityManager $em,
-        $flashes = array()
+        $flashes = []
     ) {
         // Can't use GetRef here yet since the NodeVersions aren't loaded yet for some reason.
-        $nodeVersion     = $translation->getPublicNodeVersion();
-        $page            = $em->getRepository($nodeVersion->getRefEntityName())
+        $nodeVersion = $translation->getPublicNodeVersion();
+        $page = $em->getRepository($nodeVersion->getRefEntityName())
             ->find($nodeVersion->getRefId());
         $isStructureNode = $page->isStructureNode();
 
@@ -291,12 +285,12 @@ class NodeTranslationListener
             return true;
         }
 
-        /* @var NodeTranslationRepository $nodeTranslationRepository */
+        // @var NodeTranslationRepository $nodeTranslationRepository
         $nodeTranslationRepository = $em->getRepository(
             'KunstmaanNodeBundle:NodeTranslation'
         );
 
-        if ($translation->getUrl() == $translation->getFullSlug()) {
+        if ($translation->getUrl() === $translation->getFullSlug()) {
             $this->logger->addDebug(
                 'Evaluating URL for NT '.$translation->getId().
                 ' getUrl: \''.$translation->getUrl().'\' getFullSlug: \''.
@@ -352,16 +346,16 @@ class NodeTranslationListener
      * If the string does not end in a number we'll add the append and then add
      * the first number.
      *
-     * @param string $string The string we want to increment.
-     * @param string $append The part we want to append before we start adding
-     *                       a number.
+     * @param string $string the string we want to increment
+     * @param string $append the part we want to append before we start adding
+     *                       a number
      *
-     * @return string Incremented string.
+     * @return string incremented string
      */
     private static function incrementString($string, $append = '-v')
     {
         $finalDigitGrabberRegex = '/\d+$/';
-        $matches                = array();
+        $matches = [];
 
         preg_match($finalDigitGrabberRegex, $string, $matches);
 
@@ -371,9 +365,9 @@ class NodeTranslationListener
 
             // Replace the integer with the new digit.
             return preg_replace($finalDigitGrabberRegex, $digit, $string);
-        } else {
-            return $string.$append.'1';
         }
+
+        return $string.$append.'1';
     }
 
     private function isInRequestScope()

@@ -10,8 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
- * Class BaseMenuItem
- * @package Kunstmaan\MenuBundle\Entity
+ * Class BaseMenuItem.
  *
  * @ORM\MappedSuperclass()
  */
@@ -23,10 +22,10 @@ abstract class BaseMenuItem extends AbstractEntity
     /**
      * @var array
      */
-    public static $types = array(
+    public static $types = [
         self::TYPE_PAGE_LINK,
         self::TYPE_URL_LINK,
-    );
+    ];
 
     /**
      * @var Menu
@@ -68,14 +67,14 @@ abstract class BaseMenuItem extends AbstractEntity
     protected $url;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="new_window", type="boolean", nullable=true)
      */
     protected $newWindow;
 
     /**
-     * @var integer
+     * @var int
      *
      * @Gedmo\TreeLeft
      * @ORM\Column(name="lft", type="integer")
@@ -83,7 +82,7 @@ abstract class BaseMenuItem extends AbstractEntity
     protected $lft;
 
     /**
-     * @var integer
+     * @var int
      *
      * @Gedmo\TreeLevel
      * @ORM\Column(name="lvl", type="integer")
@@ -91,7 +90,7 @@ abstract class BaseMenuItem extends AbstractEntity
     protected $lvl;
 
     /**
-     * @var integer
+     * @var int
      *
      * @Gedmo\TreeRight
      * @ORM\Column(name="rgt", type="integer")
@@ -199,7 +198,7 @@ abstract class BaseMenuItem extends AbstractEntity
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isNewWindow()
     {
@@ -207,7 +206,7 @@ abstract class BaseMenuItem extends AbstractEntity
     }
 
     /**
-     * @param boolean $newWindow
+     * @param bool $newWindow
      *
      * @return MenuItem
      */
@@ -283,15 +282,15 @@ abstract class BaseMenuItem extends AbstractEntity
      */
     public function getDisplayTitle()
     {
-        if ($this->getType() == self::TYPE_PAGE_LINK) {
-            if (!is_null($this->getTitle())) {
+        if (self::TYPE_PAGE_LINK === $this->getType()) {
+            if (null !== $this->getTitle()) {
                 return $this->getTitle();
-            } else {
-                return $this->getNodeTranslation()->getTitle();
             }
-        } else {
-            return $this->getTitle();
+
+            return $this->getNodeTranslation()->getTitle();
         }
+
+        return $this->getTitle();
     }
 
     /**
@@ -299,11 +298,11 @@ abstract class BaseMenuItem extends AbstractEntity
      */
     public function getDisplayUrl()
     {
-        if ($this->getType() == self::TYPE_PAGE_LINK) {
+        if (self::TYPE_PAGE_LINK === $this->getType()) {
             return $this->getNodeTranslation()->getUrl();
-        } else {
-            return $this->getUrl();
         }
+
+        return $this->getUrl();
     }
 
     /**
@@ -311,7 +310,7 @@ abstract class BaseMenuItem extends AbstractEntity
      */
     public function isOnline()
     {
-        if ($this->getType() == self::TYPE_URL_LINK) {
+        if (self::TYPE_URL_LINK === $this->getType()) {
             return true;
         } elseif ($this->getNodeTranslation()->isOnline() && !$this->getNodeTranslation()->getNode()->isDeleted()) {
             return true;
@@ -327,17 +326,17 @@ abstract class BaseMenuItem extends AbstractEntity
      */
     public function validateEntity(ExecutionContextInterface $context)
     {
-        if ($this->getType() == self::TYPE_PAGE_LINK && !$this->getNodeTranslation()) {
+        if (self::TYPE_PAGE_LINK === $this->getType() && !$this->getNodeTranslation()) {
             $context->buildViolation('Please select a page')
               ->atPath('nodeTranslation')
               ->addViolation();
-        } elseif ($this->getType() == self::TYPE_URL_LINK) {
-            if (strlen($this->getTitle()) == 0) {
+        } elseif (self::TYPE_URL_LINK === $this->getType()) {
+            if (0 === strlen($this->getTitle())) {
                 $context->buildViolation('Please set the link title')
                   ->atPath('title')
                   ->addViolation();
             }
-            if (strlen($this->getUrl()) == 0) {
+            if (0 === strlen($this->getUrl())) {
                 $context->buildViolation('Please set the link URL')
                   ->atPath('url')
                   ->addViolation();

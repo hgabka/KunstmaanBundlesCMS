@@ -26,10 +26,10 @@ class MediaDeleteItemAction implements ItemActionInterface
      */
     public function getUrlFor($item)
     {
-        return array(
-          'path'   => 'KunstmaanMediaBundle_media_delete',
-          'params' => array('mediaId' => $item->getId(), 'redirectUrl' => $this->redirectUrl)
-        );
+        return [
+          'path' => 'KunstmaanMediaBundle_media_delete',
+          'params' => ['mediaId' => $item->getId(), 'redirectUrl' => $this->redirectUrl],
+        ];
     }
 
     /**

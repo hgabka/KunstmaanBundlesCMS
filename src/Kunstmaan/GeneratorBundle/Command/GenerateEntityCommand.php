@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 /**
- * GenerateEntityCommand
+ * GenerateEntityCommand.
  */
 class GenerateEntityCommand extends KunstmaanGenerateCommand
 {
@@ -46,7 +46,8 @@ class GenerateEntityCommand extends KunstmaanGenerateCommand
             ->setDescription('Generates a new Doctrine entity inside a bundle')
             ->addOption('prefix', '', InputOption::VALUE_OPTIONAL, 'The prefix to be used in the table names of the generated entities')
             ->addOption('with-repository', null, InputOption::VALUE_NONE, 'Whether to generate the entity repository or not (y/n)')
-            ->setHelp(<<<EOT
+            ->setHelp(
+                <<<'EOT'
 The <info>kuma:generate:entity</info> task generates a new entity inside a bundle:
 
 <info>php app/console kuma:generate:entity</info>
@@ -77,7 +78,7 @@ EOT
     /**
      * The text to be displayed on top of the generator.
      *
-     * @return string|array
+     * @return array|string
      */
     protected function getWelcomeText()
     {
@@ -94,11 +95,11 @@ EOT
         $this->createGenerator()->generate($this->bundle, $this->entityName, $this->prefix, $this->fields, $this->withRepository);
 
         $this->assistant->writeSection('Entity successfully created', 'bg=green;fg=black');
-        $this->assistant->writeLine(array(
+        $this->assistant->writeLine([
             'Make sure you update your database first before you test the entity:',
             '    Directly update your database:          <comment>app/console doctrine:schema:update --force</comment>',
-            '    Create a Doctrine migration and run it: <comment>app/console doctrine:migrations:diff && app/console doctrine:migrations:migrate</comment>'
-        ));
+            '    Create a Doctrine migration and run it: <comment>app/console doctrine:migrations:diff && app/console doctrine:migrations:migrate</comment>',
+        ]);
     }
 
     /**
@@ -106,33 +107,27 @@ EOT
      */
     protected function doInteract()
     {
-        $this->assistant->writeLine(array("This command helps you to generate a new entity.\n"));
+        $this->assistant->writeLine(["This command helps you to generate a new entity.\n"]);
 
-        /**
-         * Ask for which bundle we need to create the pagepart
-         */
+        // Ask for which bundle we need to create the pagepart
         $this->bundle = $this->askForBundleName('entity');
 
-        /**
-         * Ask the database table prefix
-         */
+        // Ask the database table prefix
         $this->prefix = $this->askForPrefix(null, $this->bundle->getNamespace());
 
-        /**
-         * Ask the name of the pagepart
-         */
-        $this->assistant->writeLine(array(
+        // Ask the name of the pagepart
+        $this->assistant->writeLine([
             '',
             'The name of your Entity: For example: <comment>Address</comment>',
             '',
-        ));
+        ]);
         $generator = $this->getGenerator();
         $bundlePath = $this->bundle->getPath();
         $name = $this->assistant->askAndValidate(
             'Entity name',
             function ($name) use ($generator, $bundlePath) {
                 // Check reserved words
-                if ($generator->isReservedKeyword($name)){
+                if ($generator->isReservedKeyword($name)) {
                     throw new \InvalidArgumentException(sprintf('"%s" is a reserved word', $name));
                 }
 
@@ -150,32 +145,52 @@ EOT
         );
         $this->entityName = $name;
 
-        /**
-         * Ask which fields need to be present
-         */
-        $this->assistant->writeLine(array("\nInstead of starting with a blank entity, you can add some fields now.\n"));
+        // Ask which fields need to be present
+        $this->assistant->writeLine(["\nInstead of starting with a blank entity, you can add some fields now.\n"]);
         $fields = $this->askEntityFields($this->bundle);
         $this->fields = array_map(function ($fieldInfo) {
             switch ($fieldInfo['type']) {
                 case 'image':
-                    return $this->getEntityFields($this->bundle, $this->entityName, $this->prefix, $fieldInfo['name'], $fieldInfo['type'],
-                        $fieldInfo['extra'], true, $fieldInfo['minHeight'], $fieldInfo['maxHeight'], $fieldInfo['minWidth'], $fieldInfo['maxWidth'], $fieldInfo['mimeTypes']);
-                    break;
+                    return $this->getEntityFields(
+                        $this->bundle,
+                        $this->entityName,
+                        $this->prefix,
+                        $fieldInfo['name'],
+                        $fieldInfo['type'],
+                        $fieldInfo['extra'],
+                        true,
+                        $fieldInfo['minHeight'],
+                        $fieldInfo['maxHeight'],
+                        $fieldInfo['minWidth'],
+                        $fieldInfo['maxWidth'],
+                        $fieldInfo['mimeTypes']
+                    );
 
+                    break;
                 case 'media':
-                    return $this->getEntityFields($this->bundle, $this->entityName, $this->prefix, $fieldInfo['name'], $fieldInfo['type'],
-                        $fieldInfo['extra'], true, null, null, null, null, $fieldInfo['mimeTypes']);
-                    break;
+                    return $this->getEntityFields(
+                        $this->bundle,
+                        $this->entityName,
+                        $this->prefix,
+                        $fieldInfo['name'],
+                        $fieldInfo['type'],
+                        $fieldInfo['extra'],
+                        true,
+                        null,
+                        null,
+                        null,
+                        null,
+                        $fieldInfo['mimeTypes']
+                    );
 
+                    break;
                 default:
                     return $this->getEntityFields($this->bundle, $this->entityName, $this->prefix, $fieldInfo['name'], $fieldInfo['type'], $fieldInfo['extra'], true);
                     break;
             }
         }, $fields);
 
-        /**
-         * Ask if a repository class needs to be generated
-         */
+        // Ask if a repository class needs to be generated
         $this->withRepository = $this->askForWithRepository();
     }
 
@@ -185,11 +200,11 @@ EOT
     protected function askForWithRepository()
     {
         $withRepositoryOption = $this->assistant->getOption('with-repository');
-        if ($withRepositoryOption != 'y' && $withRepositoryOption != 'n') {
-            /** @var  $question */
+        if ('y' !== $withRepositoryOption && 'n' !== $withRepositoryOption) {
+            /** @var $question */
             $withRepositoryOption = $this->assistant->askConfirmation("\nDo you want to generate a repository class for the entity ? (y/n)\n", '', '?', false);
         }
-        return $withRepositoryOption == 'y';
-    }
 
+        return 'y' === $withRepositoryOption;
+    }
 }

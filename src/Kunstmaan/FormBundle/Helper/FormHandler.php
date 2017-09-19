@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
- * The form handler handles everything from creating the form to handling the submitted form
+ * The form handler handles everything from creating the form to handling the submitted form.
  */
 class FormHandler implements FormHandlerInterface
 {
@@ -40,17 +40,17 @@ class FormHandler implements FormHandlerInterface
      * @param Request           $request The request
      * @param RenderContext     $context The render context
      *
-     * @return RedirectResponse|void|null
+     * @return null|RedirectResponse|void
      */
     public function handleForm(FormPageInterface $page, Request $request, RenderContext $context)
     {
-        /* @var $em EntityManager */
+        // @var $em EntityManager
         $em = $this->container->get('doctrine.orm.entity_manager');
-        /* @var $formBuilder FormBuilderInterface */
+        // @var $formBuilder FormBuilderInterface
         $formBuilder = $this->container->get('form.factory')->createBuilder(FormType::class);
-        /* @var $router RouterInterface */
+        // @var $router RouterInterface
         $router = $this->container->get('router');
-        /* @var $fields ArrayObject */
+        // @var $fields ArrayObject
         $fields = new ArrayObject();
         $pageParts = $em->getRepository('KunstmaanPagePartBundle:PagePartRef')->getPageParts($page, $page->getFormElementsContext());
         foreach ($pageParts as $sequence => $pagePart) {
@@ -60,7 +60,7 @@ class FormHandler implements FormHandlerInterface
         }
 
         $form = $formBuilder->getForm();
-        if ($request->getMethod() == 'POST') {
+        if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $formSubmission = new FormSubmission();
@@ -69,7 +69,7 @@ class FormHandler implements FormHandlerInterface
                 $formSubmission->setLang($request->getLocale());
                 $em->persist($formSubmission);
 
-                /* @var $field FormSubmissionField */
+                // @var $field FormSubmissionField
                 foreach ($fields as $field) {
                     $field->setSubmission($formSubmission);
                     $field->onValidPost($form, $formBuilder, $request, $this->container);
@@ -93,8 +93,8 @@ class FormHandler implements FormHandlerInterface
                 return new RedirectResponse($page->generateThankYouUrl($router, $context));
             }
         }
-        $context["frontendform"] = $form->createView();
-        $context["frontendformobject"] = $form;
+        $context['frontendform'] = $form->createView();
+        $context['frontendformobject'] = $form;
 
         return null;
     }

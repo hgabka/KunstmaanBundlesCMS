@@ -6,7 +6,7 @@ use Kunstmaan\GeneratorBundle\Generator\LayoutGenerator;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Generates de default layout
+ * Generates de default layout.
  */
 class GenerateLayoutCommand extends KunstmaanGenerateCommand
 {
@@ -21,7 +21,8 @@ class GenerateLayoutCommand extends KunstmaanGenerateCommand
     protected function configure()
     {
         $this->setDescription('Generates a basic layout')
-            ->setHelp(<<<EOT
+            ->setHelp(
+                <<<'EOT'
 The <info>kuma:generate:layout</info> command generates a basic website layout.
 
 <info>php bin/console kuma:generate:layout</info>
@@ -44,9 +45,9 @@ EOT
     {
         if (!$this->isSubCommand()) {
             return 'Welcome to the Kunstmaan layout generator';
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
@@ -72,11 +73,11 @@ EOT
     protected function doInteract()
     {
         if (!$this->isSubCommand()) {
-            $this->assistant->writeLine(array("This command helps you to generate a basic layout for your website.\n"));
+            $this->assistant->writeLine(["This command helps you to generate a basic layout for your website.\n"]);
         }
 
         /**
-         * Ask for which bundle we need to create the layout
+         * Ask for which bundle we need to create the layout.
          */
         $bundleNamespace = $this->assistant->getOptionOrDefault('namespace', null);
         $this->bundle = $this->askForBundleName('layout', $bundleNamespace);

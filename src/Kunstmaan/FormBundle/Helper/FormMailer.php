@@ -10,7 +10,7 @@ use Symfony\Bundle\TwigBundle\TwigEngine;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * The form mailer
+ * The form mailer.
  */
 class FormMailer implements FormMailerInterface
 {
@@ -30,9 +30,9 @@ class FormMailer implements FormMailerInterface
      */
     public function __construct(Swift_Mailer $mailer, TwigEngine $templating, ContainerInterface $container)
     {
-        $this->mailer     = $mailer;
+        $this->mailer = $mailer;
         $this->templating = $templating;
-        $this->container  = $container;
+        $this->container = $container;
     }
 
     /**
@@ -46,15 +46,15 @@ class FormMailer implements FormMailerInterface
         $request = $this->container->get('request_stack')->getCurrentRequest();
 
         $toArr = explode("\r\n", $to);
-        /* @var $message Swift_Mime_Message */
+        // @var $message Swift_Mime_Message
         $message = Swift_Message::newInstance()->setSubject($subject)->setFrom($from)->setTo($toArr);
         $message->setBody(
             $this->templating->render(
                 'KunstmaanFormBundle:Mailer:mail.html.twig',
-                array(
+                [
                     'submission' => $submission,
-                    'host'       => $request->getScheme() . '://' . $request->getHttpHost()
-                )
+                    'host' => $request->getScheme().'://'.$request->getHttpHost(),
+                ]
             ),
             'text/html'
         );

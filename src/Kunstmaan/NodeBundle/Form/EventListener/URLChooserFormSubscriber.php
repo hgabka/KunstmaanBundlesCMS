@@ -15,9 +15,9 @@ class URLChooserFormSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             FormEvents::POST_SET_DATA => 'postSetData',
-        );
+        ];
     }
 
     /**
@@ -36,7 +36,6 @@ class URLChooserFormSubscriber implements EventSubscriberInterface
             // Check if e-mail address
             if ($this->isEmailAddress($data)) {
                 $form->get('link_type')->setData(URLChooserType::EMAIL);
-
             } // Check if internal link
             elseif ($this->isInternalLink($data) || $this->isInternalMediaLink($data)) {
                 $form->get('link_type')->setData(URLChooserType::INTERNAL);
@@ -45,22 +44,21 @@ class URLChooserFormSubscriber implements EventSubscriberInterface
             else {
                 $form->get('link_type')->setData(URLChooserType::EXTERNAL);
             }
-        }
-        else {
+        } else {
             $choices = $form->get('link_type')->getConfig()->getOption('choices');
             $firstOption = array_shift($choices);
 
-            if ($firstOption == URLChooserType::INTERNAL) {
+            if (URLChooserType::INTERNAL === $firstOption) {
                 $attributes['choose_url'] = true;
             }
 
             $form->get('link_type')->setData($firstOption);
         }
 
-        $form->add('link_url', TextType::class, array(
+        $form->add('link_url', TextType::class, [
             'label' => 'URL',
             'required' => true,
-            'attr' => $attributes
-        ));
+            'attr' => $attributes,
+        ]);
     }
 }

@@ -5,15 +5,16 @@ namespace Kunstmaan\AdminBundle\Tests\Helper\Security\Acl\Permission;
 use Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder;
 
 /**
- * MaskBuilderTest
+ * MaskBuilderTest.
+ *
+ * @coversNothing
  */
 class MaskBuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param mixed $invalidMask
      *
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::__construct
-     * @expectedException \InvalidArgumentException
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::__construct
      * @dataProvider getInvalidConstructorData
      */
     public function testSlugify($invalidMask)
@@ -22,43 +23,43 @@ class MaskBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Provides data to the {@link testSlugify} function
+     * Provides data to the {@link testSlugify} function.
      *
      * @return array
      */
     public function getInvalidConstructorData()
     {
-        return array(
-            array(234.463),
-            array('asdgasdf'),
-            array(array()),
-            array(new \stdClass()),
-        );
+        return [
+            [234.463],
+            ['asdgasdf'],
+            [[]],
+            [new \stdClass()],
+        ];
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::__construct
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::__construct
      */
     public function testConstructorWithoutArguments()
     {
         $builder = new MaskBuilder();
 
-        $this->assertEquals(0, $builder->get());
+        $this->assertSame(0, $builder->get());
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::__construct
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::__construct
      */
     public function testConstructor()
     {
         $builder = new MaskBuilder(123456);
 
-        $this->assertEquals(123456, $builder->get());
+        $this->assertSame(123456, $builder->get());
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::add
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::remove
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::add
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::remove
      */
     public function testAddAndRemove()
     {
@@ -70,57 +71,56 @@ class MaskBuilderTest extends \PHPUnit_Framework_TestCase
             ->add('puBLisH');
         $mask = $builder->get();
 
-        $this->assertEquals(MaskBuilder::MASK_VIEW, $mask & MaskBuilder::MASK_VIEW);
-        $this->assertEquals(MaskBuilder::MASK_EDIT, $mask & MaskBuilder::MASK_EDIT);
-        $this->assertEquals(MaskBuilder::MASK_PUBLISH, $mask & MaskBuilder::MASK_PUBLISH);
-        $this->assertEquals(0, $mask & MaskBuilder::MASK_DELETE);
-        $this->assertEquals(0, $mask & MaskBuilder::MASK_UNPUBLISH);
+        $this->assertSame(MaskBuilder::MASK_VIEW, $mask & MaskBuilder::MASK_VIEW);
+        $this->assertSame(MaskBuilder::MASK_EDIT, $mask & MaskBuilder::MASK_EDIT);
+        $this->assertSame(MaskBuilder::MASK_PUBLISH, $mask & MaskBuilder::MASK_PUBLISH);
+        $this->assertSame(0, $mask & MaskBuilder::MASK_DELETE);
+        $this->assertSame(0, $mask & MaskBuilder::MASK_UNPUBLISH);
 
         $builder->remove('edit')->remove('PUblish');
         $mask = $builder->get();
-        $this->assertEquals(0, $mask & MaskBuilder::MASK_EDIT);
-        $this->assertEquals(0, $mask & MaskBuilder::MASK_PUBLISH);
-        $this->assertEquals(MaskBuilder::MASK_VIEW, $mask & MaskBuilder::MASK_VIEW);
+        $this->assertSame(0, $mask & MaskBuilder::MASK_EDIT);
+        $this->assertSame(0, $mask & MaskBuilder::MASK_PUBLISH);
+        $this->assertSame(MaskBuilder::MASK_VIEW, $mask & MaskBuilder::MASK_VIEW);
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::add
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::getPattern
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::add
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::getPattern
      */
     public function testGetPattern()
     {
-        $builder = new MaskBuilder;
-        $this->assertEquals(MaskBuilder::ALL_OFF, $builder->getPattern());
+        $builder = new MaskBuilder();
+        $this->assertSame(MaskBuilder::ALL_OFF, $builder->getPattern());
 
         $builder->add('view');
-        $this->assertEquals(str_repeat('.', 31).'V', $builder->getPattern());
+        $this->assertSame(str_repeat('.', 31).'V', $builder->getPattern());
 
         $builder->add('publish');
-        $this->assertEquals(str_repeat('.', 27).'P...V', $builder->getPattern());
+        $this->assertSame(str_repeat('.', 27).'P...V', $builder->getPattern());
 
         $builder->add(1 << 10);
-        $this->assertEquals(str_repeat('.', 21).MaskBuilder::ON.'.....P...V', $builder->getPattern());
+        $this->assertSame(str_repeat('.', 21).MaskBuilder::ON.'.....P...V', $builder->getPattern());
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::get
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::get
      * * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::reset
      */
     public function testReset()
     {
         $builder = new MaskBuilder();
-        $this->assertEquals(0, $builder->get());
+        $this->assertSame(0, $builder->get());
 
         $builder->add('view');
         $this->assertTrue($builder->get() > 0);
 
         $builder->reset();
-        $this->assertEquals(0, $builder->get());
+        $this->assertSame(0, $builder->get());
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::add
-     * @expectedException \InvalidArgumentException
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::add
      */
     public function testAddWithInvalidMask()
     {
@@ -129,8 +129,7 @@ class MaskBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::remove
-     * @expectedException \InvalidArgumentException
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::remove
      */
     public function testRemoveWithInvalidMask()
     {
@@ -139,20 +138,19 @@ class MaskBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::getCode
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::getCode
      */
     public function testGetCode()
     {
         $code = MaskBuilder::getCode(MaskBuilder::MASK_DELETE);
-        $this->assertEquals(MaskBuilder::CODE_DELETE, $code);
+        $this->assertSame(MaskBuilder::CODE_DELETE, $code);
 
         $code = MaskBuilder::getCode(MaskBuilder::MASK_UNPUBLISH);
-        $this->assertEquals(MaskBuilder::CODE_UNPUBLISH, $code);
+        $this->assertSame(MaskBuilder::CODE_UNPUBLISH, $code);
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::getCode
-     * @expectedException \InvalidArgumentException
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::getCode
      */
     public function testGetCodeWithInvalidMask()
     {
@@ -160,7 +158,7 @@ class MaskBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::has
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::has
      */
     public function testHas()
     {
@@ -168,16 +166,15 @@ class MaskBuilderTest extends \PHPUnit_Framework_TestCase
         $builder->add('edit')
             ->add('view');
 
-        $this->assertEquals(true, $builder->has(MaskBuilder::MASK_EDIT));
-        $this->assertEquals(true, $builder->has('view'));
-        $this->assertEquals(false, $builder->has(MaskBuilder::MASK_UNPUBLISH));
-        $this->assertEquals(false, $builder->has('publish'));
+        $this->assertSame(true, $builder->has(MaskBuilder::MASK_EDIT));
+        $this->assertSame(true, $builder->has('view'));
+        $this->assertSame(false, $builder->has(MaskBuilder::MASK_UNPUBLISH));
+        $this->assertSame(false, $builder->has('publish'));
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::has
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::add
-     * @expectedException \InvalidArgumentException
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::has
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder::add
      */
     public function testHasWithInvalidMask()
     {
@@ -187,5 +184,4 @@ class MaskBuilderTest extends \PHPUnit_Framework_TestCase
 
         $builder->has(null);
     }
-
 }

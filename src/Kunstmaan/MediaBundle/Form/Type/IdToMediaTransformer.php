@@ -10,7 +10,7 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 /**
- * IdToMediaTransformer
+ * IdToMediaTransformer.
  */
 class IdToMediaTransformer implements DataTransformerInterface
 {
@@ -20,7 +20,6 @@ class IdToMediaTransformer implements DataTransformerInterface
     private $objectManager;
 
     /**
-     *
      * @var CurrentValueContainer
      */
     private $currentValueContainer;
@@ -31,17 +30,17 @@ class IdToMediaTransformer implements DataTransformerInterface
      */
     public function __construct(ObjectManager $objectManager, CurrentValueContainer $currentValueContainer)
     {
-        $this->objectManager         = $objectManager;
+        $this->objectManager = $objectManager;
         $this->currentValueContainer = $currentValueContainer;
     }
 
     /**
      * @param Media $entity The value in the original representation
      *
-     * @return mixed The value in the transformed representation
-     *
-     * @throws UnexpectedTypeException when the argument is not an object
+     * @throws UnexpectedTypeException   when the argument is not an object
      * @throws \InvalidArgumentException when the parameter is a collection
+     *
+     * @return mixed The value in the transformed representation
      */
     public function transform($entity)
     {
@@ -56,19 +55,19 @@ class IdToMediaTransformer implements DataTransformerInterface
         }
         $this->currentValueContainer->setCurrentValue($entity);
 
-        return array(
+        return [
             'ent' => $entity,
-            'id'  => $entity->getId()
-        );
+            'id' => $entity->getId(),
+        ];
     }
 
     /**
      * @param string $key
      *
-     * @return Media
-     *
-     * @throws UnexpectedTypeException when the parameter is not numeric
+     * @throws UnexpectedTypeException       when the parameter is not numeric
      * @throws TransformationFailedException when the media item cannot be loaded/found
+     *
+     * @return Media
      */
     public function reverseTransform($key)
     {

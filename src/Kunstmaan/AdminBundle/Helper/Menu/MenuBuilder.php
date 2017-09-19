@@ -6,38 +6,37 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * The MenuBuilder will build the top menu and the side menu of the admin interface
+ * The MenuBuilder will build the top menu and the side menu of the admin interface.
  */
 class MenuBuilder
 {
     /**
-     * @var MenuAdaptorInterface[] $adaptors
+     * @var MenuAdaptorInterface[]
      */
-    private $adaptors = array();
+    private $adaptors = [];
 
     /**
-     * @var MenuAdaptorInterface[] $adaptors
+     * @var MenuAdaptorInterface[]
      */
-    private $sorted = array();
+    private $sorted = [];
 
     /**
-     * @var TopMenuItem[] $topMenuItems
+     * @var TopMenuItem[]
      */
-    private $topMenuItems = null;
+    private $topMenuItems;
 
     /**
-     * @var ContainerInterface $container
+     * @var ContainerInterface
      */
     private $container;
 
     /**
-     * @var MenuItem|null
+     * @var null|MenuItem
      */
-    private $currentCache = null;
-
+    private $currentCache;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param ContainerInterface $container The container
      */
@@ -47,9 +46,10 @@ class MenuBuilder
     }
 
     /**
-     * Add menu adaptor
+     * Add menu adaptor.
      *
      * @param MenuAdaptorInterface $adaptor
+     * @param mixed                $priority
      */
     public function addAdaptMenu(MenuAdaptorInterface $adaptor, $priority = 0)
     {
@@ -58,25 +58,26 @@ class MenuBuilder
     }
 
     /**
-     * Get current menu item
+     * Get current menu item.
      *
-     * @return MenuItem|null
+     * @return null|MenuItem
      */
     public function getCurrent()
     {
-        if ($this->currentCache !== null) {
+        if (null !== $this->currentCache) {
             return $this->currentCache;
         }
-        /* @var $active MenuItem */
+        // @var $active MenuItem
         $active = null;
         do {
-            /* @var MenuItem[] $children */
-            $children         = $this->getChildren($active);
+            // @var MenuItem[] $children
+            $children = $this->getChildren($active);
             $foundActiveChild = false;
             foreach ($children as $child) {
                 if ($child->getActive()) {
                     $foundActiveChild = true;
-                    $active           = $child;
+                    $active = $child;
+
                     break;
                 }
             }
@@ -87,15 +88,15 @@ class MenuBuilder
     }
 
     /**
-     * Get breadcrumb path for current menu item
+     * Get breadcrumb path for current menu item.
      *
      * @return MenuItem[]
      */
     public function getBreadCrumb()
     {
-        $result  = array();
+        $result = [];
         $current = $this->getCurrent();
-        while (!is_null($current)) {
+        while (null !== $current) {
             array_unshift($result, $current);
             $current = $current->getParent();
         }
@@ -104,15 +105,14 @@ class MenuBuilder
     }
 
     /**
-     * Get top parent menu of current menu item
+     * Get top parent menu of current menu item.
      *
-     * @return TopMenuItem|null
+     * @return null|TopMenuItem
      */
     public function getLowestTopChild()
     {
         $current = $this->getCurrent();
-        while (!is_null($current)) {
-
+        while (null !== $current) {
             if ($current instanceof TopMenuItem) {
                 return $current;
             }
@@ -123,16 +123,16 @@ class MenuBuilder
     }
 
     /**
-     * Get all top menu items
+     * Get all top menu items.
      *
      * @return MenuItem[]
      */
     public function getTopChildren()
     {
-        if (is_null($this->topMenuItems)) {
-            /* @var $request Request */
-            $request            = $this->container->get('request_stack')->getCurrentRequest();
-            $this->topMenuItems = array();
+        if (null === $this->topMenuItems) {
+            // @var $request Request
+            $request = $this->container->get('request_stack')->getCurrentRequest();
+            $this->topMenuItems = [];
             foreach ($this->getAdaptors() as $menuAdaptor) {
                 $menuAdaptor->adaptChildren($this, $this->topMenuItems, null, $request);
             }
@@ -142,7 +142,7 @@ class MenuBuilder
     }
 
     /**
-     * Get immediate children of the specified menu item
+     * Get immediate children of the specified menu item.
      *
      * @param MenuItem $parent
      *
@@ -150,12 +150,12 @@ class MenuBuilder
      */
     public function getChildren(MenuItem $parent = null)
     {
-        if ($parent === null) {
+        if (null === $parent) {
             return $this->getTopChildren();
         }
-        /* @var $request Request */
+        // @var $request Request
         $request = $this->container->get('request_stack')->getCurrentRequest();
-        $result  = array();
+        $result = [];
         foreach ($this->getAdaptors() as $menuAdaptor) {
             $menuAdaptor->adaptChildren($this, $result, $parent, $request);
         }
@@ -177,7 +177,7 @@ class MenuBuilder
      */
     private function sortAdaptors()
     {
-        $this->sorted = array();
+        $this->sorted = [];
 
         if (isset($this->adaptors)) {
             krsort($this->adaptors);

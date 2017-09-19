@@ -1,18 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ruud
- * Date: 19/06/15
- * Time: 10:47
- */
+
 
 namespace Kunstmaan\FixturesBundle\Populator\Methods;
-
 
 class Setter implements MethodInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function canSet($object, $property, $value)
     {
@@ -20,7 +14,7 @@ class Setter implements MethodInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function set($object, $property, $value)
     {
@@ -29,9 +23,10 @@ class Setter implements MethodInterface
     }
 
     /**
-     * return the name of the setter for a given property
+     * return the name of the setter for a given property.
      *
-     * @param  string $property
+     * @param string $property
+     *
      * @return string
      */
     private function setterFor($property)

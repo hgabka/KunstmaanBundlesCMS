@@ -9,18 +9,17 @@ use Kunstmaan\MediaBundle\Helper\MimeTypeGuesserFactoryInterface;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
- * FileHandler
+ * FileHandler.
  */
 class ImageHandler extends FileHandler
 {
-
     protected $aviaryApiKey;
 
     /**
-     * @param int $priority
-     * @param MimeTypeGuesserFactoryInterface $mimeTypeGuesserFactory
+     * @param int                              $priority
+     * @param MimeTypeGuesserFactoryInterface  $mimeTypeGuesserFactory
      * @param ExtensionGuesserFactoryInterface $extensionGuesserFactoryInterface
-     * @param string $aviaryApiKey The aviary key
+     * @param string                           $aviaryApiKey                     The aviary key
      */
     public function __construct($priority, MimeTypeGuesserFactoryInterface $mimeTypeGuesserFactory, ExtensionGuesserFactoryInterface $extensionGuesserFactoryInterface, $aviaryApiKey)
     {
@@ -59,7 +58,7 @@ class ImageHandler extends FileHandler
      */
     public function canHandle($object)
     {
-        if (parent::canHandle($object) && ($object instanceof File || strpos($object->getContentType(), 'image') === 0)) {
+        if (parent::canHandle($object) && ($object instanceof File || 0 === strpos($object->getContentType(), 'image'))) {
             return true;
         }
 
@@ -67,7 +66,7 @@ class ImageHandler extends FileHandler
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getShowTemplate(Media $media)
     {
@@ -82,7 +81,7 @@ class ImageHandler extends FileHandler
      */
     public function getImageUrl(Media $media, $basepath)
     {
-        return $basepath . $media->getUrl();
+        return $basepath.$media->getUrl();
     }
 
     /**

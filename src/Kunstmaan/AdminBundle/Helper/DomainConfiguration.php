@@ -6,11 +6,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Class DomainConfiguration
+ * Class DomainConfiguration.
  *
  * Default (single domain) configuration handling
- *
- * @package Kunstmaan\AdminBundle\Helper
  */
 class DomainConfiguration implements DomainConfigurationInterface
 {
@@ -50,7 +48,7 @@ class DomainConfiguration implements DomainConfigurationInterface
     public function getHost()
     {
         $request = $this->getMasterRequest();
-        $host = is_null($request) ? '' : $request->getHost();
+        $host = null === $request ? '' : $request->getHost();
 
         return $host;
     }
@@ -60,7 +58,7 @@ class DomainConfiguration implements DomainConfigurationInterface
      */
     public function getHosts()
     {
-        return array($this->getHost());
+        return [$this->getHost()];
     }
 
     /**
@@ -72,7 +70,7 @@ class DomainConfiguration implements DomainConfigurationInterface
     }
 
     /**
-     * @param string|null $host
+     * @param null|string $host
      *
      * @return bool
      */
@@ -82,7 +80,7 @@ class DomainConfiguration implements DomainConfigurationInterface
     }
 
     /**
-     * @param string|null $host
+     * @param null|string $host
      *
      * @return array
      */
@@ -92,7 +90,7 @@ class DomainConfiguration implements DomainConfigurationInterface
     }
 
     /**
-     * @param string|null $host
+     * @param null|string $host
      *
      * @return array
      */
@@ -110,9 +108,7 @@ class DomainConfiguration implements DomainConfigurationInterface
     }
 
     /**
-     * @param string|null $host
-     *
-     * @return null
+     * @param null|string $host
      */
     public function getRootNode($host = null)
     {
@@ -124,7 +120,7 @@ class DomainConfiguration implements DomainConfigurationInterface
      */
     public function getExtraData()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -132,7 +128,44 @@ class DomainConfiguration implements DomainConfigurationInterface
      */
     public function getLocalesExtraData()
     {
-        return array();
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function getFullHostConfig()
+    {
+        return [];
+    }
+
+    /**
+     * @param null|string $host
+     */
+    public function getFullHost($host = null)
+    {
+        return null;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function getFullHostById($id)
+    {
+        return null;
+    }
+
+    public function getHostSwitched()
+    {
+        return null;
+    }
+
+    /**
+     * @param null|string $host
+     */
+    public function getHostBaseUrl($host = null)
+    {
+        return null;
     }
 
     /**
@@ -145,51 +178,4 @@ class DomainConfiguration implements DomainConfigurationInterface
 
         return $requestStack->getMasterRequest();
     }
-
-    /**
-     * @return array
-     */
-    public function getFullHostConfig()
-    {
-        return array();
-    }
-
-    /**
-     * @param string|null $host
-     *
-     * @return null
-     */
-    public function getFullHost($host = null)
-    {
-        return null;
-    }
-
-    /**
-     * @param int $id
-     *
-     * @return null
-     */
-    public function getFullHostById($id)
-    {
-        return null;
-    }
-
-    /**
-     * @return null
-     */
-    public function getHostSwitched()
-    {
-        return null;
-    }
-
-    /**
-     * @param string|null $host
-     *
-     * @return null
-     */
-    public function getHostBaseUrl($host = null)
-    {
-        return null;
-    }
-
 }

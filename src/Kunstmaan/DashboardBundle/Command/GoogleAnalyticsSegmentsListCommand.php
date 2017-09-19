@@ -1,4 +1,5 @@
 <?php
+
 namespace Kunstmaan\DashboardBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -25,23 +26,15 @@ class GoogleAnalyticsSegmentsListCommand extends ContainerAwareCommand
             );
     }
 
-    /**
-     * Inits instance variables for global usage.
-     */
-    private function init()
-    {
-        $this->em = $this->getContainer()->get('doctrine')->getManager();
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->init();
 
         // get params
-        $configId  = $input->getOption('config');
+        $configId = $input->getOption('config');
 
         try {
-            $segments = array();
+            $segments = [];
 
             if ($configId) {
                 $segments = $this->getSegmentsOfConfig($configId);
@@ -50,12 +43,12 @@ class GoogleAnalyticsSegmentsListCommand extends ContainerAwareCommand
             }
 
             if (count($segments)) {
-                $result = "\t".'<fg=green>' . count($segments) . '</fg=green> segments found:';
+                $result = "\t".'<fg=green>'.count($segments).'</fg=green> segments found:';
                 $output->writeln($result);
-                foreach($segments as $segment) {
-                    $result = "\t".'(id: <fg=cyan>' .$segment->getId() . '</fg=cyan>)';
-                    $result .= "\t".'(config: <fg=cyan>' .$segment->getconfig()->getId() . '</fg=cyan>)';
-                    $result .= "\t" .'<fg=cyan>'. $segment->getquery() .'</fg=cyan> ('.$segment->getName().')';
+                foreach ($segments as $segment) {
+                    $result = "\t".'(id: <fg=cyan>'.$segment->getId().'</fg=cyan>)';
+                    $result .= "\t".'(config: <fg=cyan>'.$segment->getconfig()->getId().'</fg=cyan>)';
+                    $result .= "\t".'<fg=cyan>'.$segment->getquery().'</fg=cyan> ('.$segment->getName().')';
 
                     $output->writeln($result);
                 }
@@ -65,12 +58,21 @@ class GoogleAnalyticsSegmentsListCommand extends ContainerAwareCommand
         } catch (\Exception $e) {
             $output->writeln('<fg=red>'.$e->getMessage().'</fg=red>');
         }
-
     }
 
     /**
-     * get all segments of a config
+     * Inits instance variables for global usage.
+     */
+    private function init()
+    {
+        $this->em = $this->getContainer()->get('doctrine')->getManager();
+    }
+
+    /**
+     * get all segments of a config.
+     *
      * @param int $configId
+     *
      * @return array
      */
     private function getSegmentsOfConfig($configId)
@@ -88,7 +90,7 @@ class GoogleAnalyticsSegmentsListCommand extends ContainerAwareCommand
     }
 
     /**
-     * get all segments
+     * get all segments.
      *
      * @return array
      */
@@ -96,6 +98,7 @@ class GoogleAnalyticsSegmentsListCommand extends ContainerAwareCommand
     {
         // get all segments
         $segmentRepository = $this->em->getRepository('KunstmaanDashboardBundle:AnalyticsSegment');
+
         return $segmentRepository->findAll();
     }
 }

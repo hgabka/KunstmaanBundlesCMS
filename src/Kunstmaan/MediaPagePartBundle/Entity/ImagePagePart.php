@@ -1,21 +1,20 @@
 <?php
 
 namespace Kunstmaan\MediaPagePartBundle\Entity;
-use Doctrine\ORM\Mapping as ORM;
 
+use Doctrine\ORM\Mapping as ORM;
 use Kunstmaan\MediaBundle\Entity\Media;
 use Kunstmaan\MediaPagePartBundle\Form\ImagePagePartAdminType;
 use Kunstmaan\PagePartBundle\Entity\AbstractPagePart;
 
 /**
- * ImagePagePart
+ * ImagePagePart.
  *
  * @ORM\Entity
  * @ORM\Table(name="kuma_image_page_parts")
  */
 class ImagePagePart extends AbstractPagePart
 {
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
@@ -38,7 +37,19 @@ class ImagePagePart extends AbstractPagePart
     protected $media;
 
     /**
-     * Get opennewwindow
+     * @return string
+     */
+    public function __toString()
+    {
+        if ($this->getMedia()) {
+            return $this->getMedia()->getUrl();
+        }
+
+        return '';
+    }
+
+    /**
+     * Get opennewwindow.
      *
      * @return bool
      *
@@ -50,7 +61,7 @@ class ImagePagePart extends AbstractPagePart
     }
 
     /**
-     * Set openwinnewwindow
+     * Set openwinnewwindow.
      *
      * @param bool $openInNewWindow
      *
@@ -64,7 +75,7 @@ class ImagePagePart extends AbstractPagePart
     }
 
     /**
-     * Set link
+     * Set link.
      *
      * @param string $link
      *
@@ -78,7 +89,7 @@ class ImagePagePart extends AbstractPagePart
     }
 
     /**
-     * Get link
+     * Get link.
      *
      * @return string
      */
@@ -88,7 +99,7 @@ class ImagePagePart extends AbstractPagePart
     }
 
     /**
-     * Set alt text
+     * Set alt text.
      *
      * @param string $altText
      *
@@ -102,7 +113,7 @@ class ImagePagePart extends AbstractPagePart
     }
 
     /**
-     * Get media
+     * Get media.
      *
      * @return Media
      */
@@ -112,7 +123,7 @@ class ImagePagePart extends AbstractPagePart
     }
 
     /**
-     * Set media
+     * Set media.
      *
      * @param Media $media
      *
@@ -126,7 +137,7 @@ class ImagePagePart extends AbstractPagePart
     }
 
     /**
-     * Get alt text
+     * Get alt text.
      *
      * @return string
      */
@@ -138,21 +149,9 @@ class ImagePagePart extends AbstractPagePart
     /**
      * @return string
      */
-    public function __toString()
-    {
-        if ($this->getMedia()) {
-            return $this->getMedia()->getUrl();
-        }
-
-        return "";
-    }
-
-    /**
-     * @return string
-     */
     public function getDefaultView()
     {
-        return "KunstmaanMediaPagePartBundle:ImagePagePart:view.html.twig";
+        return 'KunstmaanMediaPagePartBundle:ImagePagePart:view.html.twig';
     }
 
     /**

@@ -7,7 +7,7 @@ use Kunstmaan\PagePartBundle\Helper\HasPagePartsInterface;
 use Kunstmaan\SearchBundle\Helper\IndexableInterface;
 
 /**
- * Class IndexablePagePartsService
+ * Class IndexablePagePartsService.
  *
  * Quick & dirty for now, needs to be in a generic PagePartService without static call &
  * without passing EntityManager as param...
@@ -23,7 +23,7 @@ class IndexablePagePartsService
     }
 
     /**
-     * Returns all indexable pageparts for the specified page and context
+     * Returns all indexable pageparts for the specified page and context.
      *
      * @param HasPagePartsInterface $page
      * @param string                $context
@@ -36,7 +36,7 @@ class IndexablePagePartsService
             ->getRepository('KunstmaanPagePartBundle:PagePartRef')
             ->getPageParts($page, $context);
 
-        $indexablePageParts = array();
+        $indexablePageParts = [];
         foreach ($pageparts as $pagepart) {
             if ($pagepart instanceof IndexableInterface && !$pagepart->isIndexable()) {
                 continue;

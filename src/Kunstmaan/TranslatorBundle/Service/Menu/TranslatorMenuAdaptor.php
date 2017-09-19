@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 class TranslatorMenuAdaptor implements MenuAdaptorInterface
 {
     /**
-     * In this method you can add children for a specific parent, but also remove and change the already created children
+     * In this method you can add children for a specific parent, but also remove and change the already created children.
      *
      * @param MenuBuilder $menu      The MenuBuilder
      * @param MenuItem[]  &$children The current children
@@ -19,23 +19,23 @@ class TranslatorMenuAdaptor implements MenuAdaptorInterface
      */
     public function adaptChildren(MenuBuilder $menu, array &$children, MenuItem $parent = null, Request $request = null)
     {
-        if (is_null($parent)) {
+        if (null === $parent) {
             return;
         }
 
-        if ('KunstmaanAdminBundle_settings' == $parent->getRoute()) {
+        if ('KunstmaanAdminBundle_settings' === $parent->getRoute()) {
             $menuItem = new MenuItem($menu);
             $menuItem
                 ->setRoute('KunstmaanTranslatorBundle_settings_translations')
                 ->setLabel('translator.translator.title')
                 ->setUniqueId('Translations')
                 ->setParent($parent);
-            if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
+            if (0 === stripos($request->attributes->get('_route'), $menuItem->getRoute())) {
                 $menuItem->setActive(true);
                 $parent->setActive(true);
             }
             $children[] = $menuItem;
-        } elseif ('KunstmaanTranslatorBundle_settings_translations' == $parent->getRoute()) {
+        } elseif ('KunstmaanTranslatorBundle_settings_translations' === $parent->getRoute()) {
             $menuItem = new MenuItem($menu);
             $menuItem
                 ->setRoute('KunstmaanTranslatorBundle_settings_translations_add')
@@ -43,7 +43,7 @@ class TranslatorMenuAdaptor implements MenuAdaptorInterface
                 ->setLabel('Add translation')
                 ->setParent($parent)
                 ->setAppearInNavigation(false);
-            if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
+            if (0 === stripos($request->attributes->get('_route'), $menuItem->getRoute())) {
                 $menuItem->setActive(true);
             }
             $children[] = $menuItem;
@@ -55,7 +55,7 @@ class TranslatorMenuAdaptor implements MenuAdaptorInterface
                 ->setLabel('Edit translation')
                 ->setParent($parent)
                 ->setAppearInNavigation(false);
-            if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
+            if (0 === stripos($request->attributes->get('_route'), $menuItem->getRoute())) {
                 $menuItem->setActive(true);
             }
             $children[] = $menuItem;

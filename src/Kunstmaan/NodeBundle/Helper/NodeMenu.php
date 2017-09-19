@@ -37,7 +37,7 @@ class NodeMenu
     /**
      * @var Node
      */
-    private $currentNode = null;
+    private $currentNode;
 
     /**
      * @var string
@@ -57,27 +57,27 @@ class NodeMenu
     /**
      * @var NodeMenuItem[]
      */
-    private $topNodeMenuItems = null;
+    private $topNodeMenuItems;
 
     /**
      * @var NodeMenuItem[]
      */
-    private $breadCrumb = null;
+    private $breadCrumb;
 
     /**
      * @var Node[]
      */
-    private $allNodes = array();
+    private $allNodes = [];
 
     /**
      * @var Node[]
      */
-    private $childNodes = array();
+    private $childNodes = [];
 
     /**
      * @var Node[]
      */
-    private $nodesByInternalName = array();
+    private $nodesByInternalName = [];
 
     /**
      * @var bool
@@ -87,12 +87,12 @@ class NodeMenu
     /**
      * @var NodeMenuItem
      */
-    private $rootNodeMenuItem = null;
+    private $rootNodeMenuItem;
 
     /**
      * @var DomainConfigurationInterface
      */
-    private $domainConfiguration = null;
+    private $domainConfiguration;
 
     /**
      * @param EntityManagerInterface       $em                  The entity manager
@@ -106,9 +106,9 @@ class NodeMenu
         AclHelper $aclHelper,
         DomainConfigurationInterface $domainConfiguration
     ) {
-        $this->em                  = $em;
-        $this->tokenStorage     = $tokenStorage;
-        $this->aclHelper           = $aclHelper;
+        $this->em = $em;
+        $this->tokenStorage = $tokenStorage;
+        $this->aclHelper = $aclHelper;
         $this->domainConfiguration = $domainConfiguration;
     }
 
@@ -161,64 +161,19 @@ class NodeMenu
     }
 
     /**
-     * This method initializes the nodemenu only once, the method may be
-     * executed multiple times
-     */
-    private function init()
-    {
-        if ($this->initialized) {
-            return;
-        }
-
-        $this->allNodes            = array();
-        $this->breadCrumb          = null;
-        $this->childNodes          = array();
-        $this->topNodeMenuItems    = null;
-        $this->nodesByInternalName = array();
-
-        /* @var NodeRepository $repo */
-        $repo = $this->em->getRepository('KunstmaanNodeBundle:Node');
-
-        // Get all possible menu items in one query (also fetch offline nodes)
-        $nodes = $repo->getChildNodes(
-            false,
-            $this->locale,
-            $this->permission,
-            $this->aclHelper,
-            $this->includeHiddenFromNav,
-            true,
-            $this->domainConfiguration->getRootNode()
-        );
-        foreach ($nodes as $node) {
-            $this->allNodes[$node->getId()] = $node;
-
-            if ($node->getParent()) {
-                $this->childNodes[$node->getParent()->getId()][] = $node;
-            } else {
-                $this->childNodes[0][] = $node;
-            }
-            $internalName = $node->getInternalName();
-            if ($internalName) {
-                $this->nodesByInternalName[$internalName][] = $node;
-            }
-        }
-        $this->initialized = true;
-    }
-
-    /**
      * @return NodeMenuItem[]
      */
     public function getTopNodes()
     {
         $this->init();
         if (!is_array($this->topNodeMenuItems)) {
-            $this->topNodeMenuItems = array();
+            $this->topNodeMenuItems = [];
 
             // To be backwards compatible we need to create the top node MenuItems
             if (array_key_exists(0, $this->childNodes)) {
                 $topNodeMenuItems = $this->getTopNodeMenuItems();
 
-                $includeHiddenFromNav   = $this->includeHiddenFromNav;
+                $includeHiddenFromNav = $this->includeHiddenFromNav;
                 $this->topNodeMenuItems = array_filter(
                     $topNodeMenuItems,
                     function (NodeMenuItem $entry) use ($includeHiddenFromNav) {
@@ -244,22 +199,22 @@ class NodeMenu
     {
         $this->init();
         if (!is_array($this->breadCrumb)) {
-            $this->breadCrumb = array();
+            $this->breadCrumb = [];
 
-            /* @var NodeRepository $repo */
+            // @var NodeRepository $repo
             $repo = $this->em->getRepository('KunstmaanNodeBundle:Node');
 
             // Generate breadcrumb MenuItems - fetch *all* languages so you can link translations if needed
-            $parentNodes        = $repo->getAllParents($this->currentNode);
+            $parentNodes = $repo->getAllParents($this->currentNode);
             $parentNodeMenuItem = null;
-            /* @var Node $parentNode */
+            // @var Node $parentNode
             foreach ($parentNodes as $parentNode) {
                 $nodeTranslation = $parentNode->getNodeTranslation(
                     $this->locale,
                     $this->includeOffline
                 );
-                if (!is_null($nodeTranslation)) {
-                    $nodeMenuItem       = new NodeMenuItem(
+                if (null !== $nodeTranslation) {
+                    $nodeMenuItem = new NodeMenuItem(
                         $parentNode,
                         $nodeTranslation,
                         $parentNodeMenuItem,
@@ -275,7 +230,7 @@ class NodeMenu
     }
 
     /**
-     * @return NodeMenuItem|null
+     * @return null|NodeMenuItem
      */
     public function getCurrent()
     {
@@ -291,7 +246,7 @@ class NodeMenu
     /**
      * @param int $depth
      *
-     * @return NodeMenuItem|null
+     * @return null|NodeMenuItem
      */
     public function getActiveForDepth($depth)
     {
@@ -312,17 +267,17 @@ class NodeMenu
     public function getChildren(Node $node, $includeHiddenFromNav = true)
     {
         $this->init();
-        $children = array();
+        $children = [];
 
         if (array_key_exists($node->getId(), $this->childNodes)) {
             $nodes = $this->childNodes[$node->getId()];
-            /* @var Node $childNode */
+            // @var Node $childNode
             foreach ($nodes as $childNode) {
                 $nodeTranslation = $childNode->getNodeTranslation(
                     $this->locale,
                     $this->includeOffline
                 );
-                if (!is_null($nodeTranslation)) {
+                if (null !== $nodeTranslation) {
                     $children[] = new NodeMenuItem(
                         $childNode,
                         $nodeTranslation,
@@ -358,7 +313,7 @@ class NodeMenu
     public function getSiblings(Node $node, $includeHiddenFromNav = true)
     {
         $this->init();
-        $siblings = array();
+        $siblings = [];
 
         if (false !== $parent = $this->getParent($node)) {
             $siblings = $this->getChildren($parent, $includeHiddenFromNav);
@@ -454,14 +409,14 @@ class NodeMenu
     }
 
     /**
-     * @param string                                        $internalName The
-     *                                                                    internal
-     *                                                                    name
-     * @param NodeTranslation|NodeMenuItem|HasNodeInterface $parent       The
-     *                                                                    parent
+     * @param string                                        $internalName   The
+     *                                                                      internal
+     *                                                                      name
+     * @param HasNodeInterface|NodeMenuItem|NodeTranslation $parent         The
+     *                                                                      parent
      * @param bool                                          $includeOffline
      *
-     * @return NodeMenuItem|null
+     * @return null|NodeMenuItem
      */
     public function getNodeByInternalName(
         $internalName,
@@ -471,7 +426,7 @@ class NodeMenu
         $this->init();
         $resultNode = null;
 
-        if (is_null($includeOffline)) {
+        if (null === $includeOffline) {
             $includeOffline = $this->includeOffline;
         }
 
@@ -488,14 +443,14 @@ class NodeMenu
                 }
             );
 
-            if (!is_null($parent)) {
+            if (null !== $parent) {
                 /** @var Node $parentNode */
                 if ($parent instanceof NodeTranslation) {
                     $parentNode = $parent->getNode();
                 } elseif ($parent instanceof NodeMenuItem) {
                     $parentNode = $parent->getNode();
                 } elseif ($parent instanceof HasNodeInterface) {
-                    $repo       = $this->em->getRepository(
+                    $repo = $this->em->getRepository(
                         'KunstmaanNodeBundle:Node'
                     );
                     $parentNode = $repo->getNodeFor($parent);
@@ -504,23 +459,23 @@ class NodeMenu
                 // Look for a node with the same parent id
                 /** @var Node $node */
                 foreach ($nodes as $node) {
-                    if ($node->getParent()->getId() == $parentNode->getId()) {
+                    if ($node->getParent()->getId() === $parentNode->getId()) {
                         $resultNode = $node;
+
                         break;
                     }
                 }
 
                 // Look for a node that has an ancestor with the same parent id
-                if (is_null($resultNode)) {
-                    /* @var Node $n */
+                if (null === $resultNode) {
+                    // @var Node $n
                     foreach ($nodes as $node) {
                         $tempNode = $node;
-                        while (is_null($resultNode) && !is_null(
-                                $tempNode->getParent()
-                            )) {
+                        while (null === $resultNode && null !== $tempNode->getParent()) {
                             $tempParent = $tempNode->getParent();
-                            if ($tempParent->getId() == $parentNode->getId()) {
+                            if ($tempParent->getId() === $parentNode->getId()) {
                                 $resultNode = $node;
+
                                 break;
                             }
                             $tempNode = $tempParent;
@@ -539,7 +494,7 @@ class NodeMenu
                 $this->locale,
                 $includeOffline
             );
-            if (!is_null($nodeTranslation)) {
+            if (null !== $nodeTranslation) {
                 return new NodeMenuItem(
                     $resultNode,
                     $nodeTranslation,
@@ -553,14 +508,14 @@ class NodeMenu
     }
 
     /**
-     * Returns the current root node menu item
+     * Returns the current root node menu item.
      */
     public function getRootNodeMenuItem()
     {
-        if (is_null($this->rootNodeMenuItem)) {
-            $rootNode               = $this->domainConfiguration->getRootNode();
-            if (!is_null($rootNode)) {
-                $nodeTranslation        = $rootNode->getNodeTranslation(
+        if (null === $this->rootNodeMenuItem) {
+            $rootNode = $this->domainConfiguration->getRootNode();
+            if (null !== $rootNode) {
+                $nodeTranslation = $rootNode->getNodeTranslation(
                     $this->locale,
                     $this->includeOffline
                 );
@@ -643,7 +598,7 @@ class NodeMenu
     }
 
     /**
-     * Check if provided slug is in active path
+     * Check if provided slug is in active path.
      *
      * @param string $slug
      *
@@ -653,7 +608,7 @@ class NodeMenu
     {
         $bc = $this->getBreadCrumb();
         foreach ($bc as $bcItem) {
-            if ($bcItem->getSlug() == $slug) {
+            if ($bcItem->getSlug() === $slug) {
                 return true;
             }
         }
@@ -670,19 +625,64 @@ class NodeMenu
     }
 
     /**
+     * This method initializes the nodemenu only once, the method may be
+     * executed multiple times.
+     */
+    private function init()
+    {
+        if ($this->initialized) {
+            return;
+        }
+
+        $this->allNodes = [];
+        $this->breadCrumb = null;
+        $this->childNodes = [];
+        $this->topNodeMenuItems = null;
+        $this->nodesByInternalName = [];
+
+        // @var NodeRepository $repo
+        $repo = $this->em->getRepository('KunstmaanNodeBundle:Node');
+
+        // Get all possible menu items in one query (also fetch offline nodes)
+        $nodes = $repo->getChildNodes(
+            false,
+            $this->locale,
+            $this->permission,
+            $this->aclHelper,
+            $this->includeHiddenFromNav,
+            true,
+            $this->domainConfiguration->getRootNode()
+        );
+        foreach ($nodes as $node) {
+            $this->allNodes[$node->getId()] = $node;
+
+            if ($node->getParent()) {
+                $this->childNodes[$node->getParent()->getId()][] = $node;
+            } else {
+                $this->childNodes[0][] = $node;
+            }
+            $internalName = $node->getInternalName();
+            if ($internalName) {
+                $this->nodesByInternalName[$internalName][] = $node;
+            }
+        }
+        $this->initialized = true;
+    }
+
+    /**
      * @return array
      */
     private function getTopNodeMenuItems()
     {
-        $topNodeMenuItems = array();
-        $topNodes         = $this->childNodes[0];
-        /* @var Node $topNode */
+        $topNodeMenuItems = [];
+        $topNodes = $this->childNodes[0];
+        // @var Node $topNode
         foreach ($topNodes as $topNode) {
             $nodeTranslation = $topNode->getNodeTranslation(
                 $this->locale,
                 $this->includeOffline
             );
-            if (!is_null($nodeTranslation)) {
+            if (null !== $nodeTranslation) {
                 $topNodeMenuItems[] = new NodeMenuItem(
                     $topNode,
                     $nodeTranslation,

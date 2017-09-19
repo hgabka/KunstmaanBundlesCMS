@@ -12,7 +12,7 @@ class SitemapController extends Controller
     /**
      * This will generate a sitemap for the specified locale.
      * Use the mode parameter to select in which mode the sitemap should be
-     * generated. At this moment only XML is supported
+     * generated. At this moment only XML is supported.
      *
      * @Route("/sitemap-{locale}.{_format}", name="KunstmaanSitemapBundle_sitemap",
      *                                       requirements={"_format" = "xml"})
@@ -30,10 +30,10 @@ class SitemapController extends Controller
         $nodeMenu->setIncludeHiddenFromNav(true);
         $nodeMenu->setCurrentNode(null);
 
-        return array(
+        return [
             'nodemenu' => $nodeMenu,
-            'locale'   => $locale,
-        );
+            'locale' => $locale,
+        ];
     }
 
     /**
@@ -41,7 +41,7 @@ class SitemapController extends Controller
      * language. Info at:
      * https://support.google.com/webmasters/answer/75712?rd=1 Use the mode
      * parameter to select in which mode the sitemap should be generated. At
-     * this moment only XML is supported
+     * this moment only XML is supported.
      *
      * @Route("/sitemap.{_format}", name="KunstmaanSitemapBundle_sitemapindex",
      *                              requirements={"_format" = "xml"})
@@ -56,9 +56,9 @@ class SitemapController extends Controller
         $locales = $this->get('kunstmaan_admin.domain_configuration')
             ->getBackendLocales();
 
-        return array(
+        return [
             'locales' => $locales,
-            'host'    => $request->getSchemeAndHttpHost()
-        );
+            'host' => $request->getSchemeAndHttpHost(),
+        ];
     }
 }

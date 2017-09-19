@@ -7,7 +7,6 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Kunstmaan\AdminBundle\Helper\Security\Acl\AclHelper;
 use Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionDefinition;
-use Kunstmaan\AdminListBundle\AdminList\Configurator\AbstractAdminListConfigurator;
 use Kunstmaan\AdminListBundle\AdminList\Filter;
 use Kunstmaan\AdminListBundle\AdminList\FilterType\ORM\AbstractORMFilterType;
 use Kunstmaan\AdminListBundle\AdminList\SortableInterface;
@@ -16,7 +15,7 @@ use Pagerfanta\Pagerfanta;
 use Traversable;
 
 /**
- * An abstract admin list configurator that can be used with the orm query builder
+ * An abstract admin list configurator that can be used with the orm query builder.
  */
 abstract class AbstractDoctrineORMAdminListConfigurator extends AbstractAdminListConfigurator
 {
@@ -26,24 +25,24 @@ abstract class AbstractDoctrineORMAdminListConfigurator extends AbstractAdminLis
     protected $em;
 
     /**
+     * @var AclHelper
+     */
+    protected $aclHelper;
+
+    /**
      * @var Query
      */
-    private $query = null;
+    private $query;
 
     /**
      * @var Pagerfanta
      */
-    private $pagerfanta = null;
+    private $pagerfanta;
 
     /**
      * @var PermissionDefinition
      */
-    private $permissionDef = null;
-
-    /**
-     * @var AclHelper
-     */
-    protected $aclHelper = null;
+    private $permissionDef;
 
     /**
      * @param EntityManager $em        The entity manager
@@ -51,12 +50,12 @@ abstract class AbstractDoctrineORMAdminListConfigurator extends AbstractAdminLis
      */
     public function __construct(EntityManager $em, AclHelper $aclHelper = null)
     {
-        $this->em        = $em;
+        $this->em = $em;
         $this->aclHelper = $aclHelper;
     }
 
     /**
-     * Return the url to edit the given $item
+     * Return the url to edit the given $item.
      *
      * @param object $item
      *
@@ -64,17 +63,17 @@ abstract class AbstractDoctrineORMAdminListConfigurator extends AbstractAdminLis
      */
     public function getEditUrlFor($item)
     {
-        $params = array('id' => $item->getId());
+        $params = ['id' => $item->getId()];
         $params = array_merge($params, $this->getExtraParameters());
 
-        return array(
-            'path'   => $this->getPathByConvention($this::SUFFIX_EDIT),
-            'params' => $params
-        );
+        return [
+            'path' => $this->getPathByConvention($this::SUFFIX_EDIT),
+            'params' => $params,
+        ];
     }
 
     /**
-     * Get the delete url for the given $item
+     * Get the delete url for the given $item.
      *
      * @param object $item
      *
@@ -82,13 +81,13 @@ abstract class AbstractDoctrineORMAdminListConfigurator extends AbstractAdminLis
      */
     public function getDeleteUrlFor($item)
     {
-        $params = array('id' => $item->getId());
+        $params = ['id' => $item->getId()];
         $params = array_merge($params, $this->getExtraParameters());
 
-        return array(
-            'path'   => $this->getPathByConvention($this::SUFFIX_DELETE),
-            'params' => $params
-        );
+        return [
+            'path' => $this->getPathByConvention($this::SUFFIX_DELETE),
+            'params' => $params,
+        ];
     }
 
     /**
@@ -96,8 +95,8 @@ abstract class AbstractDoctrineORMAdminListConfigurator extends AbstractAdminLis
      */
     public function getPagerfanta()
     {
-        if (is_null($this->pagerfanta)) {
-            $adapter          = new DoctrineORMAdapter($this->getQuery());
+        if (null === $this->pagerfanta) {
+            $adapter = new DoctrineORMAdapter($this->getQuery());
             $this->pagerfanta = new Pagerfanta($adapter);
             $this->pagerfanta->setNormalizeOutOfRangePages(true);
             $this->pagerfanta->setMaxPerPage($this->getLimit());
@@ -132,7 +131,7 @@ abstract class AbstractDoctrineORMAdminListConfigurator extends AbstractAdminLis
     }
 
     /**
-     * Return an iterator for all items that matches the current filtering
+     * Return an iterator for all items that matches the current filtering.
      *
      * @return \Iterator
      */
@@ -142,19 +141,19 @@ abstract class AbstractDoctrineORMAdminListConfigurator extends AbstractAdminLis
     }
 
     /**
-     * @return Query|null
+     * @return null|Query
      */
     public function getQuery()
     {
-        if (is_null($this->query)) {
+        if (null === $this->query) {
             $queryBuilder = $this->getQueryBuilder();
             $this->adaptQueryBuilder($queryBuilder);
 
             // Apply filters
             $filters = $this->getFilterBuilder()->getCurrentFilters();
-            /* @var Filter $filter */
+            // @var Filter $filter
             foreach ($filters as $filter) {
-                /* @var AbstractORMFilterType $type */
+                // @var AbstractORMFilterType $type
                 $type = $filter->getType();
                 $type->setQueryBuilder($queryBuilder);
                 $filter->apply();
@@ -164,16 +163,16 @@ abstract class AbstractDoctrineORMAdminListConfigurator extends AbstractAdminLis
             if (!empty($this->orderBy)) {
                 $orderBy = $this->orderBy;
                 if (!strpos($orderBy, '.')) {
-                    $orderBy = 'b.' . $orderBy;
+                    $orderBy = 'b.'.$orderBy;
                 }
-                $queryBuilder->orderBy($orderBy, ($this->orderDirection == 'DESC' ? 'DESC' : 'ASC'));
+                $queryBuilder->orderBy($orderBy, ('DESC' === $this->orderDirection ? 'DESC' : 'ASC'));
             }
 
             // Apply other changes
             $this->finishQueryBuilder($queryBuilder);
 
             // Apply ACL restrictions (if applicable)
-            if (!is_null($this->permissionDef) && !is_null($this->aclHelper)) {
+            if (null !== $this->permissionDef && null !== $this->aclHelper) {
                 $this->query = $this->aclHelper->apply($queryBuilder, $this->permissionDef);
             } else {
                 $this->query = $queryBuilder->getQuery();
@@ -184,31 +183,9 @@ abstract class AbstractDoctrineORMAdminListConfigurator extends AbstractAdminLis
     }
 
     /**
-     * @param QueryBuilder $queryBuilder
-     */
-    protected function finishQueryBuilder(QueryBuilder $queryBuilder)
-    {
-        if ($this instanceof SortableInterface) {
-            $queryBuilder->addOrderBy('b.' . $this->getSortableField());
-        }
-    }
-
-    /**
-     * @return QueryBuilder
-     */
-    protected function getQueryBuilder()
-    {
-        $queryBuilder = $this->em
-            ->getRepository($this->getRepositoryName())
-            ->createQueryBuilder('b');
-
-        return $queryBuilder;
-    }
-
-    /**
      * Get current permission definition.
      *
-     * @return PermissionDefinition|null
+     * @return null|PermissionDefinition
      */
     public function getPermissionDefinition()
     {
@@ -247,5 +224,27 @@ abstract class AbstractDoctrineORMAdminListConfigurator extends AbstractAdminLis
     public function getEntityManager()
     {
         return $this->em;
+    }
+
+    /**
+     * @param QueryBuilder $queryBuilder
+     */
+    protected function finishQueryBuilder(QueryBuilder $queryBuilder)
+    {
+        if ($this instanceof SortableInterface) {
+            $queryBuilder->addOrderBy('b.'.$this->getSortableField());
+        }
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    protected function getQueryBuilder()
+    {
+        $queryBuilder = $this->em
+            ->getRepository($this->getRepositoryName())
+            ->createQueryBuilder('b');
+
+        return $queryBuilder;
     }
 }

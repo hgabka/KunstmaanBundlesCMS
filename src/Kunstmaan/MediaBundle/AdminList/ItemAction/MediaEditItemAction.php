@@ -13,10 +13,10 @@ class MediaEditItemAction implements ItemActionInterface
      */
     public function getUrlFor($item)
     {
-        return array(
-          'path'   => 'KunstmaanMediaBundle_media_show',
-          'params' => array('mediaId' => $item->getId())
-        );
+        return [
+          'path' => 'KunstmaanMediaBundle_media_show',
+          'params' => ['mediaId' => $item->getId()],
+        ];
     }
 
     /**

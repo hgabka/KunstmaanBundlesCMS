@@ -2,27 +2,28 @@
 
 namespace Kunstmaan\AdminBundle\Helper\AdminPanel;
 
-class AdminPanel 
+class AdminPanel
 {
     /**
      * @var AdminPanelAdaptorInterface[]
      */
-    private $adaptors = array();
+    private $adaptors = [];
 
     /**
      * @var AdminPanelAdaptorInterface[]
      */
-    private $sorted = array();
+    private $sorted = [];
 
     /**
      * @var AdminPanelActionInterface[]
      */
-    private $actions = null;
+    private $actions;
 
     /**
-     * Add admin panel adaptor
+     * Add admin panel adaptor.
      *
      * @param AdminPanelAdaptorInterface $adaptor
+     * @param mixed                      $priority
      */
     public function addAdminPanelAdaptor(AdminPanelAdaptorInterface $adaptor, $priority = 0)
     {
@@ -31,12 +32,12 @@ class AdminPanel
     }
 
     /**
-     * Return current admin panel actions
+     * Return current admin panel actions.
      */
     public function getAdminPanelActions()
     {
         if (!$this->actions) {
-            $this->actions = array();
+            $this->actions = [];
             $adaptors = $this->getAdaptors();
             foreach ($adaptors as $adaptor) {
                 $this->actions = array_merge($this->actions, $adaptor->getAdminPanelActions());
@@ -65,7 +66,7 @@ class AdminPanel
      */
     private function sortAdaptors()
     {
-        $this->sorted = array();
+        $this->sorted = [];
 
         if (isset($this->adaptors)) {
             krsort($this->adaptors);

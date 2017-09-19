@@ -3,33 +3,32 @@
 namespace Kunstmaan\AdminListBundle\AdminList;
 
 use Kunstmaan\AdminListBundle\AdminList\FilterType\FilterTypeInterface;
-
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Filter
+ * Filter.
  */
 class Filter
 {
     /**
-     * @var string $columnName
+     * @var string
      */
-    protected $columnName = null;
+    protected $columnName;
 
     /**
      * @var array
      */
-    protected $filterDefinition = null;
+    protected $filterDefinition;
 
     /**
      * @var string
      */
-    protected $uniqueId = null;
+    protected $uniqueId;
 
     /**
      * @var array
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * @param string $columnName       The column name
@@ -38,9 +37,9 @@ class Filter
      */
     public function __construct($columnName, array $filterDefinition, $uniqueId)
     {
-        $this->columnName       = $columnName;
+        $this->columnName = $columnName;
         $this->filterDefinition = $filterDefinition;
-        $this->uniqueId         = $uniqueId;
+        $this->uniqueId = $uniqueId;
     }
 
     /**
@@ -48,7 +47,7 @@ class Filter
      */
     public function bindRequest(Request $request)
     {
-        /* @var FilterTypeInterface $type */
+        // @var FilterTypeInterface $type
         $type = $this->filterDefinition['type'];
         $type->bindRequest($request, $this->data, $this->uniqueId);
     }
@@ -86,7 +85,7 @@ class Filter
     }
 
     /**
-     * Apply the filter
+     * Apply the filter.
      */
     public function apply()
     {

@@ -3,10 +3,9 @@
 namespace Kunstmaan\NodeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Kunstmaan\AdminBundle\Entity\User;
 
 /**
- * NodeVersionLock
+ * NodeVersionLock.
  *
  * @ORM\Table(name="kuma_node_version_lock", indexes={
  *     @ORM\Index(name="nt_owner_public_idx", columns={"owner", "node_translation_id", "public_version"}),
@@ -31,7 +30,7 @@ class NodeVersionLock extends \Kunstmaan\AdminBundle\Entity\AbstractEntity
     private $nodeTranslation;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="public_version", type="boolean")
      */
@@ -43,7 +42,7 @@ class NodeVersionLock extends \Kunstmaan\AdminBundle\Entity\AbstractEntity
     private $createdAt;
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -57,7 +56,7 @@ class NodeVersionLock extends \Kunstmaan\AdminBundle\Entity\AbstractEntity
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -67,7 +66,7 @@ class NodeVersionLock extends \Kunstmaan\AdminBundle\Entity\AbstractEntity
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isPublicVersion()
     {
@@ -75,7 +74,7 @@ class NodeVersionLock extends \Kunstmaan\AdminBundle\Entity\AbstractEntity
     }
 
     /**
-     * @param boolean $publicVersion
+     * @param bool $publicVersion
      */
     public function setPublicVersion($publicVersion)
     {
@@ -83,9 +82,10 @@ class NodeVersionLock extends \Kunstmaan\AdminBundle\Entity\AbstractEntity
     }
 
     /**
-     * Set owner
+     * Set owner.
      *
      * @param string
+     * @param mixed $owner
      *
      * @return NodeVersionLock
      */
@@ -97,7 +97,7 @@ class NodeVersionLock extends \Kunstmaan\AdminBundle\Entity\AbstractEntity
     }
 
     /**
-     * Get owner
+     * Get owner.
      *
      * @return string
      */
@@ -107,7 +107,7 @@ class NodeVersionLock extends \Kunstmaan\AdminBundle\Entity\AbstractEntity
     }
 
     /**
-     * Set nodeTranslation
+     * Set nodeTranslation.
      *
      * @param \Kunstmaan\NodeBundle\Entity\NodeTranslation $nodeTranslation
      *
@@ -121,7 +121,7 @@ class NodeVersionLock extends \Kunstmaan\AdminBundle\Entity\AbstractEntity
     }
 
     /**
-     * Get nodeTranslation
+     * Get nodeTranslation.
      *
      * @return \Kunstmaan\NodeBundle\Entity\NodeTranslation
      */

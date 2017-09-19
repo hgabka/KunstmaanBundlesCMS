@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
- * AdminListController
+ * AdminListController.
  */
 abstract class AdminListController extends Controller
 {
@@ -36,18 +36,18 @@ abstract class AdminListController extends Controller
     }
 
     /**
-     * Shows the list of entities
+     * Shows the list of entities.
      *
      * @param AbstractAdminListConfigurator $configurator
-     * @param null|Request $request
+     * @param null|Request                  $request
      *
      * @return Response
      */
     protected function doIndexAction(AbstractAdminListConfigurator $configurator, Request $request)
     {
         $em = $this->getEntityManager();
-        /* @var AdminList $adminList */
-        $adminList = $this->get("kunstmaan_adminlist.factory")->createList($configurator, $em);
+        // @var AdminList $adminList
+        $adminList = $this->get('kunstmaan_adminlist.factory')->createList($configurator, $em);
         $adminList->bindRequest($request);
 
         $this->buildSortableFieldActions($configurator);
@@ -55,17 +55,17 @@ abstract class AdminListController extends Controller
         return new Response(
             $this->renderView(
                 $configurator->getListTemplate(),
-                array('adminlist' => $adminList, 'adminlistconfigurator' => $configurator, 'addparams' => array())
+                ['adminlist' => $adminList, 'adminlistconfigurator' => $configurator, 'addparams' => []]
             )
         );
     }
 
     /**
-     * Export a list of Entities
+     * Export a list of Entities.
      *
      * @param AbstractAdminListConfigurator $configurator The adminlist configurator
-     * @param string $_format The format to export to
-     * @param null|Request $request
+     * @param string                        $_format      The format to export to
+     * @param null|Request                  $request
      *
      * @throws AccessDeniedHttpException
      *
@@ -79,31 +79,31 @@ abstract class AdminListController extends Controller
 
         $em = $this->getEntityManager();
 
-        /* @var AdminList $adminList */
-        $adminList = $this->get("kunstmaan_adminlist.factory")->createExportList($configurator, $em);
+        // @var AdminList $adminList
+        $adminList = $this->get('kunstmaan_adminlist.factory')->createExportList($configurator, $em);
         $adminList->bindRequest($request);
 
-        return $this->get("kunstmaan_adminlist.service.export")->getDownloadableResponse($adminList, $_format);
+        return $this->get('kunstmaan_adminlist.service.export')->getDownloadableResponse($adminList, $_format);
     }
 
     /**
-     * Creates and processes the form to add a new Entity
+     * Creates and processes the form to add a new Entity.
      *
      * @param AbstractAdminListConfigurator $configurator The adminlist configurator
-     * @param string $type The type to add
-     * @param null|Request $request
+     * @param string                        $type         The type to add
+     * @param null|Request                  $request
      *
      * @throws AccessDeniedHttpException
      *
      * @return Response
      */
-    protected function doAddAction(AbstractAdminListConfigurator $configurator, $type = null, Request $request)
+    protected function doAddAction(AbstractAdminListConfigurator $configurator, $type, Request $request)
     {
         if (!$configurator->canAdd()) {
             throw new AccessDeniedHttpException('You do not have sufficient rights to access this page.');
         }
 
-        /* @var EntityManager $em */
+        // @var EntityManager $em
         $em = $this->getEntityManager();
         $repo = $em->getRepository($configurator->getRepositoryName());
         $entityName = null;
@@ -156,7 +156,7 @@ abstract class AdminListController extends Controller
                 if ($configurator instanceof SortableInterface) {
                     $sort = $configurator->getSortableField();
                     $weight = $this->getMaxSortableField($repo, $sort);
-                    $setter = "set".ucfirst($sort);
+                    $setter = 'set'.ucfirst($sort);
                     $helper->$setter($weight + 1);
                 }
 
@@ -175,15 +175,15 @@ abstract class AdminListController extends Controller
                 $indexUrl = $configurator->getIndexUrl();
 
                 return new RedirectResponse(
-                    $this->generateUrl($indexUrl['path'], isset($indexUrl['params']) ? $indexUrl['params'] : array())
+                    $this->generateUrl($indexUrl['path'], isset($indexUrl['params']) ? $indexUrl['params'] : [])
                 );
             }
         }
 
-        $params = array('form' => $form->createView(), 'adminlistconfigurator' => $configurator);
+        $params = ['form' => $form->createView(), 'adminlistconfigurator' => $configurator];
 
         if ($tabPane) {
-            $params = array_merge($params, array('tabPane' => $tabPane));
+            $params = array_merge($params, ['tabPane' => $tabPane]);
         }
 
         return new Response(
@@ -192,11 +192,11 @@ abstract class AdminListController extends Controller
     }
 
     /**
-     * Creates and processes the edit form for an Entity using its ID
+     * Creates and processes the edit form for an Entity using its ID.
      *
      * @param AbstractAdminListConfigurator $configurator The adminlist configurator
-     * @param string $entityId The id of the entity that will be edited
-     * @param null|Request $request
+     * @param string                        $entityId     The id of the entity that will be edited
+     * @param null|Request                  $request
      *
      * @throws NotFoundHttpException
      * @throws AccessDeniedHttpException
@@ -205,11 +205,11 @@ abstract class AdminListController extends Controller
      */
     protected function doEditAction(AbstractAdminListConfigurator $configurator, $entityId, Request $request)
     {
-        /* @var EntityManager $em */
+        // @var EntityManager $em
         $em = $this->getEntityManager();
         $helper = $em->getRepository($configurator->getRepositoryName())->findOneById($entityId);
-        if ($helper === null) {
-            throw new NotFoundHttpException("Entity not found.");
+        if (null === $helper) {
+            throw new NotFoundHttpException('Entity not found.');
         }
 
         if (!$configurator->canEdit($helper)) {
@@ -268,7 +268,7 @@ abstract class AdminListController extends Controller
                     return new RedirectResponse(
                         $this->generateUrl(
                             $indexUrl['path'],
-                            isset($indexUrl['params']) ? $indexUrl['params'] : array()
+                            isset($indexUrl['params']) ? $indexUrl['params'] : []
                         )
                     );
                 }
@@ -277,10 +277,10 @@ abstract class AdminListController extends Controller
 
         $configurator->buildItemActions();
 
-        $params = array('form' => $form->createView(), 'entity' => $helper, 'adminlistconfigurator' => $configurator);
+        $params = ['form' => $form->createView(), 'entity' => $helper, 'adminlistconfigurator' => $configurator];
 
         if ($tabPane) {
-            $params = array_merge($params, array('tabPane' => $tabPane));
+            $params = array_merge($params, ['tabPane' => $tabPane]);
         }
 
         return new Response(
@@ -293,11 +293,11 @@ abstract class AdminListController extends Controller
 
     protected function doViewAction(AbstractAdminListConfigurator $configurator, $entityId, Request $request)
     {
-        /* @var EntityManager $em */
+        // @var EntityManager $em
         $em = $this->getEntityManager();
         $helper = $em->getRepository($configurator->getRepositoryName())->findOneById($entityId);
-        if ($helper === null) {
-            throw new NotFoundHttpException("Entity not found.");
+        if (null === $helper) {
+            throw new NotFoundHttpException('Entity not found.');
         }
 
         if (!$configurator->canView($helper)) {
@@ -305,27 +305,26 @@ abstract class AdminListController extends Controller
         }
 
         $MetaData = $em->getClassMetadata($configurator->getRepositoryName());
-        $fields = array();
+        $fields = [];
         $accessor = PropertyAccess::createPropertyAccessor();
         foreach ($MetaData->fieldNames as $value) {
             $fields[$value] = $accessor->getValue($helper, $value);
         }
 
-
         return new Response(
             $this->renderView(
                 $configurator->getViewTemplate(),
-                array('entity' => $helper, 'adminlistconfigurator' => $configurator, 'fields' => $fields)
+                ['entity' => $helper, 'adminlistconfigurator' => $configurator, 'fields' => $fields]
             )
         );
     }
 
     /**
-     * Delete the Entity using its ID
+     * Delete the Entity using its ID.
      *
      * @param AbstractAdminListConfigurator $configurator The adminlist configurator
-     * @param integer $entityId The id to delete
-     * @param null|Request $request
+     * @param int                           $entityId     The id to delete
+     * @param null|Request                  $request
      *
      * @throws NotFoundHttpException
      * @throws AccessDeniedHttpException
@@ -334,11 +333,11 @@ abstract class AdminListController extends Controller
      */
     protected function doDeleteAction(AbstractAdminListConfigurator $configurator, $entityId, Request $request)
     {
-        /* @var $em EntityManager */
+        // @var $em EntityManager
         $em = $this->getEntityManager();
         $helper = $em->getRepository($configurator->getRepositoryName())->findOneById($entityId);
-        if ($helper === null) {
-            throw new NotFoundHttpException("Entity not found.");
+        if (null === $helper) {
+            throw new NotFoundHttpException('Entity not found.');
         }
         if (!$configurator->canDelete($helper)) {
             throw new AccessDeniedHttpException('You do not have sufficient rights to access this page.');
@@ -371,12 +370,14 @@ abstract class AdminListController extends Controller
         }
 
         return new RedirectResponse(
-            $this->generateUrl($indexUrl['path'], isset($indexUrl['params']) ? $indexUrl['params'] : array())
+            $this->generateUrl($indexUrl['path'], isset($indexUrl['params']) ? $indexUrl['params'] : [])
         );
     }
 
     /**
      * Move an item up in the list.
+     *
+     * @param mixed $entityId
      *
      * @return RedirectResponse
      */
@@ -387,8 +388,8 @@ abstract class AdminListController extends Controller
         $repo = $em->getRepository($configurator->getRepositoryName());
         $item = $repo->find($entityId);
 
-        $setter = "set".ucfirst($sortableField);
-        $getter = "get".ucfirst($sortableField);
+        $setter = 'set'.ucfirst($sortableField);
+        $getter = 'get'.ucfirst($sortableField);
 
         $nextItem = $repo->createQueryBuilder('i')
             ->where('i.'.$sortableField.' < :weight')
@@ -409,7 +410,7 @@ abstract class AdminListController extends Controller
         $indexUrl = $configurator->getIndexUrl();
 
         return new RedirectResponse(
-            $this->generateUrl($indexUrl['path'], isset($indexUrl['params']) ? $indexUrl['params'] : array())
+            $this->generateUrl($indexUrl['path'], isset($indexUrl['params']) ? $indexUrl['params'] : [])
         );
     }
 
@@ -420,8 +421,8 @@ abstract class AdminListController extends Controller
         $repo = $em->getRepository($configurator->getRepositoryName());
         $item = $repo->find($entityId);
 
-        $setter = "set".ucfirst($sortableField);
-        $getter = "get".ucfirst($sortableField);
+        $setter = 'set'.ucfirst($sortableField);
+        $getter = 'get'.ucfirst($sortableField);
 
         $nextItem = $repo->createQueryBuilder('i')
             ->where('i.'.$sortableField.' > :weight')
@@ -442,8 +443,34 @@ abstract class AdminListController extends Controller
         $indexUrl = $configurator->getIndexUrl();
 
         return new RedirectResponse(
-            $this->generateUrl($indexUrl['path'], isset($indexUrl['params']) ? $indexUrl['params'] : array())
+            $this->generateUrl($indexUrl['path'], isset($indexUrl['params']) ? $indexUrl['params'] : [])
         );
+    }
+
+    protected function buildSortableFieldActions(AbstractAdminListConfigurator $configurator)
+    {
+        // Check if Sortable interface is implemented
+        if ($configurator instanceof SortableInterface) {
+            $route = function (EntityInterface $item) use ($configurator) {
+                return [
+                    'path' => $configurator->getPathByConvention().'_move_up',
+                    'params' => ['id' => $item->getId()],
+                ];
+            };
+
+            $action = new SimpleItemAction($route, 'arrow-up', 'Move up');
+            $configurator->addItemAction($action);
+
+            $route = function (EntityInterface $item) use ($configurator) {
+                return [
+                    'path' => $configurator->getPathByConvention().'_move_down',
+                    'params' => ['id' => $item->getId()],
+                ];
+            };
+
+            $action = new SimpleItemAction($route, 'arrow-down', 'Move down');
+            $configurator->addItemAction($action);
+        }
     }
 
     private function getMaxSortableField($repo, $sort)
@@ -453,33 +480,6 @@ abstract class AdminListController extends Controller
             ->getQuery()
             ->getSingleScalarResult();
 
-        return (int)$maxWeight;
-    }
-
-
-    protected function buildSortableFieldActions(AbstractAdminListConfigurator $configurator)
-    {
-        // Check if Sortable interface is implemented
-        if ($configurator instanceof SortableInterface) {
-            $route = function (EntityInterface $item) use ($configurator) {
-                return array(
-                    'path' => $configurator->getPathByConvention().'_move_up',
-                    'params' => array('id' => $item->getId()),
-                );
-            };
-
-            $action = new SimpleItemAction($route, 'arrow-up', 'Move up');
-            $configurator->addItemAction($action);
-
-            $route = function (EntityInterface $item) use ($configurator) {
-                return array(
-                    'path' => $configurator->getPathByConvention().'_move_down',
-                    'params' => array('id' => $item->getId()),
-                );
-            };
-
-            $action = new SimpleItemAction($route, 'arrow-down', 'Move down');
-            $configurator->addItemAction($action);
-        }
+        return (int) $maxWeight;
     }
 }

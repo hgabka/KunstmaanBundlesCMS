@@ -12,15 +12,13 @@ use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 
-
 /**
  * The LanguageChooserRouter catches requests for the root (/) and will provide a way
- * to nicely handle different options on a multilanguage website
+ * to nicely handle different options on a multilanguage website.
  */
 class LanguageChooserRouter implements RouterInterface
 {
-
-    /** @var  RequestContext */
+    /** @var RequestContext */
     private $context;
 
     /** @var RouteCollection */
@@ -33,7 +31,7 @@ class LanguageChooserRouter implements RouterInterface
     private $container;
 
     /**
-     * The constructor for this service
+     * The constructor for this service.
      *
      * @param ContainerInterface $container
      */
@@ -44,16 +42,15 @@ class LanguageChooserRouter implements RouterInterface
 
         $this->routeCollection->add('_languagechooser', new Route(
             '/',
-            array(
-                '_controller' => 'KunstmaanLanguageChooserBundle:LanguageChooser:index'
-            )
+            [
+                '_controller' => 'KunstmaanLanguageChooserBundle:LanguageChooser:index',
+            ]
         ));
     }
 
-
     /**
      * Match given urls via the context to the routes we defined.
-     * This functionality re-uses the default Symfony way of routing and its components
+     * This functionality re-uses the default Symfony way of routing and its components.
      *
      * @param string $pathinfo
      *
@@ -104,15 +101,15 @@ class LanguageChooserRouter implements RouterInterface
     }
 
     /**
-     * Generate an url for a supplied route
+     * Generate an url for a supplied route.
      *
-     * @param string $name The path
-     * @param array $parameters The route parameters
-     * @param bool $absolute Absolute url or not
+     * @param string $name       The path
+     * @param array  $parameters The route parameters
+     * @param bool   $absolute   Absolute url or not
      *
      * @return null|string
      */
-    public function generate($name, $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_URL)
+    public function generate($name, $parameters = [], $absolute = UrlGeneratorInterface::ABSOLUTE_URL)
     {
         $this->urlGenerator = new UrlGenerator($this->routeCollection, $this->context);
 
@@ -120,7 +117,7 @@ class LanguageChooserRouter implements RouterInterface
     }
 
     /**
-     * Getter for routeCollection
+     * Getter for routeCollection.
      *
      * @return \Symfony\Component\Routing\RouteCollection
      */

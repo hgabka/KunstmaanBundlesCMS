@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
 /**
- * Generates classes based on the AbstractArticle classes from KunstmaanArticleBundle
+ * Generates classes based on the AbstractArticle classes from KunstmaanArticleBundle.
  */
 class GenerateArticleCommand extends GenerateDoctrineCommand
 {
@@ -23,15 +23,16 @@ class GenerateArticleCommand extends GenerateDoctrineCommand
     {
         $this
             ->setDefinition(
-                array(
+                [
                     new InputOption('namespace', '', InputOption::VALUE_REQUIRED, 'The namespace to generate the Article classes in'),
                     new InputOption('entity', '', InputOption::VALUE_REQUIRED, 'The article class name ("News", "Press", ..."'),
                     new InputOption('prefix', '', InputOption::VALUE_OPTIONAL, 'The prefix to be used in the table names of the generated entities'),
-                    new InputOption('dummydata', null, InputOption::VALUE_NONE, 'If set, the task will generate data fixtures to populate your database')
-                )
+                    new InputOption('dummydata', null, InputOption::VALUE_NONE, 'If set, the task will generate data fixtures to populate your database'),
+                ]
             )
             ->setDescription('Generates Article classes based on KunstmaanArticleBundle')
-            ->setHelp(<<<EOT
+            ->setHelp(
+                <<<'EOT'
 The <info>kuma:generate:article</info> command generates classes for Articles using the KunstmaanArticleBundle
 
 <info>php bin/console kuma:generate:article --namespace=Namespace/NamedBundle --entity=Article</info>
@@ -59,10 +60,10 @@ EOT
         $questionHelper = $this->getQuestionHelper();
         $questionHelper->writeSection($output, 'Article Generation');
 
-        GeneratorUtils::ensureOptionsProvided($input, array('namespace', 'entity'));
+        GeneratorUtils::ensureOptionsProvided($input, ['namespace', 'entity']);
 
         $namespace = Validators::validateBundleNamespace($input->getOption('namespace'));
-        $bundle = strtr($namespace, array('\\' => ''));
+        $bundle = strtr($namespace, ['\\' => '']);
         $entity = ucfirst($input->getOption('entity'));
 
         $prefix = $input->getOption('prefix');
@@ -73,12 +74,13 @@ EOT
             ->getKernel()
             ->getBundle($bundle);
 
-        $generator = $this->getGenerator($this->getApplication()->getKernel()->getBundle("KunstmaanGeneratorBundle"));
+        $generator = $this->getGenerator($this->getApplication()->getKernel()->getBundle('KunstmaanGeneratorBundle'));
         $generator->generate($bundle, $entity, $prefix, $dummydata, $output);
 
-        $output->writeln(array('Make sure you update your database first before using the created entities:',
+        $output->writeln(
+            ['Make sure you update your database first before using the created entities:',
                 '    Directly update your database:          <comment>bin/console doctrine:schema:update --force</comment>',
-                '    Create a Doctrine migration and run it: <comment>bin/console doctrine:migrations:diff && bin/console doctrine:migrations:migrate</comment>')
+                '    Create a Doctrine migration and run it: <comment>bin/console doctrine:migrations:diff && bin/console doctrine:migrations:migrate</comment>', ]
         );
 
         if ($dummydata) {
@@ -95,35 +97,35 @@ EOT
 
         $inputAssistant = GeneratorUtils::getInputAssistant($input, $output, $questionHelper, $this->getApplication()->getKernel(), $this->getContainer());
 
-        $inputAssistant->askForNamespace(array(
+        $inputAssistant->askForNamespace([
             '',
             'This command helps you to generate the Article classes.',
             'You must specify the namespace of the bundle where you want to generate the classes in.',
             'Use <comment>/</comment> instead of <comment>\\ </comment>for the namespace delimiter to avoid any problem.',
             '',
-        ));
+        ]);
 
         // entity
         $entity = $input->getOption('entity') ? $input->getOption('entity') : null;
 
-        if (is_null($entity)) {
-            $output->writeln(array(
+        if (null === $entity) {
+            $output->writeln([
                 '',
                 'You must specify a name for the collection of Article entities.',
                 'This name will be prefixed before every new entity.',
                 'For example entering <comment>News</comment> will result in:',
                 '<comment>News</comment>OverviewPage, <comment>News</comment>Page and <comment>News</comment>Author',
                 '',
-            ));
+            ]);
 
             $entityValidation = function ($entity) {
                 if (empty($entity)) {
                     throw new \RuntimeException('You have to provide a entity name!');
                 } elseif (!preg_match('/^[a-zA-Z][a-zA-Z_0-9]+$/', $entity)) {
-                    throw new \InvalidArgumentException(sprintf("%s".' contains invalid characters', $entity));
-                } else {
-                    return $entity;
+                    throw new \InvalidArgumentException(sprintf('%s'.' contains invalid characters', $entity));
                 }
+
+                return $entity;
             };
 
             $question = new Question($questionHelper->getQuestion('Name', $entity), $entity);

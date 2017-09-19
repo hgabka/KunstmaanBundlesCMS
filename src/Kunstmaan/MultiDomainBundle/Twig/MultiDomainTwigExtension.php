@@ -23,17 +23,16 @@ class MultiDomainTwigExtension extends \Twig_Extension implements \Twig_Extensio
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('get_multi_domain_hosts', array($this, 'getMultiDomainHosts')),
-            new \Twig_SimpleFunction('get_current_host', array($this, 'getCurrentHost')),
-            new \Twig_SimpleFunction('get_extra_data', array($this, 'getExtraData')),
-            new \Twig_SimpleFunction('get_current_full_host', array($this, 'getCurrentFullHost')),
-        );
+        return [
+            new \Twig_SimpleFunction('get_multi_domain_hosts', [$this, 'getMultiDomainHosts']),
+            new \Twig_SimpleFunction('get_current_host', [$this, 'getCurrentHost']),
+            new \Twig_SimpleFunction('get_extra_data', [$this, 'getExtraData']),
+            new \Twig_SimpleFunction('get_current_full_host', [$this, 'getCurrentFullHost']),
+        ];
     }
 
     /**
      * @param $key
-     * @return null
      */
     public function getExtraData($key)
     {

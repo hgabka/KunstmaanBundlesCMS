@@ -10,9 +10,9 @@ class KunstmaanTranslatorCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        $loaderRefs = array();
-        $loaderAliases = array();
-        $exporterRefs = array();
+        $loaderRefs = [];
+        $loaderAliases = [];
+        $exporterRefs = [];
 
         // look for all tagged translation file loaders, inject them into the importer
         foreach ($container->findTaggedServiceIds('translation.loader') as $id => $attributes) {
@@ -26,7 +26,7 @@ class KunstmaanTranslatorCompilerPass implements CompilerPassInterface
         }
 
         if ($container->hasDefinition('kunstmaan_translator.service.importer.importer')) {
-            $container->getDefinition('kunstmaan_translator.service.importer.importer')->addMethodCall('setLoaders', array($loaderRefs));
+            $container->getDefinition('kunstmaan_translator.service.importer.importer')->addMethodCall('setLoaders', [$loaderRefs]);
         }
 
         if ($container->hasDefinition('kunstmaan_translator.service.translator.translator')) {
@@ -39,7 +39,7 @@ class KunstmaanTranslatorCompilerPass implements CompilerPassInterface
         }
 
         if ($container->hasDefinition('kunstmaan_translator.service.exporter.exporter')) {
-            $container->getDefinition('kunstmaan_translator.service.exporter.exporter')->addMethodCall('setExporters', array($exporterRefs));
+            $container->getDefinition('kunstmaan_translator.service.exporter.exporter')->addMethodCall('setExporters', [$exporterRefs]);
         }
     }
 }

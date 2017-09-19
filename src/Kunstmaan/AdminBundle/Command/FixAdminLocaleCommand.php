@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Symfony CLI command to set admin locale
+ * Symfony CLI command to set admin locale.
  */
 class FixAdminLocaleCommand extends ContainerAwareCommand
 {
@@ -25,7 +25,7 @@ class FixAdminLocaleCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface $input The input
+     * @param InputInterface  $input  The input
      * @param OutputInterface $output The output
      *
      * @return int
@@ -35,7 +35,7 @@ class FixAdminLocaleCommand extends ContainerAwareCommand
         /** @var EntityManager $em */
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
 
-        /* @var EntityRepository $repo */
+        // @var EntityRepository $repo
         $repo = $em->getRepository('KunstmaanAdminBundle:User');
         $users = $repo->findAll();
         $defaultAdminLocale = $this->getContainer()->getParameter('kunstmaan_admin.default_admin_locale');

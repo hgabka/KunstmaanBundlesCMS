@@ -7,14 +7,14 @@ use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
- * DBALFilterTypeTestCase
+ * DBALFilterTypeTestCase.
  */
 abstract class DBALFilterTypeTestCase extends \PHPUnit_Framework_TestCase
 {
     protected function getQueryBuilder()
     {
-        /* @var Connection $conn */
-        $conn = $this->getMock('Doctrine\DBAL\Connection', array(), array(), '', false);
+        // @var Connection $conn
+        $conn = $this->getMock('Doctrine\DBAL\Connection', [], [], '', false);
 
         $expressionBuilder = new ExpressionBuilder($conn);
 

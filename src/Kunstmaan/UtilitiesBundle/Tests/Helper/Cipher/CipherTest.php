@@ -5,13 +5,14 @@ namespace Kunstmaan\UtilitiesBundle\Tests\Helper\Cipher;
 use Kunstmaan\UtilitiesBundle\Helper\Cipher\Cipher;
 
 /**
- * CipherTest
+ * CipherTest.
+ *
+ * @coversNothing
  */
 class CipherTest extends \PHPUnit_Framework_TestCase
 {
-
-    const SECRET = "secret";
-    const CONTENT = "This is a random sentence which will be encrypted and then decrypted!";
+    const SECRET = 'secret';
+    const CONTENT = 'This is a random sentence which will be encrypted and then decrypted!';
 
     /**
      * @var Cipher
@@ -22,7 +23,7 @@ class CipherTest extends \PHPUnit_Framework_TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      *
-     * @covers Kunstmaan\UtilitiesBundle\Helper\Cipher\Cipher::__construct
+     * @covers \Kunstmaan\UtilitiesBundle\Helper\Cipher\Cipher::__construct
      */
     protected function setUp()
     {
@@ -38,15 +39,14 @@ class CipherTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\UtilitiesBundle\Helper\Cipher\Cipher::encrypt
-     * @covers Kunstmaan\UtilitiesBundle\Helper\Cipher\Cipher::decrypt
+     * @covers \Kunstmaan\UtilitiesBundle\Helper\Cipher\Cipher::encrypt
+     * @covers \Kunstmaan\UtilitiesBundle\Helper\Cipher\Cipher::decrypt
      */
     public function testEncryptDecrypt()
     {
         $encryptedValue = $this->cipher->encrypt(self::CONTENT);
-        $this->assertNotEquals(self::CONTENT, $encryptedValue);
+        $this->assertNotSame(self::CONTENT, $encryptedValue);
         $decryptedValue = $this->cipher->decrypt($encryptedValue);
-        $this->assertEquals($decryptedValue, self::CONTENT);
+        $this->assertSame($decryptedValue, self::CONTENT);
     }
-
 }

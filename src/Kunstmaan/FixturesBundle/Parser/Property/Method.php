@@ -7,7 +7,9 @@ class Method implements PropertyParserInterface
     const REGEX = '/<[a-zA-Z0-9]+\([^\)]*\)>/';
 
     /**
-     * Check if this parser is applicable
+     * Check if this parser is applicable.
+     *
+     * @param mixed $value
      *
      * @return bool
      */
@@ -21,14 +23,16 @@ class Method implements PropertyParserInterface
     }
 
     /**
-     * Parse provided value into new data
+     * Parse provided value into new data.
      *
      * @param $value
      * @param $providers
      * @param array $references
      * @param array $additional
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function parse($value, $providers, $references = [], $additional = [])
     {
@@ -43,7 +47,7 @@ class Method implements PropertyParserInterface
             }, $arguments);
 
             foreach ($providers as $provider) {
-                /**
+                /*
                  * Call method from provider with/without arguments
                  * 1: Arguments are passed through from fixture
                  * 2: Search if method needs arguments en find them through typehint and additional params
@@ -58,14 +62,16 @@ class Method implements PropertyParserInterface
                         $arguments = array_merge($arguments, $this->findArguments($parametersNeeded, $additional));
 
                         if (count($parameters) !== count($arguments)) {
-                            throw new \Exception('Can not match all arguments for provider ' . get_class($provider));
+                            throw new \Exception('Can not match all arguments for provider '.get_class($provider));
                         }
                     }
 
                     $value = $this->processValue($pattern, $refl->invokeArgs($provider, $arguments), $value, $matches[0]);
+
                     break;
                 } elseif (is_callable([$provider, $method])) {
-                    $value = $this->processValue($pattern, call_user_func_array(array($provider, $method), $arguments), $value, $matches[0]);
+                    $value = $this->processValue($pattern, call_user_func_array([$provider, $method], $arguments), $value, $matches[0]);
+
                     break;
                 }
             }
@@ -85,30 +91,31 @@ class Method implements PropertyParserInterface
         }
 
         return str_replace($pattern, $result, $value);
-
     }
 
     /**
      * @param $parameters
      * @param $additional
+     *
      * @return array
      */
     private function findArguments($parameters, $additional)
     {
         $arguments = [];
-        if (count($parameters) == 0) {
+        if (0 === count($parameters)) {
             return $arguments;
         }
 
         foreach ($parameters as $parameter) {
             $argument = $this->typeHintChecker($parameter, $additional);
-            if ($argument !== null) {
+            if (null !== $argument) {
                 $arguments[] = $argument;
+
                 continue;
             }
 
             $argument = $this->getArgumentByName($parameter, $additional);
-            if ($argument !== null) {
+            if (null !== $argument) {
                 $arguments[] = $argument;
             }
         }
@@ -119,6 +126,7 @@ class Method implements PropertyParserInterface
     /**
      * @param \ReflectionParameter $parameter
      * @param $parameters
+     *
      * @return null|object
      */
     private function typeHintChecker(\ReflectionParameter $parameter, $parameters)
@@ -142,6 +150,7 @@ class Method implements PropertyParserInterface
     /**
      * @param \ReflectionParameter $parameter
      * @param $parameters
+     *
      * @return null|mixed
      */
     private function getArgumentByName(\ReflectionParameter $parameter, $parameters)

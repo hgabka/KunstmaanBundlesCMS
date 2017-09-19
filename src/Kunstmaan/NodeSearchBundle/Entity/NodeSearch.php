@@ -7,7 +7,7 @@ use Kunstmaan\AdminBundle\Entity\AbstractEntity;
 use Kunstmaan\NodeBundle\Entity\Node;
 
 /**
- * Node
+ * Node.
  *
  * @ORM\Entity()
  * @ORM\Table(name="kuma_nodes_search")

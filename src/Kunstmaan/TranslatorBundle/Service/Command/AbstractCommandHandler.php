@@ -5,13 +5,15 @@ namespace Kunstmaan\TranslatorBundle\Service\Command;
 abstract class AbstractCommandHandler
 {
     /**
-     * Managed locales from config file
+     * Managed locales from config file.
+     *
      * @var array
      */
     protected $managedLocales;
 
     /**
-     * Kernel
+     * Kernel.
+     *
      * @var AppKernel
      */
     protected $kernel;
@@ -27,10 +29,13 @@ abstract class AbstractCommandHandler
     }
 
     /**
-     * Parses a string of locales into an array
-     * @param  string     $locales ex. nl,fr, de, SE, eN
-     * @return array
+     * Parses a string of locales into an array.
+     *
+     * @param string $locales ex. nl,fr, de, SE, eN
+     *
      * @throws \Exception If the string with locales can't be parsed
+     *
+     * @return array
      */
     public function parseRequestedLocales($locales)
     {
@@ -44,8 +49,8 @@ abstract class AbstractCommandHandler
 
     public function parseCommaSeperatedValuesToArray($values)
     {
-        if (!is_array($values) && strpos($values, ',') === false && mb_strlen(trim($values)) == 2) {
-            return array(strtolower(trim($values)));
+        if (!is_array($values) && false === strpos($values, ',') && 2 === mb_strlen(trim($values))) {
+            return [strtolower(trim($values))];
         }
 
         if (!is_array($values)) {
@@ -53,7 +58,7 @@ abstract class AbstractCommandHandler
         }
 
         if (count($values) >= 1) {
-            return array_map(function($value) { return strtolower(trim($value)); }, $values);
+            return array_map(function ($value) { return strtolower(trim($value)); }, $values);
         }
 
         throw new \Exception('Invalid values specified');

@@ -6,7 +6,7 @@ use Kunstmaan\GeneratorBundle\Generator\PagePartGenerator;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Generates a new pagepart
+ * Generates a new pagepart.
  */
 class GeneratePagePartCommand extends KunstmaanGenerateCommand
 {
@@ -33,7 +33,7 @@ class GeneratePagePartCommand extends KunstmaanGenerateCommand
     /**
      * @var array
      */
-    private $sections = array();
+    private $sections = [];
 
     /**
      * @var bool
@@ -46,7 +46,8 @@ class GeneratePagePartCommand extends KunstmaanGenerateCommand
     protected function configure()
     {
         $this->setDescription('Generates a new pagepart')
-            ->setHelp(<<<EOT
+            ->setHelp(
+                <<<'EOT'
 The <info>kuma:generate:pagepart</info> command generates a new pagepart and the pagepart configuration.
 
 <info>php bin/console kuma:generate:pagepart</info>
@@ -74,12 +75,12 @@ EOT
         $this->createGenerator()->generate($this->bundle, $this->pagepartName, $this->prefix, $this->fields, $this->sections, $this->behatTest);
 
         $this->assistant->writeSection('PagePart successfully created', 'bg=green;fg=black');
-        $this->assistant->writeLine(array(
+        $this->assistant->writeLine([
             'Make sure you update your database first before you test the pagepart:',
             '    Directly update your database:          <comment>bin/console doctrine:schema:update --force</comment>',
             '    Create a Doctrine migration and run it: <comment>bin/console doctrine:migrations:diff && bin/console doctrine:migrations:migrate</comment>',
-            ($this->behatTest ? 'A new behat test is created, to run it: <comment>bin/behat --tags \'@'.$this->pagepartName.'\' @'.$this->bundle->getName().'</comment>' : '')
-        ));
+            ($this->behatTest ? 'A new behat test is created, to run it: <comment>bin/behat --tags \'@'.$this->pagepartName.'\' @'.$this->bundle->getName().'</comment>' : ''),
+        ]);
     }
 
     /**
@@ -91,33 +92,27 @@ EOT
             $this->assistant->writeError('KunstmaanPagePartBundle not found', true);
         }
 
-        $this->assistant->writeLine(array("This command helps you to generate a new pagepart.\n"));
+        $this->assistant->writeLine(["This command helps you to generate a new pagepart.\n"]);
 
-        /**
-         * Ask for which bundle we need to create the pagepart
-         */
+        // Ask for which bundle we need to create the pagepart
         $this->bundle = $this->askForBundleName('pagepart');
 
-        /**
-         * Ask the database table prefix
-         */
+        // Ask the database table prefix
         $this->prefix = $this->askForPrefix(null, $this->bundle->getNamespace());
 
-        /**
-         * Ask the name of the pagepart
-         */
-        $this->assistant->writeLine(array(
+        // Ask the name of the pagepart
+        $this->assistant->writeLine([
             '',
             'The name of your PagePart: For example: <comment>ContentBoxPagePart</comment>',
             '',
-        ));
+        ]);
         $generator = $this->getGenerator();
         $bundlePath = $this->bundle->getPath();
         $name = $this->assistant->askAndValidate(
             'PagePart name',
             function ($name) use ($generator, $bundlePath) {
                 // Check reserved words
-                if ($generator->isReservedKeyword($name)){
+                if ($generator->isReservedKeyword($name)) {
                     throw new \InvalidArgumentException(sprintf('"%s" is a reserved word', $name));
                 }
 
@@ -141,33 +136,53 @@ EOT
         );
         $this->pagepartName = $name;
 
-        /**
-         * Ask which fields need to be present
-         */
-        $this->assistant->writeLine(array("\nInstead of starting with a blank pagepart, you can add some fields now.\n"));
+        // Ask which fields need to be present
+        $this->assistant->writeLine(["\nInstead of starting with a blank pagepart, you can add some fields now.\n"]);
         $fields = $this->askEntityFields($this->bundle);
-        $this->fields = array();
+        $this->fields = [];
         foreach ($fields as $fieldInfo) {
-            if($fieldInfo['type'] == 'image') {
-                $this->fields[] = $this->getEntityFields($this->bundle, $this->pagepartName, $this->prefix, $fieldInfo['name'], $fieldInfo['type'],
-                    $fieldInfo['extra'], true, $fieldInfo['minHeight'], $fieldInfo['maxHeight'], $fieldInfo['minWidth'], $fieldInfo['maxWidth'], $fieldInfo['mimeTypes']);
+            if ('image' === $fieldInfo['type']) {
+                $this->fields[] = $this->getEntityFields(
+                    $this->bundle,
+                    $this->pagepartName,
+                    $this->prefix,
+                    $fieldInfo['name'],
+                    $fieldInfo['type'],
+                    $fieldInfo['extra'],
+                    true,
+                    $fieldInfo['minHeight'],
+                    $fieldInfo['maxHeight'],
+                    $fieldInfo['minWidth'],
+                    $fieldInfo['maxWidth'],
+                    $fieldInfo['mimeTypes']
+                );
+            } elseif ('media' === $fieldInfo['type']) {
+                $this->fields[] = $this->getEntityFields(
+                    $this->bundle,
+                    $this->pagepartName,
+                    $this->prefix,
+                    $fieldInfo['name'],
+                    $fieldInfo['type'],
+                    $fieldInfo['extra'],
+                    true,
+                    null,
+                    null,
+                    null,
+                    null,
+                    $fieldInfo['mimeTypes']
+                );
+            } else {
+                $this->fields[] = $this->getEntityFields($this->bundle, $this->pagepartName, $this->prefix, $fieldInfo['name'], $fieldInfo['type'], $fieldInfo['extra'], true);
             }
-            elseif($fieldInfo['type'] == 'media') {
-                $this->fields[] = $this->getEntityFields($this->bundle, $this->pagepartName, $this->prefix, $fieldInfo['name'], $fieldInfo['type'],
-                    $fieldInfo['extra'], true, null, null, null, null, $fieldInfo['mimeTypes']);
-            }
-            else $this->fields[] = $this->getEntityFields($this->bundle, $this->pagepartName, $this->prefix, $fieldInfo['name'], $fieldInfo['type'], $fieldInfo['extra'], true);
         }
 
         /**
-         * Ask for which page sections we should enable this pagepart
+         * Ask for which page sections we should enable this pagepart.
          */
         $question = 'In which page section configuration file(s) do you want to add the pagepart (multiple possible, separated by comma)';
         $this->sections = $this->askForSections($question, $this->bundle, true);
 
-        /**
-         * Ask that you want to create behat tests for the new pagepart, if possible
-         */
+        // Ask that you want to create behat tests for the new pagepart, if possible
         if (count($this->sections) > 0 && $this->canGenerateBehatTests($this->bundle)) {
             $this->behatTest = $this->assistant->askConfirmation('Do you want to generate behat tests for this pagepart? (y/n)', 'y');
         } else {

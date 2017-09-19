@@ -3,14 +3,14 @@
 namespace Kunstmaan\FormBundle\Tests\Entity\PageParts;
 
 use ArrayObject;
-
 use Kunstmaan\FormBundle\Entity\PageParts\SingleLineTextPagePart;
 use Kunstmaan\FormBundle\Form\SingleLineTextPagePartAdminType;
-
-use Symfony\Component\Form\FormBuilderInterface;;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Tests for SingleLineTextPagePart
+ * Tests for SingleLineTextPagePart.
+ *
+ * @coversNothing
  */
 class SingleLineTextPagePartTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,7 +25,7 @@ class SingleLineTextPagePartTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new SingleLineTextPagePart;
+        $this->object = new SingleLineTextPagePart();
     }
 
     /**
@@ -37,48 +37,47 @@ class SingleLineTextPagePartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\SingleLineTextPagePart::setRegex
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\SingleLineTextPagePart::getRegex
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\SingleLineTextPagePart::setRegex
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\SingleLineTextPagePart::getRegex
      */
     public function testSetGetRegex()
     {
         $object = $this->object;
-        $regex = ".*example.*";
+        $regex = '.*example.*';
         $object->setRegex($regex);
-        $this->assertEquals($regex, $object->getRegex());
+        $this->assertSame($regex, $object->getRegex());
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\SingleLineTextPagePart::setErrorMessageRegex
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\SingleLineTextPagePart::getErrorMessageRegex
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\SingleLineTextPagePart::setErrorMessageRegex
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\SingleLineTextPagePart::getErrorMessageRegex
      */
     public function testSetErrorMessageRegex()
     {
         $object = $this->object;
-        $message = "Some example error message";
+        $message = 'Some example error message';
         $object->setErrorMessageRegex($message);
-        $this->assertEquals($message, $object->getErrorMessageRegex());
+        $this->assertSame($message, $object->getErrorMessageRegex());
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\SingleLineTextPagePart::getDefaultView
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\SingleLineTextPagePart::getDefaultView
      */
-
     public function testGetDefaultView()
     {
         $stringValue = $this->object->getDefaultView();
         $this->assertNotNull($stringValue);
-        $this->assertTrue(is_string($stringValue));
+        $this->assertInternalType('string', $stringValue);
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\SingleLineTextPagePart::adaptForm
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\SingleLineTextPagePart::adaptForm
      */
     public function testAdaptForm()
     {
         $object = $this->object;
         $object->setRequired(true);
-        $object->setRegex(".*example.*");
+        $object->setRegex('.*example.*');
 
         $formBuilder = $this->getMockBuilder('Symfony\Component\Form\FormBuilder')
             ->disableOriginalConstructor()
@@ -86,18 +85,18 @@ class SingleLineTextPagePartTest extends \PHPUnit_Framework_TestCase
 
         $formBuilder->expects($this->any())
             ->method('getData')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $fields = new ArrayObject();
 
-        $this->assertTrue(sizeof($fields) == 0);
-        /* @var $formBuilder FormBuilderInterface */
+        $this->assertTrue(0 === count($fields));
+        // @var $formBuilder FormBuilderInterface
         $object->adaptForm($formBuilder, $fields, 0);
-        $this->assertTrue(sizeof($fields) > 0);
+        $this->assertTrue(count($fields) > 0);
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\SingleLineTextPagePart::getDefaultAdminType
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\SingleLineTextPagePart::getDefaultAdminType
      */
     public function testGetDefaultAdminType()
     {

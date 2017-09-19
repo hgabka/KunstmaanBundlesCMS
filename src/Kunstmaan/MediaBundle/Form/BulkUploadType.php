@@ -7,18 +7,17 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * BulkUploadType
+ * BulkUploadType.
  */
 class BulkUploadType extends AbstractType
 {
-
     /**
      * @var string
      */
     protected $accept;
 
     /**
-     * contructor
+     * contructor.
      *
      * @param string $accept
      */
@@ -34,7 +33,7 @@ class BulkUploadType extends AbstractType
      * top most type. Type extensions can further modify the form.
      *
      * @param FormBuilderInterface $builder The form builder
-     * @param array $options The options
+     * @param array                $options The options
      *
      * @see FormTypeExtensionInterface::buildForm()
      */
@@ -43,15 +42,15 @@ class BulkUploadType extends AbstractType
         $builder->add(
             'files',
             FileType::class,
-            array(
+            [
                 'label' => 'media.form.bulk_upload.files.label',
                 'required' => false,
-                'attr' => array(
+                'attr' => [
                     'accept' => $this->accept,
                     'multiple' => 'multiple',
-                ),
-                'data_class' => null
-            )
+                ],
+                'data_class' => null,
+            ]
         );
     }
 

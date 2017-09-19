@@ -24,17 +24,17 @@ class DefaultAdminPanelAdaptor implements AdminPanelAdaptorInterface
      */
     public function getAdminPanelActions()
     {
-        return array(
+        return [
             $this->getLanguageChooserAction(),
             $this->getChangePasswordAction(),
-            $this->getLogoutAction()
-        );
+            $this->getLogoutAction(),
+        ];
     }
 
     protected function getLanguageChooserAction()
     {
         return new AdminPanelAction(
-            array(),
+            [],
             '',
             '',
             'KunstmaanAdminBundle:AdminPanel:_language_chooser.html.twig'
@@ -46,10 +46,10 @@ class DefaultAdminPanelAdaptor implements AdminPanelAdaptorInterface
         $user = $this->tokenStorage->getToken()->getUser();
 
         return new AdminPanelAction(
-            array(
+            [
                 'path' => 'KunstmaanAdminBundle_user_change_password',
-                'params' => array('id' => $user->getId())
-            ),
+                'params' => ['id' => $user->getId()],
+            ],
             ucfirst($user->getUsername()),
             'user'
         );
@@ -58,10 +58,10 @@ class DefaultAdminPanelAdaptor implements AdminPanelAdaptorInterface
     protected function getLogoutAction()
     {
         return new AdminPanelAction(
-            array(
+            [
                 'path' => 'fos_user_security_logout',
-                'attrs' => array('id' => 'app__logout', 'title' => 'logout'),
-            ),
+                'attrs' => ['id' => 'app__logout', 'title' => 'logout'],
+            ],
             '',
             'sign-out'
         );

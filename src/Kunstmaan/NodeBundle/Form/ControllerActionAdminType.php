@@ -8,11 +8,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * ControllerActionAdminType
+ * ControllerActionAdminType.
  */
 class ControllerActionAdminType extends AbstractType
 {
-
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -20,16 +19,16 @@ class ControllerActionAdminType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('id', HiddenType::class);
-        $builder->add('title', null, array(
+        $builder->add('title', null, [
             'label' => 'kuma_node.form.controller_action.title.label',
-        ));
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Kunstmaan\NodeBundle\Entity\AbstractControllerAction',
-        ));
+        ]);
     }
 
     /**
@@ -39,5 +38,4 @@ class ControllerActionAdminType extends AbstractType
     {
         return 'controller_action';
     }
-
 }

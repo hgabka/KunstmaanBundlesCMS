@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * FileHelper
+ * FileHelper.
  */
 class FileHelper
 {
@@ -34,6 +34,16 @@ class FileHelper
     public function __construct(Media $media)
     {
         $this->media = $media;
+    }
+
+    /**
+     * __destruct.
+     */
+    public function __destruct()
+    {
+        if (null !== $this->path) {
+            unlink($this->path);
+        }
     }
 
     /**
@@ -131,7 +141,7 @@ class FileHelper
             $this->media->setContent($file);
             $this->media->setContentType($file->getMimeType());
             $this->media->setUrl(
-                '/uploads/media/' . $this->media->getUuid() . '.' . $this->media->getContent()->getExtension()
+                '/uploads/media/'.$this->media->getUuid().'.'.$this->media->getContent()->getExtension()
             );
         }
     }
@@ -159,14 +169,15 @@ class FileHelper
 
         $url = parse_url($effectiveUrl);
         $info = pathinfo($url['path']);
-        $filename = $info['filename'] . "." . $info['extension'];
+        $filename = $info['filename'].'.'.$info['extension'];
 
         $upload = new UploadedFile($path, $filename);
         $this->getMedia()->setContent($upload);
 
-        if ($this->getMedia() === null) {
+        if (null === $this->getMedia()) {
             unlink($path);
-            throw new AccessDeniedException("Can not link file");
+
+            throw new AccessDeniedException('Can not link file');
         }
     }
 
@@ -176,15 +187,5 @@ class FileHelper
     public function getMedia()
     {
         return $this->media;
-    }
-
-    /**
-     * __destruct
-     */
-    public function __destruct()
-    {
-        if ($this->path !== null) {
-            unlink($this->path);
-        }
     }
 }

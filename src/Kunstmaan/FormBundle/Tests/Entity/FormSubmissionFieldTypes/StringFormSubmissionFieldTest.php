@@ -6,7 +6,9 @@ use Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\StringFormSubmissionFie
 use Kunstmaan\FormBundle\Form\StringFormSubmissionType;
 
 /**
- * Tests for StringFormSubmissionField
+ * Tests for StringFormSubmissionField.
+ *
+ * @coversNothing
  */
 class StringFormSubmissionFieldTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,7 +23,7 @@ class StringFormSubmissionFieldTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new StringFormSubmissionField;
+        $this->object = new StringFormSubmissionField();
     }
 
     /**
@@ -33,19 +35,19 @@ class StringFormSubmissionFieldTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\StringFormSubmissionField::getValue
-     * @covers Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\StringFormSubmissionField::setValue
+     * @covers \Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\StringFormSubmissionField::getValue
+     * @covers \Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\StringFormSubmissionField::setValue
      */
     public function testSetGetValue()
     {
         $object = $this->object;
         $value = 'test';
         $object->setValue($value);
-        $this->assertEquals($value, $object->getValue());
+        $this->assertSame($value, $object->getValue());
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\StringFormSubmissionField::getDefaultAdminType
+     * @covers \Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\StringFormSubmissionField::getDefaultAdminType
      */
     public function testGetDefaultAdminType()
     {
@@ -55,12 +57,12 @@ class StringFormSubmissionFieldTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\StringFormSubmissionField::__toString
+     * @covers \Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\StringFormSubmissionField::__toString
      */
     public function testToString()
     {
         $stringValue = $this->object->__toString();
         $this->assertNotNull($stringValue);
-        $this->assertTrue(is_string($stringValue));
+        $this->assertInternalType('string', $stringValue);
     }
 }

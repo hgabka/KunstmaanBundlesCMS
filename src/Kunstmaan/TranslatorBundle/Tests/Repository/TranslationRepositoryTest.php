@@ -1,11 +1,14 @@
 <?php
+
 namespace Kunstmaan\TranslatorBundle\Tests\Service\Importer;
 
 use Kunstmaan\TranslatorBundle\Tests\BaseTestCase;
 
+/**
+ * @coversNothing
+ */
 class TranslationRepositoryTest extends BaseTestCase
 {
-
     private $translationRepository;
 
     public function setUp()
@@ -39,7 +42,7 @@ class TranslationRepositoryTest extends BaseTestCase
      */
     public function testGetTranslationsByLocalesAndDomains()
     {
-        $result = $this->translationRepository->getTranslationsByLocalesAndDomains(array('nl'), array('messages'));
+        $result = $this->translationRepository->getTranslationsByLocalesAndDomains(['nl'], ['messages']);
         $this->assertInstanceOf('Kunstmaan\TranslatorBundle\Entity\Translation', $result[0]);
         $this->assertGreaterThan(0, count($result));
     }

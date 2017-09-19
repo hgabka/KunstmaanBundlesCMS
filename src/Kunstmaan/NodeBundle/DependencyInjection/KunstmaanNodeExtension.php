@@ -10,14 +10,14 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * This is the class that loads and manages your bundle configuration
+ * This is the class that loads and manages your bundle configuration.
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
 class KunstmaanNodeExtension extends Extension implements PrependExtensionInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -28,11 +28,12 @@ class KunstmaanNodeExtension extends Extension implements PrependExtensionInterf
 
         $container->setParameter('twig.form.resources', array_merge(
             $container->getParameter('twig.form.resources'),
-            array('KunstmaanNodeBundle:Form:formWidgets.html.twig')
+            ['KunstmaanNodeBundle:Form:formWidgets.html.twig']
         ));
 
         $container->setDefinition('kunstmaan_node.pages_configuration', new Definition(
-            'Kunstmaan\NodeBundle\Helper\PagesConfiguration', [$config['pages']]
+            'Kunstmaan\NodeBundle\Helper\PagesConfiguration',
+            [$config['pages']]
         ));
 
         $container->setParameter('kunstmaan_node.show_add_homepage', $config['show_add_homepage']);

@@ -6,13 +6,11 @@ use Doctrine\ORM\EntityManager;
 use Kunstmaan\AdminBundle\Entity\Role;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
-
 use Symfony\Component\Console\Input\InputInterface;
-
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Symfony CLI command to create a group using bin/console kuma:role:create <NAME_OF_THE_ROLE>
+ * Symfony CLI command to create a group using bin/console kuma:role:create <NAME_OF_THE_ROLE>.
  */
 class CreateRoleCommand extends ContainerAwareCommand
 {
@@ -23,10 +21,11 @@ class CreateRoleCommand extends ContainerAwareCommand
     {
         $this->setName('kuma:role:create')
             ->setDescription('Create a role.')
-            ->setDefinition(array(
+            ->setDefinition([
                 new InputArgument('role', InputArgument::REQUIRED, 'The role'),
-            ))
-            ->setHelp(<<<EOT
+            ])
+            ->setHelp(
+                <<<'EOT'
 The <info>kuma:role:create</info> command creates a role:
 
   <info>php bin/console kuma:role:create ROLE_ADMIN</info>
@@ -51,12 +50,12 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /* @var EntityManager $em */
+        // @var EntityManager $em
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
 
         $roleName = strtoupper($input->getArgument('role'));
-        if ('ROLE_' != substr($roleName, 0, 5)) {
-            $roleName = 'ROLE_' . $roleName;
+        if ('ROLE_' !== substr($roleName, 0, 5)) {
+            $roleName = 'ROLE_'.$roleName;
         }
 
         $role = new Role($roleName);

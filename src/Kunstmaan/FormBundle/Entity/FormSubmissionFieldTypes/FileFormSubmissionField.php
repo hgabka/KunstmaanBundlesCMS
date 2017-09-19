@@ -3,9 +3,7 @@
 namespace Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes;
 
 use Doctrine\ORM\Mapping as ORM;
-
 use Gedmo\Sluggable\Util\Urlizer;
-
 use Kunstmaan\FormBundle\Entity\FormSubmissionField;
 use Kunstmaan\FormBundle\Form\FileFormSubmissionType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -13,11 +11,10 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
-
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * The ChoiceFormSubmissionField can be used to store files to a FormSubmission
+ * The ChoiceFormSubmissionField can be used to store files to a FormSubmission.
  *
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
@@ -25,9 +22,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class FileFormSubmissionField extends FormSubmissionField
 {
+    /**
+     * Non-persistent storage of upload file.
+     *
+     * @Assert\File(maxSize="6000000")
+     *
+     * @var UploadedFile
+     */
+    public $file;
 
     /**
-     * The file name
+     * The file name.
      *
      * @ORM\Column(name="ffsf_value", type="string")
      */
@@ -49,25 +54,17 @@ class FileFormSubmissionField extends FormSubmissionField
     protected $url;
 
     /**
-     * Non-persistent storage of upload file
-     *
-     * @Assert\File(maxSize="6000000")
-     * @var $file UploadedFile
-     */
-    public $file;
-
-    /**
-     * A string representation of the current value
+     * A string representation of the current value.
      *
      * @return string
      */
     public function __toString()
     {
-        return !empty($this->fileName) ? $this->fileName : "";
+        return !empty($this->fileName) ? $this->fileName : '';
     }
 
     /**
-     * Checks if a file has been uploaded
+     * Checks if a file has been uploaded.
      *
      * @return bool
      */
@@ -77,9 +74,10 @@ class FileFormSubmissionField extends FormSubmissionField
     }
 
     /**
-     * Move the file to the given uploadDir and save the filename
+     * Move the file to the given uploadDir and save the filename.
      *
      * @param string $uploadDir
+     * @param mixed  $webDir
      */
     public function upload($uploadDir, $webDir)
     {
@@ -101,7 +99,7 @@ class FileFormSubmissionField extends FormSubmissionField
         $this->fileName = $safeFileName;
 
         // set the url to the uuid directory inside the web dir
-        $this->setUrl(sprintf('%s%s/', $webDir, $uuid) . $safeFileName);
+        $this->setUrl(sprintf('%s%s/', $webDir, $uuid).$safeFileName);
 
         // clean up the file property as you won't need it anymore
         $this->file = null;
@@ -136,11 +134,11 @@ class FileFormSubmissionField extends FormSubmissionField
         $baseName = !empty($fileExtension) ? basename($this->file->getClientOriginalName(), $fileExtension) : $this->file->getClientOriginalName();
         $safeBaseName = Urlizer::urlize($baseName);
 
-        return $safeBaseName . (!empty($newExtension) ? '.' . $newExtension : '');
+        return $safeBaseName.(!empty($newExtension) ? '.'.$newExtension : '');
     }
 
     /**
-     * Set the filename for the uploaded file
+     * Set the filename for the uploaded file.
      *
      * @param string $fileName
      *
@@ -154,7 +152,7 @@ class FileFormSubmissionField extends FormSubmissionField
     }
 
     /**
-     * Returns the filename of the uploaded file
+     * Returns the filename of the uploaded file.
      *
      * @return string
      */
@@ -164,7 +162,7 @@ class FileFormSubmissionField extends FormSubmissionField
     }
 
     /**
-     * Set uuid
+     * Set uuid.
      *
      * @param string $uuid
      *
@@ -178,7 +176,7 @@ class FileFormSubmissionField extends FormSubmissionField
     }
 
     /**
-     * Get uuid
+     * Get uuid.
      *
      * @return string
      */
@@ -188,7 +186,7 @@ class FileFormSubmissionField extends FormSubmissionField
     }
 
     /**
-     * Set url
+     * Set url.
      *
      * @param string $url
      *
@@ -202,7 +200,7 @@ class FileFormSubmissionField extends FormSubmissionField
     }
 
     /**
-     * Get url
+     * Get url.
      *
      * @return string
      */
@@ -212,17 +210,17 @@ class FileFormSubmissionField extends FormSubmissionField
     }
 
     /**
-     * Return the template for this field
+     * Return the template for this field.
      *
      * @return string
      */
     public function getSubmissionTemplate()
     {
-        return "KunstmaanFormBundle:FileUploadPagePart:submission.html.twig";
+        return 'KunstmaanFormBundle:FileUploadPagePart:submission.html.twig';
     }
 
     /**
-     * Returns the default form type for this FormSubmissionField
+     * Returns the default form type for this FormSubmissionField.
      *
      * @return FileFormSubmissionType
      */
@@ -230,5 +228,4 @@ class FileFormSubmissionField extends FormSubmissionField
     {
         return new FileFormSubmissionType();
     }
-
 }

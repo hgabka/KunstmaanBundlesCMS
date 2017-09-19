@@ -42,7 +42,6 @@ interface SearcherInterface
 
     /**
      * @return mixed
-     *
      * @return SearcherInterface
      */
     public function getData();
@@ -73,6 +72,7 @@ interface SearcherInterface
 
     /**
      * @param string $indexName
+     * @param mixed  $name
      *
      * @return SearcherInterface
      */

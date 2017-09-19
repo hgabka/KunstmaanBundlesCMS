@@ -6,7 +6,7 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 /**
- * DefaultIconFontLoader
+ * DefaultIconFontLoader.
  */
 class DefaultIconFontLoader extends AbstractIconFontLoader
 {
@@ -17,6 +17,7 @@ class DefaultIconFontLoader extends AbstractIconFontLoader
 
     /**
      * @param array $data
+     *
      * @throws MissingOptionsException
      * @throws InvalidOptionsException
      */
@@ -29,11 +30,11 @@ class DefaultIconFontLoader extends AbstractIconFontLoader
         $this->cssPath = trim($data['css'], '/');
         $pathInfo = pathinfo($this->cssPath);
 
-        if ($pathInfo['extension'] !== 'css') {
+        if ('css' !== $pathInfo['extension']) {
             throw new InvalidOptionsException(sprintf('The loader data requires a valid css file. "%s" given', $pathInfo['extension']));
         }
 
-        $cssPath = $this->rootPath . '/web/' . $this->cssPath;
+        $cssPath = $this->rootPath.'/web/'.$this->cssPath;
         if (!file_exists($cssPath)) {
             throw new InvalidOptionsException(sprintf('Could not find the css file with this path "%s"', $cssPath));
         }
@@ -44,7 +45,7 @@ class DefaultIconFontLoader extends AbstractIconFontLoader
      */
     public function getCssLink()
     {
-        return '/' . $this->cssPath;
+        return '/'.$this->cssPath;
     }
 
     /**
@@ -52,7 +53,7 @@ class DefaultIconFontLoader extends AbstractIconFontLoader
      */
     public function getCssClasses()
     {
-        $contents = file_get_contents($this->rootPath . '/web/' . $this->cssPath);
+        $contents = file_get_contents($this->rootPath.'/web/'.$this->cssPath);
 
         preg_match_all('/\.([a-zA-Z0-9-_]+):before[ ]*\{[ \n]*content:/', $contents, $matches);
 

@@ -7,11 +7,10 @@ use Kunstmaan\MediaBundle\Form\RemoteVideo\RemoteVideoType;
 use Kunstmaan\MediaBundle\Helper\Media\AbstractMediaHandler;
 
 /**
- * RemoteVideoStrategy
+ * RemoteVideoStrategy.
  */
 class RemoteVideoHandler extends AbstractMediaHandler
 {
-
     /**
      * @var string
      */
@@ -23,13 +22,15 @@ class RemoteVideoHandler extends AbstractMediaHandler
     /**
      * @var array
      */
-    protected $configuration = array();
+    protected $configuration = [];
 
     /**
-     * Constructor. Takes the configuration of the RemoveVideoHandler
+     * Constructor. Takes the configuration of the RemoveVideoHandler.
+     *
      * @param array $configuration
+     * @param mixed $priority
      */
-    public function __construct($priority, $configuration = array())
+    public function __construct($priority, $configuration = [])
     {
         parent::__construct($priority);
         $this->configuration = $configuration;
@@ -48,7 +49,7 @@ class RemoteVideoHandler extends AbstractMediaHandler
      */
     public function getType()
     {
-        return RemoteVideoHandler::TYPE;
+        return self::TYPE;
     }
 
     /**
@@ -60,13 +61,13 @@ class RemoteVideoHandler extends AbstractMediaHandler
     }
 
     /**
-     * Return the default form type options
+     * Return the default form type options.
      *
      * @return array
      */
     public function getFormTypeOptions()
     {
-        return array('configuration' => $this->configuration);
+        return ['configuration' => $this->configuration];
     }
 
     /**
@@ -78,7 +79,7 @@ class RemoteVideoHandler extends AbstractMediaHandler
     {
         if (
             (is_string($object)) ||
-            ($object instanceof Media && $object->getContentType() == RemoteVideoHandler::CONTENT_TYPE)
+            ($object instanceof Media && self::CONTENT_TYPE === $object->getContentType())
         ) {
             return true;
         }
@@ -113,50 +114,39 @@ class RemoteVideoHandler extends AbstractMediaHandler
         switch ($video->getType()) {
             case 'youtube':
                 try {
-                    if (@fopen('https://img.youtube.com/vi/'.$code.'/maxresdefault.jpg', 'r') === false) {
+                    if (false === @fopen('https://img.youtube.com/vi/'.$code.'/maxresdefault.jpg', 'r')) {
                         $video->setThumbnailUrl('https://img.youtube.com/vi/'.$code.'/0.jpg');
                     } else {
                         $video->setThumbnailUrl('https://img.youtube.com/vi/'.$code.'/maxresdefault.jpg');
                     }
-                } catch (\Exception $e) {}
+                } catch (\Exception $e) {
+                }
+
                 break;
             case 'vimeo':
                 try {
-                    $xml = simplexml_load_file('https://vimeo.com/api/v2/video/' . $code . '.xml');
-                    $video->setThumbnailUrl((string)$xml->video->thumbnail_large);
+                    $xml = simplexml_load_file('https://vimeo.com/api/v2/video/'.$code.'.xml');
+                    $video->setThumbnailUrl((string) $xml->video->thumbnail_large);
                 } catch (\Exception $e) {
-
                 }
+
                 break;
             case 'dailymotion':
                 try {
                     $json = json_decode(
-                        file_get_contents('https://api.dailymotion.com/video/' . $code . '?fields=thumbnail_large_url')
+                        file_get_contents('https://api.dailymotion.com/video/'.$code.'?fields=thumbnail_large_url')
                     );
                     $thumbnailUrl = $json->{'thumbnail_large_url'};
-                    /* dirty hack to fix urls for imagine */
+                    // dirty hack to fix urls for imagine
                     if (!$this->endsWith($thumbnailUrl, '.jpg') && !$this->endsWith($thumbnailUrl, '.png')) {
-                        $thumbnailUrl = $thumbnailUrl . '&ext=.jpg';
+                        $thumbnailUrl = $thumbnailUrl.'&ext=.jpg';
                     }
                     $video->setThumbnailUrl($thumbnailUrl);
                 } catch (\Exception $e) {
-
                 }
+
                 break;
         }
-    }
-
-    /**
-     * String helper
-     *
-     * @param string $str string
-     * @param string $sub substring
-     *
-     * @return boolean
-     */
-    private function endsWith($str, $sub)
-    {
-        return substr($str, strlen($str) - strlen($sub)) === $sub;
     }
 
     /**
@@ -174,12 +164,10 @@ class RemoteVideoHandler extends AbstractMediaHandler
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function updateMedia(Media $media)
     {
-
-
     }
 
     /**
@@ -187,16 +175,16 @@ class RemoteVideoHandler extends AbstractMediaHandler
      *
      * @return array
      */
-    public function getAddUrlFor(array $params = array())
+    public function getAddUrlFor(array $params = [])
     {
-        return array(
-            'video' => array(
+        return [
+            'video' => [
                 'path' => 'KunstmaanMediaBundle_folder_videocreate',
-                'params' => array(
-                    'folderId' => $params['folderId']
-                )
-            )
-        );
+                'params' => [
+                    'folderId' => $params['folderId'],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -208,8 +196,8 @@ class RemoteVideoHandler extends AbstractMediaHandler
     {
         $result = null;
         if (is_string($data)) {
-            if (strpos($data, 'http') !== 0) {
-                $data = 'http://' . $data;
+            if (0 !== strpos($data, 'http')) {
+                $data = 'http://'.$data;
             }
             $parsedUrl = parse_url($data);
             switch ($parsedUrl['host']) {
@@ -220,9 +208,9 @@ class RemoteVideoHandler extends AbstractMediaHandler
                     $video->setType('youtube');
                     $video->setCode($code);
                     $result = $video->getMedia();
-                    $result->setName('Youtube ' . $code);
-                    break;
+                    $result->setName('Youtube '.$code);
 
+                    break;
                 case 'www.youtube.com':
                 case 'youtube.com':
                     parse_str($parsedUrl['query'], $queryFields);
@@ -232,7 +220,8 @@ class RemoteVideoHandler extends AbstractMediaHandler
                     $video->setType('youtube');
                     $video->setCode($code);
                     $result = $video->getMedia();
-                    $result->setName('Youtube ' . $code);
+                    $result->setName('Youtube '.$code);
+
                     break;
                 case 'www.vimeo.com':
                 case 'vimeo.com':
@@ -242,7 +231,8 @@ class RemoteVideoHandler extends AbstractMediaHandler
                     $video->setType('vimeo');
                     $video->setCode($code);
                     $result = $video->getMedia();
-                    $result->setName('Vimeo ' . $code);
+                    $result->setName('Vimeo '.$code);
+
                     break;
                 case 'www.dailymotion.com':
                 case 'dailymotion.com':
@@ -252,7 +242,8 @@ class RemoteVideoHandler extends AbstractMediaHandler
                     $video->setType('dailymotion');
                     $video->setCode($code);
                     $result = $video->getMedia();
-                    $result->setName('Dailymotion ' . $code);
+                    $result->setName('Dailymotion '.$code);
+
                     break;
             }
         }
@@ -261,7 +252,7 @@ class RemoteVideoHandler extends AbstractMediaHandler
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getShowTemplate(Media $media)
     {
@@ -269,7 +260,7 @@ class RemoteVideoHandler extends AbstractMediaHandler
     }
 
     /**
-     * @param Media $media The media entity
+     * @param Media  $media    The media entity
      * @param string $basepath The base path
      *
      * @return string
@@ -286,11 +277,24 @@ class RemoteVideoHandler extends AbstractMediaHandler
      */
     public function getAddFolderActions()
     {
-        return array(
-            RemoteVideoHandler::TYPE => array(
-                'type' => RemoteVideoHandler::TYPE,
-                'name' => 'media.video.add'
-            )
-        );
+        return [
+            self::TYPE => [
+                'type' => self::TYPE,
+                'name' => 'media.video.add',
+            ],
+        ];
+    }
+
+    /**
+     * String helper.
+     *
+     * @param string $str string
+     * @param string $sub substring
+     *
+     * @return bool
+     */
+    private function endsWith($str, $sub)
+    {
+        return substr($str, strlen($str) - strlen($sub)) === $sub;
     }
 }

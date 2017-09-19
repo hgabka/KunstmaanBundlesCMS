@@ -5,7 +5,6 @@ namespace Kunstmaan\UtilitiesBundle\Twig;
 use Kunstmaan\UtilitiesBundle\Helper\SlugifierInterface;
 use Twig_Extension;
 
-
 class UtilitiesTwigExtension extends Twig_Extension
 {
     /**
@@ -16,7 +15,7 @@ class UtilitiesTwigExtension extends Twig_Extension
     /**
      * @param $slugifier
      */
-    function __construct($slugifier)
+    public function __construct($slugifier)
     {
         $this->slugifier = $slugifier;
     }
@@ -28,9 +27,9 @@ class UtilitiesTwigExtension extends Twig_Extension
      */
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('slugify', array($this, 'slugify')),
-        );
+        return [
+            new \Twig_SimpleFilter('slugify', [$this, 'slugify']),
+        ];
     }
 
     /**

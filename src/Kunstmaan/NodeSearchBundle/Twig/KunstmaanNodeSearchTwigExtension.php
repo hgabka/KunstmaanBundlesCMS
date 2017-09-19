@@ -37,10 +37,10 @@ class KunstmaanNodeSearchTwigExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('get_parent_page', array($this, 'getParentPage')),
-            new \Twig_SimpleFunction('render_indexable_pageparts', array($this, 'renderIndexablePageParts'), array('needs_environment' => true, 'needs_context' => true, 'is_safe' => array('html'))),
-        );
+        return [
+            new \Twig_SimpleFunction('get_parent_page', [$this, 'getParentPage']),
+            new \Twig_SimpleFunction('render_indexable_pageparts', [$this, 'renderIndexablePageParts'], ['needs_environment' => true, 'needs_context' => true, 'is_safe' => ['html']]),
+        ];
     }
 
     /**
@@ -74,16 +74,15 @@ class KunstmaanNodeSearchTwigExtension extends \Twig_Extension
         array $twigContext,
         HasPagePartsInterface $page,
         $contextName = 'main',
-        array $parameters = array()
-    )
-    {
+        array $parameters = []
+    ) {
         $template = $env->loadTemplate('KunstmaanNodeSearchBundle:PagePart:view.html.twig');
         $pageparts = $this->indexablePagePartsService->getIndexablePageParts($page, $contextName);
         $newTwigContext = array_merge(
             $parameters,
-            array(
-                'pageparts' => $pageparts
-            )
+            [
+                'pageparts' => $pageparts,
+            ]
         );
         $newTwigContext = array_merge($newTwigContext, $twigContext);
 

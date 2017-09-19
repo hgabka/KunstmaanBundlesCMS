@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * The default tab implementation
+ * The default tab implementation.
  */
 class Tab implements TabInterface
 {
@@ -30,14 +30,14 @@ class Tab implements TabInterface
     protected $identifier;
 
     /**
-     * @var FormHelper
-     */
-    private $formHelper;
-
-    /**
      * @var string
      */
     protected $template;
+
+    /**
+     * @var FormHelper
+     */
+    private $formHelper;
 
     /**
      * @param string     $title  The title
@@ -114,18 +114,6 @@ class Tab implements TabInterface
     }
 
     /**
-     * @return FormHelper
-     */
-    protected function getFormHelper()
-    {
-        if (is_null($this->formHelper)) {
-            $this->formHelper = new FormHelper();
-        }
-
-        return $this->formHelper;
-    }
-
-    /**
      * @param string $template
      */
     public function setTemplate($template)
@@ -169,5 +157,17 @@ class Tab implements TabInterface
     public function getExtraParams(Request $request)
     {
         return $this->widget->getExtraParams($request);
+    }
+
+    /**
+     * @return FormHelper
+     */
+    protected function getFormHelper()
+    {
+        if (null === $this->formHelper) {
+            $this->formHelper = new FormHelper();
+        }
+
+        return $this->formHelper;
     }
 }

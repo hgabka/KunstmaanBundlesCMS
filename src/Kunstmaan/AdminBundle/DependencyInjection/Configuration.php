@@ -7,7 +7,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 /**
- * This is the class that validates and merges configuration from your app/config files
+ * This is the class that validates and merges configuration from your app/config files.
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class}
  */
@@ -30,7 +30,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('admin_password')->end()
                 ->scalarNode('dashboard_route')->end()
                 ->arrayNode('admin_locales')
-                    ->defaultValue(array('en'))
+                    ->defaultValue(['en'])
                     ->prototype('scalar')->end()
                 ->end()
                 ->arrayNode('session_security')
@@ -61,7 +61,7 @@ class Configuration implements ConfigurationInterface
                     ->beforeNormalization()
                         ->always()
                         ->then(function ($v) {
-                            if ($v === true || (isset($v['enabled']) && $v['enabled'])) {
+                            if (true === $v || (isset($v['enabled']) && $v['enabled'])) {
                                 if (empty($v['client_id']) || empty($v['client_secret'])) {
                                     throw new InvalidConfigurationException('The "client_id" and "client_secret" settings are required under the "google_signin" group.');
                                 }

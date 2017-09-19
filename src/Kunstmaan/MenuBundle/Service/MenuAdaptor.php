@@ -25,23 +25,23 @@ class MenuAdaptor implements MenuAdaptorInterface
 
     /**
      * @param MenuBuilder $menu
-     * @param array $children
-     * @param MenuItem $parent
-     * @param Request $request
+     * @param array       $children
+     * @param MenuItem    $parent
+     * @param Request     $request
      */
     public function adaptChildren(MenuBuilder $menu, array &$children, MenuItem $parent = null, Request $request = null)
     {
         if (count($this->menuNames) > 0) {
-            if (!is_null($parent) && 'KunstmaanAdminBundle_modules' == $parent->getRoute()) {
+            if (null !== $parent && 'KunstmaanAdminBundle_modules' === $parent->getRoute()) {
                 $menuItem = new TopMenuItem($menu);
                 $menuItem
                     ->setRoute('kunstmaanmenubundle_admin_menu')
                     ->setUniqueId('menus')
-                    ->setLabel("Menus")
+                    ->setLabel('Menus')
                     ->setParent($parent);
-                if (in_array($request->attributes->get('_route'), array(
+                if (in_array($request->attributes->get('_route'), [
                     'kunstmaanmenubundle_admin_menu',
-                ))) {
+                ], true)) {
                     $menuItem->setActive(true);
                     $parent->setActive(true);
                 }

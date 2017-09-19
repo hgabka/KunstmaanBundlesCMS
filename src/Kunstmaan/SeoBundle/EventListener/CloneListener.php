@@ -3,18 +3,16 @@
 namespace Kunstmaan\SeoBundle\EventListener;
 
 use Doctrine\ORM\EntityManager;
-
 use Kunstmaan\AdminBundle\Entity\AbstractEntity;
 use Kunstmaan\AdminBundle\Event\DeepCloneAndSaveEvent;
 use Kunstmaan\AdminBundle\Helper\CloneHelper;
 use Kunstmaan\SeoBundle\Entity\Seo;
 
 /**
- * This event will make sure the seo metadata is copied when a page is cloned
+ * This event will make sure the seo metadata is copied when a page is cloned.
  */
 class CloneListener
 {
-
     /**
      * @var EntityManager
      */
@@ -43,11 +41,11 @@ class CloneListener
         $originalEntity = $event->getEntity();
 
         if ($originalEntity instanceof AbstractEntity) {
-            /* @var Seo $seo */
+            // @var Seo $seo
             $seo = $this->em->getRepository('KunstmaanSeoBundle:Seo')->findFor($originalEntity);
 
-            if (!is_null($seo)) {
-                /* @var Seo $clonedSeo */
+            if (null !== $seo) {
+                // @var Seo $clonedSeo
                 $clonedSeo = $this->cloneHelper->deepCloneAndSave($seo);
                 $clonedSeo->setRef($event->getClonedEntity());
 
@@ -56,5 +54,4 @@ class CloneListener
             }
         }
     }
-
 }

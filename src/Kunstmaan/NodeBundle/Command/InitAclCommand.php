@@ -17,7 +17,6 @@ use Symfony\Component\Security\Acl\Model\ObjectIdentityRetrievalStrategyInterfac
  */
 class InitAclCommand extends ContainerAwareCommand
 {
-
     /**
      * {@inheritdoc}
      */
@@ -27,7 +26,7 @@ class InitAclCommand extends ContainerAwareCommand
 
         $this->setName('kuma:init:acl')
             ->setDescription('Basic initialization of ACL for projects')
-            ->setHelp("The <info>kuma:init:acl</info> will create basic ACL entries for the nodes of the current project");
+            ->setHelp('The <info>kuma:init:acl</info> will create basic ACL entries for the nodes of the current project');
     }
 
     /**
@@ -35,19 +34,20 @@ class InitAclCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /* @var EntityManager $em */
+        // @var EntityManager $em
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        /* @var MutableAclProviderInterface $aclProvider */
+        // @var MutableAclProviderInterface $aclProvider
         $aclProvider = $this->getContainer()->get('security.acl.provider');
-        /* @var ObjectIdentityRetrievalStrategyInterface $oidStrategy */
+        // @var ObjectIdentityRetrievalStrategyInterface $oidStrategy
         $oidStrategy = $this->getContainer()->get('security.acl.object_identity_retrieval_strategy');
 
         // Fetch all nodes & grant access
         $nodes = $em->getRepository('KunstmaanNodeBundle:Node')->findAll();
         $count = 0;
         foreach ($nodes as $node) {
-            $count++;
+            ++$count;
             $objectIdentity = $oidStrategy->getObjectIdentity($node);
+
             try {
                 $aclProvider->deleteAcl($objectIdentity);
             } catch (AclNotFoundException $e) {
@@ -70,5 +70,4 @@ class InitAclCommand extends ContainerAwareCommand
         }
         $output->writeln("{$count} nodes processed.");
     }
-
 }

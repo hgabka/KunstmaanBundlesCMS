@@ -9,16 +9,14 @@ use Kunstmaan\NodeSearchBundle\Helper\SearchBoostInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
- * Default node searcher implementation
- *
- * @package Kunstmaan\NodeSearchBundle\Search
+ * Default node searcher implementation.
  */
 class NodeSearcher extends AbstractElasticaSearcher
 {
     /**
      * @var TokenStorageInterface
      */
-    private $tokenStorage = null;
+    private $tokenStorage;
 
     /**
      * @var DomainConfigurationInterface
@@ -60,13 +58,12 @@ class NodeSearcher extends AbstractElasticaSearcher
     }
 
     /**
-     *
      * @param EntityManager $em
      */
-     public function setEntityManager(EntityManager $em)
-     {
-         $this->em = $em;
-     }
+    public function setEntityManager(EntityManager $em)
+    {
+        $this->em = $em;
+    }
 
     /**
      * @param mixed  $query
@@ -105,14 +102,14 @@ class NodeSearcher extends AbstractElasticaSearcher
 
         $this->applySecurityFilter($elasticaQueryBool);
 
-        if (!is_null($type)) {
+        if (null !== $type) {
             $elasticaQueryType = new \Elastica\Query\Term();
             $elasticaQueryType->setTerm('type', $type);
             $elasticaQueryBool->addMust($elasticaQueryType);
         }
 
         $rootNode = $this->domainConfiguration->getRootNode();
-        if (!is_null($rootNode)) {
+        if (null !== $rootNode) {
             $elasticaQueryRoot = new \Elastica\Query\Term();
             $elasticaQueryRoot->setTerm('root_id', $rootNode->getId());
             $elasticaQueryBool->addMust($elasticaQueryRoot);
@@ -124,16 +121,16 @@ class NodeSearcher extends AbstractElasticaSearcher
         $this->query->setQuery($elasticaQueryBool);
         $this->query->setRescore($rescore);
         $this->query->setHighlight(
-            array(
-                'pre_tags'  => array('<strong>'),
-                'post_tags' => array('</strong>'),
-                'fields'    => array(
-                    'content' => array(
-                        'fragment_size'       => 150,
-                        'number_of_fragments' => 3
-                    )
-                )
-            )
+            [
+                'pre_tags' => ['<strong>'],
+                'post_tags' => ['</strong>'],
+                'fields' => [
+                    'content' => [
+                        'fragment_size' => 150,
+                        'number_of_fragments' => 3,
+                    ],
+                ],
+            ]
         );
     }
 
@@ -158,8 +155,8 @@ class NodeSearcher extends AbstractElasticaSearcher
      */
     protected function getCurrentUserRoles()
     {
-        $roles = array();
-        if (!is_null($this->tokenStorage)) {
+        $roles = [];
+        if (null !== $this->tokenStorage) {
             $user = $this->tokenStorage->getToken()->getUser();
             if ($user instanceof BaseUser) {
                 $roles = $user->getRoles();
@@ -167,7 +164,7 @@ class NodeSearcher extends AbstractElasticaSearcher
         }
 
         // Anonymous access should always be available for both anonymous & logged in users
-        if (!in_array('IS_AUTHENTICATED_ANONYMOUSLY', $roles)) {
+        if (!in_array('IS_AUTHENTICATED_ANONYMOUSLY', $roles, true)) {
             $roles[] = 'IS_AUTHENTICATED_ANONYMOUSLY';
         }
 
@@ -175,7 +172,7 @@ class NodeSearcher extends AbstractElasticaSearcher
     }
 
     /**
-     * Apply PageType specific and Page specific boosts
+     * Apply PageType specific and Page specific boosts.
      *
      * @return \Elastica\Query\BoolQuery
      */
@@ -185,10 +182,10 @@ class NodeSearcher extends AbstractElasticaSearcher
 
         //Apply page type boosts
         $pageClasses = $this->em->getRepository('KunstmaanNodeBundle:Node')->findAllDistinctPageClasses();
-        foreach($pageClasses as $pageClass) {
+        foreach ($pageClasses as $pageClass) {
             $page = new $pageClass['refEntityName']();
 
-            if($page instanceof SearchBoostInterface) {
+            if ($page instanceof SearchBoostInterface) {
                 $elasticaQueryTypeBoost = new \Elastica\Query\QueryString();
                 $elasticaQueryTypeBoost
                     ->setBoost($page->getSearchBoost())

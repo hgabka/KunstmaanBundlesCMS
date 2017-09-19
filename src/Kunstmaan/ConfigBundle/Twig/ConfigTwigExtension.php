@@ -4,31 +4,31 @@ namespace Kunstmaan\ConfigBundle\Twig;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Kunstmaan\ConfigBundle\Entity\AbstractConfig;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig_Extension;
 
 /**
- * Extension to fetch config
+ * Extension to fetch config.
  */
 class ConfigTwigExtension extends Twig_Extension
 {
     /**
-     * @var EntityManagerInterface $em
+     * @var EntityManagerInterface
      */
     private $em;
 
     /**
-     * @var array $configuration
+     * @var array
      */
     private $configuration;
 
     /**
      * @var array
      */
-    private $configs = array();
+    private $configs = [];
 
     /**
      * @param \Doctrine\ORM\EntityManagerInterface $em
+     * @param mixed                                $configuration
      */
     public function __construct(EntityManagerInterface $em, $configuration)
     {
@@ -43,11 +43,12 @@ class ConfigTwigExtension extends Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
+        return [
             new \Twig_SimpleFunction(
-                'get_config_by_internal_name', array($this, 'getConfigByInternalName')
+                'get_config_by_internal_name',
+                [$this, 'getConfigByInternalName']
             ),
-        );
+        ];
     }
 
     /**
@@ -57,16 +58,16 @@ class ConfigTwigExtension extends Twig_Extension
      */
     public function getConfigByInternalName($internalName)
     {
-        if (in_array($internalName, $this->configs)) {
+        if (in_array($internalName, $this->configs, true)) {
             return $this->configs[$internalName];
         }
 
         foreach ($this->configuration['entities'] as $class) {
-            $entity = new $class;
+            $entity = new $class();
 
-            if ($entity->getInternalName() == $internalName) {
+            if ($entity->getInternalName() === $internalName) {
                 $repo = $this->em->getRepository($class);
-                $config = $repo->findOneBy(array());
+                $config = $repo->findOneBy([]);
 
                 $this->configs[$internalName] = $config;
 

@@ -24,14 +24,13 @@ class UrlReplaceTwigExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('replace_url', array($this, 'replaceUrl'))
-        );
+        return [
+            new \Twig_SimpleFilter('replace_url', [$this, 'replaceUrl']),
+        ];
     }
 
     public function replaceUrl($text)
     {
-
         return $this->urlHelper->replaceUrl($text);
     }
 }

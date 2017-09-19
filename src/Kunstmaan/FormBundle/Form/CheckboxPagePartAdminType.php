@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * This class represents the type for the CheckboxPagePart
+ * This class represents the type for the CheckboxPagePart.
  */
 class CheckboxPagePartAdminType extends AbstractType
 {
@@ -20,18 +20,18 @@ class CheckboxPagePartAdminType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('label', null, array(
+            ->add('label', null, [
                 'label' => 'kuma_form.form.checkbox_page_part.label.label',
                 'required' => false,
-            ))
-            ->add('required', CheckboxType::class, array(
+            ])
+            ->add('required', CheckboxType::class, [
                 'label' => 'kuma_form.form.checkbox_page_part.required.label',
                 'required' => false,
-            ))
-            ->add('errormessage_required', TextType::class, array(
+            ])
+            ->add('errormessage_required', TextType::class, [
                 'label' => 'kuma_form.form.checkbox_page_part.errormessage_required.label',
                 'required' => false,
-            ))
+            ])
         ;
     }
 
@@ -48,6 +48,6 @@ class CheckboxPagePartAdminType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array('data_class' => 'Kunstmaan\FormBundle\Entity\PageParts\CheckboxPagePart'));
+        $resolver->setDefaults(['data_class' => 'Kunstmaan\FormBundle\Entity\PageParts\CheckboxPagePart']);
     }
 }

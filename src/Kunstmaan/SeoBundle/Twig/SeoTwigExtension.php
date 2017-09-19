@@ -4,35 +4,31 @@ namespace Kunstmaan\SeoBundle\Twig;
 
 use Doctrine\ORM\EntityManager;
 use Kunstmaan\AdminBundle\Entity\AbstractEntity;
-
 use Kunstmaan\NodeBundle\Entity\AbstractPage;
-
 use Kunstmaan\SeoBundle\Entity\Seo;
-
-use Twig_Environment;
-
 use Twig_Extension;
 
 /**
- * Twig extensions for Seo
+ * Twig extensions for Seo.
  */
 class SeoTwigExtension extends Twig_Extension
 {
-
     /**
      * @var EntityManager
      */
     protected $em;
 
     /**
-     * Website title defined in your parameters
+     * Website title defined in your parameters.
+     *
      * @var string
      */
     private $websiteTitle;
 
     /**
      * Saves querying the db multiple times, if you happen to use any of the defined
-     * functions more than once in your templates
+     * functions more than once in your templates.
+     *
      * @var array
      */
     private $seoCache = [];
@@ -52,14 +48,14 @@ class SeoTwigExtension extends Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('render_seo_metadata_for', array($this, 'renderSeoMetadataFor'), array('is_safe' => array('html'), 'needs_environment' => true)),
-            new \Twig_SimpleFunction('get_seo_for', array($this, 'getSeoFor')),
-            new \Twig_SimpleFunction('get_title_for', array($this, 'getTitleFor')),
-            new \Twig_SimpleFunction('get_title_for_page_or_default', array($this, 'getTitleForPageOrDefault')),
-            new \Twig_SimpleFunction('get_absolute_url', array($this, 'getAbsoluteUrl')),
-            new \Twig_SimpleFunction('get_image_dimensions', array($this, 'getImageDimensions')),
-        );
+        return [
+            new \Twig_SimpleFunction('render_seo_metadata_for', [$this, 'renderSeoMetadataFor'], ['is_safe' => ['html'], 'needs_environment' => true]),
+            new \Twig_SimpleFunction('get_seo_for', [$this, 'getSeoFor']),
+            new \Twig_SimpleFunction('get_title_for', [$this, 'getTitleFor']),
+            new \Twig_SimpleFunction('get_title_for_page_or_default', [$this, 'getTitleForPageOrDefault']),
+            new \Twig_SimpleFunction('get_absolute_url', [$this, 'getAbsoluteUrl']),
+            new \Twig_SimpleFunction('get_image_dimensions', [$this, 'getImageDimensions']),
+        ];
     }
 
     /**
@@ -68,6 +64,7 @@ class SeoTwigExtension extends Twig_Extension
      *
      * @param string $url
      * @param string $host
+     *
      * @return string
      */
     public function getAbsoluteUrl($url, $host = null)
@@ -75,17 +72,16 @@ class SeoTwigExtension extends Twig_Extension
         $validUrl = filter_var($url, FILTER_VALIDATE_URL);
         $host = rtrim($host, '/');
 
-        if (!$validUrl === false) {
+        if (false === !$validUrl) {
             // The url is valid
             return $url;
-        } else {
-            // Prepend with $host if $url starts with "/"
-            if ($url[0] == '/') {
-                return $url = $host.$url;
-            }
-
-            return false;
         }
+        // Prepend with $host if $url starts with "/"
+        if ('/' === $url[0]) {
+            return $url = $host.$url;
+        }
+
+        return false;
     }
 
     /**
@@ -108,13 +104,13 @@ class SeoTwigExtension extends Twig_Extension
     /**
      * The first value that is not null or empty will be returned.
      *
-     * @param AbstractPage $entity The entity for which you want the page title.
+     * @param AbstractPage $entity the entity for which you want the page title
      *
      * @return string The page title. Will look in the SEO meta first, then the NodeTranslation, then the page.
      */
     public function getTitleFor(AbstractPage $entity)
     {
-        $arr = array();
+        $arr = [];
 
         $arr[] = $this->getSeoTitle($entity);
 
@@ -125,17 +121,17 @@ class SeoTwigExtension extends Twig_Extension
 
     /**
      * @param AbstractPage $entity
-     * @param null|string  $default If given we'll return this text if no SEO title was found.
+     * @param null|string  $default if given we'll return this text if no SEO title was found
      *
      * @return string
      */
     public function getTitleForPageOrDefault(AbstractPage $entity = null, $default = null)
     {
-        if (is_null($entity)) {
+        if (null === $entity) {
             return $default;
         }
 
-        $arr = array();
+        $arr = [];
 
         $arr[] = $this->getSeoTitle($entity);
 
@@ -160,53 +156,13 @@ class SeoTwigExtension extends Twig_Extension
         $template = $environment->loadTemplate($template);
 
         return $template->render(
-            array(
+            [
                 'seo' => $seo,
                 'entity' => $entity,
                 'currentNode' => $currentNode,
-            )
+            ]
         );
     }
-
-    /**
-     * @param array $values
-     *
-     * @return string
-     */
-    protected function getPreferredValue(array $values)
-    {
-        foreach ($values as $v) {
-            if (!is_null($v) && !empty($v)) {
-                return $v;
-            }
-        }
-
-        return '';
-    }
-
-    /**
-     * @param AbstractPage $entity
-     *
-     * @return null|string
-     */
-    private function getSeoTitle(AbstractPage $entity = null)
-    {
-        if (is_null($entity)) {
-            return null;
-        }
-
-        $seo = $this->getSeoFor($entity);
-        if (!is_null($seo)) {
-            $title = $seo->getMetaTitle();
-            if (!empty($title)) {
-                return str_replace('%websitetitle%', $this->getWebsiteTitle(), $title);
-            }
-        }
-
-
-        return null;
-    }
-
 
     /**
      * Gets the Website title defined in your parameters.
@@ -235,7 +191,7 @@ class SeoTwigExtension extends Twig_Extension
     /**
      * @param $src
      *
-     * @return array|null
+     * @return null|array
      */
     public function getImageDimensions($src)
     {
@@ -245,6 +201,44 @@ class SeoTwigExtension extends Twig_Extension
             return null;
         }
 
-        return array('width' => $width, 'height' => $height);
+        return ['width' => $width, 'height' => $height];
+    }
+
+    /**
+     * @param array $values
+     *
+     * @return string
+     */
+    protected function getPreferredValue(array $values)
+    {
+        foreach ($values as $v) {
+            if (null !== $v && !empty($v)) {
+                return $v;
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * @param AbstractPage $entity
+     *
+     * @return null|string
+     */
+    private function getSeoTitle(AbstractPage $entity = null)
+    {
+        if (null === $entity) {
+            return null;
+        }
+
+        $seo = $this->getSeoFor($entity);
+        if (null !== $seo) {
+            $title = $seo->getMetaTitle();
+            if (!empty($title)) {
+                return str_replace('%websitetitle%', $this->getWebsiteTitle(), $title);
+            }
+        }
+
+        return null;
     }
 }

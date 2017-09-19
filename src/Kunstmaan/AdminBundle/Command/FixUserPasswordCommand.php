@@ -9,7 +9,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class FixUserPasswordCommand extends ContainerAwareCommand
 {
-
     /**
      * Configures the command.
      */
@@ -23,7 +22,7 @@ class FixUserPasswordCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface $input The input
+     * @param InputInterface  $input  The input
      * @param OutputInterface $output The output
      *
      * @return int
@@ -33,7 +32,7 @@ class FixUserPasswordCommand extends ContainerAwareCommand
         /** @var EntityManager $em */
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
 
-        /* @var EntityRepository $repo */
+        // @var EntityRepository $repo
         $repo = $em->getRepository('KunstmaanAdminBundle:User');
         $users = $repo->findAll();
         foreach ($users as $user) {

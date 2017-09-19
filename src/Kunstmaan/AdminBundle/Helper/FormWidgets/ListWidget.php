@@ -1,4 +1,5 @@
 <?php
+
 namespace Kunstmaan\AdminBundle\Helper\FormWidgets;
 
 use Doctrine\ORM\EntityManager;
@@ -7,11 +8,10 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * ListWidget
+ * ListWidget.
  */
 class ListWidget extends FormWidget
 {
-
     /**
      * @var FormWidget[]
      */
@@ -20,9 +20,9 @@ class ListWidget extends FormWidget
     /**
      * @param FormWidget[] $widgets
      */
-    public function __construct(array $widgets = array())
+    public function __construct(array $widgets = [])
     {
-        parent::__construct(array(), array());
+        parent::__construct([], []);
         $this->widgets = $widgets;
     }
 
@@ -95,12 +95,11 @@ class ListWidget extends FormWidget
      */
     public function getExtraParams(Request $request)
     {
-        $params = array();
+        $params = [];
         foreach ($this->widgets as $widget) {
             $params = array_merge($params, $widget->getExtraParams($request));
         }
 
         return $params;
     }
-
 }

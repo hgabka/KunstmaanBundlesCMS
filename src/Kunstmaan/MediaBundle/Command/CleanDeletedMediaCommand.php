@@ -18,7 +18,7 @@ class CleanDeletedMediaCommand extends ContainerAwareCommand
             ->setName('kuma:media:clean-deleted-media')
             ->setDescription('Throw away all files from the file system that have been deleted in the database')
             ->setHelp(
-                "The <info>kuma:media:clean-deleted-media</info> command can be used to clean up your file system after having deleted Media items using the backend."
+                'The <info>kuma:media:clean-deleted-media</info> command can be used to clean up your file system after having deleted Media items using the backend.'
             )
             ->addOption(
                 'force',
@@ -30,7 +30,7 @@ class CleanDeletedMediaCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if ($input->getOption('force') !== true) {
+        if (true !== $input->getOption('force')) {
             $helper = $this->getHelper('question');
             $question = new ConfirmationQuestion('<question>Are you sure you want to remove all deleted Media from the file system?</question> ', false);
 
@@ -45,6 +45,7 @@ class CleanDeletedMediaCommand extends ContainerAwareCommand
         $mediaManager = $this->getContainer()->get('kunstmaan_media.media_manager');
 
         $medias = $em->getRepository('KunstmaanMediaBundle:Media')->findAllDeleted();
+
         try {
             $em->beginTransaction();
             foreach ($medias as $media) {
@@ -56,7 +57,7 @@ class CleanDeletedMediaCommand extends ContainerAwareCommand
         } catch (\Exception $e) {
             $em->rollback();
             $output->writeln('An error occured while trying to delete Media from the file system:');
-            $output->writeln('<error>'. $e->getMessage() . '</error>');
+            $output->writeln('<error>'.$e->getMessage().'</error>');
         }
     }
 }

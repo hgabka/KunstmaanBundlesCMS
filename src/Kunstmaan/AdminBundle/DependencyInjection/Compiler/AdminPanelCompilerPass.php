@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * This compiler pass makes it possible to add items to the admin panel
+ * This compiler pass makes it possible to add items to the admin panel.
  */
 class AdminPanelCompilerPass implements CompilerPassInterface
 {
@@ -25,7 +25,7 @@ class AdminPanelCompilerPass implements CompilerPassInterface
         foreach ($container->findTaggedServiceIds('kunstmaan_admin.admin_panel.adaptor') as $id => $attributes) {
             $priority = isset($attributes[0]['priority']) ? $attributes[0]['priority'] : 0;
 
-            $definition->addMethodCall('addAdminPanelAdaptor', array(new Reference($id), $priority));
+            $definition->addMethodCall('addAdminPanelAdaptor', [new Reference($id), $priority]);
         }
     }
 }

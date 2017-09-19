@@ -10,7 +10,7 @@ use Kunstmaan\AdminBundle\Entity\AbstractEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class that defines a folder from the MediaBundle in the database
+ * Class that defines a folder from the MediaBundle in the database.
  *
  * @ORM\Entity(repositoryClass="Kunstmaan\MediaBundle\Repository\FolderRepository")
  * @ORM\Table(name="kuma_folders", indexes={
@@ -126,7 +126,7 @@ class Folder extends AbstractEntity implements GedmoNode
     protected $deleted;
 
     /**
-     * constructor
+     * constructor.
      */
     public function __construct()
     {
@@ -135,6 +135,14 @@ class Folder extends AbstractEntity implements GedmoNode
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
         $this->deleted = false;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
     }
 
     /**
@@ -178,7 +186,7 @@ class Folder extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Get createdAd
+     * Get createdAd.
      *
      * @return \DateTime
      */
@@ -188,7 +196,7 @@ class Folder extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Set createdAd
+     * Set createdAd.
      *
      * @param \DateTime $createdAt
      *
@@ -202,7 +210,7 @@ class Folder extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -212,7 +220,7 @@ class Folder extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
      *
@@ -231,8 +239,8 @@ class Folder extends AbstractEntity implements GedmoNode
     public function getParents()
     {
         $parent = $this->getParent();
-        $parents = array();
-        while ($parent !== null) {
+        $parents = [];
+        while (null !== $parent) {
             $parents[] = $parent;
             $parent = $parent->getParent();
         }
@@ -241,7 +249,7 @@ class Folder extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Get parent
+     * Get parent.
      *
      * @return Folder
      */
@@ -251,7 +259,7 @@ class Folder extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Set parent
+     * Set parent.
      *
      * @param Folder $parent
      *
@@ -265,7 +273,7 @@ class Folder extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Add a child
+     * Add a child.
      *
      * @param Folder $child
      *
@@ -280,7 +288,7 @@ class Folder extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Add file
+     * Add file.
      *
      * @param Media $media
      *
@@ -294,7 +302,7 @@ class Folder extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Get media
+     * Get media.
      *
      * @param bool $includeDeleted
      *
@@ -325,7 +333,7 @@ class Folder extends AbstractEntity implements GedmoNode
     public function hasActive($id)
     {
         foreach ($this->getChildren() as $child) {
-            if ($child->hasActive($id) || $child->getId() == $id) {
+            if ($child->hasActive($id) || $child->getId() === $id) {
                 return true;
             }
         }
@@ -334,7 +342,7 @@ class Folder extends AbstractEntity implements GedmoNode
     }
 
     /**
-     * Get child folders
+     * Get child folders.
      *
      * @param bool $includeDeleted
      *
@@ -407,14 +415,6 @@ class Folder extends AbstractEntity implements GedmoNode
         $this->internalName = $internalName;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getName();
     }
 
     /**
@@ -497,7 +497,7 @@ class Folder extends AbstractEntity implements GedmoNode
         return str_repeat(
             '-',
             $this->getLevel()
-        ) . ' ' . $this->getName();
+        ).' '.$this->getName();
     }
 
     /**

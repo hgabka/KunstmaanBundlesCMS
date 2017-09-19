@@ -15,6 +15,9 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 
+/**
+ * @coversNothing
+ */
 class AclNativeHelperTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -70,7 +73,7 @@ class AclNativeHelperTest extends \PHPUnit_Framework_TestCase
             ->method('getDatabase')
             ->will($this->returnValue('myDatabase'));
 
-        /* @var $platform AbstractPlatform */
+        // @var $platform AbstractPlatform
         $platform = $this->getMockForAbstractClass('Doctrine\DBAL\Platforms\AbstractPlatform');
 
         $this->conn->expects($this->any())
@@ -81,7 +84,7 @@ class AclNativeHelperTest extends \PHPUnit_Framework_TestCase
             ->method('getConnection')
             ->will($this->returnValue($this->conn));
 
-        /* @var $meta ClassMetadata */
+        // @var $meta ClassMetadata
         $meta = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
             ->disableOriginalConstructor()
             ->getMock();
@@ -115,7 +118,7 @@ class AclNativeHelperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\AclNativeHelper::__construct
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\AclNativeHelper::__construct
      */
     public function testConstructor()
     {
@@ -123,23 +126,23 @@ class AclNativeHelperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\AclNativeHelper::apply
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\AclNativeHelper::apply
      */
     public function testApply()
     {
         $queryBuilder = new QueryBuilder($this->conn);
         $queryBuilder->add(
             'from',
-            array(
-                array(
+            [
+                [
                     'table' => 'myTable',
-                    'alias' => 'n'
-                )
-            )
+                    'alias' => 'n',
+                ],
+            ]
         );
 
-        $roles = array(new Role('ROLE_KING'));
-        $allRoles = array($roles[0], new Role('ROLE_SUBJECT'));
+        $roles = [new Role('ROLE_KING')];
+        $allRoles = [$roles[0], new Role('ROLE_SUBJECT')];
 
         $this->token->expects($this->once())
             ->method('getRoles')
@@ -161,9 +164,9 @@ class AclNativeHelperTest extends \PHPUnit_Framework_TestCase
             ->method('getUser')
             ->will($this->returnValue($user));
 
-        $permissionDef = new PermissionDefinition(array('view'), 'Kunstmaan\NodeBundle\Entity\Node', 'n');
+        $permissionDef = new PermissionDefinition(['view'], 'Kunstmaan\NodeBundle\Entity\Node', 'n');
 
-        /* @var $qb QueryBuilder */
+        // @var $qb QueryBuilder
         $qb = $this->object->apply($queryBuilder, $permissionDef);
         $query = $qb->getSQL();
 
@@ -174,22 +177,22 @@ class AclNativeHelperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\AclNativeHelper::apply
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\AclNativeHelper::apply
      */
     public function testApplyAnonymous()
     {
         $queryBuilder = new QueryBuilder($this->conn);
         $queryBuilder->add(
             'from',
-            array(
-                array(
+            [
+                [
                     'table' => 'myTable',
-                    'alias' => 'n'
-                )
-            )
+                    'alias' => 'n',
+                ],
+            ]
         );
 
-        $roles = array();
+        $roles = [];
 
         $this->token->expects($this->once())
             ->method('getRoles')
@@ -204,9 +207,9 @@ class AclNativeHelperTest extends \PHPUnit_Framework_TestCase
             ->method('getUser')
             ->will($this->returnValue('anon.'));
 
-        $permissionDef = new PermissionDefinition(array('view'), 'Kunstmaan\NodeBundle\Entity\Node', 'n');
+        $permissionDef = new PermissionDefinition(['view'], 'Kunstmaan\NodeBundle\Entity\Node', 'n');
 
-        /* @var $qb QueryBuilder */
+        // @var $qb QueryBuilder
         $qb = $this->object->apply($queryBuilder, $permissionDef);
         $query = $qb->getSQL();
 
@@ -214,7 +217,7 @@ class AclNativeHelperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\AclNativeHelper::getTokenStorage
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\AclNativeHelper::getTokenStorage
      */
     public function testGetTokenStorage()
     {

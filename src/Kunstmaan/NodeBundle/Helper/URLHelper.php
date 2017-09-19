@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
- * A helper for replacing url's
+ * A helper for replacing url's.
  */
 class URLHelper
 {
@@ -32,14 +32,14 @@ class URLHelper
     private $logger;
 
     /**
-     * @var array|null
+     * @var null|array
      */
-    private $nodeTranslationMap = null;
+    private $nodeTranslationMap;
 
     /**
-     * @var array|null
+     * @var null|array
      */
-    private $mediaMap = null;
+    private $mediaMap;
 
     /**
      * @var RequestStack
@@ -52,11 +52,11 @@ class URLHelper
     private $domainConfiguration;
 
     /**
-     * @param EntityManager $em
-     * @param RouterInterface $router
-     * @param LoggerInterface $logger
+     * @param EntityManager                $em
+     * @param RouterInterface              $router
+     * @param LoggerInterface              $logger
      * @param DomainConfigurationInterface $domainConfiguration
-     * @param RequestStack $requestStack
+     * @param RequestStack                 $requestStack
      */
     public function __construct(EntityManager $em, RouterInterface $router, LoggerInterface $logger, RequestStack $requestStack, DomainConfigurationInterface $domainConfiguration)
     {
@@ -71,6 +71,7 @@ class URLHelper
      * Replace a given text, according to the node translation id and the multidomain site id.
      *
      * @param $text
+     *
      * @return mixed
      */
     public function replaceUrl($text)
@@ -94,7 +95,7 @@ class URLHelper
                     $nodeTranslationId = $match[3];
 
                     foreach ($map as $nodeTranslation) {
-                        if ($nodeTranslation['id'] == $nodeTranslationId) {
+                        if ($nodeTranslation['id'] === $nodeTranslationId) {
                             $urlParams = ['url' => $nodeTranslation['url']];
                             $nodeTranslationFound = true;
                             // Only add locale if multilingual site
@@ -109,12 +110,12 @@ class URLHelper
 
                             $url = $this->router->generate('_slug', $urlParams);
 
-                            $text = str_replace($fullTag, $hostId ? $hostBaseUrl . $url : $url, $text);
+                            $text = str_replace($fullTag, $hostId ? $hostBaseUrl.$url : $url, $text);
                         }
                     }
 
                     if (!$nodeTranslationFound) {
-                        $this->logger->error('No NodeTranslation found in the database when replacing url tag ' . $fullTag);
+                        $this->logger->error('No NodeTranslation found in the database when replacing url tag '.$fullTag);
                     }
                 }
             }
@@ -131,14 +132,14 @@ class URLHelper
                     $mediaId = $match[3];
 
                     foreach ($map as $mediaItem) {
-                        if ($mediaItem['id'] == $mediaId) {
+                        if ($mediaItem['id'] === $mediaId) {
                             $mediaFound = true;
                             $text = str_replace($fullTag, $mediaItem['url'], $text);
                         }
                     }
 
                     if (!$mediaFound) {
-                        $this->logger->error('No Media found in the database when replacing url tag ' . $fullTag);
+                        $this->logger->error('No Media found in the database when replacing url tag '.$fullTag);
                     }
                 }
             }
@@ -150,13 +151,14 @@ class URLHelper
     /**
      * Get a map of all node translations. Only called once for caching.
      *
-     * @return array|null
      * @throws \Doctrine\DBAL\DBALException
+     *
+     * @return null|array
      */
     private function getNodeTranslationMap()
     {
-        if (is_null($this->nodeTranslationMap)) {
-            $sql = "SELECT id, url, lang FROM kuma_node_translations";
+        if (null === $this->nodeTranslationMap) {
+            $sql = 'SELECT id, url, lang FROM kuma_node_translations';
             $stmt = $this->em->getConnection()->prepare($sql);
             $stmt->execute();
             $this->nodeTranslationMap = $stmt->fetchAll();
@@ -168,13 +170,14 @@ class URLHelper
     /**
      * Get a map of all media items. Only called once for caching.
      *
-     * @return array|null
      * @throws \Doctrine\DBAL\DBALException
+     *
+     * @return null|array
      */
     private function getMediaMap()
     {
-        if (is_null($this->mediaMap)) {
-            $sql = "SELECT id, url FROM kuma_media";
+        if (null === $this->mediaMap) {
+            $sql = 'SELECT id, url FROM kuma_media';
             $stmt = $this->em->getConnection()->prepare($sql);
             $stmt->execute();
             $this->mediaMap = $stmt->fetchAll();

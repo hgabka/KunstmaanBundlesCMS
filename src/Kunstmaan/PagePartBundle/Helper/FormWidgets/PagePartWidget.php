@@ -109,8 +109,8 @@ class PagePartWidget extends FormWidget
 
         $formHelper = $this->getFormHelper();
 
-        if (isset($formView['pagepartadmin_' . $this->pagePartAdmin->getContext()])) {
-            $errors = array_merge($errors, $formHelper->getRecursiveErrorMessages($formView['pagepartadmin_' . $this->pagePartAdmin->getContext()]));
+        if (isset($formView['pagepartadmin_'.$this->pagePartAdmin->getContext()])) {
+            $errors = array_merge($errors, $formHelper->getRecursiveErrorMessages($formView['pagepartadmin_'.$this->pagePartAdmin->getContext()]));
         }
 
         return $errors;
@@ -131,7 +131,7 @@ class PagePartWidget extends FormWidget
      */
     public function getExtraParams(Request $request)
     {
-        $params = array();
+        $params = [];
         $editPagePart = $request->get('edit');
         if (isset($editPagePart)) {
             $params['editpagepart'] = $editPagePart;

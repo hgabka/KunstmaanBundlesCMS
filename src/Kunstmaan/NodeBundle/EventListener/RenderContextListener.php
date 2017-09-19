@@ -2,7 +2,6 @@
 
 namespace Kunstmaan\NodeBundle\EventListener;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +27,7 @@ class RenderContextListener
     public function __construct(EngineInterface $templating, EntityManagerInterface $em)
     {
         $this->templating = $templating;
-        $this->em         = $em;
+        $this->em = $em;
     }
 
     /**
@@ -47,30 +46,30 @@ class RenderContextListener
             return;
         }
 
-        $nodeTranslation    = $request->attributes->get('_nodeTranslation');
+        $nodeTranslation = $request->attributes->get('_nodeTranslation');
         if ($nodeTranslation) {
-            $entity     = $request->attributes->get('_entity');
-            $url        = $request->attributes->get('url');
-            $nodeMenu   = $request->attributes->get('_nodeMenu');
+            $entity = $request->attributes->get('_entity');
+            $url = $request->attributes->get('url');
+            $nodeMenu = $request->attributes->get('_nodeMenu');
             $parameters = $request->attributes->get('_renderContext');
 
-            if ($request->get('preview') === true) {
+            if (true === $request->get('preview')) {
                 $version = $request->get('version');
                 if (!empty($version) && is_numeric($version)) {
                     $nodeVersion = $this->em->getRepository('KunstmaanNodeBundle:NodeVersion')->find($version);
-                    if (!is_null($nodeVersion)) {
+                    if (null !== $nodeVersion) {
                         $entity = $nodeVersion->getRef($this->em);
                     }
                 }
             }
 
-            $renderContext = array(
+            $renderContext = [
                 'nodetranslation' => $nodeTranslation,
-                'slug'            => $url,
-                'page'            => $entity,
-                'resource'        => $entity,
-                'nodemenu'        => $nodeMenu,
-            );
+                'slug' => $url,
+                'page' => $entity,
+                'resource' => $entity,
+                'nodemenu' => $nodeMenu,
+            ];
 
             if (is_array($parameters) || $parameters instanceof \ArrayObject) {
                 $parameters = array_merge($renderContext, (array) $parameters);
@@ -87,7 +86,7 @@ class RenderContextListener
             //the SensioFrameworkExtraBundle kernel.view will handle everything else
             $event->setControllerResult((array) $parameters);
 
-            $template = new Template(array());
+            $template = new Template([]);
             $template->setTemplate($entity->getDefaultView());
 
             $request->attributes->set('_template', $template);

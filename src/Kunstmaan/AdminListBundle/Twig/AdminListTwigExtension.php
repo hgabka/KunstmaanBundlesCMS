@@ -5,11 +5,9 @@ namespace Kunstmaan\AdminListBundle\Twig;
 use Kunstmaan\AdminListBundle\AdminList\AdminList;
 use Kunstmaan\AdminListBundle\Service\ExportService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Routing\CompiledRoute;
-use Symfony\Component\Routing\Router;
 
 /**
- * AdminListTwigExtension
+ * AdminListTwigExtension.
  */
 class AdminListTwigExtension extends \Twig_Extension
 {
@@ -33,14 +31,14 @@ class AdminListTwigExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('adminlist_widget', array($this, 'renderWidget'), array('needs_environment' => true, 'is_safe' => array('html'))),
-            new \Twig_SimpleFunction('supported_export_extensions', array($this, 'getSupportedExtensions')),
-        );
+        return [
+            new \Twig_SimpleFunction('adminlist_widget', [$this, 'renderWidget'], ['needs_environment' => true, 'is_safe' => ['html']]),
+            new \Twig_SimpleFunction('supported_export_extensions', [$this, 'getSupportedExtensions']),
+        ];
     }
 
     /**
-     * Renders the HTML for a given view
+     * Renders the HTML for a given view.
      *
      * Example usage in Twig:
      *
@@ -60,19 +58,19 @@ class AdminListTwigExtension extends \Twig_Extension
      *
      * @return string The html markup
      */
-    public function renderWidget(\Twig_Environment $env, AdminList $view, $basepath, array $urlparams = array(), array $addparams = array())
+    public function renderWidget(\Twig_Environment $env, AdminList $view, $basepath, array $urlparams = [], array $addparams = [])
     {
-        $template = $env->loadTemplate("KunstmaanAdminListBundle:AdminListTwigExtension:widget.html.twig");
+        $template = $env->loadTemplate('KunstmaanAdminListBundle:AdminListTwigExtension:widget.html.twig');
 
         $filterBuilder = $view->getFilterBuilder();
 
-        return $template->render(array(
+        return $template->render([
             'filter' => $filterBuilder,
             'basepath' => $basepath,
             'addparams' => $addparams,
             'extraparams' => $urlparams,
-            'adminlist' => $view
-        ));
+            'adminlist' => $view,
+        ]);
     }
 
     public function getSupportedExtensions()

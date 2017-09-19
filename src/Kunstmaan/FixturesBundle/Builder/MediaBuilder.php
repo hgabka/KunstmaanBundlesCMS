@@ -2,7 +2,6 @@
 
 namespace Kunstmaan\FixturesBundle\Builder;
 
-
 use Doctrine\ORM\EntityManager;
 use Kunstmaan\FixturesBundle\Loader\Fixture;
 use Kunstmaan\MediaBundle\Entity\Folder;
@@ -44,20 +43,18 @@ class MediaBuilder implements BuilderInterface
     {
         $properties = $fixture->getProperties();
         if (!isset($properties['folder'])) {
-            throw new \Exception('There is no folder specified for media fixture ' . $fixture->getName());
+            throw new \Exception('There is no folder specified for media fixture '.$fixture->getName());
         }
 
-        $this->folder = $this->em->getRepository('KunstmaanMediaBundle:Folder')->findOneBy(array('rel' => $properties['folder']));
+        $this->folder = $this->em->getRepository('KunstmaanMediaBundle:Folder')->findOneBy(['rel' => $properties['folder']]);
 
         if (!$this->folder instanceof Folder) {
-            $this->folder = $this->em->getRepository('KunstmaanMediaBundle:Folder')->findOneBy(array('internalName' => $properties['folder']));
+            $this->folder = $this->em->getRepository('KunstmaanMediaBundle:Folder')->findOneBy(['internalName' => $properties['folder']]);
         }
 
         if (!$this->folder instanceof Folder) {
-            throw new \Exception('Could not find the specified folder for media fixture ' . $fixture->getName());
+            throw new \Exception('Could not find the specified folder for media fixture '.$fixture->getName());
         }
-
-
     }
 
     public function postBuild(Fixture $fixture)
@@ -75,7 +72,7 @@ class MediaBuilder implements BuilderInterface
             $media->setOriginalFilename($data->getFilename());
         }
 
-        if ($media->getName() === null) {
+        if (null === $media->getName()) {
             $media->setName($media->getOriginalFilename());
         }
 
@@ -91,6 +88,5 @@ class MediaBuilder implements BuilderInterface
 
     public function postFlushBuild(Fixture $fixture)
     {
-        return;
     }
 }

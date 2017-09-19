@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\QueryBuilder;
 
 /**
- * ORMFilterTypeTestCase
+ * ORMFilterTypeTestCase.
  */
 abstract class ORMFilterTypeTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -18,8 +18,8 @@ abstract class ORMFilterTypeTestCase extends \PHPUnit_Framework_TestCase
         $config->setProxyNamespace('KunstmaanTests\Proxy');
         $config->setMetadataDriverImpl(new AnnotationDriver(new AnnotationReader()));
 
-        $params = array('driver' => 'pdo_sqlite', 'memory' => true);
-        $em =  \Doctrine\ORM\EntityManager::create($params, $config);
+        $params = ['driver' => 'pdo_sqlite', 'memory' => true];
+        $em = \Doctrine\ORM\EntityManager::create($params, $config);
 
         return new QueryBuilder($em);
     }

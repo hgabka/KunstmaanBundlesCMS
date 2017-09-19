@@ -1,11 +1,11 @@
 <?php
+
 namespace Kunstmaan\TranslatorBundle\Tests;
 
 include __DIR__.'/app/AppKernel.php';
 
 abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
 {
-
     public $container;
     public $kernel;
     public $connection;
@@ -18,11 +18,9 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         $this->bootKernel();
     }
 
-    private function bootKernel()
+    public function tearDown()
     {
-        $this->kernel = new \AppKernel('phpunit', true);
-        $this->kernel->boot();
-        $this->container = $this->kernel->getContainer();
+        $this->kernel->shutdown();
     }
 
     public function getContainer()
@@ -30,9 +28,10 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         return $this->container;
     }
 
-    public function tearDown()
+    private function bootKernel()
     {
-        $this->kernel->shutdown();
+        $this->kernel = new \AppKernel('phpunit', true);
+        $this->kernel->boot();
+        $this->container = $this->kernel->getContainer();
     }
-
 }

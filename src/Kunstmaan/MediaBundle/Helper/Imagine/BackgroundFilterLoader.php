@@ -15,7 +15,7 @@ class BackgroundFilterLoader extends \Liip\ImagineBundle\Imagine\Filter\Loader\B
     /**
      * {@inheritdoc}
      */
-    public function load(ImageInterface $image, array $options = array())
+    public function load(ImageInterface $image, array $options = [])
     {
         $background = new Color(
             isset($options['color']) ? $options['color'] : '#fff',

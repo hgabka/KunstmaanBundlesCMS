@@ -11,7 +11,7 @@ use Kunstmaan\ArticleBundle\AdminList\AbstractArticlePageAdminListConfigurator;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * The AdminList controller for the AbstractArticlePage
+ * The AdminList controller for the AbstractArticlePage.
  */
 abstract class AbstractArticlePageAdminListController extends AdminListController
 {
@@ -21,22 +21,22 @@ abstract class AbstractArticlePageAdminListController extends AdminListControlle
     protected $configurator;
 
     /**
-     * @var EntityManager $em
+     * @var EntityManager
      */
     protected $em;
 
     /**
-     * @var string $locale
+     * @var string
      */
     protected $locale;
 
     /**
-     * @var BaseUser $user
+     * @var BaseUser
      */
     protected $user;
 
     /**
-     * @var AclHelper $aclHelper
+     * @var AclHelper
      */
     protected $aclHelper;
 
@@ -58,16 +58,8 @@ abstract class AbstractArticlePageAdminListController extends AdminListControlle
      */
     abstract public function createAdminListConfigurator();
 
-    protected function initAdminListConfigurator(Request $request)
-    {
-        $this->em              = $this->getEntityManager();
-        $this->locale          = $request->getLocale();
-        $this->user            = $this->container->get('security.token_storage')->getToken()->getUser();
-        $this->aclHelper       = $this->container->get('kunstmaan_admin.acl.helper');
-    }
-
     /**
-     * The index action
+     * The index action.
      */
     public function indexAction(Request $request)
     {
@@ -75,7 +67,7 @@ abstract class AbstractArticlePageAdminListController extends AdminListControlle
     }
 
     /**
-     * The add action
+     * The add action.
      */
     public function addAction(Request $request)
     {
@@ -83,7 +75,9 @@ abstract class AbstractArticlePageAdminListController extends AdminListControlle
     }
 
     /**
-     * The edit action
+     * The edit action.
+     *
+     * @param mixed $id
      */
     public function editAction(Request $request, $id)
     {
@@ -91,7 +85,9 @@ abstract class AbstractArticlePageAdminListController extends AdminListControlle
     }
 
     /**
-     * The delete action
+     * The delete action.
+     *
+     * @param mixed $id
      */
     public function deleteAction(Request $request, $id)
     {
@@ -99,10 +95,20 @@ abstract class AbstractArticlePageAdminListController extends AdminListControlle
     }
 
     /**
-     * Export action
+     * Export action.
+     *
+     * @param mixed $_format
      */
     public function exportAction(Request $request, $_format)
     {
         return parent::doExportAction($this->getAdminListConfigurator($request), $_format, $request);
+    }
+
+    protected function initAdminListConfigurator(Request $request)
+    {
+        $this->em = $this->getEntityManager();
+        $this->locale = $request->getLocale();
+        $this->user = $this->container->get('security.token_storage')->getToken()->getUser();
+        $this->aclHelper = $this->container->get('kunstmaan_admin.acl.helper');
     }
 }

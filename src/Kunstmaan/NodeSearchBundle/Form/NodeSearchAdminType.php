@@ -14,9 +14,9 @@ class NodeSearchAdminType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('boost', null, array(
+        $builder->add('boost', null, [
             'label' => 'node_search.form.search.boost.label',
-        ));
+        ]);
     }
 
     /**
@@ -33,9 +33,9 @@ class NodeSearchAdminType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => 'Kunstmaan\NodeSearchBundle\Entity\NodeSearch',
-            )
+            ]
         );
     }
 }

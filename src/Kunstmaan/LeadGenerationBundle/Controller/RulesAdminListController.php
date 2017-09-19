@@ -17,6 +17,8 @@ class RulesAdminListController extends AdminListController
     private $configurator;
 
     /**
+     * @param mixed $id
+     *
      * @return AdminListConfiguratorInterface
      */
     public function getAdminListConfigurator($id)
@@ -29,9 +31,11 @@ class RulesAdminListController extends AdminListController
     }
 
     /**
-     * The detail action
+     * The detail action.
      *
      * @Route("/{popup}/rules", requirements={"popup" = "\d+"}, name="kunstmaanleadgenerationbundle_admin_rule_abstractrule_detail")
+     *
+     * @param mixed $popup
      */
     public function detailAction(Request $request, $popup)
     {
@@ -39,10 +43,12 @@ class RulesAdminListController extends AdminListController
     }
 
     /**
-     * The add action
+     * The add action.
      *
      * @Route("/{popup}/add", requirements={"popup" = "\d+"}, name="kunstmaanleadgenerationbundle_admin_rule_abstractrule_add")
      * @Method({"GET", "POST"})
+     *
+     * @param mixed $popup
      *
      * @return array
      */
@@ -54,9 +60,10 @@ class RulesAdminListController extends AdminListController
     }
 
     /**
-     * The edit action
+     * The edit action.
      *
-     * @param int $id
+     * @param int   $id
+     * @param mixed $popup
      *
      * @Route("/{popup}/rules/{id}/edit", requirements={"popup" = "\d+", "rule" = "\d+"}, name="kunstmaanleadgenerationbundle_admin_rule_abstractrule_edit")
      * @Method({"GET", "POST"})
@@ -69,9 +76,10 @@ class RulesAdminListController extends AdminListController
     }
 
     /**
-     * The delete action
+     * The delete action.
      *
-     * @param int $id
+     * @param int   $id
+     * @param mixed $popup
      *
      * @Route("/{popup}/rules/{id}/delete", requirements={"popup" = "\d+"}, name="kunstmaanleadgenerationbundle_admin_rule_abstractrule_delete")
      * @Method({"GET", "POST"})

@@ -3,6 +3,9 @@
 use Kunstmaan\SearchBundle\DependencyInjection\KunstmaanSearchExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
+/**
+ * @coversNothing
+ */
 class KunstmaanSearchExtensionTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -20,17 +23,17 @@ class KunstmaanSearchExtensionTest extends \PHPUnit_Framework_TestCase
     public function testGetConfig()
     {
         $container = $this->getContainer();
-        $this->extension->load(array(array()), $container);
+        $this->extension->load([[]], $container);
         $this->assertTrue($container->hasParameter('analyzer_languages'));
-        $this->assertTrue(is_array($container->getParameter('analyzer_languages')));
+        $this->assertInternalType('array', $container->getParameter('analyzer_languages'));
 
         $analyzers = $container->getParameter('analyzer_languages');
-        $this->assertTrue(array_key_exists('ar', $analyzers));
-        $this->assertEquals('arabic', $analyzers['ar']['analyzer']);
+        $this->assertArrayHasKey('ar', $analyzers);
+        $this->assertSame('arabic', $analyzers['ar']['analyzer']);
     }
 
     /**
-     * Returns the Configuration to test
+     * Returns the Configuration to test.
      *
      * @return Configuration
      */

@@ -2,17 +2,17 @@
 
 namespace Kunstmaan\LanguageChooserBundle\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class LanguageChooserController extends Controller
 {
     /**
-     * Handles the language chooser
+     * Handles the language chooser.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return Response the request response
      */
     public function indexAction(Request $request)
@@ -20,10 +20,10 @@ class LanguageChooserController extends Controller
         $enableAutodetect = $this->container->getParameter('kunstmaan_language_chooser.autodetectlanguage');
         $enableSplashpage = $this->container->getParameter('kunstmaan_language_chooser.showlanguagechooser');
 
-        $defaultLocale    = $this->container->getParameter('defaultlocale');
+        $defaultLocale = $this->container->getParameter('defaultlocale');
 
         if ($enableAutodetect) {
-            $localeGuesserManager   = $this->get('lunetics_locale.guesser_manager');
+            $localeGuesserManager = $this->get('lunetics_locale.guesser_manager');
 
             $locale = $localeGuesserManager->runLocaleGuessing($request);
 
@@ -34,12 +34,11 @@ class LanguageChooserController extends Controller
 
             // locale has been found, redirect
             if ($locale) {
-                return $this->redirect($this->generateUrl('_slug', array('_locale' => $locale)), 302);
-            } else {
-                // no locale could be guessed, if splashpage is not enabled fallback to default and redirect
-                if (!$enableSplashpage) {
-                    return $this->redirect($this->generateUrl('_slug', array('_locale' => $defaultLocale)), 302);
-                }
+                return $this->redirect($this->generateUrl('_slug', ['_locale' => $locale]), 302);
+            }
+            // no locale could be guessed, if splashpage is not enabled fallback to default and redirect
+            if (!$enableSplashpage) {
+                return $this->redirect($this->generateUrl('_slug', ['_locale' => $defaultLocale]), 302);
             }
         }
 

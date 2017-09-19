@@ -6,12 +6,14 @@ use Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\MaskBuilder;
 use Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionMap;
 
 /**
- * PermissionMapTest
+ * PermissionMapTest.
+ *
+ * @coversNothing
  */
 class PermissionMapTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionMap::getMasks
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionMap::getMasks
      */
     public function testGetMasksReturnsNullWhenNotSupportedMask()
     {
@@ -20,34 +22,34 @@ class PermissionMapTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionMap::getMasks
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionMap::getMasks
      */
     public function testGetMasks()
     {
         $map = new PermissionMap();
         $mask = $map->getMasks(PermissionMap::PERMISSION_DELETE, null);
 
-        $this->assertEquals(array(MaskBuilder::MASK_DELETE), $mask);
+        $this->assertSame([MaskBuilder::MASK_DELETE], $mask);
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionMap::contains
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionMap::contains
      */
     public function testContains()
     {
         $map = new PermissionMap();
 
-        $this->assertEquals(true, $map->contains('DELETE'));
-        $this->assertEquals(false, $map->contains('DUMMY'));
+        $this->assertSame(true, $map->contains('DELETE'));
+        $this->assertSame(false, $map->contains('DUMMY'));
     }
 
     /**
-     * @covers Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionMap::getPossiblePermissions
+     * @covers \Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionMap::getPossiblePermissions
      */
     public function testGetPossiblePermissions()
     {
         $map = new PermissionMap();
 
-        $this->assertEquals(array('VIEW', 'EDIT', 'DELETE', 'PUBLISH', 'UNPUBLISH'), $map->getPossiblePermissions());
+        $this->assertSame(['VIEW', 'EDIT', 'DELETE', 'PUBLISH', 'UNPUBLISH'], $map->getPossiblePermissions());
     }
 }

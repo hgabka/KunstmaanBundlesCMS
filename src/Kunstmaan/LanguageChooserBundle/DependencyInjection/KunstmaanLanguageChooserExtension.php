@@ -2,19 +2,20 @@
 
 namespace Kunstmaan\LanguageChooserBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+
 /**
- * This is the class that loads and manages your bundle configuration
+ * This is the class that loads and manages your bundle configuration.
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
 class KunstmaanLanguageChooserExtension extends Extension
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -32,8 +33,7 @@ class KunstmaanLanguageChooserExtension extends Extension
         $luneticsLocaleConfig['allowed_locales'] = $config['languagechooserlocales'];
         $luneticsLocaleConfig['cookie']['set_on_change'] = true;
         $luneticsLocaleConfig['cookie']['secure'] = true;
-        $luneticsLocaleConfig['guessing_order'] = array('query', 'router', 'kuma_url_guesser', 'cookie', 'session', 'browser');
+        $luneticsLocaleConfig['guessing_order'] = ['query', 'router', 'kuma_url_guesser', 'cookie', 'session', 'browser'];
         $container->prependExtensionConfig('lunetics_locale', $luneticsLocaleConfig);
     }
-
 }

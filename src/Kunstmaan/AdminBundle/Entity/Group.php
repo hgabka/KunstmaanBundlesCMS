@@ -3,7 +3,6 @@
 namespace Kunstmaan\AdminBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\GroupInterface;
@@ -13,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
- * Group
+ * Group.
  *
  * @ORM\Entity
  * @ORM\Table(name="kuma_groups")
@@ -43,7 +42,7 @@ class Group extends Role implements GroupInterface
     protected $roles;
 
     /**
-     * Construct a new group
+     * Construct a new group.
      *
      * @param string $name Name of the group
      */
@@ -54,17 +53,7 @@ class Group extends Role implements GroupInterface
     }
 
     /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get string representation of object
+     * Get string representation of object.
      *
      * @return string
      */
@@ -74,14 +63,24 @@ class Group extends Role implements GroupInterface
     }
 
     /**
-     * Returns an array of strings (needed because Symfony ACL doesn't support using RoleInterface yet)
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Returns an array of strings (needed because Symfony ACL doesn't support using RoleInterface yet).
      *
      * @return array
      */
     public function getRoles()
     {
-        $result = array();
-        /* @var $role RoleInterface */
+        $result = [];
+        // @var $role RoleInterface
         foreach ($this->roles as $role) {
             $result[] = $role->getRole();
         }
@@ -104,13 +103,13 @@ class Group extends Role implements GroupInterface
      *
      * @param string $role
      *
-     * @return Role|null
+     * @return null|Role
      */
     public function getRole($role = null)
     {
-        /* @var $roleItem RoleInterface */
+        // @var $roleItem RoleInterface
         foreach ($this->roles as $roleItem) {
-            if ($role == $roleItem->getRole()) {
+            if ($role === $roleItem->getRole()) {
                 return $roleItem;
             }
         }
@@ -139,13 +138,14 @@ class Group extends Role implements GroupInterface
      *
      * @param Role $role
      *
-     * @return GroupInterface
      * @throws InvalidArgumentException
+     *
+     * @return GroupInterface
      */
     public function addRole($role)
     {
         if (!$role instanceof Role) {
-            throw new InvalidArgumentException("addRole takes a Role object as the parameter");
+            throw new InvalidArgumentException('addRole takes a Role object as the parameter');
         }
 
         if (!$this->hasRole($role->getRole())) {
@@ -175,7 +175,7 @@ class Group extends Role implements GroupInterface
     /**
      * Pass an ARRAY of Role objects and will clear the collection and re-set it with new Roles.
      *
-     * @param Role[] $roles array of Role objects.
+     * @param Role[] $roles array of Role objects
      *
      * @return GroupInterface
      */
@@ -204,7 +204,7 @@ class Group extends Role implements GroupInterface
     }
 
     /**
-     * Return the name of the group
+     * Return the name of the group.
      *
      * @return string
      */
@@ -214,7 +214,7 @@ class Group extends Role implements GroupInterface
     }
 
     /**
-     * Set the name of the group
+     * Set the name of the group.
      *
      * @param string $name New name of the group
      *
@@ -236,7 +236,7 @@ class Group extends Role implements GroupInterface
     {
         if (!(count($this->getRoles()) > 0)) {
             $context
-                ->buildViolation('errors.group.selectone', array())
+                ->buildViolation('errors.group.selectone', [])
                 ->atPath('rolesCollection')
                 ->addViolation();
         }

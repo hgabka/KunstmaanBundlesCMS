@@ -17,26 +17,25 @@ use Kunstmaan\UtilitiesBundle\Helper\ClassLookup;
  */
 class AclChangeset extends AbstractEntity
 {
-
     /**
-     * This changeset still needs to be applied
+     * This changeset still needs to be applied.
      */
-    const STATUS_NEW      = 0;
+    const STATUS_NEW = 0;
 
     /**
-     * This changeset is currently being applied
+     * This changeset is currently being applied.
      */
-    const STATUS_RUNNING  = 1;
+    const STATUS_RUNNING = 1;
 
     /**
-     * This changeset is applied
+     * This changeset is applied.
      */
     const STATUS_FINISHED = 2;
 
     /**
-     * Something went wrong while applying the changeset
+     * Something went wrong while applying the changeset.
      */
-    const STATUS_FAILED   = 3;
+    const STATUS_FAILED = 3;
 
     /**
      * @ORM\Column(type="bigint", name="ref_id")
@@ -49,7 +48,7 @@ class AclChangeset extends AbstractEntity
     protected $refEntityName;
 
     /**
-     * The doctrine metadata is set dynamically in Kunstmaan\AdminBundle\EventListener\MappingListener
+     * The doctrine metadata is set dynamically in Kunstmaan\AdminBundle\EventListener\MappingListener.
      */
     protected $user;
 
@@ -79,16 +78,16 @@ class AclChangeset extends AbstractEntity
     protected $lastModified;
 
     /**
-     * Constructor, sets default status to STATUS_NEW & timestamps to current datetime
+     * Constructor, sets default status to STATUS_NEW & timestamps to current datetime.
      */
     public function __construct()
     {
-        $this->status       = self::STATUS_NEW;
+        $this->status = self::STATUS_NEW;
         $this->lastModified = $this->created = new DateTime('now');
     }
 
     /**
-     * Set ACL changeset
+     * Set ACL changeset.
      *
      * @param array $changeset the changeset to apply
      *
@@ -102,7 +101,7 @@ class AclChangeset extends AbstractEntity
     }
 
     /**
-     * Get ACL changeset
+     * Get ACL changeset.
      *
      * @return array
      */
@@ -112,7 +111,7 @@ class AclChangeset extends AbstractEntity
     }
 
     /**
-     * Set timestamp of creation
+     * Set timestamp of creation.
      *
      * @param DateTime $created
      *
@@ -126,7 +125,7 @@ class AclChangeset extends AbstractEntity
     }
 
     /**
-     * Get timestamp of creation
+     * Get timestamp of creation.
      *
      * @return DateTime
      */
@@ -136,7 +135,7 @@ class AclChangeset extends AbstractEntity
     }
 
     /**
-     * Set timestamp of last modification
+     * Set timestamp of last modification.
      *
      * @param DateTime $lastModified
      *
@@ -150,7 +149,7 @@ class AclChangeset extends AbstractEntity
     }
 
     /**
-     * Get timestamp of last modification
+     * Get timestamp of last modification.
      *
      * @return DateTime
      */
@@ -160,21 +159,7 @@ class AclChangeset extends AbstractEntity
     }
 
     /**
-     * Set reference entity id
-     *
-     * @param int $refId
-     *
-     * @return AclChangeset
-     */
-    protected function setRefId($refId)
-    {
-        $this->refId = $refId;
-
-        return $this;
-    }
-
-    /**
-     * Get reference entity id
+     * Get reference entity id.
      *
      * @return int
      */
@@ -184,21 +169,7 @@ class AclChangeset extends AbstractEntity
     }
 
     /**
-     * Set reference entity name
-     *
-     * @param string $refEntityName
-     *
-     * @return AclChangeset
-     */
-    protected function setRefEntityName($refEntityName)
-    {
-        $this->refEntityName = $refEntityName;
-
-        return $this;
-    }
-
-    /**
-     * Get reference entity name
+     * Get reference entity name.
      *
      * @return string
      */
@@ -208,7 +179,7 @@ class AclChangeset extends AbstractEntity
     }
 
     /**
-     * Set reference entity
+     * Set reference entity.
      *
      * @param AbstractEntity $entity
      *
@@ -223,7 +194,7 @@ class AclChangeset extends AbstractEntity
     }
 
     /**
-     * Set status, every change in status will trigger last modified to be updated
+     * Set status, every change in status will trigger last modified to be updated.
      *
      * @param int $status
      *
@@ -238,7 +209,7 @@ class AclChangeset extends AbstractEntity
     }
 
     /**
-     * Get status
+     * Get status.
      *
      * @return int
      */
@@ -248,7 +219,7 @@ class AclChangeset extends AbstractEntity
     }
 
     /**
-     * Set process id
+     * Set process id.
      *
      * @param int $pid
      *
@@ -262,7 +233,7 @@ class AclChangeset extends AbstractEntity
     }
 
     /**
-     * Get process id
+     * Get process id.
      *
      * @return int
      */
@@ -272,7 +243,7 @@ class AclChangeset extends AbstractEntity
     }
 
     /**
-     * Set user
+     * Set user.
      *
      * @param BaseUser $user
      *
@@ -286,7 +257,7 @@ class AclChangeset extends AbstractEntity
     }
 
     /**
-     * Get user
+     * Get user.
      *
      * @return BaseUser
      */
@@ -295,4 +266,31 @@ class AclChangeset extends AbstractEntity
         return $this->user;
     }
 
+    /**
+     * Set reference entity id.
+     *
+     * @param int $refId
+     *
+     * @return AclChangeset
+     */
+    protected function setRefId($refId)
+    {
+        $this->refId = $refId;
+
+        return $this;
+    }
+
+    /**
+     * Set reference entity name.
+     *
+     * @param string $refEntityName
+     *
+     * @return AclChangeset
+     */
+    protected function setRefEntityName($refEntityName)
+    {
+        $this->refEntityName = $refEntityName;
+
+        return $this;
+    }
 }

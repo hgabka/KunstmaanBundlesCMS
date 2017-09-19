@@ -9,7 +9,7 @@ use Kunstmaan\AdminBundle\Helper\VersionCheck\Exception\ParseException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Version checker
+ * Version checker.
  */
 class VersionChecker
 {
@@ -39,10 +39,10 @@ class VersionChecker
     private $enabled;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param ContainerInterface $container
-     * @param Cache $cache
+     * @param Cache              $cache
      */
     public function __construct(ContainerInterface $container, Cache $cache)
     {
@@ -66,8 +66,6 @@ class VersionChecker
 
     /**
      * Check if we recently did a version check, if not do one now.
-     *
-     * @return void
      */
     public function periodicallyCheck()
     {
@@ -84,7 +82,7 @@ class VersionChecker
     /**
      * Get the version details via webservice.
      *
-     * @return mixed A list of bundles if available.
+     * @return mixed a list of bundles if available
      */
     public function check()
     {
@@ -92,15 +90,15 @@ class VersionChecker
             return;
         }
 
-        $jsonData = json_encode(array(
+        $jsonData = json_encode([
             'host' => $this->container->get('request_stack')->getCurrentRequest()->getHttpHost(),
             'installed' => filectime($this->container->get('kernel')->getRootDir().'/../bin/console'),
             'bundles' => $this->parseComposer(),
-            'project' => $this->container->getParameter('websitetitle')
-        ));
+            'project' => $this->container->getParameter('websitetitle'),
+        ]);
 
         try {
-            $client = new Client(array('connect_timeout' => 3, 'timeout' => 1));
+            $client = new Client(['connect_timeout' => 3, 'timeout' => 1]);
             $response = $client->post($this->webserviceUrl, ['body' => $jsonData]);
             $data = json_decode($response->getBody()->getContents());
 
@@ -133,8 +131,9 @@ class VersionChecker
     /**
      * Returns a list of composer packages.
      *
-     * @return array
      * @throws Exception\ParseException
+     *
+     * @return array
      */
     protected function getPackages()
     {
@@ -151,7 +150,7 @@ class VersionChecker
         $json = file_get_contents($composerPath);
         $result = json_decode($json, true);
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if (JSON_ERROR_NONE !== json_last_error()) {
             throw new ParseException($errorMessage.' (#'.json_last_error().')');
         }
 
@@ -166,19 +165,20 @@ class VersionChecker
     /**
      * Parse the composer.lock file to get the currently used versions of the kunstmaan bundles.
      *
-     * @return array
      * @throws Exception\ParseException
+     *
+     * @return array
      */
     protected function parseComposer()
     {
-        $bundles = array();
+        $bundles = [];
         foreach ($this->getPackages() as $package) {
             if (!strncmp($package['name'], 'kunstmaan/', strlen('kunstmaan/'))) {
-                $bundles[] = array(
+                $bundles[] = [
                     'name' => $package['name'],
                     'version' => $package['version'],
-                    'reference' => $package['source']['reference']
-                );
+                    'reference' => $package['source']['reference'],
+                ];
             }
         }
 

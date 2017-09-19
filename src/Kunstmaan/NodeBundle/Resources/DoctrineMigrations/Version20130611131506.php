@@ -22,9 +22,9 @@ class Version20130611131506 extends AbstractMigration implements ContainerAwareI
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != "mysql", "Migration can only be executed safely on 'mysql'.");
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), "Migration can only be executed safely on 'mysql'.");
 
-        $this->addSql("ALTER TABLE kuma_nodes ADD lft INT DEFAULT NULL, ADD lvl INT DEFAULT NULL, ADD rgt INT DEFAULT NULL");
+        $this->addSql('ALTER TABLE kuma_nodes ADD lft INT DEFAULT NULL, ADD lvl INT DEFAULT NULL, ADD rgt INT DEFAULT NULL');
 
         $sql = "DROP PROCEDURE IF EXISTS treerecover;
         SET SQL_SAFE_UPDATES=0;
@@ -151,15 +151,15 @@ class Version20130611131506 extends AbstractMigration implements ContainerAwareI
         $stmt = $em->getConnection()->prepare($sql);
         $stmt->execute();
 
-        $this->addSql("CALL treerecover()");
+        $this->addSql('CALL treerecover()');
     }
 
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != "mysql", "Migration can only be executed safely on 'mysql'.");
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), "Migration can only be executed safely on 'mysql'.");
 
-        $this->addSql("ALTER TABLE kuma_nodes DROP lft, DROP lvl, DROP rgt");
-        $this->addSql("DROP PROCEDURE IF EXISTS treerecover");
+        $this->addSql('ALTER TABLE kuma_nodes DROP lft, DROP lvl, DROP rgt');
+        $this->addSql('DROP PROCEDURE IF EXISTS treerecover');
     }
 }

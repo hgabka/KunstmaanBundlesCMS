@@ -7,11 +7,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * This compiler pass makes it possible to add processors for the Kunstmaan logger
+ * This compiler pass makes it possible to add processors for the Kunstmaan logger.
  */
 class AddLogProcessorsCompilerPass implements CompilerPassInterface
 {
-
     /**
      * @param ContainerBuilder $container
      */
@@ -26,14 +25,13 @@ class AddLogProcessorsCompilerPass implements CompilerPassInterface
         foreach ($container->findTaggedServiceIds('kunstmaan_admin.logger.processor') as $id => $tags) {
             foreach ($tags as $tag) {
                 if (!empty($tag['method'])) {
-                    $processor = array(new Reference($id), $tag['method']);
+                    $processor = [new Reference($id), $tag['method']];
                 } else {
                     // If no method is defined, fallback to use __invoke
                     $processor = new Reference($id);
                 }
-                $definition->addMethodCall('pushProcessor', array($processor));
+                $definition->addMethodCall('pushProcessor', [$processor]);
             }
         }
     }
-
 }

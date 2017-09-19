@@ -51,7 +51,7 @@
                 {% for role in permissionadmin.getManageableRolesForPages() %}
                     <tr>
                         <td>
-                            {{ role.getRole() }}
+                            {{ role.getName() }}
                         </td>
                         {% set permission = permissionadmin.getPermission(role) %}
                         {% for permissionName in permissionadmin.getPossiblePermissions() %}

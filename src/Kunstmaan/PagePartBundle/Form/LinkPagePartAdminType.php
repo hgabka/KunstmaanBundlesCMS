@@ -9,29 +9,29 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * LinkPagePartAdminType
+ * LinkPagePartAdminType.
  */
 class LinkPagePartAdminType extends AbstractType
 {
     /**
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
-     * @param array $options
+     * @param array                                        $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('url', URLChooserType::class, array(
+            ->add('url', URLChooserType::class, [
                 'label' => false,
                 'required' => false,
-            ))
-            ->add('openinnewwindow', CheckboxType::class, array(
+            ])
+            ->add('openinnewwindow', CheckboxType::class, [
                 'label' => 'pagepart.link.openinnewwindow',
                 'required' => false,
-            ))
-            ->add('text', null, array(
+            ])
+            ->add('text', null, [
                 'label' => 'pagepart.link.text',
                 'required' => false,
-            ));
+            ]);
     }
 
     /**
@@ -47,8 +47,8 @@ class LinkPagePartAdminType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Kunstmaan\PagePartBundle\Entity\LinkPagePart',
-        ));
+        ]);
     }
 }

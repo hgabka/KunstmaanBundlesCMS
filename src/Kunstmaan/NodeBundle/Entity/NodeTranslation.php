@@ -10,7 +10,7 @@ use Kunstmaan\NodeBundle\Form\NodeTranslationAdminType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * NodeTranslation
+ * NodeTranslation.
  *
  * @ORM\Entity(repositoryClass="Kunstmaan\NodeBundle\Repository\NodeTranslationRepository")
  * @ORM\Table(
@@ -22,7 +22,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class NodeTranslation extends AbstractEntity
 {
-
     /**
      * @var Node
      *
@@ -105,7 +104,7 @@ class NodeTranslation extends AbstractEntity
     protected $updated;
 
     /**
-     * contructor
+     * contructor.
      */
     public function __construct()
     {
@@ -115,7 +114,7 @@ class NodeTranslation extends AbstractEntity
     }
 
     /**
-     * Set node
+     * Set node.
      *
      * @param Node $node
      *
@@ -129,7 +128,7 @@ class NodeTranslation extends AbstractEntity
     }
 
     /**
-     * Get Node
+     * Get Node.
      *
      * @return Node
      */
@@ -139,7 +138,7 @@ class NodeTranslation extends AbstractEntity
     }
 
     /**
-     * Set lang
+     * Set lang.
      *
      * @param string $lang
      *
@@ -153,7 +152,7 @@ class NodeTranslation extends AbstractEntity
     }
 
     /**
-     * Get lang
+     * Get lang.
      *
      * @return string
      */
@@ -163,7 +162,7 @@ class NodeTranslation extends AbstractEntity
     }
 
     /**
-     * Is online
+     * Is online.
      *
      * @return bool
      */
@@ -173,7 +172,7 @@ class NodeTranslation extends AbstractEntity
     }
 
     /**
-     * Set online
+     * Set online.
      *
      * @param bool $online
      *
@@ -187,7 +186,7 @@ class NodeTranslation extends AbstractEntity
     }
 
     /**
-     * Set title
+     * Set title.
      *
      * @param string $title
      *
@@ -201,7 +200,7 @@ class NodeTranslation extends AbstractEntity
     }
 
     /**
-     * Get title
+     * Get title.
      *
      * @return string
      */
@@ -211,7 +210,7 @@ class NodeTranslation extends AbstractEntity
     }
 
     /**
-     * Set slug
+     * Set slug.
      *
      * @param string $slug
      *
@@ -225,7 +224,7 @@ class NodeTranslation extends AbstractEntity
     }
 
     /**
-     * Get slug
+     * Get slug.
      *
      * @return string
      */
@@ -245,25 +244,25 @@ class NodeTranslation extends AbstractEntity
      */
     public function getSlugPart()
     {
-        $slug       = "";
+        $slug = '';
         $parentNode = $this->getNode()->getParent();
-        if ($parentNode !== null) {
+        if (null !== $parentNode) {
             $nodeTranslation = $parentNode->getNodeTranslation($this->lang, true);
 
-            if ($nodeTranslation !== null) {
+            if (null !== $nodeTranslation) {
                 $parentSlug = $nodeTranslation->getSlugPart();
                 if (!empty($parentSlug)) {
-                    $slug = rtrim($parentSlug, "/") . "/";
+                    $slug = rtrim($parentSlug, '/').'/';
                 }
             }
         }
-        $slug = $slug . $this->getSlug();
+        $slug = $slug.$this->getSlug();
 
         return $slug;
     }
 
     /**
-     * Get slug
+     * Get slug.
      *
      * @return string
      */
@@ -323,22 +322,22 @@ class NodeTranslation extends AbstractEntity
     /**
      * @param string $type
      *
-     * @return NodeVersion|null
+     * @return null|NodeVersion
      */
     public function getNodeVersion($type)
     {
-        if($type == 'public') {
+        if ('public' === $type) {
             return $this->publicNodeVersion;
         }
 
         $nodeVersions = $this->getNodeVersions();
 
         $max = count($nodeVersions);
-        for ($i = $max-1; $i >= 0; $i--) {
-            /* @var NodeVersion $nodeVersion */
+        for ($i = $max - 1; $i >= 0; --$i) {
+            // @var NodeVersion $nodeVersion
             $nodeVersion = $nodeVersions[$i];
 
-            if ($type == $nodeVersion->getType()) {
+            if ($type === $nodeVersion->getType()) {
                 return $nodeVersion;
             }
         }
@@ -347,7 +346,7 @@ class NodeTranslation extends AbstractEntity
     }
 
     /**
-     * Add nodeVersion
+     * Add nodeVersion.
      *
      * @param NodeVersion $nodeVersion
      *
@@ -358,7 +357,7 @@ class NodeTranslation extends AbstractEntity
         $this->nodeVersions[] = $nodeVersion;
         $nodeVersion->setNodeTranslation($this);
 
-        if($nodeVersion->getType() == 'public') {
+        if ('public' === $nodeVersion->getType()) {
             $this->publicNodeVersion = $nodeVersion;
         }
 
@@ -377,9 +376,9 @@ class NodeTranslation extends AbstractEntity
      * @param EntityManager $em   The entity manager
      * @param string        $type The type
      *
-     * @return object|null
+     * @return null|object
      */
-    public function getRef(EntityManager $em, $type = "public")
+    public function getRef(EntityManager $em, $type = 'public')
     {
         $nodeVersion = $this->getNodeVersion($type);
         if ($nodeVersion) {

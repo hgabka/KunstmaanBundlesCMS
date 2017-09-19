@@ -15,7 +15,7 @@ use Kunstmaan\NodeBundle\Helper\HiddenFromNavInterface;
 use Kunstmaan\UtilitiesBundle\Helper\ClassLookup;
 
 /**
- * NodeRepository
+ * NodeRepository.
  */
 class NodeRepository extends NestedTreeRepository
 {
@@ -46,13 +46,14 @@ class NodeRepository extends NestedTreeRepository
     }
 
     /**
-     * @param int|null  $parentId             The parent node id
-     * @param string    $lang                 The locale
-     * @param string    $permission           The permission (read, write, ...)
-     * @param AclHelper $aclHelper            The acl helper
-     * @param bool      $includeHiddenFromNav Include nodes hidden from
-     *                                        navigation or not
-     * @param Node      $rootNode             Root node of the current tree
+     * @param null|int  $parentId                      The parent node id
+     * @param string    $lang                          The locale
+     * @param string    $permission                    The permission (read, write, ...)
+     * @param AclHelper $aclHelper                     The acl helper
+     * @param bool      $includeHiddenFromNav          Include nodes hidden from
+     *                                                 navigation or not
+     * @param Node      $rootNode                      Root node of the current tree
+     * @param mixed     $includeHiddenWithInternalName
      *
      * @return Node[]
      */
@@ -89,9 +90,9 @@ class NodeRepository extends NestedTreeRepository
             }
         }
 
-        if (is_null($parentId)) {
+        if (null === $parentId) {
             $qb->andWhere('b.parent is NULL');
-        } elseif ($parentId !== false) {
+        } elseif (false !== $parentId) {
             $qb->andWhere('b.parent = :parent')
                 ->setParameter('parent', $parentId);
         }
@@ -104,7 +105,7 @@ class NodeRepository extends NestedTreeRepository
 
         $query = $aclHelper->apply(
             $qb,
-            new PermissionDefinition(array($permission))
+            new PermissionDefinition([$permission])
         );
 
         return $query->getResult();
@@ -113,20 +114,20 @@ class NodeRepository extends NestedTreeRepository
     /**
      * @param HasNodeInterface $hasNode
      *
-     * @return Node|null
+     * @return null|Node
      */
     public function getNodeFor(HasNodeInterface $hasNode)
     {
-        /* @var NodeVersion $nodeVersion */
+        // @var NodeVersion $nodeVersion
         $nodeVersion = $this->getEntityManager()->getRepository(
             'KunstmaanNodeBundle:NodeVersion'
         )->getNodeVersionFor(
             $hasNode
         );
-        if (!is_null($nodeVersion)) {
-            /* @var NodeTranslation $nodeTranslation */
+        if (null !== $nodeVersion) {
+            // @var NodeTranslation $nodeTranslation
             $nodeTranslation = $nodeVersion->getNodeTranslation();
-            if (!is_null($nodeTranslation)) {
+            if (null !== $nodeTranslation) {
                 return $nodeTranslation->getNode();
             }
         }
@@ -138,15 +139,15 @@ class NodeRepository extends NestedTreeRepository
      * @param int    $id         The id
      * @param string $entityName The class name
      *
-     * @return Node|null
+     * @return null|Node
      */
     public function getNodeForIdAndEntityname($id, $entityName)
     {
-        /* @var NodeVersion $nodeVersion */
+        // @var NodeVersion $nodeVersion
         $nodeVersion = $this->getEntityManager()->getRepository(
             'KunstmaanNodeBundle:NodeVersion'
         )->findOneBy(
-            array('refId' => $id, 'refEntityName' => $entityName)
+            ['refId' => $id, 'refEntityName' => $entityName]
         );
         if ($nodeVersion) {
             return $nodeVersion->getNodeTranslation()->getNode();
@@ -159,25 +160,25 @@ class NodeRepository extends NestedTreeRepository
      * @param Node   $parentNode The parent node (may be null)
      * @param string $slug       The slug
      *
-     * @return Node|null
+     * @return null|Node
      */
     public function getNodeForSlug(Node $parentNode, $slug)
     {
-        $slugParts = explode("/", $slug);
-        $result    = null;
+        $slugParts = explode('/', $slug);
+        $result = null;
         foreach ($slugParts as $slugPart) {
             if ($parentNode) {
                 if ($r = $this->findOneBy(
-                    array(
-                        'slug'          => $slugPart,
-                        'parent.parent' => $parentNode->getId()
-                    )
+                    [
+                        'slug' => $slugPart,
+                        'parent.parent' => $parentNode->getId(),
+                    ]
                 )
                 ) {
                     $result = $r;
                 }
             } else {
-                if ($r = $this->findOneBy(array('slug' => $slugPart))) {
+                if ($r = $this->findOneBy(['slug' => $slugPart])) {
                     $result = $r;
                 }
             }
@@ -202,28 +203,28 @@ class NodeRepository extends NestedTreeRepository
         BaseUser $owner,
         $internalName = null
     ) {
-        $em   = $this->getEntityManager();
+        $em = $this->getEntityManager();
         $node = new Node();
         $node->setRef($hasNode);
         if (!$hasNode->getId() > 0) {
             throw new \InvalidArgumentException(
-                "the entity of class ".
+                'the entity of class '.
                 $node->getRefEntityName(
-                )." has no id, maybe you forgot to flush first"
+                ).' has no id, maybe you forgot to flush first'
             );
         }
         $node->setDeleted(false);
         $node->setInternalName($internalName);
         $parent = $hasNode->getParent();
         if ($parent) {
-            /* @var NodeVersion $parentNodeVersion */
+            // @var NodeVersion $parentNodeVersion
             $parentNodeVersion = $em->getRepository(
                 'KunstmaanNodeBundle:NodeVersion'
             )->findOneBy(
-                array(
-                    'refId'         => $parent->getId(),
-                    'refEntityName' => ClassLookup::getClass($parent)
-                )
+                [
+                    'refId' => $parent->getId(),
+                    'refEntityName' => ClassLookup::getClass($parent),
+                ]
             );
             if ($parentNodeVersion) {
                 $node->setParent(
@@ -271,10 +272,10 @@ class NodeRepository extends NestedTreeRepository
         $includeHiddenFromNav = false,
         Node $rootNode = null
     ) {
-        $connection           = $this->_em->getConnection();
-        $qb                   = $connection->createQueryBuilder();
+        $connection = $this->_em->getConnection();
+        $qb = $connection->createQueryBuilder();
         $databasePlatformName = $connection->getDatabasePlatform()->getName();
-        $createIfStatement    = function (
+        $createIfStatement = function (
             $expression,
             $trueValue,
             $falseValue
@@ -282,8 +283,8 @@ class NodeRepository extends NestedTreeRepository
             switch ($databasePlatformName) {
                 case 'sqlite':
                     $statement = 'CASE WHEN %s THEN %s ELSE %s END';
-                    break;
 
+                    break;
                 default:
                     $statement = 'IF(%s, %s, %s)';
             }
@@ -299,7 +300,6 @@ n.id, n.parent_id AS parent, t.url, t.id AS nt_id,
 n.hidden_from_nav AS hidden,
 n.ref_entity_name AS ref_entity_name
 SQL;
-
 
         $qb->select($sql)
             ->from('kuma_nodes', 'n')
@@ -324,19 +324,19 @@ SQL;
             $qb->andWhere('n.hidden_from_nav <> 0');
         }
 
-        if (!is_null($rootNode)) {
+        if (null !== $rootNode) {
             $qb->andWhere('n.lft >= :left')
                 ->andWhere('n.rgt <= :right');
         }
 
-        $permissionDef = new PermissionDefinition(array($permission));
+        $permissionDef = new PermissionDefinition([$permission]);
         $permissionDef->setEntity('Kunstmaan\NodeBundle\Entity\Node');
         $permissionDef->setAlias('n');
         $qb = $aclNativeHelper->apply($qb, $permissionDef);
 
         $stmt = $this->_em->getConnection()->prepare($qb->getSQL());
         $stmt->bindValue(':lang', $lang);
-        if (!is_null($rootNode)) {
+        if (null !== $rootNode) {
             $stmt->bindValue(':left', $rootNode->getLeft());
             $stmt->bindValue(':right', $rootNode->getRight());
         }
@@ -355,8 +355,8 @@ SQL;
      */
     public function getAllParents(Node $node = null, $lang = null)
     {
-        if (is_null($node)) {
-            return array();
+        if (null === $node) {
+            return [];
         }
 
         $qb = $this->createQueryBuilder('node');
@@ -399,7 +399,7 @@ SQL;
      */
     public function getRootNodeFor(Node $node = null, $lang = null)
     {
-        if (is_null($node)) {
+        if (null === $node) {
             return null;
         }
 
@@ -459,7 +459,7 @@ SQL;
      *
      * @param string        $internalName   The internal name of the node
      * @param string        $lang           The locale
-     * @param int|null|bool $parentId       The parent id
+     * @param null|bool|int $parentId       The parent id
      * @param bool          $includeOffline Include offline nodes
      *
      * @return Node[]
@@ -491,9 +491,9 @@ SQL;
             $qb->andWhere('t.online = true');
         }
 
-        if (is_null($parentId)) {
+        if (null === $parentId) {
             $qb->andWhere('n.parent is NULL');
-        } elseif ($parentId === false) {
+        } elseif (false === $parentId) {
             // Do nothing
         } else {
             $qb->andWhere('n.parent = :parent')
@@ -524,7 +524,7 @@ SQL;
     }
 
     /**
-     * Finds all different page classes currently registered as nodes
+     * Finds all different page classes currently registered as nodes.
      *
      * @return string[]
      */

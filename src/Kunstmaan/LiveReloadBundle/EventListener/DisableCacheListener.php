@@ -3,10 +3,9 @@
 namespace Kunstmaan\LiveReloadBundle\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent,
-    Symfony\Component\HttpKernel\HttpKernelInterface,
-    Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 class DisableCacheListener implements EventSubscriberInterface
 {
@@ -23,11 +22,11 @@ class DisableCacheListener implements EventSubscriberInterface
         }
 
         $response = $event->getResponse();
-        $types    = array('css' => 'text/css', 'js' => 'application/javascript');
+        $types = ['css' => 'text/css', 'js' => 'application/javascript'];
         foreach ($types as $short => $long) {
             if (($response->headers->has('Content-Type') &&
-                    strpos($response->headers->get('Content-Type'), $long) !== false) ||
-                $short == $request->getRequestFormat()
+                    false !== strpos($response->headers->get('Content-Type'), $long)) ||
+                $short === $request->getRequestFormat()
             ) {
                 $response->headers->set('Cache-Control', 'no-cache');
                 $response->headers->set('ETag', null);
@@ -41,8 +40,8 @@ class DisableCacheListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
-            KernelEvents::RESPONSE => array('onKernelResponse', -255),
-        );
+        return [
+            KernelEvents::RESPONSE => ['onKernelResponse', -255],
+        ];
     }
 }

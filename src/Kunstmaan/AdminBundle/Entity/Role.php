@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\Role\Role as BaseRole;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Role Entity
+ * Role Entity.
  *
  * @ORM\Entity
  * @ORM\Table( name="kuma_roles" )
@@ -16,7 +16,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Role extends BaseRole
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer", name="id")
@@ -31,23 +30,19 @@ class Role extends BaseRole
     protected $role;
 
     /**
-     * Populate the role field
+     * @Assert\NotBlank()
+     * @ORM\Column(type="string", name="name", unique=true, length=70)
+     */
+    protected $name;
+
+    /**
+     * Populate the role field.
      *
      * @param string $role
      */
     public function __construct($role)
     {
         $this->role = $role;
-    }
-
-    /**
-     * Return the role field.
-     *
-     * @return string
-     */
-    public function getRole()
-    {
-        return $this->role;
     }
 
     /**
@@ -61,7 +56,17 @@ class Role extends BaseRole
     }
 
     /**
-     * Get id
+     * Return the role field.
+     *
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * Get id.
      *
      * @return int
      */
@@ -80,6 +85,30 @@ class Role extends BaseRole
     public function setRole($role)
     {
         $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Return the name field.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Modify the name field.
+     *
+     * @param string $name
+     *
+     * @return RoleInterface
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
 
         return $this;
     }

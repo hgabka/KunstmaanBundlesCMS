@@ -13,15 +13,14 @@ class SitemapTwigExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('hide_from_sitemap', array($this, 'isHiddenFromSitemap')),
-            new \Twig_SimpleFunction('hide_children_from_sitemap', array($this, 'isHiddenChildrenFromSitemap')),
-
-        );
+        return [
+            new \Twig_SimpleFunction('hide_from_sitemap', [$this, 'isHiddenFromSitemap']),
+            new \Twig_SimpleFunction('hide_children_from_sitemap', [$this, 'isHiddenChildrenFromSitemap']),
+        ];
     }
 
     /**
-     * Returns true when the item should be hidden from the sitemap
+     * Returns true when the item should be hidden from the sitemap.
      *
      * @param NodeMenuItem $item
      *
@@ -39,7 +38,7 @@ class SitemapTwigExtension extends \Twig_Extension
     }
 
     /**
-     * Returns true when the children of the item should be hidden from the sitemap
+     * Returns true when the children of the item should be hidden from the sitemap.
      *
      * @param NodeMenuItem $item
      *
@@ -56,4 +55,3 @@ class SitemapTwigExtension extends \Twig_Extension
         return false;
     }
 }
-

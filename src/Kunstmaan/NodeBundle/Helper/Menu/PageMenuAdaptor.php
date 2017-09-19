@@ -16,7 +16,7 @@ use Kunstmaan\NodeBundle\Helper\PagesConfiguration;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * The Page Menu Adaptor
+ * The Page Menu Adaptor.
  */
 class PageMenuAdaptor implements MenuAdaptorInterface
 {
@@ -33,12 +33,12 @@ class PageMenuAdaptor implements MenuAdaptorInterface
     /**
      * @var array
      */
-    private $treeNodes = null;
+    private $treeNodes;
 
     /**
      * @var array
      */
-    private $activeNodeIds = null;
+    private $activeNodeIds;
 
     /**
      * @var PagesConfiguration
@@ -51,8 +51,8 @@ class PageMenuAdaptor implements MenuAdaptorInterface
     private $domainConfiguration;
 
     /**
-     * @param EntityManagerInterface       $em              The entity manager
-     * @param AclNativeHelper              $aclNativeHelper The acl helper
+     * @param EntityManagerInterface       $em                  The entity manager
+     * @param AclNativeHelper              $aclNativeHelper     The acl helper
      * @param PagesConfiguration           $pagesConfiguration
      * @param DomainConfigurationInterface $domainConfiguration
      */
@@ -62,15 +62,15 @@ class PageMenuAdaptor implements MenuAdaptorInterface
         PagesConfiguration $pagesConfiguration,
         DomainConfigurationInterface $domainConfiguration
     ) {
-        $this->em                  = $em;
-        $this->aclNativeHelper     = $aclNativeHelper;
-        $this->pagesConfiguration  = $pagesConfiguration;
+        $this->em = $em;
+        $this->aclNativeHelper = $aclNativeHelper;
+        $this->pagesConfiguration = $pagesConfiguration;
         $this->domainConfiguration = $domainConfiguration;
     }
 
     /**
      * In this method you can add children for a specific parent, but also
-     * remove and change the already created children
+     * remove and change the already created children.
      *
      * @param MenuBuilder $menu      The menu builder
      * @param MenuItem[]  &$children The children array that may be adapted
@@ -83,19 +83,19 @@ class PageMenuAdaptor implements MenuAdaptorInterface
         MenuItem $parent = null,
         Request $request = null
     ) {
-        if (is_null($parent)) {
+        if (null === $parent) {
             $menuItem = new TopMenuItem($menu);
             $menuItem
                 ->setRoute('KunstmaanNodeBundle_nodes')
                 ->setUniqueId('pages')
                 ->setLabel('pages.title')
                 ->setParent($parent);
-            if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
+            if (0 === stripos($request->attributes->get('_route'), $menuItem->getRoute())) {
                 $menuItem->setActive(true);
             }
             $children[] = $menuItem;
-        } elseif (stripos($request->attributes->get('_route'), 'KunstmaanNodeBundle_nodes') === 0) {
-            $treeNodes     = $this->getTreeNodes(
+        } elseif (0 === stripos($request->attributes->get('_route'), 'KunstmaanNodeBundle_nodes')) {
+            $treeNodes = $this->getTreeNodes(
                 $request->getLocale(),
                 PermissionMap::PERMISSION_VIEW,
                 $this->aclNativeHelper,
@@ -103,7 +103,7 @@ class PageMenuAdaptor implements MenuAdaptorInterface
             );
             $activeNodeIds = $this->getActiveNodeIds($request);
 
-            if ('KunstmaanNodeBundle_nodes' == $parent->getRoute() && isset($treeNodes[0])) {
+            if ('KunstmaanNodeBundle_nodes' === $parent->getRoute() && isset($treeNodes[0])) {
                 $this->processNodes(
                     $menu,
                     $children,
@@ -111,9 +111,9 @@ class PageMenuAdaptor implements MenuAdaptorInterface
                     $parent,
                     $activeNodeIds
                 );
-            } elseif ('KunstmaanNodeBundle_nodes_edit' == $parent->getRoute()) {
+            } elseif ('KunstmaanNodeBundle_nodes_edit' === $parent->getRoute()) {
                 $parentRouteParams = $parent->getRouteparams();
-                $parent_id         = $parentRouteParams['id'];
+                $parent_id = $parentRouteParams['id'];
                 if (array_key_exists($parent_id, $treeNodes)) {
                     $this->processNodes(
                         $menu,
@@ -143,9 +143,9 @@ class PageMenuAdaptor implements MenuAdaptorInterface
         AclNativeHelper $aclNativeHelper,
         $includeHiddenFromNav
     ) {
-        if (is_null($this->treeNodes)) {
-            $repo            = $this->em->getRepository('KunstmaanNodeBundle:Node');
-            $this->treeNodes = array();
+        if (null === $this->treeNodes) {
+            $repo = $this->em->getRepository('KunstmaanNodeBundle:Node');
+            $this->treeNodes = [];
 
             $rootNode = $this->domainConfiguration->getRootNode();
 
@@ -163,7 +163,7 @@ class PageMenuAdaptor implements MenuAdaptorInterface
                 if ($this->pagesConfiguration->isHiddenFromTree($refEntityName)) {
                     continue;
                 }
-                $parent_id = is_null($nodeInfo['parent']) ? 0 : $nodeInfo['parent'];
+                $parent_id = null === $nodeInfo['parent'] ? 0 : $nodeInfo['parent'];
                 unset($nodeInfo['parent']);
                 $this->treeNodes[$parent_id][] = $nodeInfo;
             }
@@ -183,20 +183,20 @@ class PageMenuAdaptor implements MenuAdaptorInterface
      */
     private function getActiveNodeIds($request)
     {
-        if (is_null($this->activeNodeIds)) {
-            if (stripos($request->attributes->get('_route'), 'KunstmaanNodeBundle_nodes_edit') === 0) {
+        if (null === $this->activeNodeIds) {
+            if (0 === stripos($request->attributes->get('_route'), 'KunstmaanNodeBundle_nodes_edit')) {
                 $repo = $this->em->getRepository('KunstmaanNodeBundle:Node');
 
-                $currentNode         = $repo->findOneById($request->attributes->get('id'));
-                $parentNodes         = $repo->getAllParents($currentNode);
-                $this->activeNodeIds = array();
+                $currentNode = $repo->findOneById($request->attributes->get('id'));
+                $parentNodes = $repo->getAllParents($currentNode);
+                $this->activeNodeIds = [];
                 foreach ($parentNodes as $parentNode) {
                     $this->activeNodeIds[] = $parentNode->getId();
                 }
             }
         }
 
-        return (is_null($this->activeNodeIds) ? array() : $this->activeNodeIds);
+        return null === $this->activeNodeIds ? [] : $this->activeNodeIds;
     }
 
     /**
@@ -217,12 +217,12 @@ class PageMenuAdaptor implements MenuAdaptorInterface
     ) {
         foreach ($nodes as $child) {
             $menuItem = new MenuItem($menu);
-            $refName  = $child['ref_entity_name'];
+            $refName = $child['ref_entity_name'];
 
             $menuItem
                 ->setRoute('KunstmaanNodeBundle_nodes_edit')
-                ->setRouteparams(array('id' => $child['id']))
-                ->setUniqueId('node-' . $child['id'])
+                ->setRouteparams(['id' => $child['id']])
+                ->setUniqueId('node-'.$child['id'])
                 ->setLabel($child['title'])
                 ->setParent($parent)
                 ->setOffline(!$child['online'] && !$this->pagesConfiguration->isStructureNode($refName))
@@ -232,14 +232,14 @@ class PageMenuAdaptor implements MenuAdaptorInterface
                 ->addAttributes(
                     [
                         'page' => [
-                            'class'    => $refName,
+                            'class' => $refName,
                             'children' => $this->pagesConfiguration->getPossibleChildTypes($refName),
-                            'icon'     => $this->pagesConfiguration->getIcon($refName)
-                        ]
+                            'icon' => $this->pagesConfiguration->getIcon($refName),
+                        ],
                     ]
                 );
 
-            if (in_array($child['id'], $activeNodeIds)) {
+            if (in_array($child['id'], $activeNodeIds, true)) {
                 $menuItem->setActive(true);
             }
             $children[] = $menuItem;

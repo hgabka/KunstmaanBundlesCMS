@@ -7,18 +7,16 @@ use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface;
 
 /**
- * SVGMimeTypeGuesser
+ * SVGMimeTypeGuesser.
  *
  * Simple Mime type guesser to detect SVG image files, it will test if the file is an XML file and return SVG mime type
  * if the XML contains a valid SVG namespace...
- *
- * @package Kunstmaan\MediaBundle\Helper\File
  */
 class SVGMimeTypeGuesser implements MimeTypeGuesserInterface
 {
-    private $_MIMETYPE_NAMESPACES = array(
-        'http://www.w3.org/2000/svg' => 'image/svg+xml'
-    );
+    private $_MIMETYPE_NAMESPACES = [
+        'http://www.w3.org/2000/svg' => 'image/svg+xml',
+    ];
 
     /**
      * {@inheritdoc}
@@ -39,7 +37,7 @@ class SVGMimeTypeGuesser implements MimeTypeGuesserInterface
 
         $dom = new \DOMDocument();
         $xml = $dom->load($path, LIBXML_NOERROR + LIBXML_ERR_FATAL + LIBXML_ERR_NONE);
-        if ($xml === false) {
+        if (false === $xml) {
             return;
         }
         $xpath = new \DOMXPath($dom);
@@ -48,12 +46,10 @@ class SVGMimeTypeGuesser implements MimeTypeGuesserInterface
                 return $this->_MIMETYPE_NAMESPACES[$node->nodeValue];
             }
         }
-
-        return;
     }
 
     /**
-     * Returns whether this guesser is supported on the current OS
+     * Returns whether this guesser is supported on the current OS.
      *
      * @return bool
      */

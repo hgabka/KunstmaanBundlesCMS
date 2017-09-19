@@ -29,9 +29,10 @@ class MenuService
     private $menuEntityClass;
 
     /**
-     * @param array $menuNames
+     * @param array                        $menuNames
      * @param DomainConfigurationInterface $domainConfiguration
-     * @param EntityManager $em
+     * @param EntityManager                $em
+     * @param mixed                        $menuEntityClass
      */
     public function __construct(array $menuNames, DomainConfigurationInterface $domainConfiguration, EntityManager $em, $menuEntityClass)
     {
@@ -47,7 +48,7 @@ class MenuService
     public function makeSureMenusExist()
     {
         $locales = array_unique($this->getLocales());
-        $required = array();
+        $required = [];
 
         foreach ($this->menuNames as $name) {
             $required[$name] = $locales;
@@ -57,8 +58,8 @@ class MenuService
 
         foreach ($menuObjects as $menu) {
             if (array_key_exists($menu->getName(), $required)) {
-                $index = array_search($menu->getLocale(), $required[$menu->getName()]);
-                if ($index !== false) {
+                $index = array_search($menu->getLocale(), $required[$menu->getName()], true);
+                if (false !== $index) {
                     unset($required[$menu->getName()][$index]);
                 }
             }

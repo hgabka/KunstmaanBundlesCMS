@@ -7,16 +7,10 @@ use Kunstmaan\MediaBundle\Form\RemoteAudio\RemoteAudioType;
 use Kunstmaan\MediaBundle\Helper\Media\AbstractMediaHandler;
 
 /**
- * RemoteAudioStrategy
+ * RemoteAudioStrategy.
  */
 class RemoteAudioHandler extends AbstractMediaHandler
 {
-
-    /**
-     * @var string
-     */
-    private $soundcloudApiKey;
-
     /**
      * @var string
      */
@@ -26,6 +20,11 @@ class RemoteAudioHandler extends AbstractMediaHandler
      * @var string
      */
     const TYPE = 'audio';
+
+    /**
+     * @var string
+     */
+    private $soundcloudApiKey;
 
     public function __construct($priority, $soundcloudApiKey)
     {
@@ -46,7 +45,7 @@ class RemoteAudioHandler extends AbstractMediaHandler
      */
     public function getType()
     {
-        return RemoteAudioHandler::TYPE;
+        return self::TYPE;
     }
 
     /**
@@ -74,7 +73,7 @@ class RemoteAudioHandler extends AbstractMediaHandler
     {
         if (
             (is_string($object)) ||
-            ($object instanceof Media && $object->getContentType() == RemoteAudioHandler::CONTENT_TYPE)
+            ($object instanceof Media && self::CONTENT_TYPE === $object->getContentType())
         ) {
             return true;
         }
@@ -104,18 +103,19 @@ class RemoteAudioHandler extends AbstractMediaHandler
             $media->setUuid($uuid);
         }
         $audio = new RemoteAudioHelper($media);
-        $code  = $audio->getCode();
+        $code = $audio->getCode();
         //update thumbnail
         switch ($audio->getType()) {
             case 'soundcloud':
-                $scData     = json_decode(
+                $scData = json_decode(
                     file_get_contents(
-                        'http://api.soundcloud.com/tracks/' . $code . '.json?client_id=' . $this->getSoundcloudApiKey()
+                        'http://api.soundcloud.com/tracks/'.$code.'.json?client_id='.$this->getSoundcloudApiKey()
                     )
                 );
                 $artworkUrl = $scData->artwork_url;
                 $artworkUrl = str_replace('large.jpg', 't500x500.jpg', $artworkUrl);
                 $audio->setThumbnailUrl($artworkUrl);
+
                 break;
         }
     }
@@ -135,14 +135,14 @@ class RemoteAudioHandler extends AbstractMediaHandler
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function updateMedia(Media $media)
     {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createNew($data)
     {
@@ -150,7 +150,7 @@ class RemoteAudioHandler extends AbstractMediaHandler
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getShowTemplate(Media $media)
     {
@@ -175,11 +175,11 @@ class RemoteAudioHandler extends AbstractMediaHandler
      */
     public function getAddFolderActions()
     {
-        return array(
-            RemoteAudioHandler::TYPE => array(
-                'type' => RemoteAudioHandler::TYPE,
-                'name' => 'media.audio.add'
-            )
-        );
+        return [
+            self::TYPE => [
+                'type' => self::TYPE,
+                'name' => 'media.audio.add',
+            ],
+        ];
     }
 }

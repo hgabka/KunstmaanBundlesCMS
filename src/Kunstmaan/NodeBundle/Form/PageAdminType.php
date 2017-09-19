@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * PageAdminType
+ * PageAdminType.
  */
 class PageAdminType extends AbstractType
 {
@@ -19,22 +19,22 @@ class PageAdminType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('id', HiddenType::class);
-        $builder->add('title', null, array(
+        $builder->add('title', null, [
             'label' => 'kuma_node.form.page.title.label',
-        ));
-        $builder->add('pageTitle', null, array(
+        ]);
+        $builder->add('pageTitle', null, [
             'label' => 'kuma_node.form.page.page_title.label',
-            'attr' => array(
+            'attr' => [
                 'info_text' => 'kuma_node.form.page.page_title.info_text',
-            ),
-        ));
+            ],
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
                 'data_class' => 'Kunstmaan\NodeBundle\Entity\AbstractPage',
-        ));
+        ]);
     }
 
     /**

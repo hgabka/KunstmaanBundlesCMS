@@ -12,7 +12,7 @@ class ElasticaProvider implements SearchProviderInterface
     private $client;
 
     /** @var array $nodes An array of Elastica search nodes (each item in the array needs a host and port) */
-    private $nodes = array();
+    private $nodes = [];
 
     /**
      * @return Client
@@ -21,9 +21,8 @@ class ElasticaProvider implements SearchProviderInterface
     {
         if (!$this->client instanceof Client) {
             $this->client = new Client(
-                array( 'connections' =>
-                    $this->nodes
-                )
+                ['connections' => $this->nodes,
+                ]
             );
         }
 
@@ -46,7 +45,6 @@ class ElasticaProvider implements SearchProviderInterface
     public function createIndex($indexName)
     {
         return new Index($this->getClient(), $indexName);
-
     }
 
     /**
@@ -109,7 +107,7 @@ class ElasticaProvider implements SearchProviderInterface
      */
     public function deleteDocument($indexName, $indexType, $uid)
     {
-        $ids = array($uid);
+        $ids = [$uid];
 
         return $this->deleteDocuments($indexName, $indexType, $ids);
     }
@@ -124,7 +122,7 @@ class ElasticaProvider implements SearchProviderInterface
     public function deleteDocuments($indexName, $indexType, array $ids)
     {
         $index = $this->getIndex($indexName);
-        $type  = $index->getType($indexType);
+        $type = $index->getType($indexType);
 
         return $this->getClient()->deleteIds($ids, $index, $type);
     }
@@ -132,7 +130,7 @@ class ElasticaProvider implements SearchProviderInterface
     /**
      * @param string $indexName
      *
-     * @return \Elastica\Response|null
+     * @return null|\Elastica\Response
      */
     public function deleteIndex($indexName)
     {
@@ -145,10 +143,10 @@ class ElasticaProvider implements SearchProviderInterface
     }
 
     /**
-     * @param string $host
-     * @param int $port
-     * @param string|null $username
-     * @param string|null $password
+     * @param string      $host
+     * @param int         $port
+     * @param null|string $username
+     * @param null|string $password
      */
     public function addNode($host, $port, $username = null, $password = null)
     {
@@ -159,11 +157,11 @@ class ElasticaProvider implements SearchProviderInterface
         }
 
         $authHeader = null;
-        if (null !== $username && $password !== null) {
-            $authHeader = array('Authorization' => 'Basic ' . base64_encode($username . ':' . $password));
+        if (null !== $username && null !== $password) {
+            $authHeader = ['Authorization' => 'Basic '.base64_encode($username.':'.$password)];
         }
 
-        $this->nodes[] = array('host' => $host, 'port' => $port, 'headers' => $authHeader);
+        $this->nodes[] = ['host' => $host, 'port' => $port, 'headers' => $authHeader];
     }
 
     /**

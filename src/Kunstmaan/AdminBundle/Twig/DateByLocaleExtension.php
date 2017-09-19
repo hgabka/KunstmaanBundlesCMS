@@ -5,7 +5,7 @@ namespace Kunstmaan\AdminBundle\Twig;
 use IntlDateFormatter as DateFormatter;
 
 /**
- * DateByLocaleExtension
+ * DateByLocaleExtension.
  */
 class DateByLocaleExtension extends \Twig_Extension
 {
@@ -16,9 +16,9 @@ class DateByLocaleExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array(
+        return [
             new \Twig_SimpleFilter('localeDate', '\Kunstmaan\AdminBundle\Twig\DateByLocaleExtension::localeDateFilter'),
-        );
+        ];
     }
 
     /**
@@ -32,27 +32,29 @@ class DateByLocaleExtension extends \Twig_Extension
      *
      * @return string
      */
-    public static function localeDateFilter($date, $locale = "nl", $dateType = 'medium', $timeType = 'none', $pattern = null)
+    public static function localeDateFilter($date, $locale = 'nl', $dateType = 'medium', $timeType = 'none', $pattern = null)
     {
-        $values = array(
+        $values = [
             'none' => DateFormatter::NONE,
             'short' => DateFormatter::SHORT,
             'medium' => DateFormatter::MEDIUM,
             'long' => DateFormatter::LONG,
             'full' => DateFormatter::FULL,
-        );
+        ];
 
-        if (is_null($pattern)) {
+        if (null === $pattern) {
             $dateFormatter = DateFormatter::create(
                 $locale,
                 $values[$dateType],
-                $values[$timeType], 'Europe/Brussels'
+                $values[$timeType],
+                'Europe/Brussels'
             );
         } else {
             $dateFormatter = DateFormatter::create(
                 $locale,
                 $values[$dateType],
-                $values[$timeType], 'Europe/Brussels',
+                $values[$timeType],
+                'Europe/Brussels',
                 DateFormatter::GREGORIAN,
                 $pattern
             );

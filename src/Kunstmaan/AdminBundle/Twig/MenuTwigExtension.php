@@ -35,10 +35,10 @@ class MenuTwigExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('get_admin_menu', array($this, 'getAdminMenu')),
-            new \Twig_SimpleFunction('get_admin_panel_actions', array($this, 'getAdminPanelActions')),
-        );
+        return [
+            new \Twig_SimpleFunction('get_admin_menu', [$this, 'getAdminMenu']),
+            new \Twig_SimpleFunction('get_admin_panel_actions', [$this, 'getAdminPanelActions']),
+        ];
     }
 
     /**

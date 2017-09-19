@@ -4,25 +4,35 @@ namespace Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes;
 
 use Doctrine\ORM\Mapping as ORM;
 use Kunstmaan\FormBundle\Entity\FormSubmissionField;
-
 use Kunstmaan\FormBundle\Form\TextFormSubmissionType;
 
 /**
- * The TextFormSubmissionField can be used to store multi-line string values to a FormSubmission
+ * The TextFormSubmissionField can be used to store multi-line string values to a FormSubmission.
  *
  * @ORM\Entity
  * @ORM\Table(name="kuma_text_form_submission_fields")
  */
 class TextFormSubmissionField extends FormSubmissionField
 {
-
     /**
      * @ORM\Column(name="tfsf_value", type="text")
      */
     protected $value;
 
     /**
-     * Return the current string value
+     * Returns a string representation of this FormSubmissionField.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $value = $this->getValue();
+
+        return !empty($value) ? $value : '';
+    }
+
+    /**
+     * Return the current string value.
      *
      * @return string
      */
@@ -32,7 +42,7 @@ class TextFormSubmissionField extends FormSubmissionField
     }
 
     /**
-     * Sets the string value for this FormSubmissionField
+     * Sets the string value for this FormSubmissionField.
      *
      * @param string $value
      *
@@ -46,7 +56,7 @@ class TextFormSubmissionField extends FormSubmissionField
     }
 
     /**
-     * Returns the default form type for this FormSubmissionField
+     * Returns the default form type for this FormSubmissionField.
      *
      * @return TextFormSubmissionType
      */
@@ -54,17 +64,4 @@ class TextFormSubmissionField extends FormSubmissionField
     {
         return new TextFormSubmissionType($this->getLabel());
     }
-
-    /**
-     * Returns a string representation of this FormSubmissionField
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        $value = $this->getValue();
-
-        return !empty($value) ? $value : "";
-    }
-
 }

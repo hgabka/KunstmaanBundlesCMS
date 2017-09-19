@@ -46,11 +46,11 @@ class NodeAdminPublisher
     private $cloneHelper;
 
     /**
-     * @param EntityManager                  $em                    The entity manager
-     * @param TokenStorageInterface          $tokenStorage          The security token storage
-     * @param AuthorizationCheckerInterface  $authorizationChecker  The security authorization checker
-     * @param EventDispatcherInterface       $eventDispatcher       The Event dispatcher
-     * @param CloneHelper                    $cloneHelper           The clone helper
+     * @param EntityManager                 $em                   The entity manager
+     * @param TokenStorageInterface         $tokenStorage         The security token storage
+     * @param AuthorizationCheckerInterface $authorizationChecker The security authorization checker
+     * @param EventDispatcherInterface      $eventDispatcher      The Event dispatcher
+     * @param CloneHelper                   $cloneHelper          The clone helper
      */
     public function __construct(
         EntityManager $em,
@@ -59,37 +59,38 @@ class NodeAdminPublisher
         EventDispatcherInterface $eventDispatcher,
         CloneHelper $cloneHelper
     ) {
-        $this->em                   = $em;
-        $this->tokenStorage         = $tokenStorage;
+        $this->em = $em;
+        $this->tokenStorage = $tokenStorage;
         $this->authorizationChecker = $authorizationChecker;
-        $this->eventDispatcher      = $eventDispatcher;
-        $this->cloneHelper          = $cloneHelper;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->cloneHelper = $cloneHelper;
     }
 
     /**
      * If there is a draft version it'll try to publish the draft first. Makse snese because if you want to publish the public version you don't publish but you save.
      *
      * @param NodeTranslation $nodeTranslation
+     * @param null|mixed      $user
      *
      * @throws AccessDeniedException
      */
     public function publish(NodeTranslation $nodeTranslation, $user = null)
     {
-        if (false === $this->authorizationChecker->isGranted(PermissionMap::PERMISSION_PUBLISH,$nodeTranslation->getNode())) {
+        if (false === $this->authorizationChecker->isGranted(PermissionMap::PERMISSION_PUBLISH, $nodeTranslation->getNode())) {
             throw new AccessDeniedException();
         }
 
-        if (is_null($user)) {
+        if (null === $user) {
             $user = $this->tokenStorage->getToken()->getUser();
         }
 
         $node = $nodeTranslation->getNode();
 
         $nodeVersion = $nodeTranslation->getNodeVersion('draft');
-        if (!is_null($nodeVersion)) {
+        if (null !== $nodeVersion) {
             $page = $nodeVersion->getRef($this->em);
             /** @var $nodeVersion NodeVersion */
-            $nodeVersion     = $this->createPublicVersion($page, $nodeTranslation, $nodeVersion, $user);
+            $nodeVersion = $this->createPublicVersion($page, $nodeTranslation, $nodeVersion, $user);
             $nodeTranslation = $nodeVersion->getNodeTranslation();
         } else {
             $nodeVersion = $nodeTranslation->getPublicNodeVersion();
@@ -133,7 +134,7 @@ class NodeAdminPublisher
         //remove existing first
         $this->unSchedulePublish($nodeTranslation);
 
-        $user                        = $this->tokenStorage->getToken()->getUser();
+        $user = $this->tokenStorage->getToken()->getUser();
         $queuedNodeTranslationAction = new QueuedNodeTranslationAction();
         $queuedNodeTranslationAction
             ->setNodeTranslation($nodeTranslation)
@@ -151,13 +152,13 @@ class NodeAdminPublisher
      */
     public function unPublish(NodeTranslation $nodeTranslation)
     {
-        if (false === $this->authorizationChecker->isGranted(PermissionMap::PERMISSION_UNPUBLISH,$nodeTranslation->getNode())) {
+        if (false === $this->authorizationChecker->isGranted(PermissionMap::PERMISSION_UNPUBLISH, $nodeTranslation->getNode())) {
             throw new AccessDeniedException();
         }
 
-        $node        = $nodeTranslation->getNode();
+        $node = $nodeTranslation->getNode();
         $nodeVersion = $nodeTranslation->getPublicNodeVersion();
-        $page        = $nodeVersion->getRef($this->em);
+        $page = $nodeVersion->getRef($this->em);
 
         $this->eventDispatcher->dispatch(
             Events::PRE_UNPUBLISH,
@@ -191,7 +192,7 @@ class NodeAdminPublisher
 
         //remove existing first
         $this->unSchedulePublish($nodeTranslation);
-        $user                        = $this->tokenStorage->getToken()->getUser();
+        $user = $this->tokenStorage->getToken()->getUser();
         $queuedNodeTranslationAction = new QueuedNodeTranslationAction();
         $queuedNodeTranslationAction
             ->setNodeTranslation($nodeTranslation)
@@ -207,11 +208,11 @@ class NodeAdminPublisher
      */
     public function unSchedulePublish(NodeTranslation $nodeTranslation)
     {
-        /* @var Node $node */
+        // @var Node $node
         $queuedNodeTranslationAction = $this->em->getRepository('KunstmaanNodeBundle:QueuedNodeTranslationAction')
-            ->findOneBy(array('nodeTranslation' => $nodeTranslation));
+            ->findOneBy(['nodeTranslation' => $nodeTranslation]);
 
-        if (!is_null($queuedNodeTranslationAction)) {
+        if (null !== $queuedNodeTranslationAction) {
             $this->em->remove($queuedNodeTranslationAction);
             $this->em->flush();
         }
@@ -233,7 +234,7 @@ class NodeAdminPublisher
         NodeVersion $nodeVersion,
         BaseUser $user
     ) {
-        $newPublicPage  = $this->cloneHelper->deepCloneAndSave($page);
+        $newPublicPage = $this->cloneHelper->deepCloneAndSave($page);
         $newNodeVersion = $this->em->getRepository('KunstmaanNodeBundle:NodeVersion')->createNodeVersionFor(
             $newPublicPage,
             $nodeTranslation,

@@ -7,12 +7,12 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Adds the user information to the context of the record which will be logged
+ * Adds the user information to the context of the record which will be logged.
  */
 class UserProcessor
 {
     /**
-     * Use container else we have a continous loop in our dependency
+     * Use container else we have a continous loop in our dependency.
      *
      * @var ContainerInterface
      */
@@ -26,7 +26,7 @@ class UserProcessor
     /**
      * @var array
      */
-    private $record = array();
+    private $record = [];
 
     /**
      * @param ContainerInterface $container
@@ -43,10 +43,10 @@ class UserProcessor
      */
     public function processRecord(array $record)
     {
-        if (is_null($this->user)) {
-            /* @var TokenStorageInterface $securityTokenStorage */
+        if (null === $this->user) {
+            // @var TokenStorageInterface $securityTokenStorage
             $securityTokenStorage = $this->container->get('security.token_storage');
-            if (($securityTokenStorage !== null) && ($securityTokenStorage->getToken() !== null) && ($securityTokenStorage->getToken()->getUser() instanceof \Symfony\Component\Security\Core\User\AdvancedUserInterface)) {
+            if ((null !== $securityTokenStorage) && (null !== $securityTokenStorage->getToken()) && ($securityTokenStorage->getToken()->getUser() instanceof \Symfony\Component\Security\Core\User\AdvancedUserInterface)) {
                 $this->user = $securityTokenStorage->getToken()->getUser();
                 $this->record['extra']['user']['username'] = $this->user->getUsername();
                 $this->record['extra']['user']['roles'] = $this->user->getRoles();

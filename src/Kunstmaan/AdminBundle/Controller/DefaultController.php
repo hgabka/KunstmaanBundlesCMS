@@ -13,12 +13,12 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * The default controller is used to render the main screen the users see when they log in to the admin
+ * The default controller is used to render the main screen the users see when they log in to the admin.
  */
 class DefaultController extends Controller
 {
     /**
-     * The index action will render the main screen the users see when they log in in to the admin
+     * The index action will render the main screen the users see when they log in in to the admin.
      *
      * @Route("/", name="KunstmaanAdminBundle_homepage")
      * @Template()
@@ -27,21 +27,21 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        if ($this->container->hasParameter("kunstmaan_admin.dashboard_route")) {
-            return $this->redirect($this->generateUrl($this->getParameter("kunstmaan_admin.dashboard_route")));
+        if ($this->container->hasParameter('kunstmaan_admin.dashboard_route')) {
+            return $this->redirect($this->generateUrl($this->getParameter('kunstmaan_admin.dashboard_route')));
         }
 
-        /* @var DashboardConfiguration $dashboardConfiguration */
+        // @var DashboardConfiguration $dashboardConfiguration
         $dashboardConfiguration = $this->getDoctrine()
             ->getManager()
             ->getRepository('KunstmaanAdminBundle:DashboardConfiguration')
-            ->findOneBy(array());
+            ->findOneBy([]);
 
-        return array('dashboardConfiguration' => $dashboardConfiguration);
+        return ['dashboardConfiguration' => $dashboardConfiguration];
     }
 
     /**
-     * The admin of the index page
+     * The admin of the index page.
      *
      * @Route("/adminindex", name="KunstmaanAdminBundle_homepage_admin")
      * @Template()
@@ -52,15 +52,15 @@ class DefaultController extends Controller
      */
     public function editIndexAction(Request $request)
     {
-        /* @var $em EntityManager */
-        $em      = $this->getDoctrine()->getManager();
+        // @var $em EntityManager
+        $em = $this->getDoctrine()->getManager();
 
-        /* @var DashboardConfiguration $dashboardConfiguration */
+        // @var DashboardConfiguration $dashboardConfiguration
         $dashboardConfiguration = $em
             ->getRepository('KunstmaanAdminBundle:DashboardConfiguration')
-            ->findOneBy(array());
+            ->findOneBy([]);
 
-        if (is_null($dashboardConfiguration)) {
+        if (null === $dashboardConfiguration) {
             $dashboardConfiguration = new DashboardConfiguration();
         }
         $form = $this->createForm(DashboardConfigurationType::class, $dashboardConfiguration);
@@ -80,9 +80,9 @@ class DefaultController extends Controller
             }
         }
 
-        return array(
-            'form'                   => $form->createView(),
-            'dashboardConfiguration' => $dashboardConfiguration
-        );
+        return [
+            'form' => $form->createView(),
+            'dashboardConfiguration' => $dashboardConfiguration,
+        ];
     }
 }

@@ -11,7 +11,7 @@ use Kunstmaan\NodeBundle\Entity\NodeVersion;
 use Kunstmaan\UtilitiesBundle\Helper\ClassLookup;
 
 /**
- * NodeRepository
+ * NodeRepository.
  */
 class NodeVersionRepository extends EntityRepository
 {
@@ -23,10 +23,10 @@ class NodeVersionRepository extends EntityRepository
     public function getNodeVersionFor(HasNodeInterface $hasNode)
     {
         return $this->findOneBy(
-            array(
-                'refId'         => $hasNode->getId(),
-                'refEntityName' => ClassLookup::getClass($hasNode)
-            )
+            [
+                'refId' => $hasNode->getId(),
+                'refEntityName' => ClassLookup::getClass($hasNode),
+            ]
         );
     }
 
@@ -57,7 +57,7 @@ class NodeVersionRepository extends EntityRepository
         $nodeVersion->setRef($hasNode);
         $nodeVersion->setOrigin($origin);
 
-        if (!is_null($created)) {
+        if (null !== $created) {
             $nodeVersion->setCreated($created);
         }
 

@@ -10,19 +10,19 @@ use Kunstmaan\MediaBundle\Helper\MediaManager;
 use Kunstmaan\UtilitiesBundle\Helper\ClassLookup;
 
 /**
- * DoctrineMediaListener
+ * DoctrineMediaListener.
  */
 class DoctrineMediaListener
 {
     /**
-     * @var MediaManager $mediaManager
+     * @var MediaManager
      */
     private $mediaManager;
 
     /**
      * @var array
      */
-    private $fileUrlMap = array();
+    private $fileUrlMap = [];
 
     /**
      * @param MediaManager $mediaManager
@@ -38,22 +38,6 @@ class DoctrineMediaListener
     public function prePersist(LifecycleEventArgs $eventArgs)
     {
         $this->prepareMedia($eventArgs->getEntity());
-    }
-
-    /**
-     * @param object $entity
-     *
-     * @return bool
-     */
-    private function prepareMedia($entity)
-    {
-        if (!$entity instanceof Media) {
-            return false;
-        }
-
-        $this->mediaManager->prepareMedia($entity);
-
-        return true;
     }
 
     /**
@@ -74,7 +58,7 @@ class DoctrineMediaListener
 
             // local media is soft-deleted or soft-delete is reverted
             $changeSet = $eventArgs->getEntityChangeSet();
-            if (isset($changeSet['deleted']) && $entity->getLocation() === 'local') {
+            if (isset($changeSet['deleted']) && 'local' === $entity->getLocation()) {
                 $deleted = (!$changeSet['deleted'][0] && $changeSet['deleted'][1]);
                 $reverted = ($changeSet['deleted'][0] && !$changeSet['deleted'][1]);
                 if ($deleted || $reverted) {
@@ -94,6 +78,37 @@ class DoctrineMediaListener
     public function postPersist(LifecycleEventArgs $eventArgs)
     {
         $this->saveMedia($eventArgs->getEntity(), true);
+    }
+
+    /**
+     * @param LifecycleEventArgs $eventArgs
+     */
+    public function postUpdate(LifecycleEventArgs $eventArgs)
+    {
+        $this->saveMedia($eventArgs->getEntity());
+    }
+
+    /**
+     * @param LifecycleEventArgs $eventArgs
+     */
+    public function preRemove(LifecycleEventArgs $eventArgs)
+    {
+    }
+
+    /**
+     * @param object $entity
+     *
+     * @return bool
+     */
+    private function prepareMedia($entity)
+    {
+        if (!$entity instanceof Media) {
+            return false;
+        }
+
+        $this->mediaManager->prepareMedia($entity);
+
+        return true;
     }
 
     /**
@@ -121,20 +136,5 @@ class DoctrineMediaListener
             }
             unset($this->fileUrlMap[$url]);
         }
-    }
-
-    /**
-     * @param LifecycleEventArgs $eventArgs
-     */
-    public function postUpdate(LifecycleEventArgs $eventArgs)
-    {
-        $this->saveMedia($eventArgs->getEntity());
-    }
-
-    /**
-     * @param LifecycleEventArgs $eventArgs
-     */
-    public function preRemove(LifecycleEventArgs $eventArgs)
-    {
     }
 }

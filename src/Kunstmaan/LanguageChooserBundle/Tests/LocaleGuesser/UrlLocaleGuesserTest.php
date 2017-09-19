@@ -4,11 +4,13 @@ namespace Kunstmaan\LanguageChooserBundle\Tests\LocaleGuesser;
 
 use Kunstmaan\LanguageChooserBundle\LocaleGuesser\UrlLocaleGuesser;
 use Lunetics\LocaleBundle\Validator\MetaValidator;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
- * UrlLocaleGuesserTest
+ * UrlLocaleGuesserTest.
+ *
+ * @coversNothing
  */
 class UrlLocaleGuesserTest extends \PHPUnit_Framework_TestCase
 {
@@ -47,7 +49,7 @@ class UrlLocaleGuesserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\LanguageChooserBundle\LocaleGuesser\UrlLocaleGuesser::guessLocale
+     * @covers \Kunstmaan\LanguageChooserBundle\LocaleGuesser\UrlLocaleGuesser::guessLocale
      */
     public function testFoundLocalePathAttribute()
     {
@@ -62,11 +64,11 @@ class UrlLocaleGuesserTest extends \PHPUnit_Framework_TestCase
         $this->request->attributes->set('path', '/de/some-path');
 
         $this->assertTrue($this->object->guessLocale($this->request));
-        $this->assertEquals('de', $this->object->getIdentifiedLocale());
+        $this->assertSame('de', $this->object->getIdentifiedLocale());
     }
 
     /**
-     * @covers Kunstmaan\LanguageChooserBundle\LocaleGuesser\UrlLocaleGuesser::guessLocale
+     * @covers \Kunstmaan\LanguageChooserBundle\LocaleGuesser\UrlLocaleGuesser::guessLocale
      */
     public function testFoundLocalePathInfo()
     {
@@ -79,11 +81,11 @@ class UrlLocaleGuesserTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('/fr/some-other-path'));
 
         $this->assertTrue($this->object->guessLocale($this->request));
-        $this->assertEquals('fr', $this->object->getIdentifiedLocale());
+        $this->assertSame('fr', $this->object->getIdentifiedLocale());
     }
 
     /**
-     * @covers Kunstmaan\LanguageChooserBundle\LocaleGuesser\UrlLocaleGuesser::guessLocale
+     * @covers \Kunstmaan\LanguageChooserBundle\LocaleGuesser\UrlLocaleGuesser::guessLocale
      */
     public function testNullPath()
     {
@@ -95,11 +97,11 @@ class UrlLocaleGuesserTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(null));
 
         $this->assertFalse($this->object->guessLocale($this->request));
-        $this->assertEquals(null, $this->object->getIdentifiedLocale());
+        $this->assertSame(null, $this->object->getIdentifiedLocale());
     }
 
     /**
-     * @covers Kunstmaan\LanguageChooserBundle\LocaleGuesser\UrlLocaleGuesser::guessLocale
+     * @covers \Kunstmaan\LanguageChooserBundle\LocaleGuesser\UrlLocaleGuesser::guessLocale
      */
     public function testInvalidLocaleFound()
     {
@@ -112,6 +114,6 @@ class UrlLocaleGuesserTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('/en/another-path'));
 
         $this->assertFalse($this->object->guessLocale($this->request));
-        $this->assertEquals(null, $this->object->getIdentifiedLocale());
+        $this->assertSame(null, $this->object->getIdentifiedLocale());
     }
 }

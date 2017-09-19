@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * EventListener which will be triggered when a Node has been updated in order to update its related documents
- * in the index
+ * in the index.
  */
 class NodeIndexUpdateEventListener implements NodeIndexUpdateEventListenerInterface
 {
@@ -41,15 +41,6 @@ class NodeIndexUpdateEventListener implements NodeIndexUpdateEventListenerInterf
     /**
      * @param NodeEvent $event
      */
-    private function index(NodeEvent $event)
-    {
-        $nodeSearchConfiguration = $this->container->get('kunstmaan_node_search.search_configuration.node');
-        $nodeSearchConfiguration->indexNodeTranslation($event->getNodeTranslation(), true);
-    }
-
-    /**
-     * @param NodeEvent $event
-     */
     public function onPostDelete(NodeEvent $event)
     {
         $this->delete($event);
@@ -70,5 +61,14 @@ class NodeIndexUpdateEventListener implements NodeIndexUpdateEventListenerInterf
     {
         $nodeSearchConfiguration = $this->container->get('kunstmaan_node_search.search_configuration.node');
         $nodeSearchConfiguration->deleteNodeTranslation($event->getNodeTranslation());
+    }
+
+    /**
+     * @param NodeEvent $event
+     */
+    private function index(NodeEvent $event)
+    {
+        $nodeSearchConfiguration = $this->container->get('kunstmaan_node_search.search_configuration.node');
+        $nodeSearchConfiguration->indexNodeTranslation($event->getNodeTranslation(), true);
     }
 }

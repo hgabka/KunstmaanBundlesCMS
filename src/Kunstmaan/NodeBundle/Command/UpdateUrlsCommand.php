@@ -3,17 +3,15 @@
 namespace Kunstmaan\NodeBundle\Command;
 
 use Kunstmaan\NodeBundle\Entity\NodeTranslation;
-
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * UpdateUrlsCommand
+ * UpdateUrlsCommand.
  */
 class UpdateUrlsCommand extends ContainerAwareCommand
 {
-
     /**
      * {@inheritdoc}
      */
@@ -23,7 +21,7 @@ class UpdateUrlsCommand extends ContainerAwareCommand
 
         $this->setName('kuma:nodes:updateurls')
             ->setDescription('Update all urls for all translations.')
-            ->setHelp("The <info>kuma:nodes:updateurls</info> will loop over all node translation entries and update the urls for the entries.");
+            ->setHelp('The <info>kuma:nodes:updateurls</info> will loop over all node translation entries and update the urls for the entries.');
     }
 
     /**
@@ -35,7 +33,7 @@ class UpdateUrlsCommand extends ContainerAwareCommand
 
         $mainNodes = $em->getRepository('KunstmaanNodeBundle:NodeTranslation')->getTopNodeTranslations();
         if (count($mainNodes)) {
-            /* @var NodeTranslation $mainNode */
+            // @var NodeTranslation $mainNode
             foreach ($mainNodes as $mainNode) {
                 $mainNode->setUrl('');
                 $em->persist($mainNode);

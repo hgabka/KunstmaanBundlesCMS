@@ -9,7 +9,7 @@ use Kunstmaan\TranslatorBundle\Entity\Translation as Entity;
 use Kunstmaan\TranslatorBundle\Model\Translation as Model;
 
 /**
- * Fixture for creation the basic translations
+ * Fixture for creation the basic translations.
  */
 class TranslationFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -19,7 +19,7 @@ class TranslationFixtures extends AbstractFixture implements OrderedFixtureInter
     protected $repo;
 
     /**
-     * Load data fixtures with the passed EntityManager
+     * Load data fixtures with the passed EntityManager.
      *
      * @param ObjectManager $manager
      */
@@ -27,15 +27,15 @@ class TranslationFixtures extends AbstractFixture implements OrderedFixtureInter
     {
         $this->repo = $manager->getRepository('Kunstmaan\TranslatorBundle\Entity\Translation');
 
-        $helloWorld = new Model;
+        $helloWorld = new Model();
         $helloWorld->setKeyword('heading.hello_world');
         $helloWorld->setDomain('messages');
 
-        $translations = array(
+        $translations = [
             'en' => 'Hello World!',
             'fr' => 'Bonjour tout le monde',
-            'nl' => 'Hallo wereld!'
-        );
+            'nl' => 'Hallo wereld!',
+        ];
 
         $needForFlush = false;
         foreach ($translations as $language => $text) {
@@ -49,7 +49,7 @@ class TranslationFixtures extends AbstractFixture implements OrderedFixtureInter
 
         $this->repo->createTranslations($helloWorld);
 
-        if ($needForFlush === true) {
+        if (true === $needForFlush) {
             $manager->flush();
         }
     }
@@ -65,13 +65,13 @@ class TranslationFixtures extends AbstractFixture implements OrderedFixtureInter
      */
     public function hasFixtureInstalled($domain, $keyword, $locale)
     {
-        $criteria = array('domain' => $domain, 'keyword' => $keyword, 'locale' => $locale);
+        $criteria = ['domain' => $domain, 'keyword' => $keyword, 'locale' => $locale];
 
         return $this->repo->findOneBy($criteria) instanceof Entity;
     }
 
     /**
-     * Get the order of this fixture
+     * Get the order of this fixture.
      *
      * @return int
      */
@@ -79,5 +79,4 @@ class TranslationFixtures extends AbstractFixture implements OrderedFixtureInter
     {
         return 1;
     }
-
 }

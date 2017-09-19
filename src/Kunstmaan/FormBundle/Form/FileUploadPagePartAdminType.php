@@ -9,11 +9,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * This class represents the type for the file FileUploadPagePart
+ * This class represents the type for the file FileUploadPagePart.
  */
 class FileUploadPagePartAdminType extends AbstractType
 {
-
     /**
      * @param FormBuilderInterface $builder The form builder
      * @param array                $options The options
@@ -21,18 +20,18 @@ class FileUploadPagePartAdminType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('label', null, array(
+            ->add('label', null, [
                 'required' => true,
                 'label' => 'kuma_form.form.file_upload_page_part.label.label',
-            ))
-            ->add('required', CheckboxType::class, array(
+            ])
+            ->add('required', CheckboxType::class, [
                 'required' => false,
                 'label' => 'kuma_form.form.file_upload_page_part.required.label',
-            ))
-            ->add('errormessage_required', TextType::class, array(
+            ])
+            ->add('errormessage_required', TextType::class, [
                 'required' => false,
                 'label' => 'kuma_form.form.file_upload_page_part.errormessage_required.label',
-            ))
+            ])
         ;
     }
 
@@ -49,6 +48,6 @@ class FileUploadPagePartAdminType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array('data_class' => 'Kunstmaan\FormBundle\Entity\PageParts\FileUploadPagePart'));
+        $resolver->setDefaults(['data_class' => 'Kunstmaan\FormBundle\Entity\PageParts\FileUploadPagePart']);
     }
 }

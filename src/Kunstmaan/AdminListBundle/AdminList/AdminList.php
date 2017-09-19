@@ -3,26 +3,23 @@
 namespace Kunstmaan\AdminListBundle\AdminList;
 
 use Kunstmaan\AdminListBundle\AdminList\Configurator\AdminListConfiguratorInterface;
-
 use Pagerfanta\Pagerfanta;
-
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * AdminList
+ * AdminList.
  */
 class AdminList
 {
-
     /**
      * @var Request
      */
-    protected $request = null;
+    protected $request;
 
     /**
      * @var AdminListConfiguratorInterface
      */
-    protected $configurator = null;
+    protected $configurator;
 
     /**
      * @param AdminListConfiguratorInterface $configurator The configurator
@@ -37,7 +34,7 @@ class AdminList
     }
 
     /**
-     * @return AdminListConfiguratorInterface|null
+     * @return null|AdminListConfiguratorInterface
      */
     public function getConfigurator()
     {
@@ -85,7 +82,7 @@ class AdminList
     }
 
     /**
-     * @return array|null
+     * @return null|array
      */
     public function getItems()
     {
@@ -93,7 +90,7 @@ class AdminList
     }
 
     /**
-     * Return an iterator for all items that matches the current filtering
+     * Return an iterator for all items that matches the current filtering.
      *
      * @return \Iterator
      */
@@ -109,10 +106,11 @@ class AdminList
      */
     public function hasSort($columnName = null)
     {
-        if (is_null($columnName)) {
+        if (null === $columnName) {
             return count($this->configurator->getSortFields()) > 0;
         }
-        return in_array($columnName, $this->configurator->getSortFields());
+
+        return in_array($columnName, $this->configurator->getSortFields(), true);
     }
 
     /**
@@ -208,7 +206,7 @@ class AdminList
     }
 
     /**
-     * @param object|array $object    The object
+     * @param array|object $object    The object
      * @param string       $attribute The attribute
      *
      * @return mixed
@@ -219,7 +217,7 @@ class AdminList
     }
 
     /**
-     * @param object|array $object    The object
+     * @param array|object $object    The object
      * @param string       $attribute The attribute
      *
      * @return string

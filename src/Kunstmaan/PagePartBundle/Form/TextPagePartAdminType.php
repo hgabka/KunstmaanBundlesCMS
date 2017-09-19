@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * TextPagePartAdminType
+ * TextPagePartAdminType.
  */
 class TextPagePartAdminType extends AbstractType
 {
@@ -18,15 +18,15 @@ class TextPagePartAdminType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('content', TextareaType::class, array(
+        $builder->add('content', TextareaType::class, [
             'label' => 'pagepart.text.content',
             'required' => false,
-            'attr' => array(
+            'attr' => [
                 'rows' => 32,
                 'cols' => 600,
                 'class' => 'js-rich-editor rich-editor',
-            ),
-        ));
+            ],
+        ]);
     }
 
     /**
@@ -42,8 +42,8 @@ class TextPagePartAdminType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Kunstmaan\PagePartBundle\Entity\TextPagePart',
-        ));
+        ]);
     }
 }

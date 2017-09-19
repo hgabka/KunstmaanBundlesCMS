@@ -18,13 +18,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * This controller is for showing frontend pages based on slugs
+ * This controller is for showing frontend pages based on slugs.
  */
 class SlugController extends Controller
 {
-
     /**
-     * Handle the page requests
+     * Handle the page requests.
      *
      * @param Request $request The request
      * @param string  $url     The url
@@ -33,20 +32,20 @@ class SlugController extends Controller
      * @throws NotFoundHttpException
      * @throws AccessDeniedException
      *
-     * @return Response|array
+     * @return array|Response
      */
     public function slugAction(Request $request, $url = null, $preview = false)
     {
-        /* @var EntityManager $em */
-        $em     = $this->getDoctrine()->getManager();
+        // @var EntityManager $em
+        $em = $this->getDoctrine()->getManager();
         $locale = $request->getLocale();
 
-        /* @var NodeTranslation $nodeTranslation */
+        // @var NodeTranslation $nodeTranslation
         $nodeTranslation = $request->attributes->get('_nodeTranslation');
 
         // If no node translation -> 404
         if (!$nodeTranslation) {
-            throw $this->createNotFoundException('No page found for slug ' . $url);
+            throw $this->createNotFoundException('No page found for slug '.$url);
         }
 
         $entity = $this->getPageEntity(
@@ -55,7 +54,7 @@ class SlugController extends Controller
             $em,
             $nodeTranslation
         );
-        $node   = $nodeTranslation->getNode();
+        $node = $nodeTranslation->getNode();
 
         $securityEvent = new SlugSecurityEvent();
         $securityEvent
@@ -74,16 +73,16 @@ class SlugController extends Controller
 
         //render page
         $renderContext = new RenderContext(
-            array(
+            [
                 'nodetranslation' => $nodeTranslation,
-                'slug'            => $url,
-                'page'            => $entity,
-                'resource'        => $entity,
-                'nodemenu'        => $nodeMenu,
-            )
+                'slug' => $url,
+                'page' => $entity,
+                'resource' => $entity,
+                'nodemenu' => $nodeMenu,
+            ]
         );
         if (method_exists($entity, 'getDefaultView')) {
-            /** @noinspection PhpUndefinedMethodInspection */
+            // @noinspection PhpUndefinedMethodInspection
             $renderContext->setView($entity->getDefaultView());
         }
         $preEvent = new SlugEvent(null, $renderContext);
@@ -96,7 +95,7 @@ class SlugController extends Controller
         $postEvent = new SlugEvent($response, $renderContext);
         $eventDispatcher->dispatch(Events::POST_SLUG_ACTION, $postEvent);
 
-        $response      = $postEvent->getResponse();
+        $response = $postEvent->getResponse();
         $renderContext = $postEvent->getRenderContext();
 
         if ($response instanceof Response) {
@@ -105,10 +104,10 @@ class SlugController extends Controller
 
         $view = $renderContext->getView();
         if (empty($view)) {
-            throw $this->createNotFoundException('No page found for slug ' . $url);
+            throw $this->createNotFoundException('No page found for slug '.$url);
         }
 
-        $template = new Template(array());
+        $template = new Template([]);
         $template->setTemplate($view);
 
         $request->attributes->set('_template', $template);
@@ -118,7 +117,7 @@ class SlugController extends Controller
 
     /**
      * @param Request                $request
-     * @param boolean                $preview
+     * @param bool                   $preview
      * @param EntityManagerInterface $em
      * @param NodeTranslation        $nodeTranslation
      *
@@ -126,18 +125,18 @@ class SlugController extends Controller
      */
     private function getPageEntity(Request $request, $preview, EntityManagerInterface $em, NodeTranslation $nodeTranslation)
     {
-        /* @var HasNodeInterface $entity */
+        // @var HasNodeInterface $entity
         $entity = null;
         if ($preview) {
             $version = $request->get('version');
             if (!empty($version) && is_numeric($version)) {
                 $nodeVersion = $em->getRepository('KunstmaanNodeBundle:NodeVersion')->find($version);
-                if (!is_null($nodeVersion)) {
+                if (null !== $nodeVersion) {
                     $entity = $nodeVersion->getRef($em);
                 }
             }
         }
-        if (is_null($entity)) {
+        if (null === $entity) {
             $entity = $nodeTranslation->getPublicNodeVersion()->getRef($em);
 
             return $entity;

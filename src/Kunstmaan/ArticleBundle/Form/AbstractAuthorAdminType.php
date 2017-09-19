@@ -7,20 +7,18 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class AbstractAuthorAdminType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', null, array(
+        $builder->add('name', null, [
             'label' => 'article.author.form.name.label',
-        ));
-        $builder->add('link', null, array(
+        ]);
+        $builder->add('link', null, [
             'label' => 'article.author.form.link.label',
-        ));
+        ]);
     }
 
-    function getBlockPrefix()
+    public function getBlockPrefix()
     {
-        return "abstactauthor_form";
+        return 'abstactauthor_form';
     }
-
 }

@@ -19,7 +19,7 @@ class CronUpdateNodeCommand extends ContainerAwareCommand
 
         $this->setName('kuma:nodes:cron')
             ->setDescription('Do everything that needs to be run in a cron job.')
-            ->setHelp("The <info>kuma:nodes:cron</info> will loop over all queued node translation action entries and update the nodetranslations if needed.");
+            ->setHelp('The <info>kuma:nodes:cron</info> will loop over all queued node translation action entries and update the nodetranslations if needed.');
     }
 
     /**
@@ -36,24 +36,26 @@ class CronUpdateNodeCommand extends ContainerAwareCommand
                 $now = new \DateTime();
                 if ($queuedNodeTranslationAction->getDate()->getTimestamp() < $now->getTimestamp()) {
                     $action = $queuedNodeTranslationAction->getAction();
-                    {
-                        // Set user security context
-                        $user = $queuedNodeTranslationAction->getUser();
-                        $runAsToken = new UsernamePasswordToken($user, null, 'foo', $user->getRoles());
-                        $this->getContainer()->get('security.token_storage')->setToken($runAsToken);
-                    }
+
+                    // Set user security context
+                    $user = $queuedNodeTranslationAction->getUser();
+                    $runAsToken = new UsernamePasswordToken($user, null, 'foo', $user->getRoles());
+                    $this->getContainer()->get('security.token_storage')->setToken($runAsToken);
+
                     $nodeTranslation = $queuedNodeTranslationAction->getNodeTranslation();
                     switch ($action) {
                         case QueuedNodeTranslationAction::ACTION_PUBLISH:
                             $this->getContainer()->get('kunstmaan_node.admin_node.publisher')->publish($nodeTranslation, $user);
-                            $output->writeln("Published the page " . $nodeTranslation->getTitle());
+                            $output->writeln('Published the page '.$nodeTranslation->getTitle());
+
                             break;
                         case QueuedNodeTranslationAction::ACTION_UNPUBLISH:
                             $this->getContainer()->get('kunstmaan_node.admin_node.publisher')->unPublish($nodeTranslation);
-                            $output->writeln("Unpublished the page " . $nodeTranslation->getTitle());
+                            $output->writeln('Unpublished the page '.$nodeTranslation->getTitle());
+
                             break;
                         default:
-                            $output->writeln("Don't understand the action " . $action);
+                            $output->writeln("Don't understand the action ".$action);
                     }
                 }
             }

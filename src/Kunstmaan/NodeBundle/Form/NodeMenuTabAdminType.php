@@ -30,15 +30,15 @@ class NodeMenuTabAdminType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (!$this->isStructureNode) {
-            $builder->add('hiddenFromNav', CheckboxType::class, array(
-                'label' => 'kuma_node.form.menu_tab.hidden_from_menu.label', 
+            $builder->add('hiddenFromNav', CheckboxType::class, [
+                'label' => 'kuma_node.form.menu_tab.hidden_from_menu.label',
                 'required' => false,
-            ));
+            ]);
         }
-        $builder->add('internalName', TextType::class, array(
-            'label' => 'kuma_node.form.menu_tab.internal_name.label', 
+        $builder->add('internalName', TextType::class, [
+            'label' => 'kuma_node.form.menu_tab.internal_name.label',
             'required' => false,
-        ));
+        ]);
     }
 
     /**
@@ -51,8 +51,8 @@ class NodeMenuTabAdminType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Kunstmaan\NodeBundle\Entity\Node',
-        ));
+        ]);
     }
 }

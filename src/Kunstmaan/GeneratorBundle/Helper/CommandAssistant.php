@@ -85,14 +85,6 @@ class CommandAssistant
         $this->getQuestionHelper()->writeSection($this->output, $text, $style);
     }
 
-    /**
-     * @return Questionhelper
-     */
-    private function getQuestionHelper()
-    {
-        return $this->questionHelper;
-    }
-
     public function writeLine($text, $type = OutputInterface::OUTPUT_NORMAL)
     {
         $this->output->writeln($text, $type);
@@ -150,7 +142,8 @@ class CommandAssistant
                 $question,
                 $defaultString,
                 $separator
-            ), $defaultValue
+            ),
+            $defaultValue
         );
 
         return $this->getQuestionHelper()->ask(
@@ -163,7 +156,8 @@ class CommandAssistant
     public function ask($question, $default = null, array $autoComplete = null)
     {
         $askQuestion = new Question(
-            $this->questionHelper->getQuestion($question, $default), $default
+            $this->questionHelper->getQuestion($question, $default),
+            $default
         );
         $askQuestion->setAutocompleterValues($autoComplete);
 
@@ -188,7 +182,7 @@ class CommandAssistant
         $bundleQuestion->setErrorMessage($errorMessage);
         $bundleQuestion->setMultiselect($multiSelect);
         if ($multiSelect) {
-            $toReturn = array();
+            $toReturn = [];
             foreach ($this->getQuestionHelper()->ask(
                 $this->input,
                 $this->output,
@@ -196,20 +190,19 @@ class CommandAssistant
             ) as $each) {
                 array_push(
                     $toReturn,
-                    array_search($each, $bundleQuestion->getChoices())
+                    array_search($each, $bundleQuestion->getChoices(), true)
                 );
             }
 
             return $toReturn;
-        } else {
-            $value = $this->getQuestionHelper()->ask(
+        }
+        $value = $this->getQuestionHelper()->ask(
                 $this->input,
                 $this->output,
                 $bundleQuestion
             );
 
-            return array_search($value, $bundleQuestion->getChoices());
-        }
+        return array_search($value, $bundleQuestion->getChoices(), true);
     }
 
     public function setOption($name, $value)
@@ -237,5 +230,13 @@ class CommandAssistant
         return $this->input->hasOption($option) ? $this->input->getOption(
             $option
         ) : $default;
+    }
+
+    /**
+     * @return Questionhelper
+     */
+    private function getQuestionHelper()
+    {
+        return $this->questionHelper;
     }
 }

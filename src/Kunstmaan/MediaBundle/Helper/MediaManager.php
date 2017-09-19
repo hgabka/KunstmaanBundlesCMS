@@ -7,14 +7,14 @@ use Kunstmaan\MediaBundle\Helper\Media\AbstractMediaHandler;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
- * MediaManager
+ * MediaManager.
  */
 class MediaManager
 {
     /**
      * @var AbstractMediaHandler[]
      */
-    protected $handlers = array();
+    protected $handlers = [];
 
     /**
      * @var AbstractMediaHandler
@@ -46,9 +46,9 @@ class MediaManager
     }
 
     /**
-     * Returns handler with the highest priority to handle the Media item which can handle the item. If no handler is found, it returns FileHandler
+     * Returns handler with the highest priority to handle the Media item which can handle the item. If no handler is found, it returns FileHandler.
      *
-     * @param Media|File $media
+     * @param File|Media $media
      *
      * @return AbstractMediaHandler
      */
@@ -65,7 +65,7 @@ class MediaManager
     }
 
     /**
-     * Returns handler with the highest priority to handle the Media item based on the Type. If no handler is found, it returns FileHandler
+     * Returns handler with the highest priority to handle the Media item based on the Type. If no handler is found, it returns FileHandler.
      *
      * @param string $type
      *
@@ -75,7 +75,7 @@ class MediaManager
     {
         $bestHandler = $this->defaultHandler;
         foreach ($this->handlers as $handler) {
-            if ($handler->getType() == $type && $handler->getPriority() > $bestHandler->getPriority()) {
+            if ($handler->getType() === $type && $handler->getPriority() > $bestHandler->getPriority()) {
                 $bestHandler = $handler;
             }
         }
@@ -150,7 +150,7 @@ class MediaManager
      */
     public function getFolderAddActions()
     {
-        $result = array();
+        $result = [];
         foreach ($this->handlers as $handler) {
             $actions = $handler->getAddFolderActions();
             if ($actions) {

@@ -3,29 +3,27 @@
 namespace Kunstmaan\AdminListBundle\AdminList;
 
 use Kunstmaan\AdminListBundle\AdminList\FilterType\FilterTypeInterface;
-
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * AdminListFilter
+ * AdminListFilter.
  */
 class FilterBuilder
 {
-
     /**
      * @var array
      */
-    private $filterDefinitions = array();
+    private $filterDefinitions = [];
 
     /**
      * @var Filter[]
      */
-    private $currentFilters = array();
+    private $currentFilters = [];
 
     /**
      * @var array
      */
-    private $currentParameters = array();
+    private $currentParameters = [];
 
     /**
      * @param string              $columnName The column name
@@ -35,13 +33,13 @@ class FilterBuilder
      *
      * @return FilterBuilder
      */
-    public function add($columnName, FilterTypeInterface $type = null, $filterName = null, array $options = array())
+    public function add($columnName, FilterTypeInterface $type = null, $filterName = null, array $options = [])
     {
-        $this->filterDefinitions[$columnName] = array(
+        $this->filterDefinitions[$columnName] = [
             'type' => $type,
             'options' => $options,
-            'filtername' => $filterName
-        );
+            'filtername' => $filterName,
+        ];
 
         return $this;
     }
@@ -49,7 +47,7 @@ class FilterBuilder
     /**
      * @param string $columnName
      *
-     * @return mixed|null
+     * @return null|mixed
      */
     public function get($columnName)
     {
@@ -97,10 +95,10 @@ class FilterBuilder
      */
     public function bindRequest(Request $request)
     {
-        $filterBuilderName = 'filter_' . $request->get('_route');
+        $filterBuilderName = 'filter_'.$request->get('_route');
 
         $this->currentParameters = $request->query->all();
-        if(count($this->currentParameters) === 0) {
+        if (0 === count($this->currentParameters)) {
             if (!$request->query->has('filter')) {
                 if ($request->getSession()->has($filterBuilderName)) {
                     $savedQuery = $request->getSession()->get($filterBuilderName);
@@ -121,7 +119,7 @@ class FilterBuilder
                 $filter = new Filter($filterColumnName, $this->get($filterColumnName), $uniqueId);
                 $this->currentFilters[] = $filter;
                 $filter->bindRequest($request);
-                $index++;
+                ++$index;
             }
         }
     }

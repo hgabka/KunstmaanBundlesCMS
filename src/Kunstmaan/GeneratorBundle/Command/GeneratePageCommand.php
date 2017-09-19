@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 /**
- * Generates a new page
+ * Generates a new page.
  */
 class GeneratePageCommand extends KunstmaanGenerateCommand
 {
@@ -39,12 +39,12 @@ class GeneratePageCommand extends KunstmaanGenerateCommand
     /**
      * @var array
      */
-    private $sections = array();
+    private $sections = [];
 
     /**
      * @var array
      */
-    private $parentPages = array();
+    private $parentPages = [];
 
     /**
      * @see Command
@@ -52,7 +52,8 @@ class GeneratePageCommand extends KunstmaanGenerateCommand
     protected function configure()
     {
         $this->setDescription('Generates a new page')
-            ->setHelp(<<<EOT
+            ->setHelp(
+                <<<'EOT'
 The <info>kuma:generate:page</info> command generates a new page and its configuration.
 
 <info>php bin/console kuma:generate:page</info>
@@ -81,23 +82,23 @@ EOT
 
         $this->assistant->writeSection('Page successfully created', 'bg=green;fg=black');
 
-        if (count($this->parentPages) == 0) {
-            $this->assistant->writeLine(array(
-                "To use this page you must first add the definition below to the <comment>getPossibleChildTypes</comment> funtion of the parent page:",
-                "<comment>    array(</comment>",
+        if (0 === count($this->parentPages)) {
+            $this->assistant->writeLine([
+                'To use this page you must first add the definition below to the <comment>getPossibleChildTypes</comment> funtion of the parent page:',
+                '<comment>    array(</comment>',
                 "<comment>        'name' => '".$this->pageName."',</comment>",
-                "<comment>        'class'=> '".$this->bundle->getNamespace()."\\Entity\\Pages\\".$this->pageName."'</comment>",
-                "<comment>    ),</comment>",
-                ""
-            ));
+                "<comment>        'class'=> '".$this->bundle->getNamespace().'\\Entity\\Pages\\'.$this->pageName."'</comment>",
+                '<comment>    ),</comment>',
+                '',
+            ]);
         }
 
-        $this->assistant->writeLine(array(
+        $this->assistant->writeLine([
             'Make sure you update your database first before you use the page:',
             '    Directly update your database:          <comment>bin/console doctrine:schema:update --force</comment>',
             '    Create a Doctrine migration and run it: <comment>bin/console doctrine:migrations:diff && bin/console doctrine:migrations:migrate</comment>',
-            ''
-        ));
+            '',
+        ]);
     }
 
     /**
@@ -109,26 +110,20 @@ EOT
             $this->assistant->writeError('KunstmaanPagePartBundle not found', true);
         }
 
-        $this->assistant->writeLine(array("This command helps you to generate a new page.\n"));
+        $this->assistant->writeLine(["This command helps you to generate a new page.\n"]);
 
-        /**
-         * Ask for which bundle we need to create the pagepart
-         */
+        // Ask for which bundle we need to create the pagepart
         $this->bundle = $this->askForBundleName('page');
 
-        /**
-         * Ask the database table prefix
-         */
+        // Ask the database table prefix
         $this->prefix = $this->askForPrefix(null, $this->bundle->getNamespace());
 
-        /**
-         * Ask the name of the pagepart
-         */
-        $this->assistant->writeLine(array(
+        // Ask the name of the pagepart
+        $this->assistant->writeLine([
             '',
             'The name of your Page: For example: <comment>SponsorPage</comment>, <comment>NewsOverviewPage</comment>',
             '',
-        ));
+        ]);
         $generator = $this->getGenerator();
         $bundlePath = $this->bundle->getPath();
 
@@ -136,7 +131,7 @@ EOT
             'Page name',
             function ($name) use ($generator, $bundlePath) {
                 // Check reserved words
-                if ($generator->isReservedKeyword($name)){
+                if ($generator->isReservedKeyword($name)) {
                     throw new \InvalidArgumentException(sprintf('"%s" is a reserved word', $name));
                 }
 
@@ -151,7 +146,7 @@ EOT
                 }
 
                 // Check that entity does not already exist
-                if (file_exists($bundlePath . '/Entity/Pages/' . $name . '.php')) {
+                if (file_exists($bundlePath.'/Entity/Pages/'.$name.'.php')) {
                     throw new \InvalidArgumentException(sprintf('Page or entity "%s" already exists', $name));
                 }
 
@@ -160,12 +155,10 @@ EOT
         );
         $this->pageName = $name;
 
-        /**
-         * Ask which fields need to be present
-         */
-        $this->assistant->writeLine(array("\nInstead of starting with a blank page, you can add some fields now.\n"));
-        $fields = $this->askEntityFields($this->bundle, array('title', 'pageTitle', 'parent', 'id'));
-        $this->fields = array();
+        // Ask which fields need to be present
+        $this->assistant->writeLine(["\nInstead of starting with a blank page, you can add some fields now.\n"]);
+        $fields = $this->askEntityFields($this->bundle, ['title', 'pageTitle', 'parent', 'id']);
+        $this->fields = [];
         foreach ($fields as $fieldInfo) {
             $this->fields[] = $this->getEntityFields(
                 $this->bundle,
@@ -184,7 +177,7 @@ EOT
         }
 
         /**
-         * Ask which default page template we need to use
+         * Ask which default page template we need to use.
          */
         $templateSelect = $this->getTemplateList();
         if (empty($templateSelect)) {
@@ -197,22 +190,20 @@ EOT
         $templateConfig = $templateConfigs[$templateId];
         $this->template = $templateConfig['file'];
 
-        /**
-         * Ask for which sections pagepart configuration the end user wants to use for the different sections
-         */
-        $this->assistant->writeLine(array("\nThe select page template consists of these contexts: " . implode(', ', $templateConfig['contexts'])));
-        $this->section = array();
+        // Ask for which sections pagepart configuration the end user wants to use for the different sections
+        $this->assistant->writeLine(["\nThe select page template consists of these contexts: ".implode(', ', $templateConfig['contexts'])]);
+        $this->section = [];
         foreach ($templateConfig['contexts'] as $context) {
             $question = "Which pagepart configuration would you like to use for the '$context' context";
             $section = $this->askForSections($question, $this->bundle, false, $context);
-            if (is_null($section)) {
+            if (null === $section) {
                 $this->assistant->writeError(sprintf('No section pagepart configuration found for context "%s"', $context), true);
             }
             $this->sections[] = $section;
         }
 
         /**
-         * Ask the parent pages
+         * Ask the parent pages.
          */
         $parentPages = $this->getAvailablePages($this->bundle);
         $pagesSelect = array_map(function ($item) { return $item['name']; }, $parentPages);
@@ -247,7 +238,7 @@ EOT
     {
         $templates = $this->getAvailableTemplates($this->bundle);
 
-        $types = array();
+        $types = [];
         foreach ($templates as $key => $template) {
             $types[$key] = $template['name'];
         }

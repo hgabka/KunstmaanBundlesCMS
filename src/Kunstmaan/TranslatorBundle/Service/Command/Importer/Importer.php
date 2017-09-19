@@ -11,7 +11,7 @@ class Importer
     /**
      * @var array
      */
-    private $loaders = array();
+    private $loaders = [];
 
     /**
      * @var TranslationGroupManager
@@ -25,7 +25,7 @@ class Importer
         $filename = $file->getFilename();
         list($domain, $locale, $extension) = explode('.', $filename);
 
-        if (! isset($this->loaders[$extension]) || !$this->loaders[$extension] instanceof \Symfony\Component\Translation\Loader\LoaderInterface) {
+        if (!isset($this->loaders[$extension]) || !$this->loaders[$extension] instanceof \Symfony\Component\Translation\Loader\LoaderInterface) {
             throw new \Exception(sprintf('Requested loader for extension .%s isnt set', $extension));
         }
 
@@ -35,11 +35,35 @@ class Importer
 
         foreach ($messageCatalogue->all($domain) as $keyword => $text) {
             if ($this->importSingleTranslation($keyword, $text, $locale, $filename, $domain, $force)) {
-                $importedTranslations++;
+                ++$importedTranslations;
             }
         }
 
         return $importedTranslations;
+    }
+
+    /**
+     * Validate the loaders.
+     *
+     * @param array $loaders
+     *
+     * @throws \Exception If no loaders are defined
+     */
+    public function validateLoaders($loaders = [])
+    {
+        if (!is_array($loaders) || count($loaders) <= 0) {
+            throw new \Exception('No translation file loaders tagged.');
+        }
+    }
+
+    public function setLoaders(array $loaders)
+    {
+        $this->loaders = $loaders;
+    }
+
+    public function setTranslationGroupManager(TranslationGroupManager $translationGroupManager)
+    {
+        $this->translationGroupManager = $translationGroupManager;
     }
 
     private function importSingleTranslation($keyword, $text, $locale, $filename, $domain, $force = false)
@@ -67,28 +91,5 @@ class Importer
         }
 
         return true;
-    }
-
-    /**
-     * Validate the loaders
-     * @param  array      $loaders
-     * @return void
-     * @throws \Exception If no loaders are defined
-     */
-    public function validateLoaders($loaders = array())
-    {
-        if (!is_array($loaders) || count($loaders) <= 0) {
-            throw new \Exception('No translation file loaders tagged.');
-        }
-    }
-
-    public function setLoaders(array $loaders)
-    {
-        $this->loaders = $loaders;
-    }
-
-    public function setTranslationGroupManager(TranslationGroupManager $translationGroupManager)
-    {
-        $this->translationGroupManager = $translationGroupManager;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Kunstmaan\TranslatorBundle\Command;
 
 use Doctrine\Bundle\DoctrineBundle\Command\Proxy\DoctrineCommandHelper;
@@ -9,20 +10,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Command for generate migration classes by checking the translation flag value
+ * Command for generate migration classes by checking the translation flag value.
  */
 class MigrationsDiffCommand extends DiffCommand
 {
-    protected function configure()
-    {
-        parent::configure();
-
-        $this
-            ->setName('kuma:translator:migrations:diff')
-            ->addOption('em', null, InputOption::VALUE_OPTIONAL, 'The entity manager to use for this command.')
-        ;
-    }
-
     public function execute(InputInterface $input, OutputInterface $output)
     {
         DoctrineCommandHelper::setApplicationEntityManager($this->getApplication(), $input->getOption('em'));
@@ -31,5 +22,15 @@ class MigrationsDiffCommand extends DiffCommand
         DoctrineCommand::configureMigrations($this->getApplication()->getKernel()->getContainer(), $configuration);
 
         parent::execute($input, $output);
+    }
+
+    protected function configure()
+    {
+        parent::configure();
+
+        $this
+            ->setName('kuma:translator:migrations:diff')
+            ->addOption('em', null, InputOption::VALUE_OPTIONAL, 'The entity manager to use for this command.')
+        ;
     }
 }

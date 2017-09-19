@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * The default tab implementation
+ * The default tab implementation.
  */
 class FormWidget implements FormWidgetInterface
 {
@@ -36,20 +36,20 @@ class FormWidget implements FormWidgetInterface
     protected $options;
 
     /**
-     * @var FormHelper
-     */
-    private $formHelper = null;
-
-    /**
      * @var string
      */
     protected $template;
 
     /**
+     * @var FormHelper
+     */
+    private $formHelper;
+
+    /**
      * @param array $types The types
      * @param array $data  The data attached to the types
      */
-    public function __construct(array $types = array(), array $data = array(), array $options = array())
+    public function __construct(array $types = [], array $data = [], array $options = [])
     {
         $this->types = $types;
         $this->data = $data;
@@ -78,7 +78,6 @@ class FormWidget implements FormWidgetInterface
      */
     public function bindRequest(Request $request)
     {
-
     }
 
     /**
@@ -98,7 +97,7 @@ class FormWidget implements FormWidgetInterface
      */
     public function getFormErrors(FormView $formView)
     {
-        $formViews = array();
+        $formViews = [];
         foreach ($this->types as $name => $type) {
             $formViews[] = $formView[$name];
         }
@@ -106,18 +105,6 @@ class FormWidget implements FormWidgetInterface
         $formHelper = $this->getFormHelper();
 
         return $formHelper->getRecursiveErrorMessages($formViews);
-    }
-
-    /**
-     * @return FormHelper
-     */
-    protected function getFormHelper()
-    {
-        if (is_null($this->formHelper)) {
-            $this->formHelper = new FormHelper();
-        }
-
-        return $this->formHelper;
     }
 
     /**
@@ -157,14 +144,14 @@ class FormWidget implements FormWidgetInterface
     }
 
     /**
-     * @param string       $name
-     * @param string       $type
-     * @param null         $data
-     * @param array        $options
+     * @param string $name
+     * @param string $type
+     * @param null   $data
+     * @param array  $options
      *
      * @return FormWidget
      */
-    public function addType($name, $type, $data = null, $options = array())
+    public function addType($name, $type, $data = null, $options = [])
     {
         // Get fully qualified class name of form if not provided as string
         if ($type instanceof AbstractType) {
@@ -200,7 +187,7 @@ class FormWidget implements FormWidgetInterface
      */
     public function getExtraParams(Request $request)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -209,5 +196,17 @@ class FormWidget implements FormWidgetInterface
     public function getOptions()
     {
         return $this->options;
+    }
+
+    /**
+     * @return FormHelper
+     */
+    protected function getFormHelper()
+    {
+        if (null === $this->formHelper) {
+            $this->formHelper = new FormHelper();
+        }
+
+        return $this->formHelper;
     }
 }

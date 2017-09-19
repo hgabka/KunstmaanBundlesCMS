@@ -6,8 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Kunstmaan\AdminBundle\Entity\AbstractEntity;
 use Kunstmaan\ArticleBundle\Form\AbstractAuthorAdminType;
 
-class AbstractAuthor extends AbstractEntity {
-
+class AbstractAuthor extends AbstractEntity
+{
     /**
      * @var string
      *
@@ -21,6 +21,11 @@ class AbstractAuthor extends AbstractEntity {
      * @ORM\Column(type="string", nullable=true, name="link")
      */
     protected $link;
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
 
     public function setName($name)
     {
@@ -42,14 +47,8 @@ class AbstractAuthor extends AbstractEntity {
         return $this->link;
     }
 
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
     public function getAdminType()
     {
         return new AbstractAuthorAdminType();
     }
-
 }

@@ -7,7 +7,8 @@ use Kunstmaan\AdminBundle\Entity\AbstractEntity;
 use Kunstmaan\SeoBundle\Form\RobotsType;
 
 /**
- * Robots.txt data
+ * Robots.txt data.
+ *
  * @ORM\Entity
  * @ORM\Table(name="kuma_robots")
  */
@@ -19,6 +20,16 @@ class Robots extends AbstractEntity
      * @ORM\Column(name="robots_txt", type="text", nullable=true)
      */
     protected $robotsTxt;
+
+    /**
+     * Return string representation of entity.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return 'Robots';
+    }
 
     /**
      * @return string
@@ -43,15 +54,4 @@ class Robots extends AbstractEntity
     {
         return new RobotsType();
     }
-
-    /**
-     * Return string representation of entity
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return "Robots";
-    }
-
 }

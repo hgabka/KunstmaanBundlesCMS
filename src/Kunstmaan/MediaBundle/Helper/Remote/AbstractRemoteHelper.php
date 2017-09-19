@@ -7,7 +7,7 @@ use Kunstmaan\MediaBundle\Entity\Media;
 
 /**
  * Kunstmaan\MediaBundle\Entity\Abstract
- * Class that defines a remote entity in the system
+ * Class that defines a remote entity in the system.
  */
 abstract class AbstractRemoteHelper
 {
@@ -87,7 +87,8 @@ abstract class AbstractRemoteHelper
     }
 
     /**
-     * Set code
+     * Set code.
+     *
      * @param string $code
      *
      * @return self
@@ -100,7 +101,7 @@ abstract class AbstractRemoteHelper
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getThumbnailUrl()
     {
@@ -108,7 +109,8 @@ abstract class AbstractRemoteHelper
     }
 
     /**
-     * Set thumbnail url
+     * Set thumbnail url.
+     *
      * @param string $url
      *
      * @return self
@@ -121,9 +123,9 @@ abstract class AbstractRemoteHelper
     }
 
     /**
-     * Get type
+     * Get type.
      *
-     * @return string|null
+     * @return null|string
      */
     public function getType()
     {
@@ -131,7 +133,8 @@ abstract class AbstractRemoteHelper
     }
 
     /**
-     * Set type
+     * Set type.
+     *
      * @param string $type
      *
      * @return self

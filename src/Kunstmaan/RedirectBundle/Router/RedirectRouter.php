@@ -18,7 +18,7 @@ class RedirectRouter implements RouterInterface
     private $context;
 
     /** @var RouteCollection */
-    private $routeCollection = null;
+    private $routeCollection;
 
     /** @var ObjectRepository */
     private $redirectRepository;
@@ -27,7 +27,7 @@ class RedirectRouter implements RouterInterface
     private $domainConfiguration;
 
     /**
-     * @param ObjectRepository $redirectRepository
+     * @param ObjectRepository             $redirectRepository
      * @param DomainConfigurationInterface $domainConfiguration
      */
     public function __construct(ObjectRepository $redirectRepository, DomainConfigurationInterface $domainConfiguration)
@@ -52,22 +52,22 @@ class RedirectRouter implements RouterInterface
      *
      * If there is no route with the given name, the generator must throw the RouteNotFoundException.
      *
-     * @param string $name The name of the route
-     * @param mixed $parameters An array of parameters
-     * @param Boolean|string $referenceType The type of reference to be generated (one of the constants)
-     *
-     * @return string The generated URL
+     * @param string      $name          The name of the route
+     * @param mixed       $parameters    An array of parameters
+     * @param bool|string $referenceType The type of reference to be generated (one of the constants)
      *
      * @throws \Symfony\Component\Routing\Exception\RouteNotFoundException              If the named route doesn't exist
      * @throws \Symfony\Component\Routing\Exception\MissingMandatoryParametersException When some parameters are missing that are mandatory for the route
      * @throws \Symfony\Component\Routing\Exception\InvalidParameterException           When a parameter value for a placeholder is not correct because
-     *                                             it does not match the requirement
+     *                                                                                  it does not match the requirement
+     *
+     * @return string The generated URL
      *
      * @api
      */
-    public function generate($name, $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
+    public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
-        throw new RouteNotFoundException("You cannot generate a url from a redirect");
+        throw new RouteNotFoundException('You cannot generate a url from a redirect');
     }
 
     /**
@@ -78,10 +78,10 @@ class RedirectRouter implements RouterInterface
      *
      * @param string $pathinfo The path info to be parsed (raw format, i.e. not urldecoded)
      *
-     * @return array An array of parameters
-     *
      * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException If the resource could not be found
      * @throws \Symfony\Component\Routing\Exception\MethodNotAllowedException If the resource was found but the request method is not allowed
+     *
+     * @return array An array of parameters
      *
      * @api
      */
@@ -100,33 +100,12 @@ class RedirectRouter implements RouterInterface
      */
     public function getRouteCollection()
     {
-        if (is_null($this->routeCollection)) {
+        if (null === $this->routeCollection) {
             $this->routeCollection = new RouteCollection();
             $this->initRoutes();
         }
 
         return $this->routeCollection;
-    }
-
-    private function initRoutes()
-    {
-        $redirects = $this->redirectRepository->findAll();
-        $domain = $this->domainConfiguration->getHost();
-
-        /** @var Redirect $redirect */
-        foreach ($redirects as $redirect) {
-            // Only add the route when the domain matches or the domain is empty
-            if ($redirect->getDomain() == $domain || !$redirect->getDomain()) {
-                $this->routeCollection->add(
-                    '_redirect_route_' . $redirect->getId(),
-                    new Route($redirect->getOrigin(), array(
-                        '_controller' => 'FrameworkBundle:Redirect:urlRedirect',
-                        'path' => $redirect->getTarget(),
-                        'permanent' => $redirect->isPermanent(),
-                    ))
-                );
-            }
-        }
     }
 
     /**
@@ -151,5 +130,26 @@ class RedirectRouter implements RouterInterface
     public function setContext(RequestContext $context)
     {
         $this->context = $context;
+    }
+
+    private function initRoutes()
+    {
+        $redirects = $this->redirectRepository->findAll();
+        $domain = $this->domainConfiguration->getHost();
+
+        /** @var Redirect $redirect */
+        foreach ($redirects as $redirect) {
+            // Only add the route when the domain matches or the domain is empty
+            if ($redirect->getDomain() === $domain || !$redirect->getDomain()) {
+                $this->routeCollection->add(
+                    '_redirect_route_'.$redirect->getId(),
+                    new Route($redirect->getOrigin(), [
+                        '_controller' => 'FrameworkBundle:Redirect:urlRedirect',
+                        'path' => $redirect->getTarget(),
+                        'permanent' => $redirect->isPermanent(),
+                    ])
+                );
+            }
+        }
     }
 }

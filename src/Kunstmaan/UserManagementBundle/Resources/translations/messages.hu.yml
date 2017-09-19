@@ -19,11 +19,16 @@ settings:
         roles_placeholder: Válassz ki a jogosultság csoportokat...
         add: Felhasználó hozzáadása
         edit: Felhasználó szerkesztése
-    roles: Szerepkörök
+    roles: Jogosultságok
     role:
-        role: Szerepkör engedélyek
-        add: Szerepkör hozzáadása
-        edit: Szerepkör szerkesztése
+        role: Jogosultság
+        add: Jogosultság hozzáadása
+        edit: Jogosultság szerkesztése
+        name: Név
+        permission_manager: Engedélykezelő
+        admin: Adminisztrátor
+        super_admin: Szuperadminisztrátor
+        anonymous: Vendég felhasználó
 
 kuma_user:
     roles:
@@ -72,5 +77,7 @@ kuma_user:
         adminlist:
             header:
                 role:   Jog
+                name:   Jogosultság
             filter:
                 role:   Jog
+                name:   Jogosultság

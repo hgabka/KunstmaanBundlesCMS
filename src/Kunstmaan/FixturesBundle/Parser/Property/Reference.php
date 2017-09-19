@@ -5,13 +5,15 @@ namespace Kunstmaan\FixturesBundle\Parser\Property;
 class Reference implements PropertyParserInterface
 {
     /**
-     * Check if this parser is applicable
+     * Check if this parser is applicable.
+     *
+     * @param mixed $value
      *
      * @return bool
      */
     public function canParse($value)
     {
-        if (is_string($value) && strpos($value, '@') === 0) {
+        if (is_string($value) && 0 === strpos($value, '@')) {
             return true;
         }
 
@@ -19,11 +21,12 @@ class Reference implements PropertyParserInterface
     }
 
     /**
-     * Parse provided value into new data
+     * Parse provided value into new data.
      *
      * @param $value
      * @param $providers
      * @param array $references
+     *
      * @return mixed
      */
     public function parse($value, $providers = [], $references = [])

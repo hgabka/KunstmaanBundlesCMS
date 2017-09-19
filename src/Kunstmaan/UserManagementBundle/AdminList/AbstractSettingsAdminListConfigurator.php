@@ -3,16 +3,15 @@
 namespace Kunstmaan\UserManagementBundle\AdminList;
 
 use Kunstmaan\AdminListBundle\AdminList\Configurator\AbstractDoctrineORMAdminListConfigurator;
-
 use Symfony\Component\Form\AbstractType;
 
 /**
- * Abstract admin list configurator used by the Group, Log, Role and User configurators
+ * Abstract admin list configurator used by the Group, Log, Role and User configurators.
  */
 abstract class AbstractSettingsAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
 {
     /**
-     * Override path convention (because settings is a virtual admin subtree)
+     * Override path convention (because settings is a virtual admin subtree).
      *
      * @param string $suffix
      *
@@ -28,11 +27,11 @@ abstract class AbstractSettingsAdminListConfigurator extends AbstractDoctrineORM
     }
 
     /**
-     * Get admin type of entity
+     * Get admin type of entity.
      *
      * @param mixed $item
      *
-     * @return AbstractType|null
+     * @return null|AbstractType
      */
     public function getAdminType($item)
     {
@@ -40,7 +39,7 @@ abstract class AbstractSettingsAdminListConfigurator extends AbstractDoctrineORM
     }
 
     /**
-     * Get bundle name
+     * Get bundle name.
      *
      * @return string
      */
@@ -50,7 +49,7 @@ abstract class AbstractSettingsAdminListConfigurator extends AbstractDoctrineORM
     }
 
     /**
-     * Override controller path (because actions for different entities are defined in a single Settings controller)
+     * Override controller path (because actions for different entities are defined in a single Settings controller).
      *
      * @return string
      */

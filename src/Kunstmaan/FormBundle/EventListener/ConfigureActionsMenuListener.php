@@ -3,10 +3,8 @@
 namespace Kunstmaan\FormBundle\EventListener;
 
 use Doctrine\ORM\EntityManager;
-
 use Kunstmaan\FormBundle\Entity\AbstractFormPage;
 use Kunstmaan\NodeBundle\Event\ConfigureActionMenuEvent;
-
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -14,7 +12,6 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class ConfigureActionsMenuListener
 {
-
     /**
      * @var EntityManager
      */
@@ -26,8 +23,8 @@ class ConfigureActionsMenuListener
     private $router;
 
     /**
-     * @param EntityManager $em     The entity manager
-     * @param RouterInterface       $router The router
+     * @param EntityManager   $em     The entity manager
+     * @param RouterInterface $router The router
      */
     public function __construct(EntityManager $em, RouterInterface $router)
     {
@@ -36,7 +33,7 @@ class ConfigureActionsMenuListener
     }
 
     /**
-     * Configure the form submissions link on top of the form in the sub action menu
+     * Configure the form submissions link on top of the form in the sub action menu.
      *
      * @param ConfigureActionMenuEvent $event
      */
@@ -45,13 +42,12 @@ class ConfigureActionsMenuListener
         $menu = $event->getMenu();
         $activeNodeVersion = $event->getActiveNodeVersion();
 
-        if (!is_null($activeNodeVersion)) {
+        if (null !== $activeNodeVersion) {
             $page = $activeNodeVersion->getRef($this->em);
             if ($page instanceof AbstractFormPage) {
                 $activeNodeTranslation = $activeNodeVersion->getNodeTranslation();
-                $menu->addChild('subaction.formsubmissions', array('uri' => $this->router->generate('KunstmaanFormBundle_formsubmissions_list', array('nodeTranslationId' => $activeNodeTranslation->getId()))));
+                $menu->addChild('subaction.formsubmissions', ['uri' => $this->router->generate('KunstmaanFormBundle_formsubmissions_list', ['nodeTranslationId' => $activeNodeTranslation->getId()])]);
             }
         }
     }
-
 }

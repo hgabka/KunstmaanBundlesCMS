@@ -21,8 +21,9 @@ class MenuItemAdminListController extends AdminListController
 
     /**
      * @param Request $request
-     * @param int $menuid
-     * @param int $entityId
+     * @param int     $menuid
+     * @param int     $entityId
+     *
      * @return AbstractAdminListConfigurator
      */
     public function getAdminListConfigurator(Request $request, $menuid, $entityId = null)
@@ -39,40 +40,42 @@ class MenuItemAdminListController extends AdminListController
             $adminType = $this->getParameter('kunstmaan_menu.form.menuitem_admintype.class');
             $menuItemClass = $this->getParameter('kunstmaan_menu.entity.menuitem.class');
             $this->configurator->setAdminType(new $adminType($request->getLocale(), $menu, $entityId, $rootNode, $menuItemClass));
-            $this->configurator->setAdminTypeOptions(array('menu' => $menu, 'rootNode' => $rootNode, 'menuItemClass' => $menuItemClass, 'entityId' => $entityId, 'locale' => $request->getLocale()));
+            $this->configurator->setAdminTypeOptions(['menu' => $menu, 'rootNode' => $rootNode, 'menuItemClass' => $menuItemClass, 'entityId' => $entityId, 'locale' => $request->getLocale()]);
         }
 
         return $this->configurator;
     }
 
     /**
-     * The index action
+     * The index action.
      *
      * @Route("/{menuid}/items", name="kunstmaanmenubundle_admin_menuitem")
+     *
+     * @param mixed $menuid
      */
     public function indexAction(Request $request, $menuid)
     {
         $configurator = $this->getAdminListConfigurator($request, $menuid);
 
         $itemRoute = function (EntityInterface $item) use ($menuid) {
-            return array(
+            return [
                 'path' => 'kunstmaanmenubundle_admin_menuitem_move_up',
-                'params' => array(
+                'params' => [
                     'menuid' => $menuid,
                     'item' => $item->getId(),
-                ),
-            );
+                ],
+            ];
         };
         $configurator->addItemAction(new SimpleItemAction($itemRoute, 'arrow-up', 'Move up'));
 
         $itemRoute = function (EntityInterface $item) use ($menuid) {
-            return array(
+            return [
                 'path' => 'kunstmaanmenubundle_admin_menuitem_move_down',
-                'params' => array(
+                'params' => [
                     'menuid' => $menuid,
                     'item' => $item->getId(),
-                ),
-            );
+                ],
+            ];
         };
         $configurator->addItemAction(new SimpleItemAction($itemRoute, 'arrow-down', 'Move down'));
 
@@ -80,10 +83,13 @@ class MenuItemAdminListController extends AdminListController
     }
 
     /**
-     * The add action
+     * The add action.
      *
      * @Route("/{menuid}/items/add", name="kunstmaanmenubundle_admin_menuitem_add")
      * @Method({"GET", "POST"})
+     *
+     * @param mixed $menuid
+     *
      * @return array
      */
     public function addAction(Request $request, $menuid)
@@ -92,9 +98,10 @@ class MenuItemAdminListController extends AdminListController
     }
 
     /**
-     * The edit action
+     * The edit action.
      *
-     * @param int $id
+     * @param int   $id
+     * @param mixed $menuid
      *
      * @Route("{menuid}/items/{id}/edit", requirements={"id" = "\d+"}, name="kunstmaanmenubundle_admin_menuitem_edit")
      * @Method({"GET", "POST"})
@@ -107,9 +114,10 @@ class MenuItemAdminListController extends AdminListController
     }
 
     /**
-     * The delete action
+     * The delete action.
      *
-     * @param int $id
+     * @param int   $id
+     * @param mixed $menuid
      *
      * @Route("{menuid}/items/{id}/delete", requirements={"id" = "\d+"}, name="kunstmaanmenubundle_admin_menuitem_delete")
      * @Method({"GET", "POST"})
@@ -126,6 +134,10 @@ class MenuItemAdminListController extends AdminListController
      *
      * @Route("{menuid}/items/{item}/move-up", name="kunstmaanmenubundle_admin_menuitem_move_up")
      * @Method({"GET"})
+     *
+     * @param mixed $menuid
+     * @param mixed $item
+     *
      * @return RedirectResponse
      */
     public function moveUpAction(Request $request, $menuid, $item)
@@ -139,7 +151,7 @@ class MenuItemAdminListController extends AdminListController
         }
 
         return new RedirectResponse(
-            $this->generateUrl('kunstmaanmenubundle_admin_menuitem', array('menuid' => $menuid))
+            $this->generateUrl('kunstmaanmenubundle_admin_menuitem', ['menuid' => $menuid])
         );
     }
 
@@ -148,6 +160,10 @@ class MenuItemAdminListController extends AdminListController
      *
      * @Route("{menuid}/items/{item}/move-down", name="kunstmaanmenubundle_admin_menuitem_move_down")
      * @Method({"GET"})
+     *
+     * @param mixed $menuid
+     * @param mixed $item
+     *
      * @return RedirectResponse
      */
     public function moveDownAction(Request $request, $menuid, $item)
@@ -161,7 +177,7 @@ class MenuItemAdminListController extends AdminListController
         }
 
         return new RedirectResponse(
-            $this->generateUrl('kunstmaanmenubundle_admin_menuitem', array('menuid' => $menuid))
+            $this->generateUrl('kunstmaanmenubundle_admin_menuitem', ['menuid' => $menuid])
         );
     }
 }

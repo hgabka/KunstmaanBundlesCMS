@@ -1,4 +1,5 @@
 <?php
+
 namespace Kunstmaan\AdminBundle\EventListener;
 
 use Psr\Log\LoggerInterface;
@@ -25,6 +26,6 @@ class ConsoleExceptionListener
             $exception->getLine(),
             $command->getName()
         );
-        $this->logger->error($message, array('exception' => $exception));
+        $this->logger->error($message, ['exception' => $exception]);
     }
 }

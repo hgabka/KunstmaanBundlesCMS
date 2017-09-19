@@ -7,7 +7,7 @@ use Kunstmaan\NodeBundle\Entity\AbstractPage;
 use Kunstmaan\SearchBundle\Helper\IndexableInterface;
 
 /**
- * AbstractSearchPage, extend this class to create your own SearchPage and extend the standard functionality
+ * AbstractSearchPage, extend this class to create your own SearchPage and extend the standard functionality.
  */
 class AbstractSearchPage extends AbstractPage implements IndexableInterface, SlugActionInterface
 {
@@ -24,11 +24,11 @@ class AbstractSearchPage extends AbstractPage implements IndexableInterface, Slu
      */
     public function getPossibleChildTypes()
     {
-        return array();
+        return [];
     }
 
     /**
-     * return string
+     * return string.
      */
     public function getDefaultView()
     {
@@ -36,7 +36,7 @@ class AbstractSearchPage extends AbstractPage implements IndexableInterface, Slu
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isIndexable()
     {

@@ -35,9 +35,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /**
  * Adds global event, will hide "Target" tab in Link dialog in all instances.
  */
-function CKEditorHideLinkTargetTab(&$CKEditor) {
-
-	$function = 'function (ev) {
+function CKEditorHideLinkTargetTab(&$CKEditor)
+{
+    $function = 'function (ev) {
 		// Take the dialog name and its definition from the event data
 		var dialogName = ev.data.name;
 		var dialogDefinition = ev.data.definition;
@@ -47,22 +47,23 @@ function CKEditorHideLinkTargetTab(&$CKEditor) {
 			dialogDefinition.removeContents("target")
 	}';
 
-	$CKEditor->addGlobalEventHandler('dialogDefinition', $function);
+    $CKEditor->addGlobalEventHandler('dialogDefinition', $function);
 }
 
 /**
  * Adds global event, will notify about opened dialog.
  */
-function CKEditorNotifyAboutOpenedDialog(&$CKEditor) {
-	$function = 'function (evt) {
+function CKEditorNotifyAboutOpenedDialog(&$CKEditor)
+{
+    $function = 'function (evt) {
 		alert("Loading dialog: " + evt.data.name);
 	}';
 
-	$CKEditor->addGlobalEventHandler('dialogDefinition', $function);
+    $CKEditor->addGlobalEventHandler('dialogDefinition', $function);
 }
 
 // Include CKEditor class.
-include("../../ckeditor.php");
+include '../../ckeditor.php';
 
 // Create class instance.
 $CKEditor = new CKEditor();
@@ -84,7 +85,7 @@ $CKEditor->addEventHandler('instanceReady', 'function (evt) {
 }');
 
 // Create first instance.
-$CKEditor->editor("editor1", $initialValue);
+$CKEditor->editor('editor1', $initialValue);
 
 // Clear event handlers, instances that will be created later will not have
 // the 'instanceReady' listener defined a couple of lines above.
@@ -109,7 +110,7 @@ $events['instanceReady'] = 'function (evt) {
 }';
 
 // Create second instance.
-$CKEditor->editor("editor2", $initialValue, $config, $events);
+$CKEditor->editor('editor2', $initialValue, $config, $events);
 ?>
 			<p>
 				<input type="submit" value="Submit"/>

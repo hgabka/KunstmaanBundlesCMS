@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Reference between a page and a pagepart
+ * Reference between a page and a pagepart.
  *
  * @ORM\Entity(repositoryClass="Kunstmaan\PagePartBundle\Repository\PagePartRefRepository")
  * @ORM\Table(name="kuma_page_part_refs", indexes={@ORM\Index(name="idx_page_part_search", columns={"pageId", "pageEntityname", "context"})})
@@ -62,7 +62,7 @@ class PagePartRef
     protected $updated;
 
     /**
-     * The constructor
+     * The constructor.
      */
     public function __construct()
     {
@@ -71,9 +71,17 @@ class PagePartRef
     }
 
     /**
-     * Get id
+     * @return string
+     */
+    public function __toString()
+    {
+        return 'pagepartref in context '.$this->getContext();
+    }
+
+    /**
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -81,7 +89,7 @@ class PagePartRef
     }
 
     /**
-     * @param integer $num
+     * @param int $num
      */
     public function setId($num)
     {
@@ -89,9 +97,9 @@ class PagePartRef
     }
 
     /**
-     * Get pageId
+     * Get pageId.
      *
-     * @return integer
+     * @return int
      */
     public function getPageId()
     {
@@ -99,7 +107,7 @@ class PagePartRef
     }
 
     /**
-     * @param integer $id
+     * @param int $id
      */
     public function setPageId($id)
     {
@@ -107,7 +115,7 @@ class PagePartRef
     }
 
     /**
-     * Get pageEntityname
+     * Get pageEntityname.
      *
      * @return string
      */
@@ -117,7 +125,7 @@ class PagePartRef
     }
 
     /**
-     * Set pageEntityname
+     * Set pageEntityname.
      *
      * @param string $pageEntityname
      */
@@ -127,7 +135,7 @@ class PagePartRef
     }
 
     /**
-     * get context
+     * get context.
      *
      * @return string
      */
@@ -137,7 +145,7 @@ class PagePartRef
     }
 
     /**
-     * Set context
+     * Set context.
      *
      * @param string $context
      */
@@ -147,9 +155,9 @@ class PagePartRef
     }
 
     /**
-     * Get sequencenumber
+     * Get sequencenumber.
      *
-     * @return integer
+     * @return int
      */
     public function getSequencenumber()
     {
@@ -157,9 +165,9 @@ class PagePartRef
     }
 
     /**
-     * Set sequencenumber
+     * Set sequencenumber.
      *
-     * @param integer $sequencenumber
+     * @param int $sequencenumber
      */
     public function setSequencenumber($sequencenumber)
     {
@@ -167,9 +175,9 @@ class PagePartRef
     }
 
     /**
-     * Get pagePartId
+     * Get pagePartId.
      *
-     * @return integer
+     * @return int
      */
     public function getPagePartId()
     {
@@ -177,7 +185,7 @@ class PagePartRef
     }
 
     /**
-     * Set pagePartId
+     * Set pagePartId.
      *
      * @param string $pagePartId
      */
@@ -187,7 +195,7 @@ class PagePartRef
     }
 
     /**
-     * Get pagePartEntityname
+     * Get pagePartEntityname.
      *
      * @return string
      */
@@ -197,7 +205,7 @@ class PagePartRef
     }
 
     /**
-     * Set pagePartEntityname
+     * Set pagePartEntityname.
      *
      * @param string $pagePartEntityname
      */
@@ -207,7 +215,7 @@ class PagePartRef
     }
 
     /**
-     * Get created
+     * Get created.
      *
      * @return \DateTime
      */
@@ -217,7 +225,7 @@ class PagePartRef
     }
 
     /**
-     * Set created
+     * Set created.
      *
      * @param \DateTime $created
      */
@@ -227,7 +235,7 @@ class PagePartRef
     }
 
     /**
-     * Get updated
+     * Get updated.
      *
      * @return \DateTime
      */
@@ -237,7 +245,7 @@ class PagePartRef
     }
 
     /**
-     * Set updated
+     * Set updated.
      *
      * @param \DateTime $updated
      */
@@ -252,14 +260,6 @@ class PagePartRef
     public function setUpdatedValue()
     {
         $this->setUpdated(new \DateTime());
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return "pagepartref in context " . $this->getContext();
     }
 
     /**

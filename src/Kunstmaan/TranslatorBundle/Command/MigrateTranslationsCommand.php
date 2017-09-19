@@ -12,9 +12,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class MigrateTranslationsCommand extends ContainerAwareCommand
 {
     /**
-     * @var EntityManager $em
+     * @var EntityManager
      */
-    private $em = null;
+    private $em;
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
@@ -33,6 +33,7 @@ class MigrateTranslationsCommand extends ContainerAwareCommand
             ->getArrayResult();
 
         $this->em->beginTransaction();
+
         try {
             foreach ($uniqueTranslations as $uniqueTranslation) {
                 // Fetch new unique translation ID & update records
@@ -49,10 +50,10 @@ class MigrateTranslationsCommand extends ContainerAwareCommand
                     ->execute();
             }
             $this->em->commit();
-            $output->writeln('<info>' . count($uniqueTranslations) . ' translations have been migrated.</info>');
+            $output->writeln('<info>'.count($uniqueTranslations).' translations have been migrated.</info>');
         } catch (\Exception $e) {
             $this->em->rollback();
-            $output->writeln('An error occured while migrating translations : <error>' . $e->getMessage() . '</error>');
+            $output->writeln('An error occured while migrating translations : <error>'.$e->getMessage().'</error>');
         }
     }
 
@@ -69,7 +70,7 @@ class MigrateTranslationsCommand extends ContainerAwareCommand
             ->setName('kuma:translator:migrate')
             ->setDescription('Migrate old translations to the new table structure.')
             ->setHelp(
-                "The <info>kuma:translator:migrate</info> command can be used to migrate translations to the new table structure."
+                'The <info>kuma:translator:migrate</info> command can be used to migrate translations to the new table structure.'
             );
     }
 }

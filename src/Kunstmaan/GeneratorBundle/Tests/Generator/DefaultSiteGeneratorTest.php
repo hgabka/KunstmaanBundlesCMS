@@ -1,19 +1,20 @@
 <?php
 
-
 namespace Kunstmaan\GeneratorBundle\Generator\Tests;
-
 
 use Kunstmaan\GeneratorBundle\Generator\DefaultSiteGenerator;
 use Kunstmaan\GeneratorBundle\Helper\CommandAssistant;
 use Symfony\Component\Filesystem\Filesystem;
 
+/**
+ * @coversNothing
+ */
 class DefaultSiteGeneratorTest extends \PHPUnit_Framework_TestCase
 {
     public function testGenerator()
     {
         $filesystem = new Filesystem();
-        $path = sys_get_temp_dir() . '/' . uniqid();
+        $path = sys_get_temp_dir().'/'.uniqid();
         $filesystem->remove($path);
 
         $bundle = $this->getBundle($path);
@@ -21,8 +22,7 @@ class DefaultSiteGeneratorTest extends \PHPUnit_Framework_TestCase
         $kernel->boot();
 
         $generator = new DefaultSiteGenerator($filesystem, $this->getRegistry(), '/defaultsite', $this->getAssistant(), $kernel->getContainer());
-        $generator->generate($bundle, '', __DIR__ . '/../data', false);
-
+        $generator->generate($bundle, '', __DIR__.'/../data', false);
     }
 
     protected function getBundle($path)

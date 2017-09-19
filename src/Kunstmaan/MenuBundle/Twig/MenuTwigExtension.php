@@ -9,7 +9,7 @@ use Kunstmaan\MenuBundle\Service\RenderService;
 class MenuTwigExtension extends \Twig_Extension
 {
     /**
-     * @var RenderService $renderService
+     * @var RenderService
      */
     private $renderService;
 
@@ -35,17 +35,17 @@ class MenuTwigExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
+        return [
             new \Twig_SimpleFunction(
                 'get_menu',
-                array($this, 'getMenu'),
-                array(
-                    'is_safe' => array('html'),
+                [$this, 'getMenu'],
+                [
+                    'is_safe' => ['html'],
                     'needs_environment' => true,
-                )
+                ]
             ),
-            new \Twig_SimpleFunction('get_menu_items', array($this, 'getMenuItems')),
-        );
+            new \Twig_SimpleFunction('get_menu_items', [$this, 'getMenuItems']),
+        ];
     }
 
     /**
@@ -54,9 +54,10 @@ class MenuTwigExtension extends \Twig_Extension
      * @param string $name
      * @param string $lang
      * @param array  $options
+     *
      * @return string
      */
-    public function getMenu(\Twig_Environment $environment, $name, $lang, $options = array())
+    public function getMenu(\Twig_Environment $environment, $name, $lang, $options = [])
     {
         $options = array_merge($this->getDefaultOptions(), $options);
 
@@ -76,6 +77,7 @@ class MenuTwigExtension extends \Twig_Extension
      *
      * @param string $name
      * @param string $lang
+     *
      * @return array
      */
     public function getMenuItems($name, $lang)
@@ -84,12 +86,12 @@ class MenuTwigExtension extends \Twig_Extension
         $arrayResult = $this->repository->getMenuItemsForLanguage($name, $lang);
 
         // Make sure the parent item is not offline
-        $foundIds = array();
+        $foundIds = [];
         foreach ($arrayResult as $array) {
             $foundIds[] = $array['id'];
         }
         foreach ($arrayResult as $key => $array) {
-            if (!is_null($array['parent']) && !in_array($array['parent']['id'], $foundIds)) {
+            if (null !== $array['parent'] && !in_array($array['parent']['id'], $foundIds, true)) {
                 unset($arrayResult[$key]);
             }
         }
@@ -104,12 +106,12 @@ class MenuTwigExtension extends \Twig_Extension
      */
     private function getDefaultOptions()
     {
-        return array(
+        return [
             'decorate' => true,
             'rootOpen' => '<ul>',
             'rootClose' => '</ul>',
             'childOpen' => '<li>',
             'childClose' => '</li>',
-        );
+        ];
     }
 }

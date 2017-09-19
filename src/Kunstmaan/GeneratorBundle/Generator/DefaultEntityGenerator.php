@@ -6,7 +6,7 @@ use Doctrine\ORM\Tools\EntityGenerator;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 /**
- * DefaultEntityGenerator
+ * DefaultEntityGenerator.
  */
 class DefaultEntityGenerator extends KunstmaanGenerator
 {
@@ -31,18 +31,18 @@ class DefaultEntityGenerator extends KunstmaanGenerator
     private $fields;
 
     /**
-     * @param BundleInterface $bundle The bundle
-     * @param string $entity The entity name
-     * @param string $prefix The database prefix
-     * @param array $fields The fields
-     * @param bool $withRepository
+     * @param BundleInterface $bundle         The bundle
+     * @param string          $entity         The entity name
+     * @param string          $prefix         The database prefix
+     * @param array           $fields         The fields
+     * @param bool            $withRepository
      */
     public function generate(BundleInterface $bundle, $entity, $prefix, array $fields, $withRepository = false)
     {
-        $this->bundle   = $bundle;
-        $this->entity   = $entity;
-        $this->prefix   = $prefix;
-        $this->fields   = $fields;
+        $this->bundle = $bundle;
+        $this->entity = $entity;
+        $this->prefix = $prefix;
+        $this->fields = $fields;
 
         list($entityCode, $entityPath) = $this->generateEntity(
             $this->bundle,
@@ -54,9 +54,9 @@ class DefaultEntityGenerator extends KunstmaanGenerator
             $withRepository
         );
 
-        $pos        = strrpos($entityCode, "}");
-        $trimmed    = substr($entityCode, 0, $pos);
-        $entityCode = $trimmed . "\n}";
+        $pos = strrpos($entityCode, '}');
+        $trimmed = substr($entityCode, 0, $pos);
+        $entityCode = $trimmed."\n}";
 
         // Write class to filesystem
         $this->filesystem->mkdir(dirname($entityPath));
@@ -67,6 +67,7 @@ class DefaultEntityGenerator extends KunstmaanGenerator
 
     /**
      * @param string $classToExtend
+     *
      * @return EntityGenerator
      */
     protected function getEntityGenerator($classToExtend = 'Kunstmaan\AdminBundle\Entity\AbstractEntity')

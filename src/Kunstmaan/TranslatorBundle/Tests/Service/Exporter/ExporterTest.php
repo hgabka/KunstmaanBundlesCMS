@@ -4,6 +4,9 @@ namespace Kunstmaan\TranslatorBundle\Tests\Service\Importer;
 
 use Kunstmaan\TranslatorBundle\Tests\BaseTestCase;
 
+/**
+ * @coversNothing
+ */
 class ExporterTest extends BaseTestCase
 {
     private $exporter;
@@ -25,7 +28,6 @@ class ExporterTest extends BaseTestCase
 
     /**
      * @group exporter
-     * @expectedException \Exception
      */
     public function testGetExporterByExtensionNonFound()
     {

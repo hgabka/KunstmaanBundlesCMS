@@ -12,7 +12,7 @@ use Kunstmaan\AdminListBundle\AdminList\FilterType\ORM\BooleanFilterType;
 use Kunstmaan\AdminListBundle\AdminList\FilterType\ORM\StringFilterType;
 
 /**
- * Adminlist configuration to list all the form pages
+ * Adminlist configuration to list all the form pages.
  */
 class FormPageAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
 {
@@ -30,12 +30,12 @@ class FormPageAdminListConfigurator extends AbstractDoctrineORMAdminListConfigur
     {
         parent::__construct($em, $aclHelper);
         $this->setPermissionDefinition(
-            new PermissionDefinition(array($permission), 'Kunstmaan\NodeBundle\Entity\Node', 'n')
+            new PermissionDefinition([$permission], 'Kunstmaan\NodeBundle\Entity\Node', 'n')
         );
     }
 
     /**
-     * Configure filters
+     * Configure filters.
      */
     public function buildFilters()
     {
@@ -45,7 +45,7 @@ class FormPageAdminListConfigurator extends AbstractDoctrineORMAdminListConfigur
     }
 
     /**
-     * Configure the visible columns
+     * Configure the visible columns.
      */
     public function buildFields()
     {
@@ -60,12 +60,12 @@ class FormPageAdminListConfigurator extends AbstractDoctrineORMAdminListConfigur
     public function buildItemActions()
     {
         $create_route = function (EntityInterface $item) {
-            return array(
-                'path'   => 'KunstmaanFormBundle_formsubmissions_list',
-                'params' => array('nodeTranslationId' => $item->getId())
-            );
+            return [
+                'path' => 'KunstmaanFormBundle_formsubmissions_list',
+                'params' => ['nodeTranslationId' => $item->getId()],
+            ];
         };
-        $ia           = new \Kunstmaan\AdminListBundle\AdminList\ItemAction\SimpleItemAction(
+        $ia = new \Kunstmaan\AdminListBundle\AdminList\ItemAction\SimpleItemAction(
             $create_route,
             'eye',
             'View'
@@ -74,7 +74,7 @@ class FormPageAdminListConfigurator extends AbstractDoctrineORMAdminListConfigur
     }
 
     /**
-     * Return the url to edit the given $item
+     * Return the url to edit the given $item.
      *
      * @param mixed $item
      *
@@ -82,24 +82,24 @@ class FormPageAdminListConfigurator extends AbstractDoctrineORMAdminListConfigur
      */
     public function getEditUrlFor($item)
     {
-        return array(
-            'path'   => 'KunstmaanFormBundle_formsubmissions_list',
-            'params' => array('nodeTranslationId' => $item->getId())
-        );
+        return [
+            'path' => 'KunstmaanFormBundle_formsubmissions_list',
+            'params' => ['nodeTranslationId' => $item->getId()],
+        ];
     }
 
     /**
-     * Return the url to list all the items
+     * Return the url to list all the items.
      *
      * @return array
      */
     public function getIndexUrl()
     {
-        return array('path' => 'KunstmaanFormBundle_formsubmissions');
+        return ['path' => 'KunstmaanFormBundle_formsubmissions'];
     }
 
     /**
-     * Configure if it's possible to add new items
+     * Configure if it's possible to add new items.
      *
      * @return bool
      */
@@ -114,19 +114,19 @@ class FormPageAdminListConfigurator extends AbstractDoctrineORMAdminListConfigur
     }
 
     /**
-     * Configure the types of items you can add
+     * Configure the types of items you can add.
      *
      * @param array $params
      *
      * @return array
      */
-    public function getAddUrlFor(array $params = array())
+    public function getAddUrlFor(array $params = [])
     {
-        return "";
+        return '';
     }
 
     /**
-     * Configure if it's possible to delete the given $item
+     * Configure if it's possible to delete the given $item.
      *
      * @param mixed $item
      *
@@ -138,7 +138,7 @@ class FormPageAdminListConfigurator extends AbstractDoctrineORMAdminListConfigur
     }
 
     /**
-     * Get the delete url for the given $item
+     * Get the delete url for the given $item.
      *
      * @param mixed $item
      *
@@ -146,7 +146,7 @@ class FormPageAdminListConfigurator extends AbstractDoctrineORMAdminListConfigur
      */
     public function getDeleteUrlFor($item)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -187,10 +187,9 @@ class FormPageAdminListConfigurator extends AbstractDoctrineORMAdminListConfigur
             )
             ->addOrderBy('n.id', 'DESC');
     }
-    
+
     public function getListTitle()
     {
         return 'kuma_form.submission.list.title';
     }
 }
-

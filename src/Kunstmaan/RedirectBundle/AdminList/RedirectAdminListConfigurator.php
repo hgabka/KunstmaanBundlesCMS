@@ -17,8 +17,8 @@ class RedirectAdminListConfigurator extends AbstractDoctrineORMAdminListConfigur
     private $domainConfiguration;
 
     /**
-     * @param EntityManager $em The entity manager
-     * @param AclHelper $aclHelper The acl helper
+     * @param EntityManager                $em                  The entity manager
+     * @param AclHelper                    $aclHelper           The acl helper
      * @param DomainConfigurationInterface $domainConfiguration
      */
     public function __construct(EntityManager $em, AclHelper $aclHelper = null, DomainConfigurationInterface $domainConfiguration)
@@ -27,11 +27,11 @@ class RedirectAdminListConfigurator extends AbstractDoctrineORMAdminListConfigur
 
         $this->domainConfiguration = $domainConfiguration;
         $this->setAdminType(new RedirectAdminType($domainConfiguration));
-        $this->setAdminTypeOptions(array('domainConfiguration' => $domainConfiguration));
+        $this->setAdminTypeOptions(['domainConfiguration' => $domainConfiguration]);
     }
 
     /**
-     * Configure the visible columns
+     * Configure the visible columns.
      */
     public function buildFields()
     {
@@ -44,14 +44,14 @@ class RedirectAdminListConfigurator extends AbstractDoctrineORMAdminListConfigur
     }
 
     /**
-     * Build filters for admin list
+     * Build filters for admin list.
      */
     public function buildFilters()
     {
         if ($this->domainConfiguration->isMultiDomainHost()) {
             $hosts = $this->domainConfiguration->getHosts();
             $domains = array_combine($hosts, $hosts);
-            $domains = array_merge(array('' => 'redirect.all'), $domains);
+            $domains = array_merge(['' => 'redirect.all'], $domains);
             $this->addFilter('domain', new ORM\EnumerationFilterType('domain'), 'redirect.adminlist.filter.domain', $domains);
         }
         $this->addFilter('origin', new ORM\StringFilterType('origin'), 'redirect.adminlist.filter.origin');
@@ -67,7 +67,7 @@ class RedirectAdminListConfigurator extends AbstractDoctrineORMAdminListConfigur
      */
     public function getValue($item, $columnName)
     {
-        if ($columnName == 'domain' && !$item->getDomain()) {
+        if ('domain' === $columnName && !$item->getDomain()) {
             return 'All domains';
         }
 
@@ -75,7 +75,7 @@ class RedirectAdminListConfigurator extends AbstractDoctrineORMAdminListConfigur
     }
 
     /**
-     * Get bundle name
+     * Get bundle name.
      *
      * @return string
      */
@@ -85,7 +85,7 @@ class RedirectAdminListConfigurator extends AbstractDoctrineORMAdminListConfigur
     }
 
     /**
-     * Get entity name
+     * Get entity name.
      *
      * @return string
      */

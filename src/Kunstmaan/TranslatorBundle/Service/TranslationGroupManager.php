@@ -7,15 +7,17 @@ use Kunstmaan\TranslatorBundle\Model\Translation\TranslationGroup;
 
 /**
  * TranslationGroupManager
- * For managing/creating TranslationGroup objects
+ * For managing/creating TranslationGroup objects.
  */
 class TranslationGroupManager
 {
-
     private $translationRepository;
 
     /**
-     * Get an empty TranslationGroup with the given keyword and domain
+     * Get an empty TranslationGroup with the given keyword and domain.
+     *
+     * @param mixed $keyword
+     * @param mixed $domain
      */
     public function create($keyword, $domain)
     {
@@ -28,13 +30,15 @@ class TranslationGroupManager
     }
 
     /**
-     * Create new TranslationGroup instance (with the given locales of any are set)
-     * @param  array            $locales
+     * Create new TranslationGroup instance (with the given locales of any are set).
+     *
+     * @param array $locales
+     *
      * @return TranslationGroup
      */
-    public function newGroupInstance($locales = array())
+    public function newGroupInstance($locales = [])
     {
-        $translationGroup = new TranslationGroup;
+        $translationGroup = new TranslationGroup();
 
         foreach ($locales as $locale) {
             $translation = new \Kunstmaan\TranslatorBundle\Entity\Translation();
@@ -46,7 +50,11 @@ class TranslationGroupManager
     }
 
     /**
-     * Checks if the translation exists in the group for this locale, if not, it creates it
+     * Checks if the translation exists in the group for this locale, if not, it creates it.
+     *
+     * @param mixed $locale
+     * @param mixed $text
+     * @param mixed $filename
      */
     public function addTranslation(TranslationGroup $translationGroup, $locale, $text, $filename)
     {
@@ -56,7 +64,7 @@ class TranslationGroupManager
             return null;
         }
 
-        $translation = new \Kunstmaan\TranslatorBundle\Entity\Translation;
+        $translation = new \Kunstmaan\TranslatorBundle\Entity\Translation();
         $translation->setLocale($locale);
         $translation->setText($text);
         $translation->setDomain($translationGroup->getDomain());
@@ -80,17 +88,18 @@ class TranslationGroupManager
 
         $this->translationRepository->persist($translation);
         $this->translationRepository->flush($translation);
-
-        return ;
     }
 
     /**
-     * Returns a TranslationGroup with the given keyword and domain, and fills in the translations
+     * Returns a TranslationGroup with the given keyword and domain, and fills in the translations.
+     *
+     * @param mixed $keyword
+     * @param mixed $domain
      */
     public function getTranslationGroupByKeywordAndDomain($keyword, $domain)
     {
-        $translations = $this->translationRepository->findBy(array('keyword' => $keyword, 'domain' => $domain));
-        $translationGroup = new TranslationGroup;
+        $translations = $this->translationRepository->findBy(['keyword' => $keyword, 'domain' => $domain]);
+        $translationGroup = new TranslationGroup();
         $translationGroup->setDomain($domain);
         $translationGroup->setKeyword($keyword);
         if (empty($translations)) {
@@ -105,12 +114,11 @@ class TranslationGroupManager
 
     public function getTranslationGroupsByDomain($domain)
     {
-        return array();
+        return [];
     }
 
     public function setTranslationRepository($translationRepository)
     {
         $this->translationRepository = $translationRepository;
     }
-
 }

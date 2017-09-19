@@ -1,12 +1,15 @@
 <?php
+
 namespace Kunstmaan\TranslatorBundle\Tests\Service\Importer;
 
 use Kunstmaan\TranslatorBundle\Model\Import\ImportCommand;
 use Kunstmaan\TranslatorBundle\Tests\BaseTestCase;
 
+/**
+ * @coversNothing
+ */
 class ImportCommandHandlerTest extends BaseTestCase
 {
-
     private $importCommandHandler;
 
     public function setUp()
@@ -40,36 +43,35 @@ class ImportCommandHandlerTest extends BaseTestCase
             ->setDefaultBundle(false);
 
         $locales = $this->importCommandHandler->determineLocalesToImport($importCommand);
-        $this->assertEquals(array('nl','en','de'), $locales);
+        $this->assertSame(['nl', 'en', 'de'], $locales);
     }
 
     public function testParseRequestedLocalesMulti()
     {
         $locale = 'nl,De,   FR';
-        $expectedArray = array('nl','de','fr');
+        $expectedArray = ['nl', 'de', 'fr'];
         $locales = $this->importCommandHandler->parseRequestedLocales($locale);
-        $this->assertEquals($expectedArray, $locales);
+        $this->assertSame($expectedArray, $locales);
     }
 
     public function testParseRequestedLocalesSingle()
     {
         $locale = 'dE';
-        $expectedArray = array('de');
+        $expectedArray = ['de'];
         $locales = $this->importCommandHandler->parseRequestedLocales($locale);
-        $this->assertEquals($expectedArray, $locales);
+        $this->assertSame($expectedArray, $locales);
     }
 
     public function testParseRequestedLocalesArray()
     {
-        $locale = array('dE','NL','es');
-        $expectedArray = array('de','nl','es');
+        $locale = ['dE', 'NL', 'es'];
+        $expectedArray = ['de', 'nl', 'es'];
         $locales = $this->importCommandHandler->parseRequestedLocales($locale);
-        $this->assertEquals($expectedArray, $locales);
+        $this->assertSame($expectedArray, $locales);
     }
 
     public function testImportGlobalTranslationFiles()
     {
-
     }
 
     public function testImportBundleTranslationFiles()

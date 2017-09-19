@@ -133,12 +133,12 @@ class RecurringEveryXTimeRule extends AbstractRule
      */
     public function getJsProperties()
     {
-        return array(
+        return [
             'minutes' => $this->getMinutes(),
             'hours' => $this->getHours(),
             'days' => $this->getDays(),
-            'times' => $this->getTimes()
-        );
+            'times' => $this->getTimes(),
+        ];
     }
 
     /**

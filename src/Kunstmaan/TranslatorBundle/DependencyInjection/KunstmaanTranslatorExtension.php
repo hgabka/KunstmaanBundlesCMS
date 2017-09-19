@@ -10,21 +10,21 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * This is the class that loads and manages your bundle configuration
+ * This is the class that loads and manages your bundle configuration.
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
 class KunstmaanTranslatorExtension extends Extension
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        if ($config['enabled'] === false) {
+        if (false === $config['enabled']) {
             return;
         }
 
@@ -36,7 +36,7 @@ class KunstmaanTranslatorExtension extends Extension
         $container->setParameter('kuma_translator.file_formats', $config['file_formats']);
         $container->setParameter('kuma_translator.storage_engine.type', $config['storage_engine']['type']);
         $container->setParameter('kuma_translator.profiler', $container->getParameter('kernel.debug'));
-        $container->setParameter('kuma_translator.debug', is_null($config['debug']) ? $container->getParameter('kernel.debug') : $config['debug']);
+        $container->setParameter('kuma_translator.debug', null === $config['debug'] ? $container->getParameter('kernel.debug') : $config['debug']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
@@ -53,25 +53,28 @@ class KunstmaanTranslatorExtension extends Extension
         $this->registerTranslatorConfiguration($config, $container);
 
         // overwrites everything
-        $translator->addMethodCall('addDatabaseResources', array());
+        $translator->addMethodCall('addDatabaseResources', []);
 
-        $translator->addMethodCall('setFallbackLocales', array(array('en')));
+        $translator->addMethodCall('setFallbackLocales', [['en']]);
 
-        if($container->hasParameter('defaultlocale')) {
-            $translator->addMethodCall('setFallbackLocales', array(array($container->getParameter('defaultlocale'))));
+        if ($container->hasParameter('defaultlocale')) {
+            $translator->addMethodCall('setFallbackLocales', [[$container->getParameter('defaultlocale')]]);
         }
     }
 
     /**
      * Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension
      * $this->registerTranslatorConfiguration($config['translator'], $container);
-     * Used to load all other translation files
+     * Used to load all other translation files.
+     *
+     * @param mixed $config
+     * @param mixed $container
      */
     public function registerTranslatorConfiguration($config, $container)
     {
         $translator = $container->getDefinition('kunstmaan_translator.service.translator.translator');
 
-        $dirs = array();
+        $dirs = [];
         if (class_exists('Symfony\Component\Validator\Validation')) {
             $r = new \ReflectionClass('Symfony\Component\Validator\Validation');
 
@@ -105,16 +108,16 @@ class KunstmaanTranslatorExtension extends Extension
             $finder = Finder::create();
             $finder->files();
 
-                $finder->filter(function (\SplFileInfo $file) {
-                    return 2 === substr_count($file->getBasename(), '.') && preg_match('/\.\w+$/', $file->getBasename());
-                });
+            $finder->filter(function (\SplFileInfo $file) {
+                return 2 === substr_count($file->getBasename(), '.') && preg_match('/\.\w+$/', $file->getBasename());
+            });
 
             $finder->in($dirs);
 
             foreach ($finder as $file) {
                 // filename is domain.locale.format
                 list($domain, $locale, $format) = explode('.', $file->getBasename());
-                $translator->addMethodCall('addResource', array($format, (string) $file, $locale, $domain));
+                $translator->addMethodCall('addResource', [$format, (string) $file, $locale, $domain]);
             }
         }
     }

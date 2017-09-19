@@ -49,6 +49,7 @@ interface AnalysisFactoryInterface
 
     /**
      * @param string $language
+     * @param mixed  $lang
      */
     public function setupLanguage($lang = 'english');
 }

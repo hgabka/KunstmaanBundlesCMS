@@ -13,66 +13,66 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Implement this interface to create your own admin list
+ * Implement this interface to create your own admin list.
  */
 interface AdminListConfiguratorInterface
 {
     /**
-     * Configure the visible columns
+     * Configure the visible columns.
      */
     public function buildFields();
 
     /**
-     * Configure the fields you can filter on
+     * Configure the fields you can filter on.
      */
     public function buildFilters();
 
     /**
-     * Configure the actions for each item
+     * Configure the actions for each item.
      */
     public function buildItemActions();
 
     /**
-     * Configure the actions that can be executed on the whole list
+     * Configure the actions that can be executed on the whole list.
      */
     public function buildListActions();
 
     /**
-     * Return the url to edit the given $item
+     * Return the url to edit the given $item.
      *
-     * @param object|array $item
+     * @param array|object $item
      *
      * @return array
      */
     public function getEditUrlFor($item);
 
     /**
-     * Configure the types of items you can add
+     * Configure the types of items you can add.
      *
      * @param array $params
      *
      * @return array
      */
-    public function getAddUrlFor(array $params = array());
+    public function getAddUrlFor(array $params = []);
 
     /**
-     * Get the delete url for the given $item
+     * Get the delete url for the given $item.
      *
-     * @param object|array $item
+     * @param array|object $item
      *
      * @return array
      */
     public function getDeleteUrlFor($item);
 
     /**
-     * Return the url to list all the items
+     * Return the url to list all the items.
      *
      * @return array
      */
     public function getIndexUrl();
 
     /**
-     * Get the url to export the listed items
+     * Get the url to export the listed items.
      *
      * @return string
      */
@@ -88,31 +88,32 @@ interface AdminListConfiguratorInterface
     public function getAdminType($entity);
 
     /**
-     * @param object|array $item
+     * @param array|object $item
      *
      * @return bool
      */
     public function canEdit($item);
 
     public function canView($item);
+
     /**
-     * Configure if it's possible to delete the given $item
+     * Configure if it's possible to delete the given $item.
      *
-     * @param object|array $item
+     * @param array|object $item
      *
      * @return bool
      */
     public function canDelete($item);
 
     /**
-     * Configure if it's possible to add new items
+     * Configure if it's possible to add new items.
      *
      * @return bool
      */
     public function canAdd();
 
     /**
-     * Configure if it's possible to add new items
+     * Configure if it's possible to add new items.
      *
      * @return bool
      */
@@ -200,7 +201,7 @@ interface AdminListConfiguratorInterface
     public function getDeleteTemplate();
 
     /**
-     * You can override this method to do some custom things you need to do when adding an entity
+     * You can override this method to do some custom things you need to do when adding an entity.
      *
      * @param object $entity
      *
@@ -223,14 +224,14 @@ interface AdminListConfiguratorInterface
     public function getItems();
 
     /**
-     * Bind request
+     * Bind request.
      *
      * @param Request $request
      */
     public function bindRequest(Request $request);
 
     /**
-     * Get current pagerfanta
+     * Get current pagerfanta.
      *
      * @return Pagerfanta
      */
@@ -263,49 +264,49 @@ interface AdminListConfiguratorInterface
     public function getExtraParameters();
 
     /**
-     * Returns list title
+     * Returns list title.
      *
      * @return null|string
      */
     public function getListTitle();
 
     /**
-     * Returns view title
+     * Returns view title.
      *
      * @return null|string
      */
     public function getViewTitle();
-	
+
     /**
-     * Returns edit title
+     * Returns edit title.
      *
      * @return null|string
      */
     public function getEditTitle();
 
     /**
-     * Returns new title
+     * Returns new title.
      *
      * @return string
      */
     public function getNewTitle();
-	
+
     /**
-     * Returns entity name singular
+     * Returns entity name singular.
      *
      * @return string
      */
     public function getEntityNameSingular();
-	
+
     /**
-     * Returns entity name plural
+     * Returns entity name plural.
      *
      * @return string
      */
     public function getEntityNamePlural();
-	
+
     /**
-     * Returns tab fields
+     * Returns tab fields.
      *
      * @return null|array
      */

@@ -15,9 +15,9 @@ abstract class AbstractAnalysisFactory implements AnalysisFactoryInterface
 
     public function __construct()
     {
-        $this->analyzers  = array();
-        $this->tokenizers = array();
-        $this->filters    = array();
+        $this->analyzers = [];
+        $this->tokenizers = [];
+        $this->filters = [];
     }
 
     /**
@@ -25,11 +25,11 @@ abstract class AbstractAnalysisFactory implements AnalysisFactoryInterface
      */
     public function build()
     {
-        $analysis = array(
-            'analyzer'  => $this->analyzers,
+        $analysis = [
+            'analyzer' => $this->analyzers,
             'tokenizer' => $this->tokenizers,
-            'filter'    => $this->filters
-        );
+            'filter' => $this->filters,
+        ];
 
         return $analysis;
     }
@@ -39,15 +39,14 @@ abstract class AbstractAnalysisFactory implements AnalysisFactoryInterface
      *
      * @return AnalysisFactoryInterface
      */
-    public abstract function addIndexAnalyzer($language);
+    abstract public function addIndexAnalyzer($language);
 
     /**
      * @param string $language
      *
      * @return AnalysisFactoryInterface
      */
-    public abstract function addSuggestionAnalyzer($language);
-
+    abstract public function addSuggestionAnalyzer($language);
 
     /**
      * @param string $language
@@ -56,27 +55,25 @@ abstract class AbstractAnalysisFactory implements AnalysisFactoryInterface
      */
     public function addStopWordsFilter($language)
     {
-        $this->filters[$language . '_stop'] = array(
-            'type'        => 'stop',
-            'stopwords'   => '_' . $language . '_'
-        );
+        $this->filters[$language.'_stop'] = [
+            'type' => 'stop',
+            'stopwords' => '_'.$language.'_',
+        ];
 
         return $this;
     }
 
     /**
-     *
      * @param string $language
      *
      * @return AnalysisFactoryInterface
-
      */
     public function addStemmerFilter($language)
     {
-        $this->filters[$language . '_stemmer'] = array(
-            'type'        => 'stemmer',
-            'language'    => $language
-        );
+        $this->filters[$language.'_stemmer'] = [
+            'type' => 'stemmer',
+            'language' => $language,
+        ];
 
         return $this;
     }
@@ -86,11 +83,11 @@ abstract class AbstractAnalysisFactory implements AnalysisFactoryInterface
      */
     public function addStripSpecialCharsFilter()
     {
-        $this->filters['strip_special_chars'] = array(
-            'type'        => 'pattern_replace',
-            'pattern'     => '[^0-9a-zA-Z]',
-            'replacement' => ''
-        );
+        $this->filters['strip_special_chars'] = [
+            'type' => 'pattern_replace',
+            'pattern' => '[^0-9a-zA-Z]',
+            'replacement' => '',
+        ];
 
         return $this;
     }
@@ -100,12 +97,13 @@ abstract class AbstractAnalysisFactory implements AnalysisFactoryInterface
      */
     public function addNGramTokenizer()
     {
-        $this->tokenizers['kuma_ngram'] = array(
-            'type'     => 'nGram',
+        $this->tokenizers['kuma_ngram'] = [
+            'type' => 'nGram',
             'min_gram' => 4,
             'max_gram' => 30,
-            'token_chars' => [ "letter", "digit" ]
-        );
+            'token_chars' => ['letter', 'digit'],
+        ];
+
         return $this;
     }
 

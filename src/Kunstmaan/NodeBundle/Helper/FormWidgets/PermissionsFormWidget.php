@@ -4,23 +4,19 @@ namespace Kunstmaan\NodeBundle\Helper\FormWidgets;
 
 use Doctrine\ORM\EntityManager;
 use Kunstmaan\AdminBundle\Helper\FormWidgets\FormWidget;
-
 use Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionAdmin;
 use Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionMapInterface;
 use Kunstmaan\NodeBundle\Entity\HasNodeInterface;
-
 use Kunstmaan\NodeBundle\Entity\Node;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 
-
 /**
- * A tab to show permissions
+ * A tab to show permissions.
  */
 class PermissionsFormWidget extends FormWidget
 {
-
     /**
      * @var string
      */
@@ -90,7 +86,7 @@ class PermissionsFormWidget extends FormWidget
      */
     public function getFormErrors(FormView $formView)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -208,7 +204,6 @@ class PermissionsFormWidget extends FormWidget
      */
     public function getExtraParams(Request $request)
     {
-        return array();
+        return [];
     }
-
 }

@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * NodeAdminType
+ * NodeAdminType.
  */
 class NodeAdminType extends AbstractType
 {
@@ -31,8 +31,8 @@ class NodeAdminType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Kunstmaan\NodeBundle\Entity\Node',
-        ));
+        ]);
     }
 }

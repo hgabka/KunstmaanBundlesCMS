@@ -7,7 +7,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Kunstmaan\AdminBundle\Entity\AbstractEntity;
 
 /**
- * Media
+ * Media.
  *
  * @ORM\Entity(repositoryClass="Kunstmaan\MediaBundle\Repository\MediaRepository")
  * @ORM\Table(name="kuma_media", indexes={
@@ -77,7 +77,7 @@ class Media extends AbstractEntity
      *
      * @ORM\Column(type="array")
      */
-    protected $metadata = array();
+    protected $metadata = [];
 
     /**
      * @var \DateTime
@@ -142,7 +142,7 @@ class Media extends AbstractEntity
     protected $removedFromFileSystem;
 
     /**
-     * constructor
+     * constructor.
      */
     public function __construct()
     {
@@ -171,23 +171,22 @@ class Media extends AbstractEntity
     {
         $size = $this->filesize;
         if ($size < 1024) {
-            return $size . "b";
-        } else {
-            $help = $size / 1024;
-            if ($help < 1024) {
-                return round($help, 1) . "kb";
-            } else {
-                return round(($help / 1024), 1) . "mb";
-            }
+            return $size.'b';
         }
+        $help = $size / 1024;
+        if ($help < 1024) {
+            return round($help, 1).'kb';
+        }
+
+        return round(($help / 1024), 1).'mb';
     }
-    
+
     /**
      * @return int
      */
-    public function getFileSizeBytes() 
+    public function getFileSizeBytes()
     {
-    	return $this->filesize;
+        return $this->filesize;
     }
 
     /**
@@ -203,7 +202,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Set uuid
+     * Set uuid.
      *
      * @param string $uuid
      *
@@ -217,7 +216,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Get uuid
+     * Get uuid.
      *
      * @return string
      */
@@ -227,7 +226,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -241,7 +240,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -251,7 +250,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Set location
+     * Set location.
      *
      * @param string $location
      *
@@ -265,7 +264,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Get location
+     * Get location.
      *
      * @return string
      */
@@ -275,7 +274,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Set contentType
+     * Set contentType.
      *
      * @param string $contentType
      *
@@ -289,7 +288,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Get contentType
+     * Get contentType.
      *
      * @return string
      */
@@ -299,21 +298,21 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Get contentType
+     * Get contentType.
      *
      * @return string
      */
     public function getContentTypeShort()
     {
         $contentType = $this->contentType;
-        $array       = explode("/", $contentType);
+        $array = explode('/', $contentType);
         $contentType = end($array);
 
         return $contentType;
     }
 
     /**
-     * Set metadata
+     * Set metadata.
      *
      * @param array $metadata
      *
@@ -327,7 +326,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Get metadata
+     * Get metadata.
      *
      * @return array
      */
@@ -337,7 +336,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Set the specified metadata value
+     * Set the specified metadata value.
      *
      * @param string $key
      * @param mixed  $value
@@ -352,11 +351,11 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Get the specified metadata value
+     * Get the specified metadata value.
      *
      * @param string $key
      *
-     * @return mixed|null
+     * @return null|mixed
      */
     public function getMetadataValue($key)
     {
@@ -364,7 +363,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -378,7 +377,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -388,7 +387,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
      *
@@ -402,7 +401,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -412,7 +411,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Set content
+     * Set content.
      *
      * @param mixed $content
      *
@@ -427,7 +426,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Get content
+     * Get content.
      *
      * @return mixed
      */
@@ -437,7 +436,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Set folder
+     * Set folder.
      *
      * @param Folder $folder
      *
@@ -451,7 +450,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * Get folder
+     * Get folder.
      *
      * @return Folder
      */
@@ -561,7 +560,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isRemovedFromFileSystem()
     {
@@ -569,7 +568,7 @@ class Media extends AbstractEntity
     }
 
     /**
-     * @param boolean $removedFromFileSystem
+     * @param bool $removedFromFileSystem
      */
     public function setRemovedFromFileSystem($removedFromFileSystem)
     {

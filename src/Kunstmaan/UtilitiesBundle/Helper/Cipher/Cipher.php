@@ -1,6 +1,7 @@
 <?php
 
 namespace Kunstmaan\UtilitiesBundle\Helper\Cipher;
+
 use InvalidArgumentException;
 
 /**
@@ -8,9 +9,8 @@ use InvalidArgumentException;
  */
 class Cipher implements CipherInterface
 {
-
     /**
-     * @var string $secret
+     * @var string
      */
     private $secret;
 
@@ -20,7 +20,7 @@ class Cipher implements CipherInterface
     public function __construct($secret)
     {
         if (empty($secret)) {
-            throw new InvalidArgumentException("You need to configure a Cipher secret in your parameters.yml before you can use this!");
+            throw new InvalidArgumentException('You need to configure a Cipher secret in your parameters.yml before you can use this!');
         }
         $this->secret = $secret;
     }
@@ -46,7 +46,6 @@ class Cipher implements CipherInterface
      */
     public function decrypt($value)
     {
-        return rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($this->secret), base64_decode($value), MCRYPT_MODE_CBC, md5(md5($this->secret))), "\0");
+        return rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($this->secret), base64_decode($value, true), MCRYPT_MODE_CBC, md5(md5($this->secret))), "\0");
     }
-
 }

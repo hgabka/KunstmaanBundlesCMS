@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * AbstractRemoteType
+ * AbstractRemoteType.
  */
 abstract class AbstractRemoteType extends AbstractType
 {
@@ -25,7 +25,7 @@ abstract class AbstractRemoteType extends AbstractType
      * top most type. Type extensions can further modify the form.
      *
      * @param FormBuilderInterface $builder The form builder
-     * @param array $options The options
+     * @param array                $options The options
      *
      * @see FormTypeExtensionInterface::buildForm()
      */
@@ -35,46 +35,46 @@ abstract class AbstractRemoteType extends AbstractType
             ->add(
                 'name',
                 TextType::class,
-                array(
+                [
                     'label' => 'media.form.remote.name.label',
-                    'constraints' => array(new NotBlank()),
+                    'constraints' => [new NotBlank()],
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'code',
                 TextType::class,
-                array(
+                [
                     'label' => 'media.form.remote.code.label',
-                    'constraints' => array(new NotBlank()),
+                    'constraints' => [new NotBlank()],
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'type',
                 ChoiceType::class,
-                array(
+                [
                     'label' => 'media.form.remote.type.label',
-                    'choices' => array(),
-                    'constraints' => array(new NotBlank()),
+                    'choices' => [],
+                    'constraints' => [new NotBlank()],
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'copyright',
                 TextType::class,
-                array(
+                [
                     'label' => 'media.form.remote.copyright.label',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'description',
                 TextareaType::class,
-                array(
+                [
                     'label' => 'media.form.remote.description.label',
                     'required' => false,
-                )
+                ]
             );
 
         $builder->addEventListener(
@@ -89,7 +89,7 @@ abstract class AbstractRemoteType extends AbstractType
                     $form->add(
                         'folder',
                         EntityType::class,
-                        array(
+                        [
                             'class' => 'KunstmaanMediaBundle:Folder',
                             'choice_label' => 'optionLabel',
                             'query_builder' => function (FolderRepository $er) {
@@ -97,7 +97,7 @@ abstract class AbstractRemoteType extends AbstractType
                                     ->andWhere('f.parent IS NOT NULL');
                             },
                             'required' => true,
-                        )
+                        ]
                     );
                 }
             }

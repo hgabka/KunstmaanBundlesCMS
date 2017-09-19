@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * SeoType
+ * SeoType.
  */
 class RobotsType extends AbstractType
 {
@@ -18,12 +18,12 @@ class RobotsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('robotsTxt', TextareaType::class, array(
+        $builder->add('robotsTxt', TextareaType::class, [
             'label' => 'robots.txt',
-            'attr' => array(
-                'rows' => 15
-            )
-        ));
+            'attr' => [
+                'rows' => 15,
+            ],
+        ]);
     }
 
     /**
@@ -36,8 +36,8 @@ class RobotsType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Kunstmaan\SeoBundle\Entity\Robots',
-        ));
+        ]);
     }
 }

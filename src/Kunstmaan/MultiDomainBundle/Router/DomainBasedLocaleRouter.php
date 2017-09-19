@@ -12,9 +12,7 @@ use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
 /**
- * Class DomainBasedLocaleRouter
- *
- * @package Kunstmaan\MultiDomainBundle\Router
+ * Class DomainBasedLocaleRouter.
  */
 class DomainBasedLocaleRouter extends SlugRouter
 {
@@ -22,20 +20,20 @@ class DomainBasedLocaleRouter extends SlugRouter
     protected $routeCollectionMultiLanguage;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     private $otherSite;
 
     /**
-     * Generate an url for a supplied route
+     * Generate an url for a supplied route.
      *
-     * @param string $name The path
-     * @param array $parameters The route parameters
-     * @param int|bool $referenceType The type of reference to be generated (one of the UrlGeneratorInterface constants)
+     * @param string   $name          The path
+     * @param array    $parameters    The route parameters
+     * @param bool|int $referenceType The type of reference to be generated (one of the UrlGeneratorInterface constants)
      *
      * @return null|string
      */
-    public function generate($name, $parameters = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
+    public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         if ('_slug' === $name) {
             if ($this->isMultiLanguage() && $this->isMultiDomainHost()) {
@@ -50,8 +48,7 @@ class DomainBasedLocaleRouter extends SlugRouter
 
         if (isset($parameters['otherSite'])) {
             $this->otherSite = $this->domainConfiguration->getFullHostById($parameters['otherSite']);
-        }
-        else {
+        } else {
             $this->otherSite = null;
         }
 
@@ -92,9 +89,9 @@ class DomainBasedLocaleRouter extends SlugRouter
             }
 
             $nodeTranslation = $this->getNodeTranslation($result);
-            if (is_null($nodeTranslation)) {
+            if (null === $nodeTranslation) {
                 throw new ResourceNotFoundException(
-                    'No page found for slug ' . $pathinfo
+                    'No page found for slug '.$pathinfo
                 );
             }
             $result['_nodeTranslation'] = $nodeTranslation;
@@ -104,13 +101,41 @@ class DomainBasedLocaleRouter extends SlugRouter
     }
 
     /**
+     * Getter for routeCollection.
+     *
+     * Override slug router
+     *
+     * @return \Symfony\Component\Routing\RouteCollection
+     */
+    public function getRouteCollection()
+    {
+        if (($this->otherSite && $this->isMultiLanguage($this->otherSite['host'])) || !$this->otherSite && $this->isMultiLanguage()) {
+            if (!$this->routeCollectionMultiLanguage) {
+                $this->routeCollectionMultiLanguage = new RouteCollection();
+
+                $this->addMultiLangPreviewRoute();
+                $this->addMultiLangSlugRoute();
+            }
+
+            return $this->routeCollectionMultiLanguage;
+        } elseif (!$this->routeCollection) {
+            $this->routeCollection = new RouteCollection();
+
+            $this->addPreviewRoute();
+            $this->addSlugRoute();
+        }
+
+        return $this->routeCollection;
+    }
+
+    /**
      * @return string
      */
     protected function getRequestLocale()
     {
         $request = $this->getMasterRequest();
         $locale = $this->getDefaultLocale();
-        if (!is_null($request)) {
+        if (null !== $request) {
             $locale = $request->getLocale();
         }
 
@@ -129,7 +154,7 @@ class DomainBasedLocaleRouter extends SlugRouter
         // Lookup node translation
         $nodeTranslationRepo = $this->getNodeTranslationRepository();
 
-        /* @var NodeTranslation $nodeTranslation */
+        // @var NodeTranslation $nodeTranslation
         $nodeTranslation = $nodeTranslationRepo->getNodeTranslationForUrl(
             $matchResult['url'],
             $matchResult['_locale'],
@@ -139,6 +164,90 @@ class DomainBasedLocaleRouter extends SlugRouter
         );
 
         return $nodeTranslation;
+    }
+
+    /**
+     * Add the slug route to the route collection.
+     */
+    protected function addSlugRoute()
+    {
+        $routeParameters = $this->getSlugRouteParameters();
+        $this->addRoute('_slug', $routeParameters);
+    }
+
+    /**
+     * Add the slug route to the route collection.
+     */
+    protected function addMultiLangPreviewRoute()
+    {
+        $routeParameters = $this->getPreviewRouteParameters();
+        $this->addMultiLangRoute('_slug_preview', $routeParameters);
+    }
+
+    /**
+     * Add the slug route to the route collection multilanguage.
+     */
+    protected function addMultiLangSlugRoute()
+    {
+        $routeParameters = $this->getSlugRouteParameters();
+        $this->addMultiLangRoute('_slug', $routeParameters);
+    }
+
+    /**
+     * @param string $name
+     * @param array  $parameters
+     */
+    protected function addMultiLangRoute($name, array $parameters = [])
+    {
+        $this->routeCollectionMultiLanguage->add(
+            $name,
+            new Route(
+                $parameters['path'],
+                $parameters['defaults'],
+                $parameters['requirements']
+            )
+        );
+    }
+
+    /**
+     * Return slug route parameters.
+     *
+     * @return array
+     */
+    protected function getSlugRouteParameters()
+    {
+        $slugPath = '/{url}';
+        $slugDefaults = [
+            '_controller' => 'KunstmaanNodeBundle:Slug:slug',
+            'preview' => false,
+            'url' => '',
+            '_locale' => $this->getDefaultLocale(),
+        ];
+        $slugRequirements = [
+            'url' => $this->getSlugPattern(),
+        ];
+
+        $locales = [];
+
+        // If other site provided and multilingual, get the locales from the host config.
+        if ($this->otherSite && $this->isMultiLanguage($this->otherSite['host'])) {
+            $locales = $this->getHostLocales();
+        } elseif ($this->isMultiLanguage() && !$this->otherSite) {
+            $locales = $this->getFrontendLocales();
+        }
+
+        // Make locale availables for the slug routes.
+        if (!empty($locales)) {
+            $slugPath = '/{_locale}'.$slugPath;
+            unset($slugDefaults['_locale']);
+            $slugRequirements['_locale'] = $this->getEscapedLocales($this->getHostLocales());
+        }
+
+        return [
+            'path' => $slugPath,
+            'defaults' => $slugDefaults,
+            'requirements' => $slugRequirements,
+        ];
     }
 
     /**
@@ -163,7 +272,6 @@ class DomainBasedLocaleRouter extends SlugRouter
             $this->getFrontendLocales(),
             $this->getBackendLocales()
         );
-
     }
 
     /**
@@ -174,120 +282,6 @@ class DomainBasedLocaleRouter extends SlugRouter
         return array_combine(
             $this->getBackendLocales(),
             $this->getFrontendLocales()
-        );
-    }
-
-    /**
-     * Getter for routeCollection
-     *
-     * Override slug router
-     *
-     * @return \Symfony\Component\Routing\RouteCollection
-     */
-    public function getRouteCollection()
-    {
-        if (($this->otherSite && $this->isMultiLanguage($this->otherSite['host'])) || !$this->otherSite && $this->isMultiLanguage()) {
-            if (!$this->routeCollectionMultiLanguage) {
-                $this->routeCollectionMultiLanguage = new RouteCollection();
-
-                $this->addMultiLangPreviewRoute();
-                $this->addMultiLangSlugRoute();
-            }
-            return $this->routeCollectionMultiLanguage;
-        } elseif (!$this->routeCollection) {
-            $this->routeCollection = new RouteCollection();
-
-            $this->addPreviewRoute();
-            $this->addSlugRoute();
-
-        }
-
-        return $this->routeCollection;
-
-    }
-
-    /**
-     * Add the slug route to the route collection
-     */
-    protected function addSlugRoute()
-    {
-        $routeParameters = $this->getSlugRouteParameters();
-        $this->addRoute('_slug', $routeParameters);
-    }
-
-    /**
-     * Add the slug route to the route collection
-     */
-    protected function addMultiLangPreviewRoute()
-    {
-        $routeParameters = $this->getPreviewRouteParameters();
-        $this->addMultiLangRoute('_slug_preview', $routeParameters);
-    }
-
-    /**
-     * Add the slug route to the route collection multilanguage
-     */
-    protected function addMultiLangSlugRoute()
-    {
-        $routeParameters = $this->getSlugRouteParameters();
-        $this->addMultiLangRoute('_slug', $routeParameters);
-    }
-
-
-    /**
-     * @param string $name
-     * @param array $parameters
-     */
-    protected function addMultiLangRoute($name, array $parameters = array())
-    {
-        $this->routeCollectionMultiLanguage->add(
-            $name,
-            new Route(
-                $parameters['path'],
-                $parameters['defaults'],
-                $parameters['requirements']
-            )
-        );
-    }
-
-    /**
-     * Return slug route parameters
-     *
-     * @return array
-     */
-    protected function getSlugRouteParameters()
-    {
-        $slugPath = '/{url}';
-        $slugDefaults = array(
-            '_controller' => 'KunstmaanNodeBundle:Slug:slug',
-            'preview' => false,
-            'url' => '',
-            '_locale' => $this->getDefaultLocale()
-        );
-        $slugRequirements = array(
-            'url' => $this->getSlugPattern()
-        );
-
-        $locales = [];
-
-        // If other site provided and multilingual, get the locales from the host config.
-        if ($this->otherSite && $this->isMultiLanguage($this->otherSite['host'])) {
-            $locales = $this->getHostLocales();
-        } else if ($this->isMultiLanguage() && !$this->otherSite) {
-            $locales = $this->getFrontendLocales();
-        }
-
-        // Make locale availables for the slug routes.
-        if (!empty($locales)) {
-            $slugPath = '/{_locale}' . $slugPath;
-            unset($slugDefaults['_locale']);
-            $slugRequirements['_locale'] = $this->getEscapedLocales($this->getHostLocales());
-        }
-
-        return array(
-            'path' => $slugPath,
-            'defaults' => $slugDefaults,
-            'requirements' => $slugRequirements
         );
     }
 }

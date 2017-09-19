@@ -15,11 +15,12 @@ class RadioButtonSubContext extends BehatContext
      */
     public function __construct(array $parameters)
     {
-
     }
 
     /**
-     * Get Mink session from MinkContext
+     * Get Mink session from MinkContext.
+     *
+     * @param null|mixed $name
      */
     public function getSession($name = null)
     {
@@ -30,7 +31,6 @@ class RadioButtonSubContext extends BehatContext
      * @param string $radioLabel
      *
      * @throws ElementNotFoundException
-     * @return void
      * @Given /^I select the "([^"]*)" radio button$/
      */
     public function iSelectTheRadioButton($radioLabel)

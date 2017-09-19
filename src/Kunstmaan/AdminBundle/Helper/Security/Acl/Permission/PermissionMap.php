@@ -2,42 +2,40 @@
 
 namespace Kunstmaan\AdminBundle\Helper\Security\Acl\Permission;
 
-use Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionMapInterface;
 use Symfony\Component\Security\Acl\Permission\MaskBuilderInterface;
 use Symfony\Component\Security\Acl\Permission\MaskBuilderRetrievalInterface;
 
 /**
- * PermissionMap which stores all the possible permissions, this is based on the BasicPermissionMap
+ * PermissionMap which stores all the possible permissions, this is based on the BasicPermissionMap.
  */
 class PermissionMap implements PermissionMapInterface, MaskBuilderRetrievalInterface
 {
+    const PERMISSION_VIEW = 'VIEW';
+    const PERMISSION_EDIT = 'EDIT';
+    const PERMISSION_DELETE = 'DELETE';
+    const PERMISSION_PUBLISH = 'PUBLISH';
+    const PERMISSION_UNPUBLISH = 'UNPUBLISH';
 
-    const PERMISSION_VIEW       = 'VIEW';
-    const PERMISSION_EDIT       = 'EDIT';
-    const PERMISSION_DELETE     = 'DELETE';
-    const PERMISSION_PUBLISH    = 'PUBLISH';
-    const PERMISSION_UNPUBLISH  = 'UNPUBLISH';
-
-    private $map = array(
-        self::PERMISSION_VIEW    => array(
+    private $map = [
+        self::PERMISSION_VIEW => [
             MaskBuilder::MASK_VIEW,
-        ),
+        ],
 
-        self::PERMISSION_EDIT    => array(
+        self::PERMISSION_EDIT => [
             MaskBuilder::MASK_EDIT,
-        ),
-        self::PERMISSION_DELETE  => array(
+        ],
+        self::PERMISSION_DELETE => [
             MaskBuilder::MASK_DELETE,
-        ),
+        ],
 
-        self::PERMISSION_PUBLISH => array(
+        self::PERMISSION_PUBLISH => [
             MaskBuilder::MASK_PUBLISH,
-        ),
+        ],
 
-        self::PERMISSION_UNPUBLISH => array(
+        self::PERMISSION_UNPUBLISH => [
             MaskBuilder::MASK_UNPUBLISH,
-        ),
-    );
+        ],
+    ];
 
     /**
      * Returns an array of bitmasks.
@@ -46,7 +44,7 @@ class PermissionMap implements PermissionMapInterface, MaskBuilderRetrievalInter
      * these bitmasks.
      *
      * @param string      $permission The permission
-     * @param object|null $object     The object
+     * @param null|object $object     The object
      *
      * @return array may return null if permission/object combination is not supported
      */
@@ -60,7 +58,7 @@ class PermissionMap implements PermissionMapInterface, MaskBuilderRetrievalInter
     }
 
     /**
-     * Whether this map contains the given permission
+     * Whether this map contains the given permission.
      *
      * @param string $permission
      *

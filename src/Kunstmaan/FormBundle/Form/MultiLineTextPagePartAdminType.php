@@ -9,11 +9,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * This class represents the type for the MultiLineTextPagePart
+ * This class represents the type for the MultiLineTextPagePart.
  */
 class MultiLineTextPagePartAdminType extends AbstractType
 {
-
     /**
      * @param FormBuilderInterface $builder The form builder
      * @param array                $options The options
@@ -21,26 +20,26 @@ class MultiLineTextPagePartAdminType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('label', null, array(
+            ->add('label', null, [
                 'required' => false,
                 'label' => 'kuma_form.form.multi_line_text_page_part.label.label',
-            ))
-            ->add('required', CheckboxType::class, array(
+            ])
+            ->add('required', CheckboxType::class, [
                 'required' => false,
                 'label' => 'kuma_form.form.multi_line_text_page_part.required.label',
-            ))
-            ->add('errormessage_required', TextType::class, array(
+            ])
+            ->add('errormessage_required', TextType::class, [
                 'required' => false,
                 'label' => 'kuma_form.form.multi_line_text_page_part.errormessage_required.label',
-            ))
-            ->add('regex', TextType::class, array(
+            ])
+            ->add('regex', TextType::class, [
                 'required' => false,
                 'label' => 'kuma_form.form.multi_line_text_page_part.regex.label',
-            ))
-            ->add('errormessage_regex', TextType::class, array(
+            ])
+            ->add('errormessage_regex', TextType::class, [
                 'required' => false,
                 'label' => 'kuma_form.form.multi_line_text_page_part.errormessage_regex.label',
-            ))
+            ])
         ;
     }
 
@@ -57,6 +56,6 @@ class MultiLineTextPagePartAdminType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array('data_class' => 'Kunstmaan\FormBundle\Entity\PageParts\MultiLineTextPagePart'));
+        $resolver->setDefaults(['data_class' => 'Kunstmaan\FormBundle\Entity\PageParts\MultiLineTextPagePart']);
     }
 }

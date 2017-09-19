@@ -6,10 +6,12 @@ use Kunstmaan\FixturesBundle\Loader\Fixture;
 
 class Listed implements SpecParserInterface
 {
-    CONST REGEX = '/{([^,]+,?)+}$/';
+    const REGEX = '/{([^,]+,?)+}$/';
 
     /**
-     * Check if this parser is applicable
+     * Check if this parser is applicable.
+     *
+     * @param mixed $value
      *
      * @return bool
      */
@@ -19,13 +21,15 @@ class Listed implements SpecParserInterface
     }
 
     /**
-     * Parse provided value into new data
+     * Parse provided value into new data.
      *
      * @param $spec
      * @param $fixture
      * @param $fixtures
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function parse(Fixture $fixture, array $fixtures, $spec)
     {
@@ -47,9 +51,9 @@ class Listed implements SpecParserInterface
         }, $keys[0]);
         foreach ($keys as $item) {
             $newFixture = clone $fixture;
-            $newFixture->setName($name . $item);
+            $newFixture->setName($name.$item);
             $newFixture->setSpec($item);
-            $fixtures[$name . $item] = $newFixture;
+            $fixtures[$name.$item] = $newFixture;
         }
 
         return $fixtures;

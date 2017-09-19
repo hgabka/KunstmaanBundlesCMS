@@ -24,7 +24,7 @@ class UserManagementMenuAdaptor implements MenuAdaptorInterface
     }
 
     /**
-     * In this method you can add children for a specific parent, but also remove and change the already created children
+     * In this method you can add children for a specific parent, but also remove and change the already created children.
      *
      * @param MenuBuilder $menu      The MenuBuilder
      * @param MenuItem[]  &$children The current children
@@ -33,10 +33,9 @@ class UserManagementMenuAdaptor implements MenuAdaptorInterface
      */
     public function adaptChildren(MenuBuilder $menu, array &$children, MenuItem $parent = null, Request $request = null)
     {
-        if (is_null($parent)) {
+        if (null === $parent) {
             return;
-        }
-        else if ('KunstmaanAdminBundle_settings' == $parent->getRoute()) {
+        } elseif ('KunstmaanAdminBundle_settings' === $parent->getRoute()) {
             if ($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
                 $menuItem = new MenuItem($menu);
                 $menuItem
@@ -44,7 +43,7 @@ class UserManagementMenuAdaptor implements MenuAdaptorInterface
                     ->setUniqueId('Users')
                     ->setLabel('settings.users')
                     ->setParent($parent);
-                if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
+                if (0 === stripos($request->attributes->get('_route'), $menuItem->getRoute())) {
                     $menuItem->setActive(true);
                     $parent->setActive(true);
                 }
@@ -57,7 +56,7 @@ class UserManagementMenuAdaptor implements MenuAdaptorInterface
                     ->setLabel('settings.groups')
                     ->setParent($parent);
 
-                if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
+                if (0 === stripos($request->attributes->get('_route'), $menuItem->getRoute())) {
                     $menuItem->setActive(true);
                     $parent->setActive(true);
                 }
@@ -69,14 +68,14 @@ class UserManagementMenuAdaptor implements MenuAdaptorInterface
                     ->setUniqueId('Roles')
                     ->setLabel('settings.roles')
                     ->setParent($parent);
-                if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
+                if (0 === stripos($request->attributes->get('_route'), $menuItem->getRoute())) {
                     $menuItem->setActive(true);
                     $parent->setActive(true);
                 }
                 $children[] = $menuItem;
             }
         } else {
-            if ('KunstmaanUserManagementBundle_settings_users' == $parent->getRoute()) {
+            if ('KunstmaanUserManagementBundle_settings_users' === $parent->getRoute()) {
                 if ($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
                     $menuItem = new MenuItem($menu);
                     $menuItem
@@ -85,7 +84,7 @@ class UserManagementMenuAdaptor implements MenuAdaptorInterface
                         ->setLabel('settings.user.add')
                         ->setParent($parent)
                         ->setAppearInNavigation(false);
-                    if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
+                    if (0 === stripos($request->attributes->get('_route'), $menuItem->getRoute())) {
                         $menuItem->setActive(true);
                     }
                     $children[] = $menuItem;
@@ -97,13 +96,13 @@ class UserManagementMenuAdaptor implements MenuAdaptorInterface
                         ->setLabel('settings.user.edit')
                         ->setParent($parent)
                         ->setAppearInNavigation(false);
-                    if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
+                    if (0 === stripos($request->attributes->get('_route'), $menuItem->getRoute())) {
                         $menuItem->setActive(true);
                     }
                     $children[] = $menuItem;
                 }
             } else {
-                if ('KunstmaanUserManagementBundle_settings_groups' == $parent->getRoute()) {
+                if ('KunstmaanUserManagementBundle_settings_groups' === $parent->getRoute()) {
                     if ($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
                         $menuItem = new MenuItem($menu);
                         $menuItem
@@ -112,7 +111,7 @@ class UserManagementMenuAdaptor implements MenuAdaptorInterface
                             ->setLabel('settings.group.add')
                             ->setParent($parent)
                             ->setAppearInNavigation(false);
-                        if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
+                        if (0 === stripos($request->attributes->get('_route'), $menuItem->getRoute())) {
                             $menuItem->setActive(true);
                         }
                         $children[] = $menuItem;
@@ -124,13 +123,13 @@ class UserManagementMenuAdaptor implements MenuAdaptorInterface
                             ->setLabel('settings.group.edit')
                             ->setParent($parent)
                             ->setAppearInNavigation(false);
-                        if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
+                        if (0 === stripos($request->attributes->get('_route'), $menuItem->getRoute())) {
                             $menuItem->setActive(true);
                         }
                         $children[] = $menuItem;
                     }
                 } else {
-                    if ('KunstmaanUserManagementBundle_settings_roles' == $parent->getRoute()) {
+                    if ('KunstmaanUserManagementBundle_settings_roles' === $parent->getRoute()) {
                         if ($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
                             $menuItem = new MenuItem($menu);
                             $menuItem
@@ -139,7 +138,7 @@ class UserManagementMenuAdaptor implements MenuAdaptorInterface
                                 ->setLabel('settings.role.add')
                                 ->setParent($parent)
                                 ->setAppearInNavigation(false);
-                            if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
+                            if (0 === stripos($request->attributes->get('_route'), $menuItem->getRoute())) {
                                 $menuItem->setActive(true);
                             }
                             $children[] = $menuItem;
@@ -151,7 +150,7 @@ class UserManagementMenuAdaptor implements MenuAdaptorInterface
                                 ->setLabel('settings.role.edit')
                                 ->setParent($parent)
                                 ->setAppearInNavigation(false);
-                            if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
+                            if (0 === stripos($request->attributes->get('_route'), $menuItem->getRoute())) {
                                 $menuItem->setActive(true);
                             }
                             $children[] = $menuItem;

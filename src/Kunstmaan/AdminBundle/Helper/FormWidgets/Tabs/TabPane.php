@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * A tab pane is a container which holds tabs
+ * A tab pane is a container which holds tabs.
  */
 class TabPane
 {
@@ -24,7 +24,7 @@ class TabPane
     /**
      * @var TabInterface[]
      */
-    protected $tabs = array();
+    protected $tabs = [];
 
     /**
      * @var string
@@ -103,16 +103,6 @@ class TabPane
     }
 
     /**
-     * @param TabInterface $tab
-     *
-     * @return string
-     */
-    private function generateIdentifier(TabInterface $tab)
-    {
-        return $this->slugifier->slugify($tab->getTitle());
-    }
-
-    /**
      * @param TabInterface $tab      The tab
      * @param null|int     $position The position
      *
@@ -125,8 +115,8 @@ class TabPane
             $tab->setIdentifier($this->generateIdentifier($tab));
         }
 
-        if (!is_null($position) && is_numeric($position) && $position < sizeof($this->tabs)) {
-            array_splice($this->tabs, $position, 0, array($tab));
+        if (null !== $position && is_numeric($position) && $position < count($this->tabs)) {
+            array_splice($this->tabs, $position, 0, [$tab]);
         } else {
             $this->tabs[] = $tab;
         }
@@ -141,8 +131,8 @@ class TabPane
      */
     public function removeTab(TabInterface $tab)
     {
-        if (in_array($tab, $this->tabs)) {
-            unset($this->tabs[array_search($tab, $this->tabs)]);
+        if (in_array($tab, $this->tabs, true)) {
+            unset($this->tabs[array_search($tab, $this->tabs, true)]);
             $this->reindexTabs();
         }
 
@@ -175,7 +165,7 @@ class TabPane
      */
     public function removeTabByPosition($position)
     {
-        if (is_numeric($position) && $position < sizeof($this->tabs)) {
+        if (is_numeric($position) && $position < count($this->tabs)) {
             array_splice($this->tabs, $position, 1);
         }
 
@@ -193,7 +183,7 @@ class TabPane
     /**
      * @param string $title
      *
-     * @return TabInterface|null
+     * @return null|TabInterface
      */
     public function getTabByTitle($title)
     {
@@ -209,11 +199,11 @@ class TabPane
     /**
      * @param int $position
      *
-     * @return TabInterface|null
+     * @return null|TabInterface
      */
     public function getTabByPosition($position)
     {
-        if (is_numeric($position) && $position < sizeof($this->tabs)) {
+        if (is_numeric($position) && $position < count($this->tabs)) {
             return $this->tabs[$position];
         }
 
@@ -241,7 +231,7 @@ class TabPane
      */
     public function getFormView()
     {
-        if (is_null($this->formView)) {
+        if (null === $this->formView) {
             $this->formView = $this->form->createView();
         }
 
@@ -257,25 +247,35 @@ class TabPane
     }
 
     /**
-     * Reset the indexes of the tabs
-     */
-    private function reindexTabs()
-    {
-        $this->tabs = array_values($this->tabs);
-    }
-
-    /**
      * @param Request $request
      *
      * @return array
      */
     public function getExtraParams(Request $request)
     {
-        $extraParams = array();
+        $extraParams = [];
         foreach ($this->getTabs() as $tab) {
             $extraParams = array_merge($extraParams, $tab->getExtraParams($request));
         }
 
         return $extraParams;
+    }
+
+    /**
+     * @param TabInterface $tab
+     *
+     * @return string
+     */
+    private function generateIdentifier(TabInterface $tab)
+    {
+        return $this->slugifier->slugify($tab->getTitle());
+    }
+
+    /**
+     * Reset the indexes of the tabs.
+     */
+    private function reindexTabs()
+    {
+        $this->tabs = array_values($this->tabs);
     }
 }

@@ -23,6 +23,7 @@ class MigrateNameCommand extends ContainerAwareCommand
 
         $medias = $em->getRepository('KunstmaanMediaBundle:Media')->findAll();
         $updates = 0;
+
         try {
             $em->beginTransaction();
             /** @var Media $media */
@@ -31,16 +32,16 @@ class MigrateNameCommand extends ContainerAwareCommand
                 if (empty($filename)) {
                     $media->setOriginalFilename($media->getName());
                     $em->persist($media);
-                    $updates++;
+                    ++$updates;
                 }
             }
             $em->flush();
             $em->commit();
         } catch (\Exception $e) {
             $em->rollback();
-            $output->writeln('An error occured while migrating media name : <error>' . $e->getMessage() . '</error>');
+            $output->writeln('An error occured while migrating media name : <error>'.$e->getMessage().'</error>');
         }
-        $output->writeln('<info>' . $updates . ' media files have been migrated.</info>');
+        $output->writeln('<info>'.$updates.' media files have been migrated.</info>');
     }
 
     protected function configure()
@@ -51,7 +52,7 @@ class MigrateNameCommand extends ContainerAwareCommand
             ->setName('kuma:media:migrate-name')
             ->setDescription('Migrate media name to new column.')
             ->setHelp(
-                "The <info>kuma:media:migrate-name</info> command can be used to migrate the media name to the newly added column."
+                'The <info>kuma:media:migrate-name</info> command can be used to migrate the media name to the newly added column.'
             );
     }
 }

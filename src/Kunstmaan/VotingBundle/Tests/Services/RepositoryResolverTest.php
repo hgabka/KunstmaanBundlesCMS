@@ -5,18 +5,21 @@ namespace Kunstmaan\VotingBundle\Tests\Services;
 use Kunstmaan\VotingBundle\Services\RepositoryResolver;
 
 /**
-* Unit test for repository resolver
-*/
+ * Unit test for repository resolver.
+ *
+ * @coversNothing
+ */
 class RepositoryResolverTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
-    * @dataProvider dataRepositoryEvent
-    */
+     * @dataProvider dataRepositoryEvent
+     *
+     * @param mixed $event
+     * @param mixed $repositoryname
+     */
     public function testGetRepositoryForEvent($event, $repositoryname)
     {
-
-        $mockEm = $this->getMock('Doctrine\ORM\EntityManager', array('getRepository'), array() , 'MockedEm', false);
+        $mockEm = $this->getMock('Doctrine\ORM\EntityManager', ['getRepository'], [], 'MockedEm', false);
 
         $mockEm->expects($this->once())
                  ->method('getRepository')
@@ -25,18 +28,16 @@ class RepositoryResolverTest extends \PHPUnit_Framework_TestCase
         $resolver = new RepositoryResolver($mockEm);
 
         $resolver->getRepositoryForEvent($event);
-
     }
 
     public function dataRepositoryEvent()
     {
-        return array(
-            array($this->getMock('\Kunstmaan\VotingBundle\Event\UpDown\DownVoteEvent', array(), array() , 'MockDownVoteEvent', false), 'Kunstmaan\VotingBundle\Entity\UpDown\DownVote'),
-            array($this->getMock('\Kunstmaan\VotingBundle\Event\UpDown\UpVoteEvent', array(), array() , 'MockUpVoteEvent', false), 'Kunstmaan\VotingBundle\Entity\UpDown\UpVote'),
-            array($this->getMock('\Kunstmaan\VotingBundle\Event\Facebook\FacebookLikeEvent', array(), array() , 'MockFacebookLikeEvent', false), 'Kunstmaan\VotingBundle\Entity\Facebook\FacebookLike'),
-            array($this->getMock('\Kunstmaan\VotingBundle\Event\Facebook\FacebookSendEvent', array(), array() , 'MockFacebookSendEvent', false), 'Kunstmaan\VotingBundle\Entity\Facebook\FacebookSend'),
-            array($this->getMock('\Kunstmaan\VotingBundle\Event\LinkedIn\LinkedInShareEvent', array(), array() , 'MockLinkedInShareEvent', false), 'Kunstmaan\VotingBundle\Entity\LinkedIn\LinkedInShare'),
-        );
+        return [
+            [$this->getMock('\Kunstmaan\VotingBundle\Event\UpDown\DownVoteEvent', [], [], 'MockDownVoteEvent', false), 'Kunstmaan\VotingBundle\Entity\UpDown\DownVote'],
+            [$this->getMock('\Kunstmaan\VotingBundle\Event\UpDown\UpVoteEvent', [], [], 'MockUpVoteEvent', false), 'Kunstmaan\VotingBundle\Entity\UpDown\UpVote'],
+            [$this->getMock('\Kunstmaan\VotingBundle\Event\Facebook\FacebookLikeEvent', [], [], 'MockFacebookLikeEvent', false), 'Kunstmaan\VotingBundle\Entity\Facebook\FacebookLike'],
+            [$this->getMock('\Kunstmaan\VotingBundle\Event\Facebook\FacebookSendEvent', [], [], 'MockFacebookSendEvent', false), 'Kunstmaan\VotingBundle\Entity\Facebook\FacebookSend'],
+            [$this->getMock('\Kunstmaan\VotingBundle\Event\LinkedIn\LinkedInShareEvent', [], [], 'MockLinkedInShareEvent', false), 'Kunstmaan\VotingBundle\Entity\LinkedIn\LinkedInShare'],
+        ];
     }
-
 }

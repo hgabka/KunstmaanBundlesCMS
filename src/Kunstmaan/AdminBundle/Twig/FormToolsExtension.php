@@ -3,15 +3,13 @@
 namespace Kunstmaan\AdminBundle\Twig;
 
 use Kunstmaan\AdminBundle\Helper\FormHelper;
-
 use Symfony\Component\Form\FormView;
 
 /**
- * FormToolsExtension
+ * FormToolsExtension.
  */
 class FormToolsExtension extends \Twig_Extension
 {
-
     /**
      * @var FormHelper
      */
@@ -25,7 +23,6 @@ class FormToolsExtension extends \Twig_Extension
         $this->formHelper = $formHelper;
     }
 
-
     /**
      * Get Twig functions defined in this extension.
      *
@@ -33,10 +30,10 @@ class FormToolsExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('form_errors_recursive', array($this, 'getErrorMessages')),
-            new \Twig_SimpleFunction('form_has_errors_recursive', array($this, 'hasErrorMessages')),
-        );
+        return [
+            new \Twig_SimpleFunction('form_errors_recursive', [$this, 'getErrorMessages']),
+            new \Twig_SimpleFunction('form_has_errors_recursive', [$this, 'hasErrorMessages']),
+        ];
     }
 
     /**
@@ -54,14 +51,13 @@ class FormToolsExtension extends \Twig_Extension
     /**
      * Get the error messages.
      *
-     * @param FormView[]|FormView $formViews The form views
+     * @param FormView|FormView[] $formViews The form views
      * @param array               &$errors   The errors
      *
      * @return array
      */
-    public function getErrorMessages($formViews, array &$errors = array())
+    public function getErrorMessages($formViews, array &$errors = [])
     {
         return $this->formHelper->getRecursiveErrorMessages($formViews, $errors);
     }
-
 }

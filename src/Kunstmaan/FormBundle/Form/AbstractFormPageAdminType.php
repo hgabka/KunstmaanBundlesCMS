@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * An abstract Form Page Admin Type
+ * An abstract Form Page Admin Type.
  */
 class AbstractFormPageAdminType extends AbstractType
 {
@@ -18,32 +18,32 @@ class AbstractFormPageAdminType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title', null, array(
+        $builder->add('title', null, [
             'label' => 'kuma_form.form.page_admin.title.label',
-        ));
-        $builder->add('thanks', TextareaType::class, array(
+        ]);
+        $builder->add('thanks', TextareaType::class, [
             'label' => 'kuma_form.form.page_admin.thanks.label',
             'required' => false,
-            'attr' => array(
-                'class' => 'js-rich-editor rich-editor'
-            ),
-        ));
-        $builder->add('subject', null, array(
+            'attr' => [
+                'class' => 'js-rich-editor rich-editor',
+            ],
+        ]);
+        $builder->add('subject', null, [
             'label' => 'kuma_form.form.page_admin.subject.label',
-        ));
-        $builder->add('from_email', null, array(
+        ]);
+        $builder->add('from_email', null, [
             'label' => 'kuma_form.form.page_admin.from_email.label',
-        ));
-        $builder->add('to_email', null, array(
+        ]);
+        $builder->add('to_email', null, [
             'label' => 'kuma_form.form.page_admin.to_email.label',
-        ));
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Kunstmaan\FormBundle\Entity\AbstractFormPage',
-        ));
+        ]);
     }
 
     /**

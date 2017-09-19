@@ -2,7 +2,6 @@
 
 namespace Kunstmaan\FixturesBundle\Provider;
 
-
 use Doctrine\ORM\EntityManager;
 
 class NodeTranslation
@@ -16,6 +15,6 @@ class NodeTranslation
 
     public function getTranslationByTitle($title, $lang)
     {
-        return $this->nodeTransRepo->findOneBy(array('title' => $title, 'lang' => $lang));
+        return $this->nodeTransRepo->findOneBy(['title' => $title, 'lang' => $lang]);
     }
 }

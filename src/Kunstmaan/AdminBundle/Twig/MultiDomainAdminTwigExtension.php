@@ -16,7 +16,6 @@ class MultiDomainAdminTwigExtension extends \Twig_Extension
         $this->domainConfiguration = $domainConfiguration;
     }
 
-
     /**
      * Get Twig functions defined in this extension.
      *
@@ -24,12 +23,12 @@ class MultiDomainAdminTwigExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('multidomain_widget', array($this, 'renderWidget'), array('needs_environment' => true, 'is_safe' => array('html'))),
-            new \Twig_SimpleFunction('is_multidomain_site', array($this, 'isMultiDomainSite')),
-            new \Twig_SimpleFunction('get_switched_host', array($this, 'getSwitchedHost')),
-            new \Twig_SimpleFunction('switched_host_is_current', array($this, 'switchedHostIsCurrent')),
-        );
+        return [
+            new \Twig_SimpleFunction('multidomain_widget', [$this, 'renderWidget'], ['needs_environment' => true, 'is_safe' => ['html']]),
+            new \Twig_SimpleFunction('is_multidomain_site', [$this, 'isMultiDomainSite']),
+            new \Twig_SimpleFunction('get_switched_host', [$this, 'getSwitchedHost']),
+            new \Twig_SimpleFunction('switched_host_is_current', [$this, 'switchedHostIsCurrent']),
+        ];
     }
 
     /**
@@ -42,25 +41,25 @@ class MultiDomainAdminTwigExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function renderWidget(\Twig_Environment $env, $route, array $parameters = array())
+    public function renderWidget(\Twig_Environment $env, $route, array $parameters = [])
     {
         $template = $env->loadTemplate(
-            "@KunstmaanAdmin/MultiDomainAdminTwigExtension/widget.html.twig"
+            '@KunstmaanAdmin/MultiDomainAdminTwigExtension/widget.html.twig'
         );
 
         return $template->render(
             array_merge(
                 $parameters,
-                array(
+                [
                     'hosts' => $this->getAdminDomainHosts(),
-                    'route' => $route
-                )
+                    'route' => $route,
+                ]
             )
         );
     }
 
     /**
-     * Check if site is multiDomain
+     * Check if site is multiDomain.
      *
      * @return bool
      */
@@ -82,7 +81,7 @@ class MultiDomainAdminTwigExtension extends \Twig_Extension
      */
     public function switchedHostIsCurrent()
     {
-        return $this->domainConfiguration->getHost() == $this->getSwitchedHost()['host'];
+        return $this->domainConfiguration->getHost() === $this->getSwitchedHost()['host'];
     }
 
     public function getAdminDomainHosts()

@@ -1,8 +1,12 @@
 <?php
+
 namespace Kunstmaan\TranslatorBundle\Tests\Service\Importer;
 
 use Kunstmaan\TranslatorBundle\Tests\BaseTestCase;
 
+/**
+ * @coversNothing
+ */
 class LoaderTest extends BaseTestCase
 {
     public function setUp()
@@ -15,7 +19,7 @@ class LoaderTest extends BaseTestCase
     {
         $catalogue = $this->loader->load('', 'en', 'validation');
         $messages = $catalogue->all('validation');
-        $this->assertEquals($messages['validation.ok'], 'Everything ok');
-        $this->assertEquals($catalogue->getLocale(), 'en');
+        $this->assertSame($messages['validation.ok'], 'Everything ok');
+        $this->assertSame($catalogue->getLocale(), 'en');
     }
 }

@@ -1,12 +1,15 @@
 <?php
+
 namespace Kunstmaan\TranslatorBundle\Tests\Service\Importer;
 
 use Kunstmaan\TranslatorBundle\Tests\BaseTestCase;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * @coversNothing
+ */
 class ImporterTest extends BaseTestCase
 {
-
     private $importer;
     private $translationRepository;
 
@@ -26,8 +29,8 @@ class ImporterTest extends BaseTestCase
             $this->importer->import($file, true);
         }
 
-        $translation = $this->translationRepository->findOneBy(array('keyword' => 'newdomain.name', 'locale' => 'de'));
-        $this->assertEquals('a new domain', $translation->getText());
+        $translation = $this->translationRepository->findOneBy(['keyword' => 'newdomain.name', 'locale' => 'de']);
+        $this->assertSame('a new domain', $translation->getText());
     }
 
     /**
@@ -39,8 +42,8 @@ class ImporterTest extends BaseTestCase
             $this->importer->import($file, false);
         }
 
-        $translation = $this->translationRepository->findOneBy(array('keyword' => 'headers.frontpage', 'locale' => 'en'));
-        $this->assertEquals('a not yet updated frontpage header', $translation->getText());
+        $translation = $this->translationRepository->findOneBy(['keyword' => 'headers.frontpage', 'locale' => 'en']);
+        $this->assertSame('a not yet updated frontpage header', $translation->getText());
     }
 
     /**
@@ -52,13 +55,13 @@ class ImporterTest extends BaseTestCase
             $this->importer->import($file, true);
         }
 
-        $translation = $this->translationRepository->findOneBy(array('keyword' => 'headers.frontpage', 'locale' => 'en'));
-        $this->assertEquals('FrontPage', $translation->getText());
+        $translation = $this->translationRepository->findOneBy(['keyword' => 'headers.frontpage', 'locale' => 'en']);
+        $this->assertSame('FrontPage', $translation->getText());
     }
 
     public function getNewDomainTestFinder()
     {
-        $finder = new Finder;
+        $finder = new Finder();
 
         $finder->files()
                 ->name('newdomain.de.yml')
@@ -67,9 +70,9 @@ class ImporterTest extends BaseTestCase
         return $finder;
     }
 
-     public function getExistingDomainTestFinder()
+    public function getExistingDomainTestFinder()
     {
-        $finder = new Finder;
+        $finder = new Finder();
 
         $finder->files()
                 ->name('messages.en.yml')

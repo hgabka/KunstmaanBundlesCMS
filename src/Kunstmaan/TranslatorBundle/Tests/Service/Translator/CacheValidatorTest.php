@@ -1,11 +1,14 @@
 <?php
+
 namespace Kunstmaan\TranslatorBundle\Tests\Service\Importer;
 
 use Kunstmaan\TranslatorBundle\Tests\BaseTestCase;
 
+/**
+ * @coversNothing
+ */
 class CacheValidatorTest extends BaseTestCase
 {
-
     private $cacheValidator;
     private $languages;
     private $cacheDir;
@@ -15,7 +18,7 @@ class CacheValidatorTest extends BaseTestCase
         parent::setUp();
         $this->cacheValidator = $this->getContainer()->get('kunstmaan_translator.service.translator.cache_validator');
 
-        $this->languages = array('nl', 'fr', 'de', 'es');
+        $this->languages = ['nl', 'fr', 'de', 'es'];
         $this->cacheDir = sprintf('%s/translations/', $this->getContainer()->getParameter('kernel.cache_dir'));
         if (!is_dir($this->cacheDir)) {
             mkdir($this->cacheDir, 0777, true);
@@ -67,5 +70,4 @@ class CacheValidatorTest extends BaseTestCase
             unlink($file);
         }
     }
-
 }

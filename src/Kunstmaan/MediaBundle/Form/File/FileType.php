@@ -17,11 +17,10 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * FileType
+ * FileType.
  */
 class FileType extends AbstractType
 {
-
     /**
      * Builds the form.
      *
@@ -29,7 +28,7 @@ class FileType extends AbstractType
      * top most type. Type extensions can further modify the form.
      *
      * @param FormBuilderInterface $builder The form builder
-     * @param array $options The options
+     * @param array                $options The options
      *
      * @see FormTypeExtensionInterface::buildForm()
      */
@@ -38,35 +37,35 @@ class FileType extends AbstractType
         $builder->add(
             'name',
             TextType::class,
-            array(
+            [
                 'label' => 'media.form.file.name.label',
-                'required' => false
-            )
+                'required' => false,
+            ]
         );
         $builder->add(
             'file',
             BaseFileType::class,
-            array(
+            [
                 'label' => 'media.form.file.file.label',
-                'constraints' => array(new File(), new HasGuessableExtension()),
-                'required' => false
-            )
+                'constraints' => [new File(), new HasGuessableExtension()],
+                'required' => false,
+            ]
         );
         $builder->add(
             'copyright',
             TextType::class,
-            array(
+            [
                 'label' => 'media.form.file.copyright.label',
-                'required' => false
-            )
+                'required' => false,
+            ]
         );
         $builder->add(
             'description',
             TextareaType::class,
-            array(
+            [
                 'label' => 'media.form.file.description.label',
-                'required' => false
-            )
+                'required' => false,
+            ]
         );
 
         $builder->addEventListener(
@@ -80,30 +79,30 @@ class FileType extends AbstractType
                     $form->add(
                         'file',
                         BaseFileType::class,
-                        array(
+                        [
                             'label' => 'media.form.file.file.label',
-                            'constraints' => array(new NotBlank(), new File(), new HasGuessableExtension()),
-                            'required' => true
-                        )
+                            'constraints' => [new NotBlank(), new File(), new HasGuessableExtension()],
+                            'required' => true,
+                        ]
                     );
                 } else {
                     // Display original filename only for persisted objects
                     $form->add(
                         'originalFilename',
                         TextType::class,
-                        array(
+                        [
                             'label' => 'media.form.file.originalFilename.label',
                             'required' => false,
-                            'attr' => array(
-                                'readonly' => 'readonly'
-                            )
-                        )
+                            'attr' => [
+                                'readonly' => 'readonly',
+                            ],
+                        ]
                     );
                     // Allow changing folder on edit
                     $form->add(
                         'folder',
                         EntityType::class,
-                        array(
+                        [
                             'class' => 'KunstmaanMediaBundle:Folder',
                             'choice_label' => 'optionLabel',
                             'query_builder' => function (FolderRepository $er) {
@@ -111,7 +110,7 @@ class FileType extends AbstractType
                                     ->andWhere('f.parent IS NOT NULL');
                             },
                             'required' => true,
-                        )
+                        ]
                     );
                 }
             }
@@ -131,14 +130,14 @@ class FileType extends AbstractType
     /**
      * Sets the default options for this type.
      *
-     * @param OptionsResolver $resolver The resolver for the options.
+     * @param OptionsResolver $resolver the resolver for the options
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => 'Kunstmaan\MediaBundle\Helper\File\FileHelper',
-            )
+            ]
         );
     }
 }

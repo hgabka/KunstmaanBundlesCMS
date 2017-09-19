@@ -24,6 +24,11 @@ settings:
         role: Role
         add: Add Role
         edit: Edit Role
+        name: Name
+        permission_manager: Permission manager
+        admin: Administrator
+        super_admin: Szuper administrator
+        anonymous: Guest user
 
 kuma_user:
     roles:
@@ -81,5 +86,7 @@ kuma_user:
         adminlist:
             header:
                 role:   Role
+                name:   Name
             filter:
                 role:   Role
+                name:   Name

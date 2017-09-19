@@ -14,7 +14,7 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 
 /**
- * Symfony CLI command to create a user using bin/console kuma:user:create <username_of_the_user>
+ * Symfony CLI command to create a user using bin/console kuma:user:create <username_of_the_user>.
  */
 class CreateUserCommand extends ContainerAwareCommand
 {
@@ -24,7 +24,7 @@ class CreateUserCommand extends ContainerAwareCommand
 
         $this->setName('kuma:user:create')
             ->setDescription('Create a user.')
-            ->setDefinition(array(
+            ->setDefinition([
                 new InputArgument('username', InputArgument::REQUIRED, 'The username'),
                 new InputArgument('email', InputArgument::REQUIRED, 'The email'),
                 new InputArgument('password', InputArgument::REQUIRED, 'The password'),
@@ -32,8 +32,9 @@ class CreateUserCommand extends ContainerAwareCommand
                 new InputOption('group', null, InputOption::VALUE_REQUIRED, 'The group(s) the user should belong to'),
                 new InputOption('super-admin', null, InputOption::VALUE_NONE, 'Set the user as super admin'),
                 new InputOption('inactive', null, InputOption::VALUE_NONE, 'Set the user as inactive'),
-            ))
-            ->setHelp(<<<EOT
+            ])
+            ->setHelp(
+                <<<'EOT'
 The <info>kuma:user:create</info> command creates a user:
 
   <info>php bin/console kuma:user:create matthieu --group=Users</info>
@@ -61,14 +62,14 @@ EOT
     /**
      * Executes the current command.
      *
-     * @param InputInterface $input The input
+     * @param InputInterface  $input  The input
      * @param OutputInterface $output The output
      *
      * @return int
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /* @var EntityManager $em */
+        // @var EntityManager $em
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
 
         $username = $input->getArgument('username');
@@ -83,21 +84,21 @@ EOT
             $locale = $this->getContainer()->getParameter('kunstmaan_admin.default_admin_locale');
         }
         $command = $this->getApplication()->find('fos:user:create');
-        $arguments = array(
+        $arguments = [
             'command' => 'fos:user:create',
             'username' => $username,
             'email' => $email,
             'password' => $password,
             '--super-admin' => $superAdmin,
             '--inactive' => $inactive,
-        );
+        ];
 
         $input = new ArrayInput($arguments);
         $command->run($input, $output);
 
         // Fetch user that was just created
         $userClassName = $this->getContainer()->getParameter('fos_user.model.user.class');
-        $user = $em->getRepository($userClassName)->findOneBy(array('username' => $username));
+        $user = $em->getRepository($userClassName)->findOneBy(['username' => $username]);
 
         // Attach groups
         $groupNames = explode(',', $groupOption);
@@ -106,13 +107,12 @@ EOT
         $groupOutput = '';
 
         foreach ($groupNames as $groupName) {
-
-            if ((int)$groupName !== 0) {
-                $group = $em->getRepository('KunstmaanAdminBundle:Group')->findOneBy(array('name' => $groups[$groupName]->getName()));
-                $groupOutput .= $groups[$groupName]->getName() . ', ';
+            if (0 !== (int) $groupName) {
+                $group = $em->getRepository('KunstmaanAdminBundle:Group')->findOneBy(['name' => $groups[$groupName]->getName()]);
+                $groupOutput .= $groups[$groupName]->getName().', ';
             } else {
-                $group = $em->getRepository('KunstmaanAdminBundle:Group')->findOneBy(array('name' => $groupName));
-                $groupOutput .= $groupName . ', ';
+                $group = $em->getRepository('KunstmaanAdminBundle:Group')->findOneBy(['name' => $groupName]);
+                $groupOutput .= $groupName.', ';
             }
 
             if ($group instanceof Group) {
@@ -137,17 +137,15 @@ EOT
     /**
      * Interacts with the user.
      *
-     * @param InputInterface $input The input
+     * @param InputInterface  $input  The input
      * @param OutputInterface $output The output
      *
      * @throws \InvalidArgumentException
-     *
-     * @return void
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         if (!$input->getArgument('username')) {
-            $question = New Question('Please choose a username:');
+            $question = new Question('Please choose a username:');
             $question->setValidator(function ($username) {
                 if (null === $username) {
                     throw new \InvalidArgumentException('Username can not be empty');
@@ -164,7 +162,7 @@ EOT
         }
 
         if (!$input->getArgument('email')) {
-            $question = New Question('Please choose an email:');
+            $question = new Question('Please choose an email:');
             $question->setValidator(function ($email) {
                 if (null === $email) {
                     throw new \InvalidArgumentException('Email can not be empty');
@@ -181,8 +179,7 @@ EOT
         }
 
         if (!$input->getArgument('password')) {
-
-            $question = New Question('Please choose a password:');
+            $question = new Question('Please choose a password:');
             $question->setHidden(true);
             $question->setHiddenFallback(false);
             $question->setValidator(function ($password) {
@@ -220,11 +217,12 @@ EOT
             );
             $question->setMultiselect(true);
             $question->setValidator(function ($groups) {
-                if ($groups === '') {
+                if ('' === $groups) {
                     throw new \RuntimeException(
                         'Group(s) must be of type integer and can not be empty'
                     );
                 }
+
                 return $groups;
             });
 

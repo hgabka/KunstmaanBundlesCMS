@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
- * PasswordCheckListener to check if the user has to change his password
+ * PasswordCheckListener to check if the user has to change his password.
  */
 class PasswordCheckListener
 {
@@ -43,10 +43,10 @@ class PasswordCheckListener
 
     /**
      * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param TokenStorageInterface $tokenStorage
-     * @param Router $router
-     * @param Session $session
-     * @param TranslatorInterface $translator
+     * @param TokenStorageInterface         $tokenStorage
+     * @param Router                        $router
+     * @param Session                       $session
+     * @param TranslatorInterface           $translator
      */
     public function __construct(AuthorizationCheckerInterface $authorizationChecker, TokenStorageInterface $tokenStorage, Router $router, Session $session, TranslatorInterface $translator)
     {
@@ -65,9 +65,9 @@ class PasswordCheckListener
         $url = $event->getRequest()->getRequestUri();
         if ($this->tokenStorage->getToken() && $this->isAdminRoute($url)) {
             $route = $event->getRequest()->get('_route');
-            if ($this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED') && $route != 'fos_user_change_password') {
+            if ($this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED') && 'fos_user_change_password' !== $route) {
                 $user = $this->tokenStorage->getToken()->getUser();
-                if ($user->isPasswordChanged() === false) {
+                if (false === $user->isPasswordChanged()) {
                     $response = new RedirectResponse($this->router->generate('fos_user_change_password'));
                     $this->session->getFlashBag()->add(
                         FlashTypes::ERROR,
@@ -89,11 +89,11 @@ class PasswordCheckListener
         preg_match('/^\/(app_(.*)\.php\/)?([a-zA-Z_-]{2,5}\/)?admin\/(.*)/', $url, $matches);
 
         // Check if path is part of admin area
-        if (count($matches) === 0) {
+        if (0 === count($matches)) {
             return false;
         }
 
-        if (strpos($url, '/admin/preview') !== false) {
+        if (false !== strpos($url, '/admin/preview')) {
             return false;
         }
 

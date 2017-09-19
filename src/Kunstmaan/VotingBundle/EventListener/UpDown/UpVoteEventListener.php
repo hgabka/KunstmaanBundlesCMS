@@ -9,7 +9,6 @@ use Symfony\Component\DependencyInjection\Container;
 
 class UpVoteEventListener
 {
-
     /**
      * @var \Doctrine\ORM\EntityManager
      */
@@ -30,10 +29,10 @@ class UpVoteEventListener
     {
         $vote = new UpVote();
         $vote->setReference($event->getReference());
-        if (!is_null($event->getRequest())) {
+        if (null !== $event->getRequest()) {
             $vote->setIp($event->getRequest()->getClientIp());
         }
-        if ($event->getValue() !== null) {
+        if (null !== $event->getValue()) {
             $vote->setValue($event->getValue());
         } else {
             $actions = $this->container->getParameter('kuma_voting.actions');
@@ -44,5 +43,4 @@ class UpVoteEventListener
         $this->em->persist($vote);
         $this->em->flush();
     }
-
 }

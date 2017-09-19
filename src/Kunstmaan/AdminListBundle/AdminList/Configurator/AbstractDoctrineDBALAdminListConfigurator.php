@@ -11,24 +11,24 @@ use Pagerfanta\Pagerfanta;
 use Traversable;
 
 /**
- * An abstract admin list configurator that can be used with dbal query builder
+ * An abstract admin list configurator that can be used with dbal query builder.
  */
 abstract class AbstractDoctrineDBALAdminListConfigurator extends AbstractAdminListConfigurator
 {
     /**
      * @var Connection
      */
-    protected $connection = null;
+    protected $connection;
 
     /**
      * @var QueryBuilder
      */
-    protected $queryBuilder = null;
+    protected $queryBuilder;
 
     /**
      * @var Pagerfanta
      */
-    private $pagerfanta = null;
+    private $pagerfanta;
 
     /**
      * @var string
@@ -49,7 +49,7 @@ abstract class AbstractDoctrineDBALAdminListConfigurator extends AbstractAdminLi
     }
 
     /**
-     * Return the url to edit the given $item
+     * Return the url to edit the given $item.
      *
      * @param array $item
      *
@@ -57,17 +57,17 @@ abstract class AbstractDoctrineDBALAdminListConfigurator extends AbstractAdminLi
      */
     public function getEditUrlFor($item)
     {
-        $params = array('id' => $item['id']);
+        $params = ['id' => $item['id']];
         $params = array_merge($params, $this->getExtraParameters());
 
-        return array(
-            'path'   => $this->getPathByConvention($this::SUFFIX_EDIT),
-            'params' => $params
-        );
+        return [
+            'path' => $this->getPathByConvention($this::SUFFIX_EDIT),
+            'params' => $params,
+        ];
     }
 
     /**
-     * Get the delete url for the given $item
+     * Get the delete url for the given $item.
      *
      * @param object $item
      *
@@ -75,13 +75,13 @@ abstract class AbstractDoctrineDBALAdminListConfigurator extends AbstractAdminLi
      */
     public function getDeleteUrlFor($item)
     {
-        $params = array('id' => $item['id']);
+        $params = ['id' => $item['id']];
         $params = array_merge($params, $this->getExtraParameters());
 
-        return array(
-            'path'   => $this->getPathByConvention($this::SUFFIX_DELETE),
-            'params' => $params
-        );
+        return [
+            'path' => $this->getPathByConvention($this::SUFFIX_DELETE),
+            'params' => $params,
+        ];
     }
 
     /**
@@ -89,8 +89,8 @@ abstract class AbstractDoctrineDBALAdminListConfigurator extends AbstractAdminLi
      */
     public function getPagerfanta()
     {
-        if (is_null($this->pagerfanta)) {
-            $adapter          = new DoctrineDBALAdapter(
+        if (null === $this->pagerfanta) {
+            $adapter = new DoctrineDBALAdapter(
                 $this->getQueryBuilder(),
                 $this->getCountField(),
                 $this->getUseDistinctCount()
@@ -108,8 +108,8 @@ abstract class AbstractDoctrineDBALAdminListConfigurator extends AbstractAdminLi
      */
     public function adaptQueryBuilder(
         QueryBuilder $queryBuilder,
-        /** @noinspection PhpUnusedParameterInspection */
-        array $params = array()
+        // @noinspection PhpUnusedParameterInspection
+        array $params = []
     ) {
         $queryBuilder->where('1=1');
     }
@@ -131,31 +131,31 @@ abstract class AbstractDoctrineDBALAdminListConfigurator extends AbstractAdminLi
     }
 
     /**
-     * Return an iterator for all items that matches the current filtering
+     * Return an iterator for all items that matches the current filtering.
      *
      * @return \Iterator
      */
     public function getIterator()
     {
-        /** @var Statement $statement*/
+        /** @var Statement $statement */
         $statement = $this->getQueryBuilder()->execute();
 
         return $statement;
     }
 
     /**
-     * @return QueryBuilder|null
+     * @return null|QueryBuilder
      */
     public function getQueryBuilder()
     {
-        if (is_null($this->queryBuilder)) {
+        if (null === $this->queryBuilder) {
             $this->queryBuilder = new QueryBuilder($this->connection);
             $this->adaptQueryBuilder($this->queryBuilder);
 
             // Apply filters
             $filters = $this->getFilterBuilder()->getCurrentFilters();
             foreach ($filters as $filter) {
-                /* @var AbstractDBALFilterType $type */
+                // @var AbstractDBALFilterType $type
                 $type = $filter->getType();
                 $type->setQueryBuilder($this->queryBuilder);
                 $filter->apply();
@@ -164,7 +164,7 @@ abstract class AbstractDoctrineDBALAdminListConfigurator extends AbstractAdminLi
             // Apply sorting
             if (!empty($this->orderBy)) {
                 $orderBy = $this->orderBy;
-                $this->queryBuilder->orderBy($orderBy, ($this->orderDirection == 'DESC' ? 'DESC' : 'ASC'));
+                $this->queryBuilder->orderBy($orderBy, ('DESC' === $this->orderDirection ? 'DESC' : 'ASC'));
             }
         }
 
@@ -172,7 +172,7 @@ abstract class AbstractDoctrineDBALAdminListConfigurator extends AbstractAdminLi
     }
 
     /**
-     * Set count field (must include table alias!)
+     * Set count field (must include table alias!).
      *
      * @param string $countField
      *
@@ -186,7 +186,7 @@ abstract class AbstractDoctrineDBALAdminListConfigurator extends AbstractAdminLi
     }
 
     /**
-     * Get current count field (including table alias)
+     * Get current count field (including table alias).
      *
      * @return string
      */
@@ -210,7 +210,7 @@ abstract class AbstractDoctrineDBALAdminListConfigurator extends AbstractAdminLi
     }
 
     /**
-     * Get current doDistinctCount
+     * Get current doDistinctCount.
      *
      * @return bool
      */

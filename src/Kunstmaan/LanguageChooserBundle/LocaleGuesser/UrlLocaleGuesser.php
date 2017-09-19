@@ -7,7 +7,7 @@ use Lunetics\LocaleBundle\Validator\MetaValidator;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Locale Guesser for detecting the locale in the url
+ * Locale Guesser for detecting the locale in the url.
  *
  * @author Matthias Breddin <mb@lunetics.com>
  * @author Christophe Willemsen <willemsen.christophe@gmail.com>
@@ -20,7 +20,7 @@ class UrlLocaleGuesser extends AbstractLocaleGuesser
     private $metaValidator;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param MetaValidator $metaValidator MetaValidator
      */
@@ -30,11 +30,11 @@ class UrlLocaleGuesser extends AbstractLocaleGuesser
     }
 
     /**
-     * Method that guess the locale based on the Url
+     * Method that guess the locale based on the Url.
      *
      * @param Request $request
      *
-     * @return boolean True if locale is detected, false otherwise
+     * @return bool True if locale is detected, false otherwise
      */
     public function guessLocale(Request $request)
     {
@@ -49,7 +49,7 @@ class UrlLocaleGuesser extends AbstractLocaleGuesser
             return false;
         }
 
-        $parts = array_filter(explode("/", $path));
+        $parts = array_filter(explode('/', $path));
         $locale = array_shift($parts);
 
         if ($localeValidator->isAllowed($locale)) {

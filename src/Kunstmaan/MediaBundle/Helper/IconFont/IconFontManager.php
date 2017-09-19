@@ -3,23 +3,23 @@
 namespace Kunstmaan\MediaBundle\Helper\IconFont;
 
 /**
- * IconFontManager
+ * IconFontManager.
  */
 class IconFontManager
 {
     /**
      * @var IconFontLoaderInterface[]
      */
-    protected $loaders = array();
+    protected $loaders = [];
 
     /**
      * @var IconFontLoaderInterface
      */
-    protected $defaultLoader = null;
+    protected $defaultLoader;
 
     /**
      * @param IconFontLoaderInterface $loader
-     * @param string $serviceId
+     * @param string                  $serviceId
      */
     public function addLoader(IconFontLoaderInterface $loader, $serviceId)
     {
@@ -36,6 +36,7 @@ class IconFontManager
 
     /**
      * @param string $serviceId
+     *
      * @return IconFontLoaderInterface
      */
     public function getLoader($serviceId)
@@ -52,7 +53,7 @@ class IconFontManager
     }
 
     /**
-     * @return IconFontLoaderInterface|null
+     * @return null|IconFontLoaderInterface
      */
     public function getDefaultLoader()
     {

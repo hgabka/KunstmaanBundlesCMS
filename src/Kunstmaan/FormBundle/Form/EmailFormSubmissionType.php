@@ -8,17 +8,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * The type for the EmailFormSubmissionField
+ * The type for the EmailFormSubmissionField.
  */
 class EmailFormSubmissionType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder The form builder
-     * @param array $options The options
+     * @param array                $options The options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $keys = array_fill_keys(array('label', 'required', 'constraints'), null);
+        $keys = array_fill_keys(['label', 'required', 'constraints'], null);
         $fieldOptions = array_filter(array_replace($keys, array_intersect_key($options, $keys)), function ($v) {
             return isset($v);
         });
@@ -27,9 +27,9 @@ class EmailFormSubmissionType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\EmailFormSubmissionField',
-        ));
+        ]);
     }
 
     /**

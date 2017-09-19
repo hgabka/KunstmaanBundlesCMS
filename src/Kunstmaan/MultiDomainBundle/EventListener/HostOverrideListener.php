@@ -37,8 +37,8 @@ class HostOverrideListener
         TranslatorInterface $translator,
         DomainConfigurationInterface $domainConfiguration
     ) {
-        $this->session             = $session;
-        $this->translator          = $translator;
+        $this->session = $session;
+        $this->translator = $translator;
         $this->domainConfiguration = $domainConfiguration;
     }
 
@@ -88,11 +88,11 @@ class HostOverrideListener
         );
 
         // Check if path is part of admin area
-        if (count($matches) === 0) {
+        if (0 === count($matches)) {
             return false;
         }
 
-        if (strpos($url, '/admin/preview') !== false) {
+        if (false !== strpos($url, '/admin/preview')) {
             return false;
         }
 

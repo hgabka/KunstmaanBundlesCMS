@@ -22,12 +22,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Settings controller handling everything related to creating, editing, deleting and listing users in an admin list
+ * Settings controller handling everything related to creating, editing, deleting and listing users in an admin list.
  */
 class UsersController extends BaseSettingsController
 {
     /**
-     * List users
+     * List users.
      *
      * @Route("/", name="KunstmaanUserManagementBundle_settings_users")
      * @Template("KunstmaanAdminListBundle:Default:list.html.twig")
@@ -50,29 +50,17 @@ class UsersController extends BaseSettingsController
 
         $configurator = new $configuratorClassName($em);
 
-        /* @var AdminList $adminList */
-        $adminList = $this->get("kunstmaan_adminlist.factory")->createList($configurator);
+        // @var AdminList $adminList
+        $adminList = $this->get('kunstmaan_adminlist.factory')->createList($configurator);
         $adminList->bindRequest($request);
 
-        return array(
+        return [
             'adminlist' => $adminList,
-        );
+        ];
     }
 
     /**
-     * Get an instance of the admin user class.
-     *
-     * @return BaseUser
-     */
-    private function getUserClassInstance()
-    {
-        $userClassName = $this->getParameter('fos_user.model.user.class');
-
-        return new $userClassName();
-    }
-
-    /**
-     * Add a user
+     * Add a user.
      *
      * @Route("/add", name="KunstmaanUserManagementBundle_settings_users_add")
      * @Method({"GET", "POST"})
@@ -88,7 +76,7 @@ class UsersController extends BaseSettingsController
 
         $user = $this->getUserClassInstance();
 
-        $options = array('password_required' => true, 'langs' => $this->getParameter('kunstmaan_admin.admin_locales'), 'validation_groups' => array('Registration'), 'data_class' => get_class($user));
+        $options = ['password_required' => true, 'langs' => $this->getParameter('kunstmaan_admin.admin_locales'), 'validation_groups' => ['Registration'], 'data_class' => get_class($user)];
         $formTypeClassName = $user->getFormTypeClass();
         $formType = new $formTypeClassName();
 
@@ -107,14 +95,14 @@ class UsersController extends BaseSettingsController
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $user->setPasswordChanged(true);
-                /* @var UserManager $userManager */
+                // @var UserManager $userManager
                 $userManager = $this->container->get('fos_user.user_manager');
                 $userManager->updateUser($user, true);
 
                 $this->addFlash(
                     FlashTypes::SUCCESS,
                     $this->get('translator')->trans('kuma_user.users.add.flash.success.%username%', [
-                        '%username%' => $user->getUsername()
+                        '%username%' => $user->getUsername(),
                     ])
                 );
 
@@ -122,13 +110,13 @@ class UsersController extends BaseSettingsController
             }
         }
 
-        return array(
+        return [
             'form' => $form->createView(),
-        );
+        ];
     }
 
     /**
-     * Edit a user
+     * Edit a user.
      *
      * @param int $id
      *
@@ -137,31 +125,32 @@ class UsersController extends BaseSettingsController
      * @Template()
      *
      * @throws AccessDeniedException
+     *
      * @return array
      */
     public function editAction(Request $request, $id)
     {
         // The logged in user should be able to change his own password/username/email and not for other users
-        if ($id == $this->get('security.token_storage')->getToken()->getUser()->getId()) {
+        if ($id === $this->get('security.token_storage')->getToken()->getUser()->getId()) {
             $requiredRole = 'ROLE_ADMIN';
         } else {
             $requiredRole = 'ROLE_SUPER_ADMIN';
         }
         $this->denyAccessUnlessGranted($requiredRole);
 
-        /* @var $em EntityManager */
+        // @var $em EntityManager
         $em = $this->getDoctrine()->getManager();
 
         /** @var UserInterface $user */
         $user = $em->getRepository($this->getParameter('fos_user.model.user.class'))->find($id);
-        if ($user === null) {
+        if (null === $user) {
             throw new NotFoundHttpException(sprintf('User with ID %s not found', $id));
         }
 
         $userEvent = new UserEvent($user, $request);
         $this->container->get('event_dispatcher')->dispatch(UserEvents::USER_EDIT_INITIALIZE, $userEvent);
 
-        $options = array('password_required' => false, 'langs' => $this->getParameter('kunstmaan_admin.admin_locales'), 'data_class' => get_class($user));
+        $options = ['password_required' => false, 'langs' => $this->getParameter('kunstmaan_admin.admin_locales'), 'data_class' => get_class($user)];
         $formFqn = $user->getFormTypeClass();
         $formType = new $formFqn();
 
@@ -177,7 +166,6 @@ class UsersController extends BaseSettingsController
         $form = $this->createForm($formFqn, $user, $options);
 
         if ($request->isMethod('POST')) {
-
             if ($tabPane) {
                 $tabPane->bindRequest($request);
                 $form = $tabPane->getForm();
@@ -186,59 +174,60 @@ class UsersController extends BaseSettingsController
             }
 
             if ($form->isValid()) {
-                /* @var UserManager $userManager */
+                // @var UserManager $userManager
                 $userManager = $this->container->get('fos_user.user_manager');
                 $userManager->updateUser($user, true);
 
                 $this->addFlash(
                     FlashTypes::SUCCESS,
                     $this->get('translator')->trans('kuma_user.users.edit.flash.success.%username%', [
-                        '%username%' => $user->getUsername()
+                        '%username%' => $user->getUsername(),
                     ])
                 );
 
                 return new RedirectResponse(
                     $this->generateUrl(
                         'KunstmaanUserManagementBundle_settings_users_edit',
-                        array('id' => $id)
+                        ['id' => $id]
                     )
                 );
             }
         }
 
-        $params = array(
+        $params = [
             'form' => $form->createView(),
             'user' => $user,
-        );
+        ];
 
         if ($tabPane) {
-            $params = array_merge($params, array('tabPane' => $tabPane));
+            $params = array_merge($params, ['tabPane' => $tabPane]);
         }
 
         return $params;
     }
 
     /**
-     * Delete a user
+     * Delete a user.
      *
      * @param Request $request
-     * @param int $id
+     * @param int     $id
      *
      * @Route("/{id}/delete", requirements={"id" = "\d+"}, name="KunstmaanUserManagementBundle_settings_users_delete")
      * @Method({"GET", "POST"})
      *
      * @throws AccessDeniedException
+     *
      * @return array
      */
     public function deleteAction(Request $request, $id)
     {
         $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
 
-        /* @var $em EntityManager */
+        // @var $em EntityManager
         $em = $this->getDoctrine()->getManager();
-        /* @var UserInterface $user */
+        // @var UserInterface $user
         $user = $em->getRepository($this->getParameter('fos_user.model.user.class'))->find($id);
-        if (!is_null($user)) {
+        if (null !== $user) {
             $userEvent = new UserEvent($user, $request);
             $this->container->get('event_dispatcher')->dispatch(UserEvents::USER_DELETE_INITIALIZE, $userEvent);
 
@@ -248,7 +237,7 @@ class UsersController extends BaseSettingsController
             $this->addFlash(
                 FlashTypes::SUCCESS,
                 $this->get('translator')->trans('kuma_user.users.delete.flash.success.%username%', [
-                    '%username%' => $user->getUsername()
+                    '%username%' => $user->getUsername(),
                 ])
             );
         }
@@ -265,10 +254,22 @@ class UsersController extends BaseSettingsController
         return new RedirectResponse(
             $this->generateUrl(
                 'KunstmaanUserManagementBundle_settings_users_edit',
-                array(
+                [
                     'id' => $this->get('security.token_storage')->getToken()->getUser()->getId(),
-                )
+                ]
             )
         );
+    }
+
+    /**
+     * Get an instance of the admin user class.
+     *
+     * @return BaseUser
+     */
+    private function getUserClassInstance()
+    {
+        $userClassName = $this->getParameter('fos_user.model.user.class');
+
+        return new $userClassName();
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Kunstmaan\MediaBundle\Tests\Form;
 
 use Kunstmaan\NodeBundle\Form\Type\URLChooserType;
@@ -10,7 +11,7 @@ use Symfony\Component\Form\Forms;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * AbstractTypeTestCase
+ * AbstractTypeTestCase.
  */
 abstract class AbstractTypeTest extends WebTestCase
 {

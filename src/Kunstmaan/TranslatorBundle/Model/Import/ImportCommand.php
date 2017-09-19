@@ -5,7 +5,7 @@ namespace Kunstmaan\TranslatorBundle\Model\Import;
 class ImportCommand
 {
     private $defaultBundle = false;
-    private $bundles = array();
+    private $bundles = [];
     private $globals = true;
     private $force = false;
     private $locales = false;

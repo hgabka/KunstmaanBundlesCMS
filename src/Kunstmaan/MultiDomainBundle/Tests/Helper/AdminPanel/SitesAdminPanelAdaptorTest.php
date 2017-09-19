@@ -4,6 +4,9 @@ namespace Kunstmaan\MultiDomainBundle\Tests\Helper\AdminPanel;
 
 use Kunstmaan\MultiDomainBundle\Helper\AdminPanel\SitesAdminPanelAdaptor;
 
+/**
+ * @coversNothing
+ */
 class SitesAdminPanelAdaptorTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -29,8 +32,8 @@ class SitesAdminPanelAdaptorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\MultiDomainBundle\Helper\AdminPanel\SitesAdminPanelAdaptor::getAdminPanelActions
-     * @covers Kunstmaan\MultiDomainBundle\Helper\AdminPanel\SitesAdminPanelAdaptor::getSiteSwitcherAction
+     * @covers \Kunstmaan\MultiDomainBundle\Helper\AdminPanel\SitesAdminPanelAdaptor::getAdminPanelActions
+     * @covers \Kunstmaan\MultiDomainBundle\Helper\AdminPanel\SitesAdminPanelAdaptor::getSiteSwitcherAction
      */
     public function testGetAdminPanelActions()
     {
@@ -38,6 +41,6 @@ class SitesAdminPanelAdaptorTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $actions);
 
         $action = $actions[0];
-        $this->assertEquals('KunstmaanMultiDomainBundle_switch_site', $action->getUrl()['path']);
+        $this->assertSame('KunstmaanMultiDomainBundle_switch_site', $action->getUrl()['path']);
     }
 }

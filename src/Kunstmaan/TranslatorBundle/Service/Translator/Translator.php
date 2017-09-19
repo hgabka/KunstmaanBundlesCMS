@@ -7,52 +7,51 @@ use Kunstmaan\TranslatorBundle\Entity\Translation;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator as SymfonyTranslator;
 
 /**
- * Translator
+ * Translator.
  */
 class Translator extends SymfonyTranslator
 {
-
-    private $translationRepository;
-
-    /**
-     * Resource Cacher
-     * @var Kunstmaan\TranslatorBundle\Service\Translator\ResourceCacher
-     */
-    private $resourceCacher;
-
     /**
      * @var \Symfony\Component\HttpFoundation\Request
      */
     protected $request;
 
+    private $translationRepository;
+
+    /**
+     * Resource Cacher.
+     *
+     * @var Kunstmaan\TranslatorBundle\Service\Translator\ResourceCacher
+     */
+    private $resourceCacher;
+
     /**
      * Add resources from the database
      * So the translator knows where to look (first) for specific translations
-     * This function will also look if these resources are loaded from the stash or from the cache
+     * This function will also look if these resources are loaded from the stash or from the cache.
      */
     public function addDatabaseResources()
     {
-        if ($this->addResourcesFromCacher() === false) {
+        if (false === $this->addResourcesFromCacher()) {
             $this->addResourcesFromDatabaseAndCacheThem();
         }
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function warmUp($cacheDir)
     {
-        return;
     }
 
     /**
-     * Add resources to the Translator from the cache
+     * Add resources to the Translator from the cache.
      */
     public function addResourcesFromCacher()
     {
         $resources = $this->resourceCacher->getCachedResources(false);
 
-        if ($resources !== false) {
+        if (false !== $resources) {
             $this->addResources($resources);
 
             return true;
@@ -62,9 +61,9 @@ class Translator extends SymfonyTranslator
     }
 
     /**
-     * Add resources from the stash and cache them
+     * Add resources from the stash and cache them.
      *
-     * @param boolean $cacheResources cache resources after retrieving them from the stasher
+     * @param bool $cacheResources cache resources after retrieving them from the stasher
      */
     public function addResourcesFromDatabaseAndCacheThem($cacheResources = true)
     {
@@ -72,10 +71,10 @@ class Translator extends SymfonyTranslator
             $resources = $this->translationRepository->getAllDomainsByLocale();
             $this->addResources($resources);
 
-            if ($cacheResources === true) {
+            if (true === $cacheResources) {
                 $this->resourceCacher->cacheResources($resources);
             }
-        } catch (\Exception $ex){
+        } catch (\Exception $ex) {
             // don't load if the database doesn't work
         }
     }
@@ -83,7 +82,7 @@ class Translator extends SymfonyTranslator
     /**
      * Add resources to the Translator
      * Resources is an array[0] => array('name' => 'messages', 'locale' => 'en')
-     * Where name is the domain of the domain
+     * Where name is the domain of the domain.
      *
      * @param array $resources
      */
@@ -94,27 +93,14 @@ class Translator extends SymfonyTranslator
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function loadCatalogue($locale)
-    {
-
-        if ($this->options['debug'] === true) {
-            $this->options['cache_dir'] = null; // disable caching for debug
-        }
-
-        return parent::loadCatalogue($locale);
-    }
-
-    public function trans($id, array $parameters = array(), $domain = 'messages', $locale = null)
+    public function trans($id, array $parameters = [], $domain = 'messages', $locale = null)
     {
         if (!$this->request = $this->container->get('request_stack')->getCurrentRequest()) {
             return parent::trans($id, $parameters, $domain, $locale);
         }
 
         $showTranslationsSource = $this->request->get('transSource');
-        if ($showTranslationsSource !== null) {
+        if (null !== $showTranslationsSource) {
             $trans = sprintf('%s (%s)', $id, $domain);
         } else {
             $trans = parent::trans($id, $parameters, $domain, $locale);
@@ -127,16 +113,15 @@ class Translator extends SymfonyTranslator
 
     public function profileTranslation($id, $parameters, $domain, $locale, $trans)
     {
-
-        if (!$this->request || $this->container->getParameter('kuma_translator.profiler') === false) {
+        if (!$this->request || false === $this->container->getParameter('kuma_translator.profiler')) {
             return;
         }
 
-        if ($locale === null) {
+        if (null === $locale) {
             $locale = $this->request->get('_locale');
         }
 
-        $translation = new Translation;
+        $translation = new Translation();
         $translation->setKeyword($id);
         $translation->setDomain($domain);
         $translation->setLocale($locale);
@@ -145,13 +130,12 @@ class Translator extends SymfonyTranslator
         $translationCollection = $this->request->request->get('usedTranslations');
 
         if (!$translationCollection instanceof \Doctrine\Common\Collections\ArrayCollection) {
-            $translationCollection = new ArrayCollection;
+            $translationCollection = new ArrayCollection();
         }
 
-        $translationCollection->set($domain . $id . $locale, $translation);
+        $translationCollection->set($domain.$id.$locale, $translation);
 
         $this->request->request->set('usedTranslations', $translationCollection);
-
     }
 
     public function getTranslationRepository()
@@ -169,5 +153,15 @@ class Translator extends SymfonyTranslator
         $this->resourceCacher = $resourceCacher;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function loadCatalogue($locale)
+    {
+        if (true === $this->options['debug']) {
+            $this->options['cache_dir'] = null; // disable caching for debug
+        }
 
+        return parent::loadCatalogue($locale);
+    }
 }

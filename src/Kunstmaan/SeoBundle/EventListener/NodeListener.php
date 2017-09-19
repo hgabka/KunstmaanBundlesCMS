@@ -12,7 +12,7 @@ use Kunstmaan\SeoBundle\Form\SeoType;
 use Kunstmaan\SeoBundle\Form\SocialType;
 
 /**
- * This will add a seo tab on each page
+ * This will add a seo tab on each page.
  */
 class NodeListener
 {
@@ -35,7 +35,7 @@ class NodeListener
     public function adaptForm(AdaptFormEvent $event)
     {
         if ($event->getPage() instanceof HasNodeInterface && !$event->getPage()->isStructureNode()) {
-            /* @var Seo $seo */
+            // @var Seo $seo
             $seo = $this->em->getRepository('KunstmaanSeoBundle:Seo')->findOrCreateFor($event->getPage());
 
             $seoWidget = new FormWidget();

@@ -27,8 +27,8 @@ class UpdateAclCommand extends ContainerAwareCommand
 
         $this->setName('kuma:acl:update')
             ->setDescription('Permissions update of ACL entries for all nodes for given role')
-            ->setHelp("The <info>kuma:update:acl</info> will update ACL entries for the nodes of the current project" .
-                "with given role and permissions");
+            ->setHelp('The <info>kuma:update:acl</info> will update ACL entries for the nodes of the current project'.
+                'with given role and permissions');
     }
 
     /**
@@ -46,18 +46,20 @@ class UpdateAclCommand extends ContainerAwareCommand
 
         // Select Permission(s)
         $permissionMap = $this->getContainer()->get('security.acl.permission.map');
-        $question = new ChoiceQuestion('Select permissions(s) (separate by ",")',
-            $permissionMap->getPossiblePermissions());
+        $question = new ChoiceQuestion(
+            'Select permissions(s) (separate by ",")',
+            $permissionMap->getPossiblePermissions()
+        );
         $question->setMultiselect(true);
         $mask = array_reduce($helper->ask($input, $output, $question), function ($a, $b) use ($permissionMap) {
             return $a | $permissionMap->getMasks($b, null)[0];
         }, 0);
 
-        /* @var EntityManager $em */
+        // @var EntityManager $em
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        /* @var MutableAclProviderInterface $aclProvider */
+        // @var MutableAclProviderInterface $aclProvider
         $aclProvider = $this->getContainer()->get('security.acl.provider');
-        /* @var ObjectIdentityRetrievalStrategyInterface $oidStrategy */
+        // @var ObjectIdentityRetrievalStrategyInterface $oidStrategy
         $oidStrategy = $this->getContainer()->get('security.acl.object_identity_retrieval_strategy');
 
         // Fetch all nodes & grant access
@@ -76,11 +78,11 @@ class UpdateAclCommand extends ContainerAwareCommand
                     continue;
                 }
                 $acl->updateObjectAce($index, $mask);
+
                 break;
             }
             $aclProvider->updateAcl($acl);
         }
-        $output->writeln(count($nodes) . ' nodes processed.');
+        $output->writeln(count($nodes).' nodes processed.');
     }
-
 }

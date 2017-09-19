@@ -22,33 +22,31 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Translation\TranslatorInterface;
 
-
 class TranslatorController extends AdminListController
 {
-
     /**
      * @var AbstractAdminListConfigurator
      */
     private $adminListConfigurator;
-
 
     /**
      * @Route("/", name="KunstmaanTranslatorBundle_settings_translations")
      * @Template("KunstmaanTranslatorBundle:Translator:list.html.twig")
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return array
      */
     public function indexAction(Request $request)
     {
         $configurator = $this->getAdminListConfigurator();
 
-        /* @var AdminList $adminList */
-        $adminList = $this->get("kunstmaan_adminlist.factory")->createList($configurator);
+        // @var AdminList $adminList
+        $adminList = $this->get('kunstmaan_adminlist.factory')->createList($configurator);
         $adminList->bindRequest($request);
 
         $cacheFresh = $this->get('kunstmaan_translator.service.translator.cache_validator')->isCacheFresh();
-        $debugMode = $this->getParameter('kuma_translator.debug') === true;
+        $debugMode = true === $this->getParameter('kuma_translator.debug');
 
         if (!$cacheFresh && !$debugMode) {
             $this->addFlash(
@@ -57,28 +55,29 @@ class TranslatorController extends AdminListController
             );
         }
 
-        return array(
+        return [
             'adminlist' => $adminList,
-            'adminlistconfigurator' => $configurator
-        );
+            'adminlistconfigurator' => $configurator,
+        ];
     }
 
     /**
-     * The add action
+     * The add action.
      *
      * @Route("/add", name="KunstmaanTranslatorBundle_settings_translations_add")
      * @Method({"GET", "POST"})
      * @Template("KunstmaanTranslatorBundle:Translator:addTranslation.html.twig")
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param string $keyword
-     * @param string $domain
-     * @param string $locale
+     * @param string                                    $keyword
+     * @param string                                    $domain
+     * @param string                                    $locale
+     *
      * @return array|RedirectResponse
      */
     public function addAction(Request $request, $keyword = '', $domain = '', $locale = '')
     {
-        /* @var $em EntityManager */
+        // @var $em EntityManager
         $em = $this->getDoctrine()->getManager();
         $configurator = $this->getAdminListConfigurator();
         $translator = $this->get('translator');
@@ -89,8 +88,8 @@ class TranslatorController extends AdminListController
             $translation->addText($locale, '');
         }
 
-        $form = $this->createForm(TranslationAdminType::class, $translation, array('csrf_token_id' => 'add'));
-        if ('POST' == $request->getMethod()) {
+        $form = $this->createForm(TranslationAdminType::class, $translation, ['csrf_token_id' => 'add']);
+        if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
 
             // Fetch form data
@@ -115,19 +114,19 @@ class TranslatorController extends AdminListController
 
                 return new RedirectResponse($this->generateUrl(
                     $indexUrl['path'],
-                    isset($indexUrl['params']) ? $indexUrl['params'] : array()
+                    isset($indexUrl['params']) ? $indexUrl['params'] : []
                 ));
             }
         }
 
-        return array(
+        return [
             'form' => $form->createView(),
-            'adminlistconfigurator' => $configurator
-        );
+            'adminlistconfigurator' => $configurator,
+        ];
     }
 
     /**
-     * The edit action
+     * The edit action.
      *
      * @Route("/{id}/edit", requirements={"id" = "\d+"}, name="KunstmaanTranslatorBundle_settings_translations_edit")
      * @Method({"GET", "POST"})
@@ -135,7 +134,9 @@ class TranslatorController extends AdminListController
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param $id
+     *
      * @throws \InvalidArgumentException
+     *
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function editAction(Request $request, $id)
@@ -143,8 +144,7 @@ class TranslatorController extends AdminListController
         $em = $this->getDoctrine()->getManager();
         $configurator = $this->getAdminListConfigurator();
 
-
-        $translations = $em->getRepository('KunstmaanTranslatorBundle:Translation')->findBy(array('translationId' => $id));
+        $translations = $em->getRepository('KunstmaanTranslatorBundle:Translation')->findBy(['translationId' => $id]);
         if (count($translations) < 1) {
             throw new \InvalidArgumentException('No existing translations found for this id');
         }
@@ -156,7 +156,7 @@ class TranslatorController extends AdminListController
         foreach ($locales as $locale) {
             $found = false;
             foreach ($translations as $t) {
-                if ($locale == $t->getLocale()) {
+                if ($locale === $t->getLocale()) {
                     $translation->addText($locale, $t->getText(), $t->getId());
                     $found = true;
                 }
@@ -166,9 +166,9 @@ class TranslatorController extends AdminListController
             }
         }
 
-        $form = $this->createForm(TranslationAdminType::class, $translation, array('intention' => 'edit'));
+        $form = $this->createForm(TranslationAdminType::class, $translation, ['intention' => 'edit']);
 
-        if ('POST' == $request->getMethod()) {
+        if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -185,38 +185,42 @@ class TranslatorController extends AdminListController
 
                 return new RedirectResponse($this->generateUrl(
                     $indexUrl['path'],
-                    isset($indexUrl['params']) ? $indexUrl['params'] : array()
+                    isset($indexUrl['params']) ? $indexUrl['params'] : []
                 ));
             }
         }
 
-        return array(
+        return [
             'form' => $form->createView(),
             'translation' => $translation,
-            'adminlistconfigurator' => $configurator
-        );
+            'adminlistconfigurator' => $configurator,
+        ];
     }
 
     /**
      * @Method({"GET"})
+     *
+     * @param mixed $domain
+     * @param mixed $locale
+     * @param mixed $keyword
      */
     public function editSearchAction($domain, $locale, $keyword)
     {
         $configurator = $this->getAdminListConfigurator();
         $em = $this->getDoctrine()->getManager();
         $translation = $em->getRepository('KunstmaanTranslatorBundle:Translation')->findOneBy(
-          array('domain' => $domain, 'keyword' => $keyword, 'locale' => $locale)
+          ['domain' => $domain, 'keyword' => $keyword, 'locale' => $locale]
         );
 
-        if ($translation === null) {
+        if (null === $translation) {
             $addUrl = $configurator->getAddUrlFor(
-              array('domain' => $domain, 'keyword' => $keyword, 'locale' => $locale)
+              ['domain' => $domain, 'keyword' => $keyword, 'locale' => $locale]
             );
 
             return new RedirectResponse($this->generateUrl($addUrl['path'], $addUrl['params']));
         }
 
-        $editUrl = $configurator->getEditUrlFor(array('id' => $translation->getId()));
+        $editUrl = $configurator->getEditUrlFor(['id' => $translation->getId()]);
 
         return new RedirectResponse($this->generateUrl($editUrl['path'], $editUrl['params']));
     }
@@ -224,14 +228,15 @@ class TranslatorController extends AdminListController
     /**
      * @param $id
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @throws NotFoundHttpException
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("/{id}/delete", requirements={"id" = "\d+"}, name="KunstmaanTranslatorBundle_settings_translations_delete")
      * @Method({"GET", "POST"})
      */
     public function deleteAction(Request $request, $id)
     {
-        /* @var $em EntityManager */
+        // @var $em EntityManager
         $em = $this->getDoctrine()->getManager();
 
         $indexUrl = $this->getAdminListConfigurator()->getIndexUrl();
@@ -239,7 +244,7 @@ class TranslatorController extends AdminListController
             $em->getRepository('KunstmaanTranslatorBundle:Translation')->removeTranslations($id);
         }
 
-        return new RedirectResponse($this->generateUrl($indexUrl['path'], isset($indexUrl['params']) ? $indexUrl['params'] : array()));
+        return new RedirectResponse($this->generateUrl($indexUrl['path'], isset($indexUrl['params']) ? $indexUrl['params'] : []));
     }
 
     public function setAdminListConfigurator($adminListConfigurator)
@@ -272,22 +277,22 @@ class TranslatorController extends AdminListController
 
         $adminListConfigurator = $this->getAdminListConfigurator();
         if (!$adminListConfigurator->canEditInline($values)) {
-            throw new AccessDeniedHttpException("Not allowed to edit this translation");
+            throw new AccessDeniedHttpException('Not allowed to edit this translation');
         }
 
         $id = isset($values['pk']) ? (int) $values['pk'] : 0;
         $em = $this->getDoctrine()->getManager();
         /**
-         * @var TranslatorInterface $translator
+         * @var TranslatorInterface
          */
         $translator = $this->get('translator');
 
         try {
-            if ($id !== 0) {
+            if (0 !== $id) {
                 // Find existing translation
                 $translation = $em->getRepository('KunstmaanTranslatorBundle:Translation')->find($id);
 
-                if (is_null($translation)) {
+                if (null === $translation) {
                     return new Response($translator->trans('translator.translator.invalid_translation'), 500);
                 }
             } else {
@@ -302,10 +307,10 @@ class TranslatorController extends AdminListController
             $em->persist($translation);
             $em->flush();
 
-            return new JsonResponse(array(
+            return new JsonResponse([
               'success' => true,
-              'uid' => $translation->getId()
-            ), 200);
+              'uid' => $translation->getId(),
+            ], 200);
         } catch (\Exception $e) {
             return new Response($translator->trans('translator.translator.fatal_error_occurred'), 500);
         }

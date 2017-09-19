@@ -9,7 +9,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class FixTimestampsCommand extends ContainerAwareCommand
 {
-
     /**
      * {@inheritdoc}
      */
@@ -19,7 +18,7 @@ class FixTimestampsCommand extends ContainerAwareCommand
 
         $this->setName('kuma:nodes:fix-timestamps')
             ->setDescription('Update timestamps for all node translations.')
-            ->setHelp("The <info>kuma:nodes:fix-timestamps</info> will loop over all node translation entries and update the timestamps for the entries.");
+            ->setHelp('The <info>kuma:nodes:fix-timestamps</info> will loop over all node translation entries and update the timestamps for the entries.');
     }
 
     /**
@@ -31,8 +30,9 @@ class FixTimestampsCommand extends ContainerAwareCommand
 
         $db = $em->getConnection();
         $db->beginTransaction();
+
         try {
-            $sql = <<<SQL
+            $sql = <<<'SQL'
 update kuma_node_translations nt
 set nt.created=(select MIN(created) from kuma_node_versions nv where nv.node_translation_id=nt.id AND nv.type='public'),
 nt.updated=(select MAX(updated) from kuma_node_versions nv where nv.node_translation_id=nt.id AND nv.type='public')
@@ -44,7 +44,7 @@ SQL;
         } catch (DBALException $e) {
             $db->rollBack();
             $output->writeln('<error>An error occured while updating the node translation timestamps</error>');
-            $output->writeln('<error>' . $e->getMessage() . '</error>');
+            $output->writeln('<error>'.$e->getMessage().'</error>');
         }
     }
 }

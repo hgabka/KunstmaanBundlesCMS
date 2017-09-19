@@ -20,7 +20,7 @@ class ScriptInjectorListener implements EventSubscriberInterface
 
     public function __construct(Client $httpClient, $checkServerPresence = true)
     {
-        $this->httpClient          = $httpClient;
+        $this->httpClient = $httpClient;
         $this->checkServerPresence = $checkServerPresence;
     }
 
@@ -31,7 +31,7 @@ class ScriptInjectorListener implements EventSubscriberInterface
         }
 
         $response = $event->getResponse();
-        $request  = $event->getRequest();
+        $request = $event->getRequest();
 
         // do not capture redirects or modify XML HTTP Requests
         if ($request->isXmlHttpRequest()) {
@@ -50,6 +50,13 @@ class ScriptInjectorListener implements EventSubscriberInterface
         $this->injectScript($response);
     }
 
+    public static function getSubscribedEvents()
+    {
+        return [
+            KernelEvents::RESPONSE => ['onKernelResponse', -127],
+        ];
+    }
+
     /**
      * Injects the livereload script.
      *
@@ -58,49 +65,44 @@ class ScriptInjectorListener implements EventSubscriberInterface
     protected function injectScript(Response $response)
     {
         if (function_exists('mb_stripos')) {
-            $posrFunction   = 'mb_strripos';
+            $posrFunction = 'mb_strripos';
             $substrFunction = 'mb_substr';
         } else {
-            $posrFunction   = 'strripos';
+            $posrFunction = 'strripos';
             $substrFunction = 'substr';
         }
 
         $content = $response->getContent();
-        $pos     = $posrFunction($content, '</body>');
+        $pos = $posrFunction($content, '</body>');
 
         if (false !== $pos) {
-            $script = "livereload.js";
+            $script = 'livereload.js';
 
             if ($this->checkServerPresence) {
                 // GET is required, as livereload apparently does not support HEAD requests ...
                 $request = $this->httpClient->get($script);
+
                 try {
                     $checkResponse = $this->httpClient->send($request);
 
-                    if ($checkResponse->getStatusCode() !== 200) {
+                    if (200 !== $checkResponse->getStatusCode()) {
                         return;
                     }
                 } catch (CurlException $e) {
                     // If error is connection failed, we assume the server is not running
-                    if ($e->getCurlHandle()->getErrorNo() === 7) {
+                    if (7 === $e->getCurlHandle()->getErrorNo()) {
                         return;
                     }
+
                     throw $e;
                 }
             }
 
-            $content = $substrFunction($content, 0, $pos) . "\n"
-                . '<script src="' . $this->httpClient->getBaseUrl() . $script . '"></script>' . "\n"
-                . $substrFunction($content, $pos);
+            $content = $substrFunction($content, 0, $pos)."\n"
+                .'<script src="'.$this->httpClient->getBaseUrl().$script.'"></script>'."\n"
+                .$substrFunction($content, $pos);
 
             $response->setContent($content);
         }
-    }
-
-    public static function getSubscribedEvents()
-    {
-        return array(
-            KernelEvents::RESPONSE => array('onKernelResponse', -127),
-        );
     }
 }

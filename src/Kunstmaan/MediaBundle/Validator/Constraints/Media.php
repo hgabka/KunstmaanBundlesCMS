@@ -8,7 +8,6 @@ use Symfony\Component\Validator\Constraint;
  * @Annotation
  */
 class Media extends Constraint
-
 {
     const NOT_FOUND_ERROR = 1;
     const NOT_READABLE_ERROR = 2;
@@ -19,23 +18,12 @@ class Media extends Constraint
     const TOO_HIGH_ERROR = 13;
     const TOO_LOW_ERROR = 14;
 
-    protected static $errorNames = array(
-        self::NOT_FOUND_ERROR => 'NOT_FOUND_ERROR',
-        self::NOT_READABLE_ERROR => 'NOT_READABLE_ERROR',
-        self::EMPTY_ERROR => 'EMPTY_ERROR',
-        self::INVALID_MIME_TYPE_ERROR => 'INVALID_MIME_TYPE_ERROR',
-        self::TOO_HIGH_ERROR => 'TOO_HIGH_ERROR',
-        self::TOO_LOW_ERROR => 'TOO_LOW_ERROR',
-        self::TOO_WIDE_ERROR => 'TOO_WIDE_ERROR',
-        self::TOO_NARROW_ERROR => 'TOO_NARROW_ERROR',
-    );
-
     public $minHeight;
     public $maxHeight;
     public $minWidth;
     public $maxWidth;
     public $binaryFormat;
-    public $mimeTypes = array();
+    public $mimeTypes = [];
 
     public $notFoundMessage = 'The file could not be found.';
     public $notReadableMessage = 'The file is not readable.';
@@ -51,6 +39,17 @@ class Media extends Constraint
     public $uploadCantWriteErrorMessage = 'Cannot write temporary file to disk.';
     public $uploadExtensionErrorMessage = 'A PHP extension caused the upload to fail.';
     public $uploadErrorMessage = 'The file could not be uploaded.';
+
+    protected static $errorNames = [
+        self::NOT_FOUND_ERROR => 'NOT_FOUND_ERROR',
+        self::NOT_READABLE_ERROR => 'NOT_READABLE_ERROR',
+        self::EMPTY_ERROR => 'EMPTY_ERROR',
+        self::INVALID_MIME_TYPE_ERROR => 'INVALID_MIME_TYPE_ERROR',
+        self::TOO_HIGH_ERROR => 'TOO_HIGH_ERROR',
+        self::TOO_LOW_ERROR => 'TOO_LOW_ERROR',
+        self::TOO_WIDE_ERROR => 'TOO_WIDE_ERROR',
+        self::TOO_NARROW_ERROR => 'TOO_NARROW_ERROR',
+    ];
 
     public function __construct($options = null)
     {
