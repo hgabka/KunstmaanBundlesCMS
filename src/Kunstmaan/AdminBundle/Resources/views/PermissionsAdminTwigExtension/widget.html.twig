@@ -43,7 +43,7 @@
                <tr>
                    <th>{{ "permissions.role_name"|trans }}</th>
                     {% for permissionName in permissionadmin.getPossiblePermissions() %}
-                        <th>{{ permissionName }}</th>
+                        <th>{{ ('permissions.' ~ permissionName) | trans }}</th>
                     {% endfor %}
                </tr>
             </thead>

@@ -99,6 +99,11 @@ permissions:
     permissions_added: Engedély hozzáadása
     permissions_removed: Engedély eltávolítása
     role_name: Szerepkör neve
+    VIEW: Megtekintés
+    EDIT: Szerkesztés
+    DELETE: Törlés
+    PUBLISH: Publikálás
+    UNPUBLISH: Publikálás visszavonása
 
 errors:
     oauth:

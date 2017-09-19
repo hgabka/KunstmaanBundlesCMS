@@ -99,6 +99,11 @@ permissions:
     permissions_added: 'The following permissions will be <strong>added</strong>:'
     permissions_removed: 'The following permissions will be <strong>removed</strong>:'
     role_name: Role name
+    VIEW: View
+    EDIT: Edit
+    DELETE: Delete
+    PUBLISH: Publish
+    UNPUBLISH: Unpublish
 
 errors:
     oauth:
