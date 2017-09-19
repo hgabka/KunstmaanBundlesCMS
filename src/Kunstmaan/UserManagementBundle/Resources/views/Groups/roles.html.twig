@@ -1,1 +1,3 @@
-{{ dump(object) }}
+{% for (key, roleName in object) %}
+    {{ roleName | trans }}{% if not loop.last %}, {% endif %} 
+{% endfor %}	
