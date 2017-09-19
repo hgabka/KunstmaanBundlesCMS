@@ -31,7 +31,7 @@ class Role extends BaseRole
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="string", name="name", unique=true, length=70)
+     * @ORM\Column(type="string", name="name", length=70)
      */
     protected $name;
 
