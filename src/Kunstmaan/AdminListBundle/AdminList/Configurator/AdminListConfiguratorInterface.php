@@ -308,6 +308,13 @@ interface AdminListConfiguratorInterface
     /**
      * Returns tab fields.
      *
+     * @return null|array|string
+     */
+    public function getDefaultSort();
+
+    /**
+     * Returns default sort.
+     *
      * @return null|array
      */
     public function getTabFields();

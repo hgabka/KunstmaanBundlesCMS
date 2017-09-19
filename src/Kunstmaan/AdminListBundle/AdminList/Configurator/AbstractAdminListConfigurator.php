@@ -781,6 +781,17 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
             if (!$query->has('orderDirection')) {
                 $this->orderDirection = $adminListSessionData['orderDirection'];
             }
+        } else {
+            $sort = $this->getDefaultSort();
+            if (!empty($sort)) {
+                if (is_string($sort)) {
+                    $this->orderBy = $sort;
+                    $this->orderDirection = 'ASC';
+                } elseif (is_array($sort)) {
+                    $this->orderBy = $sort[0];
+                    $this->orderDirection = in_array(strtoupper($sort[1]), ['ASC', 'DESC'], true) ? strtoupper($sort[1]) : 'ASC';
+                }
+            }
         }
 
         // save current parameters
@@ -920,6 +931,16 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
     public function getEntityNamePlural()
     {
         return $this->getEntityName().'s';
+    }
+
+    /**
+     * Returns tab fields.
+     *
+     * @return null|array|string
+     */
+    public function getDefaultSort()
+    {
+        return null;
     }
 
     /**
