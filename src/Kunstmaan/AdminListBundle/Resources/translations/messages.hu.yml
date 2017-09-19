@@ -31,3 +31,8 @@ kuma_admin_list:
         title: "%entity% szerkesztése"
     view:
         title: "%entity% adatai"
+
+    pagerfanta:
+        prev_message: '&larr; Előző'
+        next_message: 'Következő &rarr;'
+        

@@ -3,7 +3,11 @@
 {% include '@KunstmaanAdminList/AdminListTwigExtension/filters.html.twig' %}
 
 {% if adminlist.pagerfanta.haveToPaginate() %}
-    {{ pagerfanta(adminlist.pagerfanta, 'twitter_bootstrap_translated') }}
+    {{ pagerfanta(adminlist.pagerfanta, 'twitter_bootstrap_translated', { 
+		'prev_message' : 'kuma_admin_list.pagerfanta.prev_message' | trans, 
+		'next_message' : 'kuma_admin_list.pagerfanta.next_message' | trans 
+		}) 
+	}}
 {% endif %}
 
 {% if adminlist.hasBulkActions %}
@@ -145,7 +149,11 @@
 {% endif %}
 
 {% if adminlist.pagerfanta.haveToPaginate() %}
-    {{ pagerfanta(adminlist.pagerfanta, 'twitter_bootstrap_translated') }}
+    {{ pagerfanta(adminlist.pagerfanta, 'twitter_bootstrap_translated', { 
+		'prev_message' : 'kuma_admin_list.pagerfanta.prev_message' | trans, 
+		'next_message' : 'kuma_admin_list.pagerfanta.next_message' | trans 
+		}) 
+	}}
 {% endif %}
 
 {% for item in adminlist.items(extraparams) %}

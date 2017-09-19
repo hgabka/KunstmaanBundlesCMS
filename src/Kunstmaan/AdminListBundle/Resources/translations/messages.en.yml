@@ -31,3 +31,7 @@ kuma_admin_list:
         title: Edit %entity%
     view:
         title: View %entity%
+
+    pagerfanta:
+        prev_message: '&larr; Previous'
+        next_message: 'Next &rarr;'
