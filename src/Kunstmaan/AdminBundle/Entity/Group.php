@@ -89,6 +89,22 @@ class Group extends Role implements GroupInterface
     }
 
     /**
+     * Returns an array of strings (needed because Symfony ACL doesn't support using RoleInterface yet).
+     *
+     * @return array
+     */
+    public function getRoleNames()
+    {
+        $result = [];
+        // @var $role RoleInterface
+        foreach ($this->roles as $role) {
+            $result[] = $role->getName();
+        }
+
+        return $result;
+    }
+
+    /**
      * Returns the true ArrayCollection of Roles.
      *
      * @return ArrayCollection
