@@ -23,7 +23,7 @@ class GroupAdminListConfigurator extends AbstractSettingsAdminListConfigurator
     public function buildFields()
     {
         $this->addField('name', 'kuma_user.group.adminlist.header.name', true);
-        $this->addField('roles', 'kuma_user.group.adminlist.header.roles', false);
+        $this->addField('roleNames', 'kuma_user.group.adminlist.header.roles', false);
     }
 
     /**
