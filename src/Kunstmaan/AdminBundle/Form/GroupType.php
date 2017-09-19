@@ -40,7 +40,7 @@ class GroupType extends AbstractType
                     'multiple' => true,
                     'expanded' => false,
                     'required' => true,
-					'choice_label' => 'name'
+					'choice_label' => 'name',
                     'attr' => [
                         'placeholder' => 'settings.group.roles_placeholder',
                         'class' => 'js-advanced-select form-control advanced-select',
