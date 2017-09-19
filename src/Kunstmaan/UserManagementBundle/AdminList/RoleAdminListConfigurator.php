@@ -23,7 +23,7 @@ class RoleAdminListConfigurator extends AbstractSettingsAdminListConfigurator
      */
     public function buildFields()
     {
-        $this->addField('name', 'kuma_user.role.adminlist.header.name', true);
+        $this->addField('name', 'kuma_user.role.adminlist.header.name', true, 'KunstmaanUserManagementBundle:Roles:name.html.twig');
     }
 
     /**
