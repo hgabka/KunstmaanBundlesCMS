@@ -35,7 +35,7 @@ class GroupType extends AbstractType
                     'class' => 'KunstmaanAdminBundle:Role',
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('r')
-                            ->orderBy('r.role', 'ASC');
+                            ->orderBy('r.name', 'ASC');
                     },
                     'multiple' => true,
                     'expanded' => false,
