@@ -184,6 +184,8 @@ kunstmaanbundles.nestedForm = (function(window, undefined) {
         if(sortable) {
             updateSortkeys($form);
         }
+        
+        $(document).trigger('kuma.nested_form_add', {'form' : $form, 'item' : $newItem});
     };
 
 
@@ -207,6 +209,8 @@ kunstmaanbundles.nestedForm = (function(window, undefined) {
         if(sortable) {
             updateSortkeys($form);
         }
+        
+        $(document).trigger('kuma.nested_form_delete', {'form' : $form});
     };
 
 
