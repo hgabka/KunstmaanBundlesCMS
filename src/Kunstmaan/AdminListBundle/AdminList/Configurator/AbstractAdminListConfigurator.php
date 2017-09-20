@@ -610,7 +610,7 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
     {
         $result = $this->getValue($item, $columnName);
         if (is_bool($result)) {
-            return $result ? '<i style="font-size:18px;color:green" class="fa fa-check"></i>' : '<i style="font-size:18px;color:red" class="fa fa-ban"></i>';
+            return $result ? '<i style="font-size:17px;color:green" class="fa fa-check"></i>' : '<i style="font-size:17px;color:red" class="fa fa-ban"></i>';
         }
         if ($result instanceof \DateTime) {
             return $result->format('Y-m-d H:i:s');
