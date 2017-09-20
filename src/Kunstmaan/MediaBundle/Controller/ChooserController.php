@@ -37,8 +37,26 @@ class ChooserController extends Controller
         $cKEditorFuncNum = $request->get('CKEditorFuncNum');
         $linkChooser = $request->get('linkChooser');
 
+        $folderName = $request->get('foldername');
+
+        $folderId = false;
+
+        if (!empty($folderName)) {
+            $folder = $em->getRepository('KunstmaanMediaBundle:Folder')->findOneByInternalName($folderName);
+            if ($folder) {
+                $folderId = $folder->getId();
+            }
+        }
+
+        $fid = $request->get('folderid');
+        if (empty($folderId) && !empty($fid)) {
+            $folder = $em->getRepository('KunstmaanMediaBundle:Folder')->find($fid);
+            if ($folder) {
+                $folderId = $fid;
+            }
+        }
         // Go to the last visited folder
-        if ($session->get('last-media-folder')) {
+        if (empty($folderId) && $session->get('last-media-folder')) {
             try {
                 $em->getRepository('KunstmaanMediaBundle:Folder')->getFolder($session->get('last-media-folder'));
                 $folderId = $session->get('last-media-folder');

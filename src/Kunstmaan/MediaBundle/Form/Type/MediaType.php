@@ -55,6 +55,8 @@ class MediaType extends AbstractType
         );
         $builder->setAttribute('chooser', $options['chooser']);
         $builder->setAttribute('mediatype', $options['mediatype']);
+        $builder->setAttribute('foldername', $options['foldername']);
+        $builder->setAttribute('folderid', $options['folderid']);
     }
 
     /**
@@ -78,6 +80,8 @@ class MediaType extends AbstractType
                 'chooser' => 'KunstmaanMediaBundle_chooser',
                 'mediatype' => null,
                 'current_value_container' => new CurrentValueContainer(),
+                'foldername' => null,
+                'folderid' => null,
             ]
         );
     }
@@ -100,5 +104,7 @@ class MediaType extends AbstractType
         $view->vars['chooser'] = $form->getConfig()->getAttribute('chooser');
         $view->vars['mediatype'] = $form->getConfig()->getAttribute('mediatype');
         $view->vars['mediamanager'] = $this->mediaManager;
+        $view->vars['foldername'] = $form->getConfig()->getAttribute('foldername');
+        $view->vars['folderid'] = $form->getConfig()->getAttribute('folderid');
     }
 }

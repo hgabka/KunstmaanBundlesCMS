@@ -98,7 +98,7 @@
 
 
             <!-- Select Button -->
-            <button type="button" class="btn btn-default btn--raise-on-hover media-chooser__choose-btn" data-toggle="modal" data-target="#{{ id }}-mediaChooserModal" data-link="{{ path(chooser, {'type': mediatype}) }}">
+            <button type="button" class="btn btn-default btn--raise-on-hover media-chooser__choose-btn" data-toggle="modal" data-target="#{{ id }}-mediaChooserModal" data-link="{{ path(chooser, {'type': mediatype, 'foldername': foldername, 'folderid': folderid}) }}">
                 <i class="fa fa-picture-o btn__icon media-chooser__choose-btn__icon"></i>
                 {{ 'media.widget.choose' | trans }}
             </button>
