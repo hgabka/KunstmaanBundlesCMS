@@ -15,6 +15,6 @@
     }
 }
 
-.nav-tabs > li.error {
-    color: red;
+.nav-tabs > li.error > a, .nav-tabs > li.active.error > a {
+    color: #ff0000;
 }
