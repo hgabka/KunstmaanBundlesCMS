@@ -687,7 +687,7 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
         $homePage = $nodeRepo->findOneBy(array('internalName' => 'homepage'));
 
 	$formPage = new FormPage();
-	$formPage->setTitle('Kapcsolatfelvételi form');
+	$formPage->setTitle('Kapcsolatfelvételi űrlap');
 
         $translations = array();
 	foreach ($this->requiredLocales as $locale) {
