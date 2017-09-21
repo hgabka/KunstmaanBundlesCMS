@@ -2,7 +2,7 @@
 
 namespace {{ namespace }}\AdminList;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ObjectManager;
 
 {% if generate_admin_type %}
 use Kunstmaan\AdminBundle\Helper\Security\Acl\AclHelper;
@@ -21,7 +21,7 @@ class {{ entity_class }}AdminListConfigurator extends AbstractDoctrineORMAdminLi
      * @param EntityManager $em        The entity manager
      * @param AclHelper     $aclHelper The acl helper
      */
-    public function __construct(EntityManager $em, AclHelper $aclHelper = null)
+    public function __construct(ObjectManager $em, AclHelper $aclHelper = null)
     {
         parent::__construct($em, $aclHelper);
 {% if generate_admin_type %}
