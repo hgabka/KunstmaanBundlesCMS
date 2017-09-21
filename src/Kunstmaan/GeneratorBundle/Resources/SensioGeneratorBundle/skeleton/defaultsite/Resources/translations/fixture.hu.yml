@@ -64,31 +64,31 @@ demo:
         title: Kapcsolat
         slug: kapcsolat    
     formpage:
-        thanks: '<p>We have received your submission.</p>'
+        thanks: '<p>Köszönjük érdeklődését</p>'
         name:
-            label: Name
-            error_message_required: Name is required
+            label: Név
+            error_message_required: A név megadása kötelező
         mail:
-            error_message_required: Name is required
-            error_message_invalid: Fill in a valid e-mail address
+            error_message_required: Az email cím megadása kötelező
+            error_message_invalid: Az email cím formátuma hibás
         choice:
-            label: Subject
-            error_message_required: Subject is required
-            choices: "I want to make a website with the Kunstmaan bundles \n I'm testing the website \n I want to get a quote for a website built by Kunstmaan"
+            label: Tárgy
+            error_message_required: A tárgy megadása kötelező
+            choices: "Érdeklődés"
         message:
-            label: Message
-            error_message_required: Message is required
+            label: Üzenet
+            error_message_required: Az üzenet megadása kötelező
         send:
-            label: Send
+            label: Küldés
         search:
             title: Keresési találatok
             slug: kereses
 warning:
     outdated:
-        title: Uw browser is verouderd.
+        title: Az Ön böngészője elavult.
         subtitle: Sommige inhoud kan verloren gaan of zal niet correct weergegeven worden.
-        description: Please install a more recent version of your browser.
-        upgrade_browser: Upgrade uw browser
+        description: Kérjük telepítsen egy frissebb böngészőváltozatot.
+        upgrade_browser: Frissítse böngészőjét
 cookieconsent:
-    description: 'This website uses cookies to enhance your browsing experience. <a href="#">More information</a>.'
-    confirm: Proceed
+    description: 'A weboldal a lejobb felhasználói élmény biztosítása érdekében sütiket használ. <a href="#">További információ</a>.'
+    confirm: Rendben

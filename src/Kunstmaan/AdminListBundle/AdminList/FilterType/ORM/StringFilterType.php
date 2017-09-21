@@ -27,34 +27,35 @@ class StringFilterType extends AbstractORMFilterType
     public function apply(array $data, $uniqueId)
     {
         if (isset($data['value']) && isset($data['comparator'])) {
+            $colName = stripos($this->columnName,'.') === false ? $this->getAlias().$this->columnName : $this->columnName;
             switch ($data['comparator']) {
                 case 'equals':
-                    $this->queryBuilder->andWhere($this->queryBuilder->expr()->eq($this->getAlias().$this->columnName, ':var_'.$uniqueId));
+                    $this->queryBuilder->andWhere($this->queryBuilder->expr()->eq($colName, ':var_'.$uniqueId));
                     $this->queryBuilder->setParameter('var_'.$uniqueId, $data['value']);
 
                     break;
                 case 'notequals':
-                    $this->queryBuilder->andWhere($this->queryBuilder->expr()->neq($this->getAlias().$this->columnName, ':var_'.$uniqueId));
+                    $this->queryBuilder->andWhere($this->queryBuilder->expr()->neq($colName, ':var_'.$uniqueId));
                     $this->queryBuilder->setParameter('var_'.$uniqueId, $data['value']);
 
                     break;
                 case 'contains':
-                    $this->queryBuilder->andWhere($this->queryBuilder->expr()->like($this->getAlias().$this->columnName, ':var_'.$uniqueId));
+                    $this->queryBuilder->andWhere($this->queryBuilder->expr()->like($colName, ':var_'.$uniqueId));
                     $this->queryBuilder->setParameter('var_'.$uniqueId, '%'.$data['value'].'%');
 
                     break;
                 case 'doesnotcontain':
-                    $this->queryBuilder->andWhere($this->getAlias().$this->columnName.' NOT LIKE :var_'.$uniqueId);
+                    $this->queryBuilder->andWhere($this->getAlias().$colName.' NOT LIKE :var_'.$uniqueId);
                     $this->queryBuilder->setParameter('var_'.$uniqueId, '%'.$data['value'].'%');
 
                     break;
                 case 'startswith':
-                    $this->queryBuilder->andWhere($this->queryBuilder->expr()->like($this->getAlias().$this->columnName, ':var_'.$uniqueId));
+                    $this->queryBuilder->andWhere($this->queryBuilder->expr()->like($colName, ':var_'.$uniqueId));
                     $this->queryBuilder->setParameter('var_'.$uniqueId, $data['value'].'%');
 
                     break;
                 case 'endswith':
-                    $this->queryBuilder->andWhere($this->queryBuilder->expr()->like($this->getAlias().$this->columnName, ':var_'.$uniqueId));
+                    $this->queryBuilder->andWhere($this->queryBuilder->expr()->like($colName, ':var_'.$uniqueId));
                     $this->queryBuilder->setParameter('var_'.$uniqueId, '%'.$data['value']);
 
                     break;

@@ -161,10 +161,7 @@ abstract class AbstractDoctrineORMAdminListConfigurator extends AbstractAdminLis
 
             // Apply sorting
             if (!empty($this->orderBy)) {
-                $orderBy = $this->orderBy;
-                if (!strpos($orderBy, '.')) {
-                    $orderBy = 'b.'.$orderBy;
-                }
+                $orderBy = $this->getOrderByColumn();
                 $queryBuilder->orderBy($orderBy, ('DESC' === $this->orderDirection ? 'DESC' : 'ASC'));
             }
 
@@ -180,6 +177,16 @@ abstract class AbstractDoctrineORMAdminListConfigurator extends AbstractAdminLis
         }
 
         return $this->query;
+    }
+    
+    protected function getOrderByColumn()
+    {
+        $orderBy = $this->orderBy;
+        if (!strpos($orderBy, '.')) {
+            $orderBy = 'b.'.$orderBy;
+        }
+        
+        return $orderBy;
     }
 
     /**

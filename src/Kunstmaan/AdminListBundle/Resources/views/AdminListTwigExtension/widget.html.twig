@@ -83,7 +83,7 @@
                                 {% set itemHelper = column.getAliasObj(item) %}
                                 {% set columnName = column.getColumnName(columnName) %}
                             {% endif %}
-                            {{adminlist.getStringValue(itemHelper, columnName)}}
+                            {{adminlist.getStringValue(itemHelper, columnName) | raw}}
                         </td>
                     {% endif %}
                 {% endfor %}

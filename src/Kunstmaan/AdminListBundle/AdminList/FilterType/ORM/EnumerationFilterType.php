@@ -27,14 +27,16 @@ class EnumerationFilterType extends AbstractORMFilterType
     public function apply(array $data, $uniqueId)
     {
         if (isset($data['value']) && isset($data['comparator'])) {
+            $colName = stripos($this->columnName,'.') === false ? $this->getAlias().$this->columnName : $this->columnName;
+            
             switch ($data['comparator']) {
                 case 'in':
-                    $this->queryBuilder->andWhere($this->queryBuilder->expr()->in($this->getAlias().$this->columnName, ':var_'.$uniqueId));
+                    $this->queryBuilder->andWhere($this->queryBuilder->expr()->in($colName, ':var_'.$uniqueId));
                     $this->queryBuilder->setParameter('var_'.$uniqueId, $data['value'], \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
 
                     break;
                 case 'notin':
-                    $this->queryBuilder->andWhere($this->queryBuilder->expr()->notIn($this->getAlias().$this->columnName, ':var_'.$uniqueId));
+                    $this->queryBuilder->andWhere($this->queryBuilder->expr()->notIn($colName, ':var_'.$uniqueId));
                     $this->queryBuilder->setParameter('var_'.$uniqueId, $data['value'], \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
 
                     break;
