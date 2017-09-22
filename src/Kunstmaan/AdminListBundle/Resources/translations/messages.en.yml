@@ -35,3 +35,10 @@ kuma_admin_list:
     pagerfanta:
         prev_message: '&larr; Previous'
         next_message: 'Next &rarr;'
+        
+    messages:
+        add_success: The item was created successfully
+        add_error: The item could not be created as the form contains errors
+        edit_success: The item was updated successfully
+        edit_error: The item could not be updated as the form contains errors
+        delete_success: The item was deleted successfully
