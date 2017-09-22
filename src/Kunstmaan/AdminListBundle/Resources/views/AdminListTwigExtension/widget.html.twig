@@ -101,12 +101,6 @@
                         </a>
                     {% endif %}
 
-                    {% if adminlist.canDelete(item) %}
-                        <a href="#" data-toggle="modal" data-target="#sure-modal-{{ item.id }}" class="link--text link--danger table__actions__item" title="{{ 'Delete' | trans }}">
-                            <i class="fa fa-trash-o"></i>
-                        </a>
-                    {% endif %}
-
                     {% if adminlist.hasItemActions() %}
                         {% for itemAction in adminlist.getItemActions() %}
                             {% if itemAction.template is not null %}
@@ -123,7 +117,13 @@
                             {% endif %}
                         {% endfor %}
                     {% endif %}
-                </td>
+ 
+                    {% if adminlist.canDelete(item) %}
+                        <a href="#" data-toggle="modal" data-target="#sure-modal-{{ item.id }}" class="link--text link--danger table__actions__item" title="{{ 'Delete' | trans }}">
+                            <i class="fa fa-trash-o"></i>
+                        </a>
+                    {% endif %}
+               </td>
             </tr>
         {% endfor %}
         </tbody>
