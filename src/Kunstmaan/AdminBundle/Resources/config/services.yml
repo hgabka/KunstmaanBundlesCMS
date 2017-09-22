@@ -230,4 +230,4 @@ services:
         tags:
             - { name: twig.extension }
             
-    "%kunstmaan_admin.acl.helper.class%": "@kunstmaan_admin.acl.helper"
+    Kunstmaan\AdminBundle\Helper\Security\Acl\AclHelper: "@kunstmaan_admin.acl.helper"
