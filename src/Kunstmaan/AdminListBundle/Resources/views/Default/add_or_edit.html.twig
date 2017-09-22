@@ -32,10 +32,7 @@
                     <button type="submit" class="btn btn-primary btn--raise-on-hover">
                         {{ 'kuma_admin_list.form.save' | trans }}
                     </button>
-                    <a href="{{ path(adminlistconfigurator.getIndexUrl()["path"], adminlistconfigurator.getIndexUrl()["params"]) }}" class="btn btn-default btn--raise-on-hover">
-                        {{ 'kuma_admin_list.form.cancel' | trans }}
-                    </a>
-
+                    
                     {% if adminlistconfigurator.hasItemActions() %}
                         {% for itemAction in adminlistconfigurator.getItemActions() %}
                             {% if itemAction.template is not null %}
@@ -50,6 +47,10 @@
                             {% endif %}
                         {% endfor %}
                     {% endif %}
+                    
+                    <a href="{{ path(adminlistconfigurator.getIndexUrl()["path"], adminlistconfigurator.getIndexUrl()["params"]) }}" class="btn btn-default btn--raise-on-hover">
+                        {{ 'kuma_admin_list.form.cancel' | trans }}
+                    </a>
                 {% endblock %}
             </div>
         </div>
