@@ -36,3 +36,10 @@ kuma_admin_list:
         prev_message: '&larr; Előző'
         next_message: 'Következő &rarr;'
         
+    messages:
+        add_success: Az elem sikeresen létrehozásra került
+        add_error: Az elem létrehozása nem sikerült, mert az űrlap hibás adatokat tartalmaz
+        edit_success: Az elem sikeresen megváltoztatásra került
+        edit_error: Az elem megváltoztatása nem sikerült, mert az űrlap hibás adatokat tartalmaz
+        delete_success: Az elem sikeresen törlésre került
+        
