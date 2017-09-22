@@ -162,6 +162,9 @@ abstract class AdminListController extends Controller
 
                 $em->persist($helper);
                 $em->flush();
+                
+                $this->get('session')->getFlashbag()->add('success', 'kuma_admin_list.messages.add_success');
+                
                 $this->container->get('event_dispatcher')->dispatch(
                     AdminListEvents::POST_ADD,
                     $adminListEvent
@@ -177,6 +180,8 @@ abstract class AdminListController extends Controller
                 return new RedirectResponse(
                     $this->generateUrl($indexUrl['path'], isset($indexUrl['params']) ? $indexUrl['params'] : [])
                 );
+            } elseif (!$request->isXmlHttpRequest()) {
+                $this->get('session')->getFlashbag()->add('error', 'kuma_admin_list.messages.add_error');
             }
         }
 
@@ -251,6 +256,9 @@ abstract class AdminListController extends Controller
 
                 $em->persist($helper);
                 $em->flush();
+                
+                $this->get('session')->getFlashbag()->add('success', 'kuma_admin_list.messages.edit_success');
+                
                 $this->container->get('event_dispatcher')->dispatch(
                     AdminListEvents::POST_EDIT,
                     $adminListEvent
@@ -272,6 +280,8 @@ abstract class AdminListController extends Controller
                         )
                     );
                 }
+            } elseif (!$request->isXmlHttpRequest()) {
+                $this->get('session')->getFlashbag()->add('error', 'kuma_admin_list.messages.edit_error');
             }
         }
 
@@ -358,6 +368,9 @@ abstract class AdminListController extends Controller
 
             $em->remove($helper);
             $em->flush();
+            
+            $this->get('session')->getFlashbag()->add('success', 'kuma_admin_list.messages.delete_success');
+            
             $this->container->get('event_dispatcher')->dispatch(
                 AdminListEvents::POST_DELETE,
                 $adminListEvent
