@@ -25,6 +25,8 @@ kuma_admin_list:
 
     list:
         title: %entity% list
+        edit: Edit
+        delete: Delete
     new:
         title: New %entity%
     edit:
