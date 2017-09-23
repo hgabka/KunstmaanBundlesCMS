@@ -27,6 +27,7 @@ kuma_admin_list:
         title: "%entity% lista"
         edit: Szerkesztés
         delete: Törlés
+        view: Megtekintés
     new:
         title: "Új %entity% hozzáadása"
     edit:
