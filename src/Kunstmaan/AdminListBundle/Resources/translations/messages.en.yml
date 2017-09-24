@@ -28,6 +28,7 @@ kuma_admin_list:
         edit: Edit
         delete: Delete
         view: View
+        pager: %from% - %to% items of %count%
     new:
         title: New %entity%
     edit:
