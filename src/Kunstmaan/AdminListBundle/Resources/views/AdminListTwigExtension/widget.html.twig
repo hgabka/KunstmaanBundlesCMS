@@ -148,11 +148,13 @@
     </form>
 {% endif %}
 
-<div class="pager-count">
-    <div class="counter">
-        {{ 'kuma_admin_list.list.pager' | trans({'%from%': adminlist.pagerfanta.currentPageOffsetStart, '%to%' : adminlist.pagerfanta.currentPageOffsetEnd, '%count%' : adminlist.pagerfanta.count}) }}
+{% if adminlist.pagerfanta.count > 0 %}
+    <div class="pager-count">
+        <div class="counter">
+            {{ 'kuma_admin_list.list.pager' | trans({'%from%': adminlist.pagerfanta.currentPageOffsetStart, '%to%' : adminlist.pagerfanta.currentPageOffsetEnd, '%count%' : adminlist.pagerfanta.count}) }}
+        </div>
     </div>
-</div>
+{% endif %}
 
 {% if adminlist.pagerfanta.haveToPaginate() %}
     {{ pagerfanta(adminlist.pagerfanta, 'twitter_bootstrap_translated', { 
