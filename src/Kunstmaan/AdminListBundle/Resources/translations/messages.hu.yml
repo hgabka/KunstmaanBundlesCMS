@@ -28,7 +28,7 @@ kuma_admin_list:
         edit: Szerkesztés
         delete: Törlés
         view: Megtekintés
-        pager: %from% - %to% elem a %count%-ból
+        pager: %from% - %to% a(z) %count% elemből
         no_item: Nincs megjelenítendő elem
     new:
         title: "Új %entity% hozzáadása"
