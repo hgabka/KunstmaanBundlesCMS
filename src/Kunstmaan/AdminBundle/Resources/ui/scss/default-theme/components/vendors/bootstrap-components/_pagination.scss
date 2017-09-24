@@ -25,3 +25,13 @@ div.pagination {
 .table-responsive + .pagination {
     margin-top: 0;
 }
+
+.pager-count:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.pager-count .counter {
+    float: right;
+}
