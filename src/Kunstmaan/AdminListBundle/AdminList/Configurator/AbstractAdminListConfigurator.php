@@ -992,7 +992,7 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
      */
     public function getPagesizeOptions()
     {
-        return [10, 20, 50];
+        return null;
     }
 
     /**
