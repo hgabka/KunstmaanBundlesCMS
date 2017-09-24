@@ -99,7 +99,7 @@ abstract class AbstractDoctrineORMAdminListConfigurator extends AbstractAdminLis
             $adapter = new DoctrineORMAdapter($this->getQuery());
             $this->pagerfanta = new Pagerfanta($adapter);
             $this->pagerfanta->setNormalizeOutOfRangePages(true);
-            $this->pagerfanta->setMaxPerPage($this->getLimit());
+            $this->pagerfanta->setMaxPerPage($this->getPagesize());
             $this->pagerfanta->setCurrentPage($this->getPage());
         }
 
@@ -178,16 +178,6 @@ abstract class AbstractDoctrineORMAdminListConfigurator extends AbstractAdminLis
 
         return $this->query;
     }
-    
-    protected function getOrderByColumn()
-    {
-        $orderBy = $this->orderBy;
-        if (!strpos($orderBy, '.')) {
-            $orderBy = 'b.'.$orderBy;
-        }
-        
-        return $orderBy;
-    }
 
     /**
      * Get current permission definition.
@@ -231,6 +221,16 @@ abstract class AbstractDoctrineORMAdminListConfigurator extends AbstractAdminLis
     public function getEntityManager()
     {
         return $this->em;
+    }
+
+    protected function getOrderByColumn()
+    {
+        $orderBy = $this->orderBy;
+        if (!strpos($orderBy, '.')) {
+            $orderBy = 'b.'.$orderBy;
+        }
+
+        return $orderBy;
     }
 
     /**

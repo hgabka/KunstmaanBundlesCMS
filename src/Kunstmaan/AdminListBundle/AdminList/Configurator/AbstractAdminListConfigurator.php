@@ -25,6 +25,7 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
     const SUFFIX_ADD = 'add';
     const SUFFIX_EDIT = 'edit';
     const SUFFIX_EXPORT = 'export';
+    const SUFFIX_PAGESIZE = 'set_pagesize';
     const SUFFIX_DELETE = 'delete';
     const SUFFIX_VIEW = 'view';
 
@@ -32,6 +33,11 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
      * @var int
      */
     protected $page = 1;
+
+    /**
+     * @var int
+     */
+    protected $pagesize;
 
     /**
      * @var string
@@ -254,6 +260,21 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
 
         return [
             'path' => $this->getPathByConvention(),
+            'params' => $params,
+        ];
+    }
+
+    /**
+     * Return the url to setting pagesize.
+     *
+     * @return array
+     */
+    public function getPagesizeUrl()
+    {
+        $params = $this->getExtraParameters();
+
+        return [
+            'path' => $this->getPathByConvention($this::SUFFIX_PAGESIZE),
             'params' => $params,
         ];
     }
@@ -761,8 +782,11 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
         $session = $request->getSession();
 
         $adminListName = 'listconfig_'.$request->get('_route');
+        $adminListName = str_replace('_set_pagesize', '', $adminListName);
 
-        $this->page = $request->query->getInt('page', 1);
+        $this->page = $query->has('pagesize') ? 1 : $query->getInt('page', 1);
+        $this->pagesize = $query->getInt('pagesize', $this->getLimit());
+
         // Allow alphanumeric, _ & . in order by parameter!
         $this->orderBy = preg_replace('/[^[a-zA-Z0-9\_\.]]/', '', $request->query->get('orderBy', ''));
         $this->orderDirection = $request->query->getAlpha('orderDirection', '');
@@ -774,6 +798,10 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
                 $this->page = $adminListSessionData['page'];
             }
 
+            if (!$query->has('pagesize')) {
+                $this->pagesize = $adminListSessionData['pagesize'] ?? $this->getLimit();
+            }
+
             if (!$query->has('orderBy')) {
                 $this->orderBy = $adminListSessionData['orderBy'];
             }
@@ -782,6 +810,10 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
                 $this->orderDirection = $adminListSessionData['orderDirection'];
             }
         } else {
+            $adminListSessionData = $request->getSession()->get($adminListName);
+            if (!$query->has('pagesize')) {
+                $this->pagesize = $adminListSessionData['pagesize'] ?? $this->getLimit();
+            }
             $sort = $this->getDefaultSort();
             if (!empty($sort)) {
                 if (is_string($sort)) {
@@ -799,11 +831,11 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
             $adminListName,
             [
                 'page' => $this->page,
+                'pagesize' => $this->pagesize,
                 'orderBy' => $this->orderBy,
                 'orderDirection' => $this->orderDirection,
             ]
         );
-
         $this->getFilterBuilder()->bindRequest($request);
     }
 
@@ -951,5 +983,25 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
     public function getTabFields()
     {
         return null;
+    }
+
+    /**
+     * Returns pagesize options.
+     *
+     * @return null|array
+     */
+    public function getPagesizeOptions()
+    {
+        return [10, 20, 50];
+    }
+
+    /**
+     * Returns pagesize.
+     *
+     * @return int
+     */
+    public function getPagesize()
+    {
+        return $this->pagesize ?? $this->getLimit();
     }
 }

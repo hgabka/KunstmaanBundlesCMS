@@ -149,6 +149,14 @@
 {% endif %}
 
 <div class="pager-count">
+    {% if adminlist.getPagesizeOptions() is not empty %}
+        <select data-url="{{ path(adminlist.getPagesizeUrl()['path']) }}" id="pagesize-select">
+            {% for option in adminlist.getPagesizeOptions() %}
+                <option{% if adminlist.getPagesize() == option %} selected{% endif %} value="{{ option }}">{{ option }}</option>
+            {% endfor %}
+        </select>
+        {{ 'kuma_admin_list.list.pagesize' | trans }}
+    {% endif %}
     <div class="counter">
     {% if adminlist.pagerfanta.count > 0 %}
         {{ 'kuma_admin_list.list.pager' | trans({'%from%': adminlist.pagerfanta.currentPageOffsetStart, '%to%' : adminlist.pagerfanta.currentPageOffsetEnd, '%count%' : adminlist.pagerfanta.count}) }}

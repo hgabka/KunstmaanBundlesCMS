@@ -96,8 +96,8 @@ class FilterBuilder
     public function bindRequest(Request $request)
     {
         $filterBuilderName = 'filter_'.$request->get('_route');
-
         $this->currentParameters = $request->query->all();
+        unset($this->currentParameters['pagesize']);
         if (0 === count($this->currentParameters)) {
             if (!$request->query->has('filter')) {
                 if ($request->getSession()->has($filterBuilderName)) {

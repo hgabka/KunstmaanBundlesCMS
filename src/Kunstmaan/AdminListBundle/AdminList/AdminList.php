@@ -145,6 +145,14 @@ class AdminList
     }
 
     /**
+     * @return array
+     */
+    public function getPagesizeUrl()
+    {
+        return $this->configurator->getPagesizeUrl();
+    }
+
+    /**
      * @param mixed $item
      *
      * @return array
@@ -297,5 +305,25 @@ class AdminList
     public function getPagerfanta()
     {
         return $this->configurator->getPagerfanta();
+    }
+
+    /**
+     * Returns pagesize options.
+     *
+     * @return null|array
+     */
+    public function getPagesizeOptions()
+    {
+        return $this->configurator->getPagesizeOptions();
+    }
+
+    /**
+     * Returns pagesize.
+     *
+     * @return int
+     */
+    public function getPagesize()
+    {
+        return $this->configurator->getPagesize();
     }
 }

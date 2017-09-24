@@ -318,4 +318,18 @@ interface AdminListConfiguratorInterface
      * @return null|array
      */
     public function getTabFields();
+
+    /**
+     * Returns pagesize options.
+     *
+     * @return null|array
+     */
+    public function getPagesizeOptions();
+
+    /**
+     * Returns pagesize.
+     *
+     * @return int
+     */
+    public function getPagesize();
 }

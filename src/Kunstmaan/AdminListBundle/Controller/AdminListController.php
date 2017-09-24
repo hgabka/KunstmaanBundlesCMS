@@ -87,6 +87,26 @@ abstract class AdminListController extends Controller
     }
 
     /**
+     * Sets pagesize.
+     *
+     * @param AbstractAdminListConfigurator $configurator
+     * @param null|Request                  $request
+     *
+     * @return Response
+     */
+    protected function doSetPagesizeAction(AbstractAdminListConfigurator $configurator, Request $request)
+    {
+        $em = $this->getEntityManager();
+        // @var AdminList $adminList
+        $adminList = $this->get('kunstmaan_adminlist.factory')->createList($configurator, $em);
+        if ($request->query->has('pagesize')) {
+            $adminList->bindRequest($request);
+        }
+
+        return $this->redirectToRoute($adminList->getIndexUrl()['path']);
+    }
+
+    /**
      * Creates and processes the form to add a new Entity.
      *
      * @param AbstractAdminListConfigurator $configurator The adminlist configurator
@@ -162,9 +182,9 @@ abstract class AdminListController extends Controller
 
                 $em->persist($helper);
                 $em->flush();
-                
+
                 $this->get('session')->getFlashbag()->add('success', 'kuma_admin_list.messages.add_success');
-                
+
                 $this->container->get('event_dispatcher')->dispatch(
                     AdminListEvents::POST_ADD,
                     $adminListEvent
@@ -256,9 +276,9 @@ abstract class AdminListController extends Controller
 
                 $em->persist($helper);
                 $em->flush();
-                
+
                 $this->get('session')->getFlashbag()->add('success', 'kuma_admin_list.messages.edit_success');
-                
+
                 $this->container->get('event_dispatcher')->dispatch(
                     AdminListEvents::POST_EDIT,
                     $adminListEvent
@@ -368,9 +388,9 @@ abstract class AdminListController extends Controller
 
             $em->remove($helper);
             $em->flush();
-            
+
             $this->get('session')->getFlashbag()->add('success', 'kuma_admin_list.messages.delete_success');
-            
+
             $this->container->get('event_dispatcher')->dispatch(
                 AdminListEvents::POST_DELETE,
                 $adminListEvent

@@ -37,9 +37,9 @@ class DateTimeFilterType extends AbstractORMFilterType
                 // Failed to create DateTime object.
                 return;
             }
-            
-            $colName = stripos($this->columnName,'.') === false ? $this->getAlias().$this->columnName : $this->columnName;
-            
+
+            $colName = false === stripos($this->columnName, '.') ? $this->getAlias().$this->columnName : $this->columnName;
+
             switch ($data['comparator']) {
                 case 'before':
                     $this->queryBuilder->andWhere($this->queryBuilder->expr()->lte($colName, ':var_'.$uniqueId));

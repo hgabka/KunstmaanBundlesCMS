@@ -36,8 +36,8 @@ class DateFilterType extends AbstractORMFilterType
             }
 
             $date = $dateTime->format('Y-m-d');
-            $colName = stripos($this->columnName,'.') === false ? $this->getAlias().$this->columnName : $this->columnName;
-            
+            $colName = false === stripos($this->columnName, '.') ? $this->getAlias().$this->columnName : $this->columnName;
+
             switch ($data['comparator']) {
                 case 'before':
                     $this->queryBuilder->andWhere($this->queryBuilder->expr()->lte($colName, ':var_'.$uniqueId));

@@ -29,6 +29,7 @@ kuma_admin_list:
         delete: Törlés
         view: Megtekintés
         pager: %from% - %to% a(z) %count% elemből
+        pagesize: elem oldalanként
         no_item: Nincs megjelenítendő elem
     new:
         title: "Új %entity% hozzáadása"

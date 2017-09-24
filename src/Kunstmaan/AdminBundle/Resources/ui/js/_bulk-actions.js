@@ -8,7 +8,9 @@ kunstmaanbundles.bulkActions = (function($, window, undefined) {
     var $form = $('#bulk-form'),
         $SelectAllCheckbox = $('#select-all-bulk-checkbox'),
         $bulkCheckboxes = $('.js-bulk-checkbox'),
-        $bulkActionButtons = $('.js-bulk-action-button');
+        $bulkActionButtons = $('.js-bulk-action-button'),
+        $pagesizeSelect = $('#pagesize-select')
+    ;
 
 
     init = function() {
@@ -19,6 +21,14 @@ kunstmaanbundles.bulkActions = (function($, window, undefined) {
             $bulkCheckboxes.on('change', updateBulkCheckboxes);
             $bulkActionButtons.on('click', function() {
                 bulkAction($(this));
+            });
+        }
+
+        if ($pagesizeSelect.length) {
+            $pagesizeSelect.change(function() {
+                var val = $(this).val();
+                var loc = $(this).data('url');
+                window.location = loc + (-1 == loc.indexOf('?')  ? '?' : '&')+'pagesize='+val;
             });
         }
     };

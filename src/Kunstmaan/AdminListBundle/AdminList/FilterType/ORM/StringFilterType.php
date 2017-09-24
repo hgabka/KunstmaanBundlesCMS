@@ -27,7 +27,7 @@ class StringFilterType extends AbstractORMFilterType
     public function apply(array $data, $uniqueId)
     {
         if (isset($data['value']) && isset($data['comparator'])) {
-            $colName = stripos($this->columnName,'.') === false ? $this->getAlias().$this->columnName : $this->columnName;
+            $colName = false === stripos($this->columnName, '.') ? $this->getAlias().$this->columnName : $this->columnName;
             switch ($data['comparator']) {
                 case 'equals':
                     $this->queryBuilder->andWhere($this->queryBuilder->expr()->eq($colName, ':var_'.$uniqueId));

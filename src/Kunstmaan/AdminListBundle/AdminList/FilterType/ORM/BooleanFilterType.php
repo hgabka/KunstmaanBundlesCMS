@@ -26,7 +26,7 @@ class BooleanFilterType extends AbstractORMFilterType
     public function apply(array $data, $uniqueId)
     {
         if (isset($data['value'])) {
-            $colName = stripos($this->columnName,'.') === false ? $this->getAlias().$this->columnName : $this->columnName;
+            $colName = false === stripos($this->columnName, '.') ? $this->getAlias().$this->columnName : $this->columnName;
             switch ($data['value']) {
                 case 'true':
                     $this->queryBuilder->andWhere($this->queryBuilder->expr()->eq($colName, 'true'));

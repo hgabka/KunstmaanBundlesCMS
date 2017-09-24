@@ -113,6 +113,15 @@ class {{ entity_class }}AdminListController extends AdminListController
         return parent::doExportAction($this->getAdminListConfigurator(), $_format, $request);
     }
 
+    /**
+     * The pagesize action
+     *
+     * @Route("/set-pagesize", name="{{ bundle.getName()|lower }}_admin_{{ entity_class|lower }}_set_pagesize")
+     */
+    public function setPagesizeAction(Request $request)
+    {
+        return parent::doSetPagesizeAction($this->getAdminListConfigurator(), $request);
+    }
 {% if sortField %}
     /**
      * The move up action
