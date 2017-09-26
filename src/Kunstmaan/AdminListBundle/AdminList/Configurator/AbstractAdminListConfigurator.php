@@ -795,7 +795,7 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
         if ($session->has($adminListName) && !$query->has('filter')) {
             $adminListSessionData = $request->getSession()->get($adminListName);
             if (!$query->has('page')) {
-                $this->page = $adminListSessionData['page'];
+                $this->page = $query->has('pagesize') ? 1 : $adminListSessionData['page'];
             }
 
             if (!$query->has('pagesize')) {
