@@ -3,7 +3,7 @@
 {% block admin_page_title %}
     <div class="col-sm-6 col-md-8">
         <h1 class="app__content__header__title">
-            {% set title = adminlist.configurator.getViewTitle() %}
+            {% set title = adminlistconfigurator.getViewTitle() %}
             {% if title is not empty %}
                 {{ title | trans({'%entity%' : adminlistconfigurator.getEntityNameSingular() | trans }) }}
             {% elseif adminmenu.current %}
