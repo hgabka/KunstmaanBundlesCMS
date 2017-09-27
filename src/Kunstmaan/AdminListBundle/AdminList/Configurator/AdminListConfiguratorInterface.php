@@ -336,7 +336,7 @@ interface AdminListConfiguratorInterface
     /**
      * Returns default filters.
      *
-     * @return int
+     * @return array
      */
     public function getFilterDefaults();
 }
