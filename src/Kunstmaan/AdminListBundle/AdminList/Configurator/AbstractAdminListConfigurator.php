@@ -1004,4 +1004,14 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
     {
         return $this->pagesize ?? $this->getLimit();
     }
+    
+    /**
+     * Returns default filters.
+     *
+     * @return array
+     */
+    public function getFilterDefaults()
+    {
+        return [];
+    }
 }
