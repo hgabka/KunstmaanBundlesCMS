@@ -92,8 +92,9 @@ class FilterBuilder
 
     /**
      * @param Request $request
+     * @param array $defaults
      */
-    public function bindRequest(Request $request)
+    public function bindRequest(Request $request, array $defaults = [])
     {
         $filterBuilderName = 'filter_'.$request->get('_route');
         $this->currentParameters = $request->query->all();
@@ -104,6 +105,9 @@ class FilterBuilder
                     $savedQuery = $request->getSession()->get($filterBuilderName);
                     $request->query->replace($savedQuery);
                     $this->currentParameters = $savedQuery;
+                } else if ((!empty($defaults)) {
+                    $request->query->replace($defaults);
+                    $this->currentParameters = $defaults;
                 }
             }
         } else {
