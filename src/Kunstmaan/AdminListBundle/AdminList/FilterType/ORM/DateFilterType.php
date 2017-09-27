@@ -28,7 +28,7 @@ class DateFilterType extends AbstractORMFilterType
     public function apply(array $data, $uniqueId)
     {
         if (isset($data['value']) && isset($data['comparator'])) {
-            $dateTime = DateTime::createFromFormat('d/m/Y', $data['value']);
+            $dateTime = DateTime::createFromFormat('Y-m-d', $data['value']);
 
             if (false === $dateTime) {
                 // Failed to create DateTime object.
