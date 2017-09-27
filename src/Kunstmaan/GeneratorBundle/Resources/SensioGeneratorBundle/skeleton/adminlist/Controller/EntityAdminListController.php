@@ -59,7 +59,7 @@ class {{ entity_class }}AdminListController extends AdminListController
      *
      * @param int $id
      *
-     * @Route("/{id}", requirements={"id" = "\d+"}, name="{{ bundle.getName()|lower }}_admin_{{ entity_class|lower }}_edit")
+     * @Route("/{id}/edit", requirements={"id" = "\d+"}, name="{{ bundle.getName()|lower }}_admin_{{ entity_class|lower }}_edit")
      * @Method({"GET", "POST"})
      *
      * @return array
