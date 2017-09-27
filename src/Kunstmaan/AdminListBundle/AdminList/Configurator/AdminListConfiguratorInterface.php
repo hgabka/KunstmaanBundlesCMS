@@ -332,4 +332,11 @@ interface AdminListConfiguratorInterface
      * @return int
      */
     public function getPagesize();
+    
+    /**
+     * Returns default filters.
+     *
+     * @return int
+     */
+    public function getFilterDefaults();
 }
