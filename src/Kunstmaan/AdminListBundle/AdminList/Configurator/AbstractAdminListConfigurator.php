@@ -836,7 +836,7 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
                 'orderDirection' => $this->orderDirection,
             ]
         );
-        $this->getFilterBuilder()->bindRequest($request);
+        $this->getFilterBuilder()->bindRequest($request, $this->createFilterDefaults());
     }
 
     /**
@@ -1013,5 +1013,51 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
     public function getFilterDefaults()
     {
         return [];
+    }
+    
+    /**
+     * Creates filter defaults in the required format
+     *
+     * @return array
+     */
+    protected function createFilterDefaults()
+    {
+        $defaults = $this->getFilterDefaults();
+        if (empty($defaults)) {
+            return [];
+        }
+        $columns = [];
+        $ids = [];
+        $comparators = [];
+        $values = [];
+        $id = 1;
+        foreach ($defaults as $column => $data) {
+            $ids[] = $id;
+            $columns[$id] = $column;
+            if (isset($data['comparator'])) {
+                $comparators[$id] = $data['comparator'];
+                $values[$id] = $data['value'] ?? 0;
+            } else {
+                $comparators[$id] = null;
+                $values[$id] = $data['value'] ?? $data;
+            }
+
+            $id++;
+        }
+
+        $result = [
+            'filter_columnname'     => [],
+            'filter_uniquefilterid' => [],
+        ];
+        foreach ($ids as $id) {
+            $result['filter_columnname'][] = $columns[$id];
+            $result['filter_uniquefilterid'][] = $id;
+            if (!empty($comparators[$id])) {
+                $result['filter_comparator_' . $id] = $comparators[$id];
+            }
+            $result['filter_value_' . $id] = $values[$id];
+        }
+
+        return $result;
     }
 }
