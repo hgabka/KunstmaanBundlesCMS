@@ -105,7 +105,7 @@ class FilterBuilder
                     $savedQuery = $request->getSession()->get($filterBuilderName);
                     $request->query->replace($savedQuery);
                     $this->currentParameters = $savedQuery;
-                } else if ((!empty($defaults)) {
+                } else if (!empty($defaults)) {
                     $request->query->replace($defaults);
                     $this->currentParameters = $defaults;
                 }
