@@ -28,7 +28,7 @@ kuma_admin_list:
         edit: Edit
         delete: Delete
         view: View
-        pager: %from% - %to% items of %count%
+        pager: '%from% - %to% items of %count%'
         pagesize: items per page
         no_item: No items to show
     new:
