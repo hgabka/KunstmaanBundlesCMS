@@ -32,11 +32,11 @@ kuma_admin_list:
         pagesize: items per page
         no_item: No items to show
     new:
-        title: New %entity%
+        title: 'New %entity%'
     edit:
-        title: Edit %entity%
+        title: 'Edit %entity%'
     view:
-        title: View %entity%
+        title: 'View %entity%'
 
     pagerfanta:
         prev_message: '&larr; Previous'
