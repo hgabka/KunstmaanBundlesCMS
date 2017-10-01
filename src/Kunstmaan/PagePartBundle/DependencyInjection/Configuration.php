@@ -64,6 +64,7 @@ class Configuration implements ConfigurationInterface
                     ->validate()->ifTrue(function ($element) { return !is_array($element); })->thenInvalid('The rows element must be an array.')->end()
                     ->validate()->always(function ($children) {
                         array_walk($children, [$this, 'evaluateRows']);
+
                         return $children;
                     })->end()
                 ->end()
@@ -91,6 +92,7 @@ class Configuration implements ConfigurationInterface
         return $node
                 ->validate()->always(function ($children) {
                     array_walk($children, [$this, 'evaluateRegions']);
+
                     return $children;
                 })
             ->end();
@@ -120,6 +122,7 @@ class Configuration implements ConfigurationInterface
                     ->validate()->ifTrue(function ($element) { return !is_array($element); })->thenInvalid('The rows element must be an array.')->end()
                     ->validate()->always(function ($children) {
                         array_walk($children, [$this, 'evaluateRows']);
+
                         return $children;
                     })->end()
                 ->end()
