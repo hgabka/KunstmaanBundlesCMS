@@ -131,7 +131,7 @@ class UsersController extends BaseSettingsController
     public function editAction(Request $request, $id)
     {
         // The logged in user should be able to change his own password/username/email and not for other users
-        if ((int)$id === $this->get('security.token_storage')->getToken()->getUser()->getId()) {
+        if ((int) $id === $this->get('security.token_storage')->getToken()->getUser()->getId()) {
             $requiredRole = 'ROLE_ADMIN';
         } else {
             $requiredRole = 'ROLE_SUPER_ADMIN';

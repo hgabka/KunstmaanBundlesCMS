@@ -2,7 +2,6 @@
 
 namespace Kunstmaan\ArticleBundle\AdminList;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Kunstmaan\AdminBundle\Helper\Security\Acl\AclHelper;
@@ -10,7 +9,7 @@ use Kunstmaan\AdminListBundle\AdminList\Configurator\AbstractDoctrineORMAdminLis
 use Kunstmaan\AdminListBundle\AdminList\FilterType\ORM\StringFilterType;
 
 /**
- * The AdminList configurator for the AbstractArticleAuthor
+ * The AdminList configurator for the AbstractArticleAuthor.
  */
 class AbstractArticleCategoryAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
 {
@@ -30,7 +29,7 @@ class AbstractArticleCategoryAdminListConfigurator extends AbstractDoctrineORMAd
      */
     public function getBundleName()
     {
-        return "KunstmaanArticleBundle";
+        return 'KunstmaanArticleBundle';
     }
 
     /**
@@ -40,11 +39,11 @@ class AbstractArticleCategoryAdminListConfigurator extends AbstractDoctrineORMAd
      */
     public function getEntityName()
     {
-        return "AbstractArticleCategory";
+        return 'AbstractArticleCategory';
     }
 
     /**
-     * Configure filters
+     * Configure filters.
      */
     public function buildFilters()
     {
@@ -52,13 +51,12 @@ class AbstractArticleCategoryAdminListConfigurator extends AbstractDoctrineORMAd
     }
 
     /**
-     * Configure the visible columns
+     * Configure the visible columns.
      */
     public function buildFields()
     {
         $this->addField('name', 'article.category.list.header.name', true);
     }
-
 
     /**
      * @param QueryBuilder $queryBuilder
@@ -71,13 +69,13 @@ class AbstractArticleCategoryAdminListConfigurator extends AbstractDoctrineORMAd
     /**
      * Overwrite the parent function. By adding the TranslationWalker, we can order by the translated fields.
      *
-     * @return \Doctrine\ORM\Query|null
+     * @return null|\Doctrine\ORM\Query
      */
     public function getQuery()
     {
         $query = parent::getQuery();
 
-        if (!is_null($query)) {
+        if (null !== $query) {
             $query->setHint(
                 \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
                 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'

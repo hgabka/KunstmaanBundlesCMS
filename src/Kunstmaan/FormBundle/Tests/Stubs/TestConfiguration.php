@@ -5,17 +5,15 @@ namespace Kunstmaan\FormBundle\Tests\Stubs;
 use Doctrine\ORM\Configuration;
 
 /**
- * TestConfiguration
+ * TestConfiguration.
  */
 class TestConfiguration extends Configuration
 {
-
     /**
-     * @return \Doctrine\ORM\Doctrine\ORM\Mapping\QuoteStrategy|null
+     * @return null|\Doctrine\ORM\Doctrine\ORM\Mapping\QuoteStrategy
      */
     public function getQuoteStrategy()
     {
         return null;
     }
-
 }

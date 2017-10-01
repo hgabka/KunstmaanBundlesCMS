@@ -6,7 +6,6 @@ use Kunstmaan\NodeBundle\Router\SlugRouter;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\VarDumper\VarDumper;
 
 class TagCategoryRouter extends SlugRouter
 {
@@ -15,12 +14,12 @@ class TagCategoryRouter extends SlugRouter
      */
     public function getRouteCollection()
     {
-        if (! is_null($this->routeCollection)) {
+        if (null !== $this->routeCollection) {
             return $this->routeCollection;
         }
         $this->routeCollection = new RouteCollection();
 
-        $extendParameters = array('category' => null, 'tag' => null);
+        $extendParameters = ['category' => null, 'tag' => null];
         $baseSlugParameters = array_merge($this->getSlugRouteParameters(), $extendParameters);
         $baseSlugPreviewParameters = array_merge($this->getPreviewRouteParameters(), $extendParameters);
 
@@ -33,21 +32,21 @@ class TagCategoryRouter extends SlugRouter
                 $categoryTrans = $translator->trans('article_overview_page.route.category');
                 $tagTrans = $translator->trans('article_overview_page.route.tag');
 
-                $routePathParts = array(
+                $routePathParts = [
                     '_slug_category_tag' => sprintf('/%s/{category}/%s/{tag}', $categoryTrans, $tagTrans),
                     '_slug_tag' => sprintf('/%s/{tag}', $tagTrans),
                     '_slug_category' => sprintf('/%s/{category}', $categoryTrans),
-                );
+                ];
 
                 foreach ($routePathParts as $routeName => $routePart) {
-                    $slugParameters  = $baseSlugParameters;
-                    $slugParameters['path'] = '/{_locale}/{url}' . $routePart;
+                    $slugParameters = $baseSlugParameters;
+                    $slugParameters['path'] = '/{_locale}/{url}'.$routePart;
 
                     $slugPreviewParameters = $baseSlugPreviewParameters;
-                    $slugPreviewParameters['path'] = '/{_locale}/admin/preview/{url}' . $routePart;;
+                    $slugPreviewParameters['path'] = '/{_locale}/admin/preview/{url}'.$routePart;
 
-                    $routeName .= '_' . $locale;
-                    $this->addRoute($routeName . '_preview', $slugPreviewParameters);
+                    $routeName .= '_'.$locale;
+                    $this->addRoute($routeName.'_preview', $slugPreviewParameters);
                     $this->addRoute($routeName, $slugParameters);
                 }
             }
@@ -55,20 +54,20 @@ class TagCategoryRouter extends SlugRouter
             $categoryTrans = $translator->trans('article_overview_page.route.category');
             $tagTrans = $translator->trans('article_overview_page.route.tag');
 
-            $slugParameters  = $baseSlugParameters;
+            $slugParameters = $baseSlugParameters;
             $slugPreviewParameters = $baseSlugPreviewParameters;
 
-            $routePathParts = array(
+            $routePathParts = [
                 '_slug_category_tag' => sprintf('/%s/{category}/%s/{tag}', $categoryTrans, $tagTrans),
                 '_slug_tag' => sprintf('/%s/{tag}', $tagTrans),
                 '_slug_category' => sprintf('/%s/{category}', $categoryTrans),
-            );
+            ];
 
             foreach ($routePathParts as $routeName => $routePart) {
-                $slugParameters['path'] = '/{url}' . $routePart;
-                $slugPreviewParameters['path'] = '/admin/preview/{url}' . $routePart;
+                $slugParameters['path'] = '/{url}'.$routePart;
+                $slugPreviewParameters['path'] = '/admin/preview/{url}'.$routePart;
 
-                $this->addRoute($routeName . '_preview', $slugPreviewParameters);
+                $this->addRoute($routeName.'_preview', $slugPreviewParameters);
                 $this->addRoute($routeName, $slugParameters);
             }
         }

@@ -3,12 +3,14 @@
 namespace Kunstmaan\MediaPagePartBundle\Tests\Controller;
 
 /**
- * DefaultControllerTest
+ * DefaultControllerTest.
+ *
+ * @coversNothing
  */
 class DefaultControllerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @return boolean
+     * @return bool
      */
     public function testIndex()
     {

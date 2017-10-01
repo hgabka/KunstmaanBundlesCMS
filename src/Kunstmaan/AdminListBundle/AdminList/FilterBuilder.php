@@ -92,7 +92,7 @@ class FilterBuilder
 
     /**
      * @param Request $request
-     * @param array $defaults
+     * @param array   $defaults
      */
     public function bindRequest(Request $request, array $defaults = [])
     {
@@ -105,7 +105,7 @@ class FilterBuilder
                     $savedQuery = $request->getSession()->get($filterBuilderName);
                     $request->query->replace($savedQuery);
                     $this->currentParameters = $savedQuery;
-                } else if (!empty($defaults)) {
+                } elseif (!empty($defaults)) {
                     $request->query->replace($defaults);
                     $this->currentParameters = $defaults;
                 }

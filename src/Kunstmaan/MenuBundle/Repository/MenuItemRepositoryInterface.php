@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Kunstmaan\MenuBundle\Repository;
 
 interface MenuItemRepositoryInterface

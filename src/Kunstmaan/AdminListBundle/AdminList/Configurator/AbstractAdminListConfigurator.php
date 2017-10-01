@@ -1004,7 +1004,7 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
     {
         return $this->pagesize ?? $this->getLimit();
     }
-    
+
     /**
      * Returns default filters.
      *
@@ -1014,9 +1014,9 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
     {
         return [];
     }
-    
+
     /**
-     * Creates filter defaults in the required format
+     * Creates filter defaults in the required format.
      *
      * @return array
      */
@@ -1042,20 +1042,20 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
                 $values[$id] = $data['value'] ?? $data;
             }
 
-            $id++;
+            ++$id;
         }
 
         $result = [
-            'filter_columnname'     => [],
+            'filter_columnname' => [],
             'filter_uniquefilterid' => [],
         ];
         foreach ($ids as $id) {
             $result['filter_columnname'][] = $columns[$id];
             $result['filter_uniquefilterid'][] = $id;
             if (!empty($comparators[$id])) {
-                $result['filter_comparator_' . $id] = $comparators[$id];
+                $result['filter_comparator_'.$id] = $comparators[$id];
             }
-            $result['filter_value_' . $id] = $values[$id];
+            $result['filter_value_'.$id] = $values[$id];
         }
 
         return $result;

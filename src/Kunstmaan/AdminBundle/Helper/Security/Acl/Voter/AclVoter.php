@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Kunstmaan\AdminBundle\Helper\Security\Acl\Voter;
 
 use Psr\Log\LoggerInterface;

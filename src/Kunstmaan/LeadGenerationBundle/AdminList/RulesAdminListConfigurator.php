@@ -17,9 +17,9 @@ class RulesAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
     protected $popupId;
 
     /**
-     * @param EntityManager $em The entity manager
-     * @param AclHelper $aclHelper The acl helper
-     * @param int $id The if of the popup
+     * @param EntityManager $em        The entity manager
+     * @param AclHelper     $aclHelper The acl helper
+     * @param int           $id        The if of the popup
      */
     public function __construct(EntityManager $em, AclHelper $aclHelper = null, $id)
     {
@@ -33,9 +33,9 @@ class RulesAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
 
     /**
      * @param QueryBuilder $queryBuilder
-     * @param array $params
+     * @param array        $params
      */
-    public function adaptQueryBuilder(QueryBuilder $queryBuilder, array $params = array())
+    public function adaptQueryBuilder(QueryBuilder $queryBuilder, array $params = [])
     {
         $queryBuilder->where('b.popup = :id');
         $queryBuilder->setParameter('id', $this->getPopupId());
@@ -43,20 +43,20 @@ class RulesAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
     }
 
     /**
-     * Return the url to list all the items
+     * Return the url to list all the items.
      *
      * @return array
      */
     public function getIndexUrl()
     {
-        return array(
+        return [
             'path' => 'kunstmaanleadgenerationbundle_admin_rule_abstractrule_detail',
-            'params' => array('popup' => $this->getPopupId())
-        );
+            'params' => ['popup' => $this->getPopupId()],
+        ];
     }
 
     /**
-     * Get the edit url for the given $item
+     * Get the edit url for the given $item.
      *
      * @param object $item
      *
@@ -64,17 +64,17 @@ class RulesAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
      */
     public function getEditUrlFor($item)
     {
-        $params = array('id' => $item->getId(), 'popup' => $this->getPopupId());
+        $params = ['id' => $item->getId(), 'popup' => $this->getPopupId()];
         $params = array_merge($params, $this->getExtraParameters());
 
-        return array(
+        return [
             'path' => 'kunstmaanleadgenerationbundle_admin_rule_abstractrule_edit',
-            'params' => $params
-        );
+            'params' => $params,
+        ];
     }
 
     /**
-     * Get the delete url for the given $item
+     * Get the delete url for the given $item.
      *
      * @param object $item
      *
@@ -82,17 +82,17 @@ class RulesAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
      */
     public function getDeleteUrlFor($item)
     {
-        $params = array('id' => $item->getId(), 'popup' => $this->getPopupId());
+        $params = ['id' => $item->getId(), 'popup' => $this->getPopupId()];
         $params = array_merge($params, $this->getExtraParameters());
 
-        return array(
+        return [
             'path' => 'kunstmaanleadgenerationbundle_admin_rule_abstractrule_delete',
-            'params' => $params
-        );
+            'params' => $params,
+        ];
     }
 
     /**
-     * Configure the visible columns
+     * Configure the visible columns.
      */
     public function buildFields()
     {
@@ -102,7 +102,7 @@ class RulesAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
     }
 
     /**
-     * Build filters for admin list
+     * Build filters for admin list.
      */
     public function buildFilters()
     {
@@ -111,7 +111,7 @@ class RulesAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
 
     public function getValue($item, $columnName)
     {
-        if ($columnName == 'jsProperties') {
+        if ('jsProperties' === $columnName) {
             return json_encode($item->getJsProperties());
         }
 
@@ -119,7 +119,7 @@ class RulesAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
     }
 
     /**
-     * Get bundle name
+     * Get bundle name.
      *
      * @return string
      */
@@ -129,7 +129,7 @@ class RulesAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
     }
 
     /**
-     * Get entity name
+     * Get entity name.
      *
      * @return string
      */
@@ -140,6 +140,7 @@ class RulesAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
 
     /**
      * @param object $entity
+     *
      * @return object
      */
     public function decorateNewEntity($entity)
@@ -150,7 +151,7 @@ class RulesAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
     }
 
     /**
-     * @param object|array $item
+     * @param array|object $item
      *
      * @return bool
      */
@@ -160,9 +161,9 @@ class RulesAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
     }
 
     /**
-     * Configure if it's possible to delete the given $item
+     * Configure if it's possible to delete the given $item.
      *
-     * @param object|array $item
+     * @param array|object $item
      *
      * @return bool
      */
@@ -172,7 +173,7 @@ class RulesAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
     }
 
     /**
-     * Configure if it's possible to add new items
+     * Configure if it's possible to add new items.
      *
      * @return bool
      */

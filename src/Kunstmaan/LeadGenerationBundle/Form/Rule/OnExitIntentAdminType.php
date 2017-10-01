@@ -16,31 +16,31 @@ class OnExitIntentAdminType extends AbstractRuleAdminType
      * @see FormTypeExtensionInterface::buildForm()
      *
      * @param FormBuilderInterface $builder The form builder
-     * @param array $options The options
+     * @param array                $options The options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('sensitivity', IntegerType::class, array(
+        $builder->add('sensitivity', IntegerType::class, [
             'label' => 'kuma_lead_generation.on_exit_intent.sensitivity.label',
             'required' => false,
-            'attr' => array(
-                'info_text' => 'kuma_lead_generation.on_exit_intent.sensitivity_info'
-            )
-        ));
-        $builder->add('timer', IntegerType::class, array(
+            'attr' => [
+                'info_text' => 'kuma_lead_generation.on_exit_intent.sensitivity_info',
+            ],
+        ]);
+        $builder->add('timer', IntegerType::class, [
             'label' => 'kuma_lead_generation.on_exit_intent.timer.label',
             'required' => false,
-            'attr' => array(
-                'info_text' => 'kuma_lead_generation.on_exit_intent.timer_info'
-            )
-        ));
-        $builder->add('delay', IntegerType::class, array(
+            'attr' => [
+                'info_text' => 'kuma_lead_generation.on_exit_intent.timer_info',
+            ],
+        ]);
+        $builder->add('delay', IntegerType::class, [
             'label' => 'kuma_lead_generation.on_exit_intent.delay.label',
             'required' => false,
-            'attr' => array(
-                'info_text' => 'kuma_lead_generation.on_exit_intent.delay_info'
-            )
-        ));
+            'attr' => [
+                'info_text' => 'kuma_lead_generation.on_exit_intent.delay_info',
+            ],
+        ]);
     }
 
     /**

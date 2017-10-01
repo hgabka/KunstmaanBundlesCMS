@@ -32,7 +32,15 @@ class AbstractTag extends AbstractEntity implements Translatable
     protected $deletedAt;
 
     /**
-     * Set name
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+    /**
+     * Set name.
      *
      * @param string $name
      */
@@ -42,7 +50,7 @@ class AbstractTag extends AbstractEntity implements Translatable
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -82,13 +90,4 @@ class AbstractTag extends AbstractEntity implements Translatable
     {
         $this->deletedAt = $deletedAt;
     }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getName();
-    }
 }
-

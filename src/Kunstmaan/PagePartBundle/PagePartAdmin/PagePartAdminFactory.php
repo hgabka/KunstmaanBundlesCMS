@@ -7,7 +7,7 @@ use Kunstmaan\PagePartBundle\Helper\HasPagePartsInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * PagePartAdminFactory
+ * PagePartAdminFactory.
  */
 class PagePartAdminFactory
 {
@@ -17,7 +17,7 @@ class PagePartAdminFactory
     private $container;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param ContainerInterface $container
      */
@@ -30,7 +30,7 @@ class PagePartAdminFactory
      * @param PagePartAdminConfiguratorInterface $configurator The configurator
      * @param EntityManagerInterface             $em           The entity manager
      * @param HasPagePartsInterface              $page         The page
-     * @param string|null                        $context      The context
+     * @param null|string                        $context      The context
      *
      * @return PagePartAdmin
      */

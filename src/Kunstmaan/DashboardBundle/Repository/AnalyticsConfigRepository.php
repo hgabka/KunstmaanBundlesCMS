@@ -31,9 +31,9 @@ class AnalyticsConfigRepository extends EntityRepository
             return $this->createConfig();
         } elseif ($result) {
             return $result[0];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

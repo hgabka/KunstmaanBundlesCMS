@@ -3,14 +3,14 @@
 namespace Kunstmaan\FormBundle\Tests\Entity\PageParts;
 
 use ArrayObject;
-
 use Kunstmaan\FormBundle\Entity\PageParts\EmailPagePart;
 use Kunstmaan\FormBundle\Form\EmailPagePartAdminType;
-
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Tests for EmailPagePart
+ * Tests for EmailPagePart.
+ *
+ * @coversNothing
  */
 class EmailPagePartTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,7 +25,7 @@ class EmailPagePartTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new EmailPagePart;
+        $this->object = new EmailPagePart();
     }
 
     /**
@@ -37,48 +37,47 @@ class EmailPagePartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\EmailPagePart::setErrorMessageRequired
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\EmailPagePart::getErrorMessageRequired
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\EmailPagePart::setErrorMessageRequired
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\EmailPagePart::getErrorMessageRequired
      */
     public function testSetErrorMessageRequired()
     {
         $object = $this->object;
         $object->setErrorMessageRequired('');
-        $this->assertEquals('', $object->getErrorMessageRequired());
+        $this->assertSame('', $object->getErrorMessageRequired());
 
-        $message = "Some example required message";
+        $message = 'Some example required message';
         $object->setErrorMessageRequired($message);
-        $this->assertEquals($message, $object->getErrorMessageRequired());
+        $this->assertSame($message, $object->getErrorMessageRequired());
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\EmailPagePart::setErrorMessageInvalid
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\EmailPagePart::getErrorMessageInvalid
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\EmailPagePart::setErrorMessageInvalid
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\EmailPagePart::getErrorMessageInvalid
      */
     public function testSetErrorMessageInvalid()
     {
         $object = $this->object;
         $object->setErrorMessageInvalid('');
-        $this->assertEquals('', $object->getErrorMessageInvalid());
+        $this->assertSame('', $object->getErrorMessageInvalid());
 
-        $message = "Some example invalid message";
+        $message = 'Some example invalid message';
         $object->setErrorMessageInvalid($message);
-        $this->assertEquals($message, $object->getErrorMessageInvalid());
+        $this->assertSame($message, $object->getErrorMessageInvalid());
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\EmailPagePart::getDefaultView
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\EmailPagePart::getDefaultView
      */
-
     public function testGetDefaultView()
     {
         $stringValue = $this->object->getDefaultView();
         $this->assertNotNull($stringValue);
-        $this->assertTrue(is_string($stringValue));
+        $this->assertInternalType('string', $stringValue);
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\EmailPagePart::adaptForm
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\EmailPagePart::adaptForm
      */
     public function testAdaptForm()
     {
@@ -91,21 +90,21 @@ class EmailPagePartTest extends \PHPUnit_Framework_TestCase
 
         $formBuilder->expects($this->any())
             ->method('getData')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $fields = new ArrayObject();
 
-        $this->assertTrue(sizeof($fields) == 0);
-        /* @var $formBuilder FormBuilderInterface */
+        $this->assertTrue(0 === count($fields));
+        // @var $formBuilder FormBuilderInterface
         $object->adaptForm($formBuilder, $fields, 0);
-        $this->assertTrue(sizeof($fields) > 0);
+        $this->assertTrue(count($fields) > 0);
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\EmailPagePart::getDefaultAdminType
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\EmailPagePart::getDefaultAdminType
      */
     public function testGetDefaultAdminType()
     {
-        $this->assertEquals(EmailPagePartAdminType::class, $this->object->getDefaultAdminType());
+        $this->assertSame(EmailPagePartAdminType::class, $this->object->getDefaultAdminType());
     }
 }

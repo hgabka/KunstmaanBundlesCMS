@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * ToTopPagePartAdminType
+ * ToTopPagePartAdminType.
  */
 class ToTopPagePartAdminType extends AbstractType
 {
@@ -32,8 +32,8 @@ class ToTopPagePartAdminType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Kunstmaan\PagePartBundle\Entity\ToTopPagePart',
-        ));
+        ]);
     }
 }

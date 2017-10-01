@@ -1,22 +1,30 @@
 <?php
 
 namespace Kunstmaan\PagePartBundle\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 use Kunstmaan\PagePartBundle\Form\RawHTMLPagePartAdminType;
 
 /**
- * Class that defines a raw html page part object to add to a page
+ * Class that defines a raw html page part object to add to a page.
  *
  * @ORM\Entity
  * @ORM\Table(name="kuma_raw_html_page_parts")
  */
 class RawHTMLPagePart extends AbstractPagePart
 {
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $content;
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return 'RawHTMLPagePart '.htmlentities($this->getContent());
+    }
 
     /**
      * @return string
@@ -41,17 +49,9 @@ class RawHTMLPagePart extends AbstractPagePart
     /**
      * @return string
      */
-    public function __toString()
-    {
-        return "RawHTMLPagePart " . htmlentities($this->getContent());
-    }
-
-    /**
-     * @return string
-     */
     public function getDefaultView()
     {
-        return "KunstmaanPagePartBundle:RawHTMLPagePart:view.html.twig";
+        return 'KunstmaanPagePartBundle:RawHTMLPagePart:view.html.twig';
     }
 
     /**

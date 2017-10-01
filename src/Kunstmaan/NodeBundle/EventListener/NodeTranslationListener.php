@@ -49,11 +49,11 @@ class NodeTranslationListener
     private $pagesConfiguration;
 
     /**
-     * @param Session $session The session
-     * @param Logger $logger The logger
-     * @param SlugifierInterface $slugifier
+     * @param Session                      $session             The session
+     * @param Logger                       $logger              The logger
+     * @param SlugifierInterface           $slugifier
      * @param DomainConfigurationInterface $domainConfiguration
-     * @param PagesConfiguration $pagesConfiguration
+     * @param PagesConfiguration           $pagesConfiguration
      */
     public function __construct(
         Session $session,
@@ -192,7 +192,7 @@ class NodeTranslationListener
      * Checks if a nodetranslation has children and update their url.
      *
      * @param NodeTranslation $node The node
-     * @param EntityManager $em The entity manager
+     * @param EntityManager   $em   The entity manager
      */
     private function updateNodeChildren(
         NodeTranslation $node,
@@ -224,7 +224,7 @@ class NodeTranslationListener
      * Update the url for a nodetranslation.
      *
      * @param NodeTranslation $nodeTranslation The node translation
-     * @param EntityManager $em The entity manager
+     * @param EntityManager   $em              The entity manager
      *
      * @return bool|NodeTranslation returns the node when all is well because
      *                              it has to be saved
@@ -238,7 +238,7 @@ class NodeTranslationListener
         }
 
         $this->logger->addInfo(
-            'Found NT ' . $nodeTranslation->getId() . ' needed NO change'
+            'Found NT '.$nodeTranslation->getId().' needed NO change'
         );
 
         return false;
@@ -246,8 +246,8 @@ class NodeTranslationListener
 
     /**
      * @param NodeTranslation $translation The node translation
-     * @param EntityManager $em The entity manager
-     * @param array $flashes Flashes
+     * @param EntityManager   $em          The entity manager
+     * @param array           $flashes     Flashes
      *
      * A function that checks the URL and sees if it's unique.
      * It's allowed to be the same when the node is a StructureNode.
@@ -269,8 +269,8 @@ class NodeTranslationListener
      * scenarios are possible so we check for all languages.
      * @param NodeTranslation &$translation Reference to the NodeTranslation.
      *                                      This is modified in place.
-     * @param EntityManager $em The entity manager
-     * @param array $flashes The flash messages array
+     * @param EntityManager   $em           The entity manager
+     * @param array           $flashes      The flash messages array
      *
      * @return bool
      * @return bool
@@ -302,9 +302,9 @@ class NodeTranslationListener
 
         if ($translation->getUrl() === $translation->getFullSlug()) {
             $this->logger->addDebug(
-                'Evaluating URL for NT ' . $translation->getId() .
-                ' getUrl: \'' . $translation->getUrl() . '\' getFullSlug: \'' .
-                $translation->getFullSlug() . '\''
+                'Evaluating URL for NT '.$translation->getId().
+                ' getUrl: \''.$translation->getUrl().'\' getFullSlug: \''.
+                $translation->getFullSlug().'\''
             );
 
             return false;
@@ -323,9 +323,9 @@ class NodeTranslationListener
         );
 
         $this->logger->addDebug(
-            'Found ' . count(
+            'Found '.count(
                 $translations
-            ) . ' node(s) that match url \'' . $translation->getUrl() . '\''
+            ).' node(s) that match url \''.$translation->getUrl().'\''
         );
 
         $translationsWithSameUrl = [];
@@ -346,7 +346,7 @@ class NodeTranslationListener
             );
             $newUrl = $translation->getFullSlug();
 
-            $message = 'The URL of the page has been changed from ' . $oldUrl . ' to ' . $newUrl . ' since another page already uses this URL.';
+            $message = 'The URL of the page has been changed from '.$oldUrl.' to '.$newUrl.' since another page already uses this URL.';
             $this->logger->addInfo($message);
             $flashes[] = $message;
 
@@ -379,14 +379,14 @@ class NodeTranslationListener
         preg_match($finalDigitGrabberRegex, $string, $matches);
 
         if (count($matches) > 0) {
-            $digit = (int)$matches[0];
+            $digit = (int) $matches[0];
             ++$digit;
 
             // Replace the integer with the new digit.
             return preg_replace($finalDigitGrabberRegex, $digit, $string);
         }
 
-        return $string . $append . '1';
+        return $string.$append.'1';
     }
 
     private function isInRequestScope()

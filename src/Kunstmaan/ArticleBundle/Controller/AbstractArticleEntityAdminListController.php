@@ -11,7 +11,7 @@ use Kunstmaan\ArticleBundle\AdminList\AbstractArticlePageAdminListConfigurator;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class AbstractArticleEntityAdminListController
+ * Class AbstractArticleEntityAdminListController.
  */
 abstract class AbstractArticleEntityAdminListController extends AdminListController
 {
@@ -21,22 +21,22 @@ abstract class AbstractArticleEntityAdminListController extends AdminListControl
     protected $configurator;
 
     /**
-     * @var EntityManager $em
+     * @var EntityManager
      */
     protected $em;
 
     /**
-     * @var string $locale
+     * @var string
      */
     protected $locale;
 
     /**
-     * @var BaseUser $user
+     * @var BaseUser
      */
     protected $user;
 
     /**
-     * @var AclHelper $aclHelper
+     * @var AclHelper
      */
     protected $aclHelper;
 

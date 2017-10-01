@@ -24,13 +24,13 @@ class LocaleRuleService implements RuleServiceInterface
 
     /**
      * @param AbstractRule $rule
+     *
      * @return array
      */
     public function getJsProperties(AbstractRule $rule)
     {
-        return array(
+        return [
             'requestlocale' => $this->request->getLocale(),
-        );
+        ];
     }
-
 }

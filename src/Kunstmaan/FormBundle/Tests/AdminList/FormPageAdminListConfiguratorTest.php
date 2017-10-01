@@ -8,7 +8,9 @@ use Kunstmaan\FormBundle\Tests\Stubs\TestConfiguration;
 use Kunstmaan\NodeBundle\Tests\Stubs\TestRepository;
 
 /**
- * This test tests the FormPageAdminListConfigurator
+ * This test tests the FormPageAdminListConfigurator.
+ *
+ * @coversNothing
  */
 class FormPageAdminListConfiguratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +31,7 @@ class FormPageAdminListConfiguratorTest extends \PHPUnit_Framework_TestCase
         $tokenStorage = $this->getMock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $roleHierarchy = $this->getMockBuilder('Symfony\Component\Security\Core\Role\RoleHierarchyInterface')
           ->getMock();
-        $aclHelper = $this->getMock('Kunstmaan\AdminBundle\Helper\Security\Acl\AclHelper', array(), array($em, $tokenStorage, $roleHierarchy));
+        $aclHelper = $this->getMock('Kunstmaan\AdminBundle\Helper\Security\Acl\AclHelper', [], [$em, $tokenStorage, $roleHierarchy]);
 
         $this->object = new FormPageAdminListConfigurator($em, $aclHelper, self::PERMISSION_VIEW);
     }
@@ -43,34 +45,7 @@ class FormPageAdminListConfiguratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * https://gist.github.com/1331789
-     *
-     * @return \Doctrine\ORM\EntityManager
-     */
-    protected function getMockedEntityManager()
-    {
-        $emMock  = $this->getMock('\Doctrine\ORM\EntityManager', array('getRepository', 'getConfiguration', 'getClassMetadata', 'persist', 'flush'), array(), '', false);
-        $emMock->expects($this->any())
-            ->method('getRepository')
-            ->will($this->returnValue(new TestRepository()));
-        $emMock->expects($this->any())
-            ->method('getConfiguration')
-            ->will($this->returnValue(new TestConfiguration()));
-        $emMock->expects($this->any())
-            ->method('getClassMetadata')
-            ->will($this->returnValue((object) array('name' => 'aClass')));
-        $emMock->expects($this->any())
-            ->method('persist')
-            ->will($this->returnValue(null));
-        $emMock->expects($this->any())
-            ->method('flush')
-            ->will($this->returnValue(null));
-
-        return $emMock;  // it tooks 13 lines to achieve mock!
-    }
-
-    /**
-     * @covers Kunstmaan\FormBundle\AdminList\FormPageAdminListConfigurator::adaptQueryBuilder
+     * @covers \Kunstmaan\FormBundle\AdminList\FormPageAdminListConfigurator::adaptQueryBuilder
      */
     public function testAdaptQueryBuilder()
     {
@@ -86,7 +61,34 @@ class FormPageAdminListConfiguratorTest extends \PHPUnit_Framework_TestCase
             ->method('andWhere')
             ->will($this->returnSelf());
 
-        /* @var $queryBuilder QueryBuilder */
+        // @var $queryBuilder QueryBuilder
         $this->object->adaptQueryBuilder($queryBuilder);
+    }
+
+    /**
+     * https://gist.github.com/1331789.
+     *
+     * @return \Doctrine\ORM\EntityManager
+     */
+    protected function getMockedEntityManager()
+    {
+        $emMock = $this->getMock('\Doctrine\ORM\EntityManager', ['getRepository', 'getConfiguration', 'getClassMetadata', 'persist', 'flush'], [], '', false);
+        $emMock->expects($this->any())
+            ->method('getRepository')
+            ->will($this->returnValue(new TestRepository()));
+        $emMock->expects($this->any())
+            ->method('getConfiguration')
+            ->will($this->returnValue(new TestConfiguration()));
+        $emMock->expects($this->any())
+            ->method('getClassMetadata')
+            ->will($this->returnValue((object) ['name' => 'aClass']));
+        $emMock->expects($this->any())
+            ->method('persist')
+            ->will($this->returnValue(null));
+        $emMock->expects($this->any())
+            ->method('flush')
+            ->will($this->returnValue(null));
+
+        return $emMock;  // it tooks 13 lines to achieve mock!
     }
 }

@@ -267,18 +267,18 @@ class NodeTranslationRepository extends EntityRepository
     }
 
     /**
-         * Get the node translation for a given url
-         *
-         * @param string          $urlSlug        The full url
-         * @param string          $locale         The locale
-         * @param boolean         $includeDeleted Include deleted nodes
-         * @param NodeTranslation $toExclude      Optional NodeTranslation instance
-         *                                        you wish to exclude
-         * @param Node            $rootNode       Optional Root node of the tree you
-         *                                        wish to use
-         *
-         * @return NodeTranslation|null
-         */
+     * Get the node translation for a given url.
+     *
+     * @param string          $urlSlug        The full url
+     * @param string          $locale         The locale
+     * @param bool            $includeDeleted Include deleted nodes
+     * @param NodeTranslation $toExclude      Optional NodeTranslation instance
+     *                                        you wish to exclude
+     * @param Node            $rootNode       Optional Root node of the tree you
+     *                                        wish to use
+     *
+     * @return null|NodeTranslation
+     */
     public function getNodeTranslationForUrl(
         $urlSlug,
         $locale = '',
@@ -293,7 +293,7 @@ class NodeTranslationRepository extends EntityRepository
         }
 
         return $translations[0];
-     }
+    }
 
     /**
      * Get all top node translations.

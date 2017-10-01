@@ -112,7 +112,6 @@ class ConfigController
             $config = new $entityClass();
         }
 
-
         $form = $this->formFactory->create(
             $entity->getDefaultAdminType(),
             $config

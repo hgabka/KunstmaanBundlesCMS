@@ -9,7 +9,6 @@ use Kunstmaan\AdminListBundle\AdminList\FilterBuilder;
 use Kunstmaan\AdminListBundle\AdminList\ItemAction\ItemActionInterface;
 use Kunstmaan\AdminListBundle\AdminList\ListAction\ListActionInterface;
 use Pagerfanta\Pagerfanta;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -332,7 +331,7 @@ interface AdminListConfiguratorInterface
      * @return int
      */
     public function getPagesize();
-    
+
     /**
      * Returns default filters.
      *

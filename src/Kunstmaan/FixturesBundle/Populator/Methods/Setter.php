@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Kunstmaan\FixturesBundle\Populator\Methods;
 
 class Setter implements MethodInterface

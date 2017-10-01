@@ -3,7 +3,6 @@
 namespace Kunstmaan\NodeBundle\Entity;
 
 use Kunstmaan\AdminBundle\Entity\EntityInterface;
-use Symfony\Component\Form\AbstractType;
 
 /**
  * HasNodeInterface Interface.

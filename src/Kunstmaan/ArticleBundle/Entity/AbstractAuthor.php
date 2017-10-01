@@ -4,10 +4,9 @@ namespace Kunstmaan\ArticleBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Kunstmaan\AdminBundle\Entity\AbstractEntity;
-use Kunstmaan\ArticleBundle\Form\AbstractAuthorAdminType;
 
 /**
- * Class AbstractAuthor
+ * Class AbstractAuthor.
  */
 class AbstractAuthor extends AbstractEntity
 {
@@ -24,6 +23,14 @@ class AbstractAuthor extends AbstractEntity
      * @ORM\Column(type="string", nullable=true, name="link")
      */
     protected $link;
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
 
     /**
      * @param string $name
@@ -55,13 +62,5 @@ class AbstractAuthor extends AbstractEntity
     public function getLink()
     {
         return $this->link;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getName();
     }
 }

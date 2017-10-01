@@ -3,14 +3,14 @@
 namespace Kunstmaan\FormBundle\Tests\Entity\PageParts;
 
 use ArrayObject;
-
 use Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart;
 use Kunstmaan\FormBundle\Form\ChoicePagePartAdminType;
-
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Tests for ChoicePagePart
+ * Tests for ChoicePagePart.
+ *
+ * @coversNothing
  */
 class ChoicePagePartTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,7 +25,7 @@ class ChoicePagePartTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new ChoicePagePart;
+        $this->object = new ChoicePagePart();
     }
 
     /**
@@ -37,17 +37,17 @@ class ChoicePagePartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::getDefaultView
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::getDefaultView
      */
     public function testGetDefaultView()
     {
         $stringValue = $this->object->getDefaultView();
         $this->assertNotNull($stringValue);
-        $this->assertTrue(is_string($stringValue));
+        $this->assertInternalType('string', $stringValue);
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::adaptForm
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::adaptForm
      */
     public function testAdaptForm()
     {
@@ -60,27 +60,27 @@ class ChoicePagePartTest extends \PHPUnit_Framework_TestCase
 
         $formBuilder->expects($this->any())
             ->method('getData')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $fields = new ArrayObject();
 
-        $this->assertTrue(sizeof($fields) == 0);
-        /* @var $formBuilder FormBuilderInterface */
+        $this->assertTrue(0 === count($fields));
+        // @var $formBuilder FormBuilderInterface
         $object->adaptForm($formBuilder, $fields, 0);
-        $this->assertTrue(sizeof($fields) > 0);
+        $this->assertTrue(count($fields) > 0);
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::getDefaultAdminType
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::getDefaultAdminType
      */
     public function testGetDefaultAdminType()
     {
-        $this->assertEquals(ChoicePagePartAdminType::class, $this->object->getDefaultAdminType());
+        $this->assertSame(ChoicePagePartAdminType::class, $this->object->getDefaultAdminType());
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::setExpanded
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::getExpanded
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::setExpanded
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::getExpanded
      */
     public function testSetGetExpanded()
     {
@@ -90,10 +90,9 @@ class ChoicePagePartTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($object->getExpanded());
     }
 
-
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::setMultiple
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::getMultiple
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::setMultiple
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::getMultiple
      */
     public function testSetGetMultiple()
     {
@@ -104,27 +103,26 @@ class ChoicePagePartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::setChoices
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::getChoices
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::setChoices
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::getChoices
      */
     public function testSetGetChoices()
     {
         $object = $this->object;
-        $choices = array('test1' => 'test1', 'test2' => 'test2');
+        $choices = ['test1' => 'test1', 'test2' => 'test2'];
         $object->setChoices($choices);
-        $this->assertEquals($choices, $object->getChoices());
+        $this->assertSame($choices, $object->getChoices());
     }
 
     /**
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::setEmptyValue
-     * @covers Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::getEmptyValue
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::setEmptyValue
+     * @covers \Kunstmaan\FormBundle\Entity\PageParts\ChoicePagePart::getEmptyValue
      */
     public function testSetGetEmptyValue()
     {
         $object = $this->object;
         $value = 'test';
         $object->setEmptyValue($value);
-        $this->assertEquals($value, $object->getEmptyValue());
+        $this->assertSame($value, $object->getEmptyValue());
     }
-
 }

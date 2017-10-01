@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Controller for the pagepart administration
+ * Controller for the pagepart administration.
  */
 class PagePartAdminController extends Controller
 {
@@ -28,9 +28,9 @@ class PagePartAdminController extends Controller
     {
         $em = $this->get('doctrine.orm.entity_manager');
 
-        $pageId        = $request->get('pageid');
+        $pageId = $request->get('pageid');
         $pageClassName = $request->get('pageclassname');
-        $context       = $request->get('context');
+        $context = $request->get('context');
         $pagePartClass = $request->get('type');
 
         /** @var HasPagePartsInterface $page */
@@ -41,22 +41,22 @@ class PagePartAdminController extends Controller
         }
 
         $pagePartConfigurationReader = $this->container->get('kunstmaan_page_part.page_part_configuration_reader');
-        $pagePartAdminConfigurators  = $pagePartConfigurationReader->getPagePartAdminConfigurators($page);
+        $pagePartAdminConfigurators = $pagePartConfigurationReader->getPagePartAdminConfigurators($page);
 
         $pagePartAdminConfigurator = null;
         foreach ($pagePartAdminConfigurators as $ppac) {
-            if ($context == $ppac->getContext()) {
+            if ($context === $ppac->getContext()) {
                 $pagePartAdminConfigurator = $ppac;
             }
         }
 
-        if (is_null($pagePartAdminConfigurator)) {
+        if (null === $pagePartAdminConfigurator) {
             throw new \RuntimeException(sprintf('No page part admin configurator found for context "%s".', $context));
         }
 
         $pagePartAdmin = new PagePartAdmin($pagePartAdminConfigurator, $em, $page, $context, $this->container);
         /** @var PagePartInterface $pagePart */
-        $pagePart      = new $pagePartClass();
+        $pagePart = new $pagePartClass();
 
         if (false === $pagePart instanceof PagePartInterface) {
             throw new \RuntimeException(sprintf(
@@ -68,25 +68,25 @@ class PagePartAdminController extends Controller
         $formFactory = $this->container->get('form.factory');
         $formBuilder = $formFactory->createBuilder(FormType::class);
         $pagePartAdmin->adaptForm($formBuilder);
-        $id = 'newpp_' . time();
+        $id = 'newpp_'.time();
 
-        $data                         = $formBuilder->getData();
-        $data['pagepartadmin_' . $id] = $pagePart;
+        $data = $formBuilder->getData();
+        $data['pagepartadmin_'.$id] = $pagePart;
 
-        $formBuilder->add('pagepartadmin_' . $id, $pagePart->getDefaultAdminType());
+        $formBuilder->add('pagepartadmin_'.$id, $pagePart->getDefaultAdminType());
         $formBuilder->setData($data);
-        $form     = $formBuilder->getForm();
+        $form = $formBuilder->getForm();
         $formview = $form->createView();
         $extended = $this->getParameter('kunstmaan_page_part.extended');
 
         return [
-            'id'            => $id,
-            'form'          => $formview,
-            'pagepart'      => $pagePart,
+            'id' => $id,
+            'form' => $formview,
+            'pagepart' => $pagePart,
             'pagepartadmin' => $pagePartAdmin,
-            'page'          => $pagePartAdmin->getPage(),
-            'editmode'      => true,
-            'extended'      => $extended,
+            'page' => $pagePartAdmin->getPage(),
+            'editmode' => true,
+            'extended' => $extended,
         ];
     }
 }

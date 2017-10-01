@@ -10,7 +10,6 @@ use Kunstmaan\NodeBundle\Entity\AbstractPage;
 use Kunstmaan\NodeBundle\Entity\NodeTranslation;
 use Kunstmaan\NodeBundle\Helper\RenderContext;
 use Kunstmaan\PagePartBundle\Helper\HasPagePartsInterface;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 

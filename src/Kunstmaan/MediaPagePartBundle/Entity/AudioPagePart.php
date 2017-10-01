@@ -1,21 +1,20 @@
 <?php
 
 namespace Kunstmaan\MediaPagePartBundle\Entity;
-use Doctrine\ORM\Mapping as ORM;
 
+use Doctrine\ORM\Mapping as ORM;
 use Kunstmaan\MediaBundle\Entity\Media;
 use Kunstmaan\MediaPagePartBundle\Form\AudioPagePartAdminType;
 use Kunstmaan\PagePartBundle\Entity\AbstractPagePart;
 
 /**
- * AudioPagePart
+ * AudioPagePart.
  *
  * @ORM\Entity
  * @ORM\Table(name="kuma_audio_page_parts")
  */
 class AudioPagePart extends AbstractPagePart
 {
-
     /**
      * @ORM\ManyToOne(targetEntity="Kunstmaan\MediaBundle\Entity\Media")
      * @ORM\JoinColumn(name="media_id", referencedColumnName="id")
@@ -23,7 +22,19 @@ class AudioPagePart extends AbstractPagePart
     protected $media;
 
     /**
-     * Get media
+     * @return string
+     */
+    public function __toString()
+    {
+        if ($this->getMedia()) {
+            return $this->getMedia()->getUrl();
+        }
+
+        return '';
+    }
+
+    /**
+     * Get media.
      *
      * @return Media
      */
@@ -33,7 +44,7 @@ class AudioPagePart extends AbstractPagePart
     }
 
     /**
-     * Set media
+     * Set media.
      *
      * @param Media $media
      *
@@ -49,21 +60,9 @@ class AudioPagePart extends AbstractPagePart
     /**
      * @return string
      */
-    public function __toString()
-    {
-        if ($this->getMedia()) {
-            return $this->getMedia()->getUrl();
-        }
-
-        return "";
-    }
-
-    /**
-     * @return string
-     */
     public function getDefaultView()
     {
-        return "KunstmaanMediaPagePartBundle:AudioPagePart:view.html.twig";
+        return 'KunstmaanMediaPagePartBundle:AudioPagePart:view.html.twig';
     }
 
     /**

@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\BooleanFormSubmissionField;
 use Kunstmaan\FormBundle\Form\BooleanFormSubmissionType;
 use Kunstmaan\FormBundle\Form\CheckboxPagePartAdminType;
-use Kunstmaan\FormBundle\Form\SingleLineTextPagePartAdminType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 

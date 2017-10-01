@@ -1,18 +1,6 @@
 <?php
 
 
-/**
- * \brief CKEditor class that can be used to create editor
- * instances in PHP pages on server side.
- *
- * @see http://ckeditor.com
- *
- * Sample usage:
- * @code
- * $CKEditor = new CKEditor();
- * $CKEditor->editor("editor1", "<p>Initial value.</p>");
- * @endcode
- */
 class CKEditor
 {
     /**
@@ -559,6 +547,7 @@ class CKEditor
         if ('CKEDITOR.' === strtoupper(substr($val, 0, 9))) {
             return $val;
         }
+
         return '"'.str_replace(['\\', '/', "\n", "\t", "\r", "\x08", "\x0c", '"'], ['\\\\', '\\/', '\\n', '\\t', '\\r', '\\b', '\\f', '\"'], $val).'"';
     }
 }

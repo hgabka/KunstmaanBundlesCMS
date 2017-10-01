@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * HeaderPagePartAdminType
+ * HeaderPagePartAdminType.
  */
 class HeaderPagePartAdminType extends AbstractType
 {
@@ -22,16 +22,16 @@ class HeaderPagePartAdminType extends AbstractType
         $builder->add(
           'niv',
           ChoiceType::class,
-          array(
+          [
             'label' => 'pagepart.header.type',
-            'choices' => array('Header 1' => '1', 'Header 2' => '2', 'Header 3' => '3', 'Header 4' => '4', 'Header 5' => '5', 'Header 6' => '6'),
-            'required' => true
-          )
+            'choices' => ['Header 1' => '1', 'Header 2' => '2', 'Header 3' => '3', 'Header 4' => '4', 'Header 5' => '5', 'Header 6' => '6'],
+            'required' => true,
+          ]
         );
-        $builder->add('title', TextType::class, array(
+        $builder->add('title', TextType::class, [
             'label' => 'pagepart.header.title',
             'required' => true,
-        ));
+        ]);
     }
 
     /**
@@ -48,9 +48,9 @@ class HeaderPagePartAdminType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-          array(
+          [
             'data_class' => 'Kunstmaan\PagePartBundle\Entity\HeaderPagePart',
-          )
+          ]
         );
     }
 }

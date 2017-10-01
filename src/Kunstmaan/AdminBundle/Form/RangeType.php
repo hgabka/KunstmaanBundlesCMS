@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Kunstmaan\AdminBundle\Form;
 
 use Symfony\Component\Form\AbstractType;

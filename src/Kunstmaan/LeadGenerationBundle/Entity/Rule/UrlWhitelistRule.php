@@ -52,9 +52,9 @@ class UrlWhitelistRule extends AbstractRule
      */
     public function getJsProperties()
     {
-        return array(
-            'urls' => explode(PHP_EOL, $this->getUrls())
-        );
+        return [
+            'urls' => explode(PHP_EOL, $this->getUrls()),
+        ];
     }
 
     /**

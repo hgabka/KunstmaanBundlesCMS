@@ -42,6 +42,7 @@ class TagAdminListController extends AdminListController
      * @Route("/add", name="kunstmaantaggingbundle_admin_tag_add")
      * @Method({"GET", "POST"})
      * @Template("KunstmaanAdminListBundle:Default:add.html.twig")
+     *
      * @return array
      */
     public function addAction(Request $request)
@@ -53,6 +54,8 @@ class TagAdminListController extends AdminListController
      * @Route("/{id}/edit", requirements={"id" = "\d+"}, name="kunstmaantaggingbundle_admin_tag_edit")
      * @Method({"GET", "POST"})
      * @Template("KunstmaanAdminListBundle:Default:edit.html.twig")
+     *
+     * @param mixed $id
      */
     public function editAction(Request $request, $id)
     {
@@ -63,6 +66,8 @@ class TagAdminListController extends AdminListController
      * @Route("/{id}/delete", requirements={"id" = "\d+"}, name="kunstmaantaggingbundle_admin_tag_delete")
      * @Method({"GET", "POST"})
      * @Template("KunstmaanAdminListBundle:Default:delete.html.twig")
+     *
+     * @param mixed $id
      */
     public function deleteAction(Request $request, $id)
     {
@@ -84,9 +89,9 @@ class TagAdminListController extends AdminListController
         $qb = $em->getRepository('KunstmaanTaggingBundle:Tag')->createQueryBuilder('n')
             ->where('n.name LIKE :search')
             ->orderBy('n.name', 'ASC')
-            ->setParameter('search', '%' . $search . '%');
+            ->setParameter('search', '%'.$search.'%');
         $tags = $qb->getQuery()->getResult();
 
-        return array('tags' => $tags);
+        return ['tags' => $tags];
     }
 }

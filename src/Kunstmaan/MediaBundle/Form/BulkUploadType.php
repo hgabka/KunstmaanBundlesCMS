@@ -47,6 +47,7 @@ class BulkUploadType extends AbstractType
     {
         $resolver->setDefault('accept', null);
     }
+
     /**
      * Returns the name of this type.
      *

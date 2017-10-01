@@ -3,7 +3,7 @@
 namespace Kunstmaan\ArticleBundle\Controller;
 
 /**
- * The AdminList controller for the AbstractArticleCategory
+ * The AdminList controller for the AbstractArticleCategory.
  */
 abstract class AbstractArticleCategoryAdminListController extends AbstractArticleEntityAdminListController
 {

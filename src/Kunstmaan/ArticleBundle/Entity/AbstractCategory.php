@@ -31,9 +31,16 @@ class AbstractCategory extends AbstractEntity implements Translatable
      */
     protected $deletedAt;
 
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      */
@@ -43,7 +50,7 @@ class AbstractCategory extends AbstractEntity implements Translatable
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -83,13 +90,4 @@ class AbstractCategory extends AbstractEntity implements Translatable
     {
         $this->deletedAt = $deletedAt;
     }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getName();
-    }
 }
-

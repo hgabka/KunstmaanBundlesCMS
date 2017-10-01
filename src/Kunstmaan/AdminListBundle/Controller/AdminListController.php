@@ -39,7 +39,7 @@ abstract class AdminListController extends Controller
      * Shows the list of entities.
      *
      * @param AbstractAdminListConfigurator $configurator
-     * @param null|Request $request
+     * @param null|Request                  $request
      *
      * @return Response
      */
@@ -64,8 +64,8 @@ abstract class AdminListController extends Controller
      * Export a list of Entities.
      *
      * @param AbstractAdminListConfigurator $configurator The adminlist configurator
-     * @param string $_format The format to export to
-     * @param null|Request $request
+     * @param string                        $_format      The format to export to
+     * @param null|Request                  $request
      *
      * @throws AccessDeniedHttpException
      *
@@ -90,7 +90,7 @@ abstract class AdminListController extends Controller
      * Sets pagesize.
      *
      * @param AbstractAdminListConfigurator $configurator
-     * @param null|Request $request
+     * @param null|Request                  $request
      *
      * @return Response
      */
@@ -110,8 +110,8 @@ abstract class AdminListController extends Controller
      * Creates and processes the form to add a new Entity.
      *
      * @param AbstractAdminListConfigurator $configurator The adminlist configurator
-     * @param string $type The type to add
-     * @param null|Request $request
+     * @param string                        $type         The type to add
+     * @param null|Request                  $request
      *
      * @throws AccessDeniedHttpException
      *
@@ -213,8 +213,8 @@ abstract class AdminListController extends Controller
      * Creates and processes the edit form for an Entity using its ID.
      *
      * @param AbstractAdminListConfigurator $configurator The adminlist configurator
-     * @param string $entityId The id of the entity that will be edited
-     * @param null|Request $request
+     * @param string                        $entityId     The id of the entity that will be edited
+     * @param null|Request                  $request
      *
      * @throws NotFoundHttpException
      * @throws AccessDeniedHttpException
@@ -344,8 +344,8 @@ abstract class AdminListController extends Controller
      * Delete the Entity using its ID.
      *
      * @param AbstractAdminListConfigurator $configurator The adminlist configurator
-     * @param int $entityId The id to delete
-     * @param null|Request $request
+     * @param int                           $entityId     The id to delete
+     * @param null|Request                  $request
      *
      * @throws NotFoundHttpException
      * @throws AccessDeniedHttpException
@@ -414,13 +414,13 @@ abstract class AdminListController extends Controller
         $repo = $em->getRepository($configurator->getRepositoryName());
         $item = $repo->find($entityId);
 
-        $setter = 'set' . ucfirst($sortableField);
-        $getter = 'get' . ucfirst($sortableField);
+        $setter = 'set'.ucfirst($sortableField);
+        $getter = 'get'.ucfirst($sortableField);
 
         $nextItem = $repo->createQueryBuilder('i')
-                         ->where('i.' . $sortableField . ' < :weight')
+                         ->where('i.'.$sortableField.' < :weight')
                          ->setParameter('weight', $item->$getter())
-                         ->orderBy('i.' . $sortableField, 'DESC')
+                         ->orderBy('i.'.$sortableField, 'DESC')
                          ->setMaxResults(1)
                          ->getQuery()
                          ->getOneOrNullResult()
@@ -448,13 +448,13 @@ abstract class AdminListController extends Controller
         $repo = $em->getRepository($configurator->getRepositoryName());
         $item = $repo->find($entityId);
 
-        $setter = 'set' . ucfirst($sortableField);
-        $getter = 'get' . ucfirst($sortableField);
+        $setter = 'set'.ucfirst($sortableField);
+        $getter = 'get'.ucfirst($sortableField);
 
         $nextItem = $repo->createQueryBuilder('i')
-                         ->where('i.' . $sortableField . ' > :weight')
+                         ->where('i.'.$sortableField.' > :weight')
                          ->setParameter('weight', $item->$getter())
-                         ->orderBy('i.' . $sortableField, 'ASC')
+                         ->orderBy('i.'.$sortableField, 'ASC')
                          ->setMaxResults(1)
                          ->getQuery()
                          ->getOneOrNullResult()
@@ -489,7 +489,7 @@ abstract class AdminListController extends Controller
             $repo = $this->getEntityManager()->getRepository($configurator->getRepositoryName());
             $sort = $configurator->getSortableField();
             $weight = $this->getMaxSortableField($repo, $sort);
-            $setter = "set" . ucfirst($sort);
+            $setter = 'set'.ucfirst($sort);
             $item->$setter($weight + 1);
         }
 
@@ -502,7 +502,7 @@ abstract class AdminListController extends Controller
         if ($configurator instanceof SortableInterface) {
             $route = function (EntityInterface $item) use ($configurator) {
                 return [
-                    'path'   => $configurator->getPathByConvention() . '_move_up',
+                    'path' => $configurator->getPathByConvention().'_move_up',
                     'params' => ['id' => $item->getId()],
                 ];
             };
@@ -512,7 +512,7 @@ abstract class AdminListController extends Controller
 
             $route = function (EntityInterface $item) use ($configurator) {
                 return [
-                    'path'   => $configurator->getPathByConvention() . '_move_down',
+                    'path' => $configurator->getPathByConvention().'_move_down',
                     'params' => ['id' => $item->getId()],
                 ];
             };
@@ -525,11 +525,11 @@ abstract class AdminListController extends Controller
     private function getMaxSortableField($repo, $sort)
     {
         $maxWeight = $repo->createQueryBuilder('i')
-                          ->select('max(i.' . $sort . ')')
+                          ->select('max(i.'.$sort.')')
                           ->getQuery()
                           ->getSingleScalarResult()
         ;
 
-        return (int)$maxWeight;
+        return (int) $maxWeight;
     }
 }

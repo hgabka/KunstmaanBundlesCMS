@@ -7,12 +7,11 @@ use Kunstmaan\ArticleBundle\Form\AbstractArticlePageAdminType;
 use Kunstmaan\ArticleBundle\PagePartAdmin\AbstractArticlePagePagePartAdminConfigurator;
 use Kunstmaan\NodeBundle\Entity\AbstractPage;
 use Kunstmaan\PagePartBundle\Helper\HasPagePartsInterface;
-use Symfony\Component\Form\AbstractType;
 
 abstract class AbstractArticlePage extends AbstractPage implements HasPagePartsInterface
 {
     /**
-     * The article's date, set automatically to 'now' before persisting when empty
+     * The article's date, set automatically to 'now' before persisting when empty.
      *
      * @var \DateTime
      *
@@ -28,7 +27,8 @@ abstract class AbstractArticlePage extends AbstractPage implements HasPagePartsI
     protected $summary;
 
     /**
-     * Return the date of this article
+     * Return the date of this article.
+     *
      * @param \DateTime $date
      */
     public function setDate($date)
@@ -37,7 +37,8 @@ abstract class AbstractArticlePage extends AbstractPage implements HasPagePartsI
     }
 
     /**
-     * Set the date of the article
+     * Set the date of the article.
+     *
      * @return \DateTime
      */
     public function getDate()
@@ -46,7 +47,8 @@ abstract class AbstractArticlePage extends AbstractPage implements HasPagePartsI
     }
 
     /**
-     * Set the summary of this article
+     * Set the summary of this article.
+     *
      * @param $summary
      */
     public function setSummary($summary)
@@ -55,7 +57,7 @@ abstract class AbstractArticlePage extends AbstractPage implements HasPagePartsI
     }
 
     /**
-     * Returns the summary of this article
+     * Returns the summary of this article.
      *
      * @return string
      */
@@ -69,7 +71,7 @@ abstract class AbstractArticlePage extends AbstractPage implements HasPagePartsI
      */
     public function getPossibleChildTypes()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -90,6 +92,6 @@ abstract class AbstractArticlePage extends AbstractPage implements HasPagePartsI
      */
     public function getPagePartAdminConfigurations()
     {
-        return array(new AbstractArticlePagePagePartAdminConfigurator());
+        return [new AbstractArticlePagePagePartAdminConfigurator()];
     }
 }

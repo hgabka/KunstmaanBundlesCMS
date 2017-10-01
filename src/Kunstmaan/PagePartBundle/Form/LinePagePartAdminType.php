@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * LinePagePartAdminType
+ * LinePagePartAdminType.
  */
 class LinePagePartAdminType extends AbstractType
 {
@@ -33,9 +33,9 @@ class LinePagePartAdminType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-          array(
+          [
             'data_class' => 'Kunstmaan\PagePartBundle\Entity\LinePagePart',
-          )
+          ]
         );
     }
 }

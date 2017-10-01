@@ -3,7 +3,7 @@
 namespace Kunstmaan\PagePartBundle\Event;
 
 /**
- * Events
+ * Events.
  */
 class Events
 {

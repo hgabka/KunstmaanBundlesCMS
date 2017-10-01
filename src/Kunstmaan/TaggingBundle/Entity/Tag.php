@@ -7,7 +7,6 @@ use DoctrineExtensions\Taggable\Entity\Tag as BaseTag;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
 use Kunstmaan\TaggingBundle\Form\TagAdminType;
-
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -17,7 +16,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Tag extends BaseTag implements Translatable
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="bigint")
@@ -57,8 +55,13 @@ class Tag extends BaseTag implements Translatable
      */
     protected $locale;
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -68,7 +71,7 @@ class Tag extends BaseTag implements Translatable
     }
 
     /**
-     * Set id
+     * Set id.
      *
      * @param int $id The unique identifier
      */
@@ -78,7 +81,7 @@ class Tag extends BaseTag implements Translatable
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      */
@@ -88,7 +91,7 @@ class Tag extends BaseTag implements Translatable
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -98,7 +101,7 @@ class Tag extends BaseTag implements Translatable
     }
 
     /**
-     * set createdAt
+     * set createdAt.
      *
      * @param $createdAt
      */
@@ -108,7 +111,7 @@ class Tag extends BaseTag implements Translatable
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return datetime
      */
@@ -118,7 +121,7 @@ class Tag extends BaseTag implements Translatable
     }
 
     /**
-     * Set UpdatedAt
+     * Set UpdatedAt.
      *
      * @param $updatedAt
      */
@@ -128,7 +131,7 @@ class Tag extends BaseTag implements Translatable
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -161,10 +164,4 @@ class Tag extends BaseTag implements Translatable
     {
         return TagAdminType::class;
     }
-
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
 }
