@@ -48,10 +48,10 @@ class Robots extends AbstractEntity
     }
 
     /**
-     * @return RobotsType
+     * @return string
      */
     public function getDefaultAdminType()
     {
-        return new RobotsType();
+        return RobotsType::class;
     }
 }

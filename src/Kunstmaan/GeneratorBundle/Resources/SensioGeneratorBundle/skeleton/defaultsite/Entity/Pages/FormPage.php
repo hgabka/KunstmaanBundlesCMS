@@ -19,11 +19,11 @@ class FormPage extends AbstractFormPage implements HasPageTemplateInterface
     /**
      * Returns the default backend form type for this form
      *
-     * @return AbstractType
+     * @return string
      */
     public function getDefaultAdminType()
     {
-        return new FormPageAdminType();
+        return FormPageAdminType::class;
     }
 
     /**

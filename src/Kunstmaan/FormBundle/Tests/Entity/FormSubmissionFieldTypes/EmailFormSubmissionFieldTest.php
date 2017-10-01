@@ -6,9 +6,7 @@ use Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\EmailFormSubmissionFiel
 use Kunstmaan\FormBundle\Form\EmailFormSubmissionType;
 
 /**
- * Tests for EmailFormSubmissionField.
- *
- * @coversNothing
+ * Tests for EmailFormSubmissionField
  */
 class EmailFormSubmissionFieldTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,7 +21,7 @@ class EmailFormSubmissionFieldTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new EmailFormSubmissionField();
+        $this->object = new EmailFormSubmissionField;
     }
 
     /**
@@ -35,34 +33,32 @@ class EmailFormSubmissionFieldTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\EmailFormSubmissionField::getValue
-     * @covers \Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\EmailFormSubmissionField::setValue
+     * @covers Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\EmailFormSubmissionField::getValue
+     * @covers Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\EmailFormSubmissionField::setValue
      */
     public function testSetGetValue()
     {
         $object = $this->object;
         $value = 'test@test.be';
         $object->setValue($value);
-        $this->assertSame($value, $object->getValue());
+        $this->assertEquals($value, $object->getValue());
     }
 
     /**
-     * @covers \Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\EmailFormSubmissionField::getDefaultAdminType
+     * @covers Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\EmailFormSubmissionField::getDefaultAdminType
      */
     public function testGetDefaultAdminType()
     {
-        $adminType = $this->object->getDefaultAdminType();
-        $this->assertNotNull($adminType);
-        $this->assertTrue($adminType instanceof EmailFormSubmissionType);
+        $this->assertEquals(EmailFormSubmissionType::class, $this->object->getDefaultAdminType());
     }
 
     /**
-     * @covers \Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\EmailFormSubmissionField::__toString
+     * @covers Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\EmailFormSubmissionField::__toString
      */
     public function testToString()
     {
         $stringValue = $this->object->__toString();
         $this->assertNotNull($stringValue);
-        $this->assertInternalType('string', $stringValue);
+        $this->assertTrue(is_string($stringValue));
     }
 }

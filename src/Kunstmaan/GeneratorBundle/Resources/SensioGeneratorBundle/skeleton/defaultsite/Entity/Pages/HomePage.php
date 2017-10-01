@@ -21,11 +21,11 @@ class HomePage extends AbstractPage implements HasPageTemplateInterface, SearchT
     /**
      * Returns the default backend form type for this page
      *
-     * @return AbstractType
+     * @return string
      */
     public function getDefaultAdminType()
     {
-        return new HomePageAdminType();
+        return HomePageAdminType::class;
     }
 
     /**

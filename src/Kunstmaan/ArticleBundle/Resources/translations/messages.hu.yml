@@ -4,11 +4,11 @@ article:
     form:
         date:
             label: Dátum
-        summery:
+        summary:
             label: Összegzés
     modal:
         add:
-            label: "%type% hozzáadása a(z) %page% oldalhoz"
+            label: %type% hozzáadása a(z) %page% oldalhoz
     author:
         list:
             header:

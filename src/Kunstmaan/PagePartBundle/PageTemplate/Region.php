@@ -3,7 +3,7 @@
 namespace Kunstmaan\PagePartBundle\PageTemplate;
 
 /**
- * Definition of a region in a page template.
+ * Definition of a region in a page template
  */
 class Region
 {
@@ -28,17 +28,23 @@ class Region
     protected $children;
 
     /**
+     * @var Row[]
+     */
+    protected $rows;
+
+    /**
      * @param string $name
      * @param number $span
      * @param string $template
      * @param array  $children
      */
-    public function __construct($name, $span, $template = null, $children = [])
+    public function __construct($name, $span, $template = null, $children = [], $rows = [])
     {
         $this->setName($name);
         $this->setSpan($span);
         $this->setTemplate($template);
         $this->setChildren($children);
+        $this->setRows($rows);
     }
 
     /**
@@ -120,4 +126,27 @@ class Region
 
         return $this;
     }
+
+
+    /**
+     * @return Row[]
+     */
+    public function getRows()
+    {
+        return $this->rows;
+    }
+
+    /**
+     * @param Row[] $rows
+     *
+     * @return Region
+     */
+    public function setRows($rows)
+    {
+        $this->rows = $rows;
+
+        return $this;
+    }
+
+
 }

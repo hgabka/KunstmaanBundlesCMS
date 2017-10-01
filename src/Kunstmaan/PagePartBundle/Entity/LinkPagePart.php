@@ -1,18 +1,18 @@
 <?php
 
 namespace Kunstmaan\PagePartBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
 use Kunstmaan\PagePartBundle\Form\LinkPagePartAdminType;
 
 /**
- * LinkPagePart.
+ * LinkPagePart
  *
  * @ORM\Entity
  * @ORM\Table(name="kuma_link_page_parts")
  */
 class LinkPagePart extends AbstractPagePart
 {
+
     /**
      * @ORM\Column(type="string", nullable=true)
      */
@@ -27,14 +27,6 @@ class LinkPagePart extends AbstractPagePart
      * @ORM\Column(type="string", nullable=true)
      */
     protected $text;
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return 'LinkPagePart';
-    }
 
     /**
      * @param string $url
@@ -57,7 +49,7 @@ class LinkPagePart extends AbstractPagePart
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function getOpenInNewWindow()
     {
@@ -65,7 +57,7 @@ class LinkPagePart extends AbstractPagePart
     }
 
     /**
-     * @param bool $openInNewWindow
+     * @param boolean $openInNewWindow
      *
      * @return LinkPagePart
      */
@@ -99,16 +91,24 @@ class LinkPagePart extends AbstractPagePart
     /**
      * @return string
      */
-    public function getDefaultView()
+    public function __toString()
     {
-        return 'KunstmaanPagePartBundle:LinkPagePart:view.html.twig';
+        return "LinkPagePart";
     }
 
     /**
-     * @return LinkPagePartAdminType
+     * @return string
+     */
+    public function getDefaultView()
+    {
+        return "KunstmaanPagePartBundle:LinkPagePart:view.html.twig";
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getDefaultAdminType()
     {
-        return new LinkPagePartAdminType();
+        return LinkPagePartAdminType::class;
     }
 }

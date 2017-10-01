@@ -120,11 +120,11 @@ abstract class AbstractPage extends AbstractEntity implements PageInterface
     /**
      * Returns the default backend form type for this page.
      *
-     * @return AbstractType
+     * @return string
      */
     public function getDefaultAdminType()
     {
-        return new PageAdminType();
+        return PageAdminType::class;
     }
 
     /**

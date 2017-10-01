@@ -12,24 +12,24 @@ kunstmaanbundles.richEditor = (function (window, undefined) {
             filebrowserWindowWidth: 970,
             filebrowserImageWindowWidth: 970,
             filebrowserImageUploadUrl: '',
-			allowedContent: true,
-			extraPlugins: 'listblock,indent,indentblock,indentlist,panel,button,letterspacing,richcombo,floatpanel,simplebutton,panelbutton,lineheight,dialog,dialogui,lineutils,clipboard,widget,widgetcommon',
+            allowedContent: true,
+            extraPlugins: 'listblock,indent,indentblock,indentlist,panel,button,letterspacing,richcombo,floatpanel,simplebutton,panelbutton,lineheight,dialog,dialogui,lineutils,clipboard,widget,widgetcommon',
             extraAllowedContent: '*[*](*){*}',
             toolbar: [
-                { name: 'basicstyles', items : ['Source','-','Save','NewPage','Preview','-','Templates'] },
-                { name: 'lists', items : ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Print', 'SpellChecker', 'Scayt'] },
-                { name: 'dents', items : ['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'] },
-                { name: 'links', items : ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'] },
-				'/',
-                { name: 'insert', items : ['Bold','Italic','Underline','Strike','-','Subscript','Superscript'] },
-                { name: 'clipboard', items : ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','CreateDiv'] },
-                { name: 'editing', items : ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'] },
-                { name: 'link', items : ['Link','Unlink','Anchor'] },
-                { name: 'adds', items : ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak'] },
-				'/',
-                { name: 'document', items : ['Styles','Format','Font','FontSize', 'lineheight', 'letterspacing'] },
-                { name: 'color', items : ['TextColor','BGColor'] },
-                { name: 'others', items : ['Maximize', 'ShowBlocks','-','About'] }
+                {name: 'basicstyles', items: ['Source', '-', 'Save', 'NewPage', 'Preview', '-', 'Templates']},
+                {name: 'lists', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Print', 'SpellChecker', 'Scayt']},
+                {name: 'dents', items: ['Undo', 'Redo', '-', 'Find', 'Replace', '-', 'SelectAll', 'RemoveFormat']},
+                {name: 'links', items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField']},
+                '/',
+                {name: 'insert', items: ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript']},
+                {name: 'clipboard', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote', 'CreateDiv']},
+                {name: 'editing', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
+                {name: 'link', items: ['Link', 'Unlink', 'Anchor']},
+                {name: 'adds', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak']},
+                '/',
+                {name: 'document', items: ['Styles', 'Format', 'Font', 'FontSize', 'lineheight', 'letterspacing']},
+                {name: 'color', items: ['TextColor', 'BGColor']},
+                {name: 'others', items: ['Maximize', 'ShowBlocks', '-', 'About']}
             ]
         }
     };
@@ -194,8 +194,9 @@ kunstmaanbundles.richEditor = (function (window, undefined) {
             info.txtHeight ? table.setStyle('height', info.txtHeight) : table.removeStyle('height');
             info.txtWidth ? table.setStyle('width', info.txtWidth) : table.removeStyle('width');
 
-            if (!table.getAttribute('style'))
+            if (!table.getAttribute('style')) {
                 table.removeAttribute('style');
+            }
         }
 
         // Insert the table element if we're creating one.
@@ -263,14 +264,22 @@ kunstmaanbundles.richEditor = (function (window, undefined) {
                     var a = this.getDialog().getContentElement("info", "protocol"), b = this.getValue(), k = /^((javascript:)|[#\/\.\?])/i, c = /^(http|https|ftp|news):\/\/(?=.)/i.exec(b);
                     c ? (this.setValue(b.substr(c[0].length)), a.setValue(c[0].toLowerCase())) : k.test(b) && a.setValue("");
 
-                    var ptrn = new RegExp(/\[(([a-z_A-Z]+):)?NT([0-9]+)\]/g);
-                    while (match = ptrn.exec(b)) {
+                    var nodeTranslationPtrn = new RegExp(/\[(([a-z_A-Z]+):)?NT([0-9]+)\]/g);
+                    while (match = nodeTranslationPtrn.exec(b)) {
                         // Node translation found, so set protocol to other.
                         if (match[3]) {
                             a.setValue("");
                         }
                     }
-                    
+
+                    var mediaPtrn = new RegExp(/\[(([a-z_A-Z]+):)?M([0-9]+)\]/g);
+                    while (match = mediaPtrn.exec(b)) {
+                        // Media found, so set protocol to other.
+                        if (match[3]) {
+                            a.setValue("");
+                        }
+                    }
+
                     this.allowOnChange = !0
                 };
 
@@ -318,7 +327,6 @@ kunstmaanbundles.richEditor = (function (window, undefined) {
             editor.destroy(true);
         }
     };
-
 
     // Returns
     return {

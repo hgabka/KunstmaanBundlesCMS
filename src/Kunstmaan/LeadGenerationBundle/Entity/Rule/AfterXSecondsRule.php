@@ -53,9 +53,9 @@ class AfterXSecondsRule extends AbstractRule
      */
     public function getJsProperties()
     {
-        return [
-            'seconds' => $this->getSeconds(),
-        ];
+        return array(
+            'seconds' => $this->getSeconds()
+        );
     }
 
     /**
@@ -67,10 +67,10 @@ class AfterXSecondsRule extends AbstractRule
     }
 
     /**
-     * @return AfterXSecondsAdminType
+     * @return string
      */
     public function getAdminType()
     {
-        return new AfterXSecondsAdminType();
+        return AfterXSecondsAdminType::class;
     }
 }

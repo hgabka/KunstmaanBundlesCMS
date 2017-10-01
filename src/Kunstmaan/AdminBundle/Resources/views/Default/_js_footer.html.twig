@@ -1,4 +1,4 @@
-{% include "@KunstmaanAdminBundle/Resources/views/Default/_ckeditor_configs.html.twig" %}
+{% include "@KunstmaanAdmin/Default/_ckeditor_configs.html.twig" %}
 
 <script>
     CKEDITOR_BASEPATH = '/bundles/kunstmaanadmin/default-theme/ckeditor/';
@@ -61,4 +61,9 @@
     <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 
-{% include "@KunstmaanAdminBundle/Resources/views/Default/_js_footer_extra.html.twig" %}
+{% set jsPath = 'frontend/js/admin-bundle-extra.js' %}
+{% if file_exists(jsPath) %}
+    <script src="{{ asset('/' ~ jsPath) }}"></script>
+{% endif %}
+
+{% include "@KunstmaanAdmin/Default/_js_footer_extra.html.twig" %}

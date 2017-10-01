@@ -3,6 +3,7 @@
 namespace Kunstmaan\GeneratorBundle\Generator;
 
 use Doctrine\ORM\Tools\EntityGenerator;
+use Kunstmaan\AdminBundle\Entity\AbstractEntity;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 /**
@@ -50,7 +51,7 @@ class DefaultEntityGenerator extends KunstmaanGenerator
             $this->fields,
             '',
             $this->prefix,
-            null,
+            AbstractEntity::class,
             $withRepository
         );
 

@@ -82,6 +82,6 @@ class SubmitButtonPagePart extends AbstractPagePart
      */
     public function getDefaultAdminType()
     {
-        return new SubmitButtonPagePartAdminType();
+        return SubmitButtonPagePartAdminType::class;
     }
 }

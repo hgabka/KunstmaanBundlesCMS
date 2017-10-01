@@ -7,10 +7,12 @@ use Kunstmaan\AdminListBundle\AdminList\Configurator\AbstractAdminListConfigurat
 use Kunstmaan\AdminListBundle\AdminList\Configurator\AdminListConfiguratorInterface;
 use Kunstmaan\AdminListBundle\AdminList\ItemAction\SimpleItemAction;
 use Kunstmaan\AdminListBundle\Controller\AdminListController;
+use Kunstmaan\MenuBundle\Entity\BaseMenu;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class MenuItemAdminListController extends AdminListController
 {
@@ -21,8 +23,8 @@ class MenuItemAdminListController extends AdminListController
 
     /**
      * @param Request $request
-     * @param int     $menuid
-     * @param int     $entityId
+     * @param int $menuid
+     * @param int $entityId
      *
      * @return AbstractAdminListConfigurator
      */
@@ -31,7 +33,8 @@ class MenuItemAdminListController extends AdminListController
         if (!isset($this->configurator)) {
             $menu = $this->getDoctrine()->getManager()->getRepository(
                 $this->getParameter('kunstmaan_menu.entity.menu.class')
-            )->find($menuid);
+            )->find($menuid)
+            ;
             $rootNode = $this->get('kunstmaan_admin.domain_configuration')->getRootNode();
 
             $configuratorClass = $this->getParameter('kunstmaan_menu.adminlist.menuitem_configurator.class');
@@ -39,7 +42,7 @@ class MenuItemAdminListController extends AdminListController
 
             $adminType = $this->getParameter('kunstmaan_menu.form.menuitem_admintype.class');
             $menuItemClass = $this->getParameter('kunstmaan_menu.entity.menuitem.class');
-            $this->configurator->setAdminType(new $adminType($request->getLocale(), $menu, $entityId, $rootNode, $menuItemClass));
+            $this->configurator->setAdminType($adminType);
             $this->configurator->setAdminTypeOptions(['menu' => $menu, 'rootNode' => $rootNode, 'menuItemClass' => $menuItemClass, 'entityId' => $entityId, 'locale' => $request->getLocale()]);
         }
 
@@ -51,18 +54,33 @@ class MenuItemAdminListController extends AdminListController
      *
      * @Route("/{menuid}/items", name="kunstmaanmenubundle_admin_menuitem")
      *
+     * @param Request $request
      * @param mixed $menuid
+     * @return Response
      */
     public function indexAction(Request $request, $menuid)
     {
+        $menuRepo = $this->getDoctrine()->getManager()->getRepository(
+            $this->getParameter('kunstmaan_menu.entity.menu.class')
+        )
+        ;
+
+        /** @var BaseMenu $menu */
+        $menu = $menuRepo->find($menuid);
+        if ($menu->getLocale() != $request->getLocale()) {
+            /** @var BaseMenu $translatedMenu */
+            $translatedMenu = $menuRepo->findOneBy(['locale' => $request->getLocale(), 'name' => $menu->getName()]);
+            $menuid = $translatedMenu->getId();
+        }
+
         $configurator = $this->getAdminListConfigurator($request, $menuid);
 
         $itemRoute = function (EntityInterface $item) use ($menuid) {
             return [
-                'path' => 'kunstmaanmenubundle_admin_menuitem_move_up',
+                'path'   => 'kunstmaanmenubundle_admin_menuitem_move_up',
                 'params' => [
                     'menuid' => $menuid,
-                    'item' => $item->getId(),
+                    'item'   => $item->getId(),
                 ],
             ];
         };
@@ -70,10 +88,10 @@ class MenuItemAdminListController extends AdminListController
 
         $itemRoute = function (EntityInterface $item) use ($menuid) {
             return [
-                'path' => 'kunstmaanmenubundle_admin_menuitem_move_down',
+                'path'   => 'kunstmaanmenubundle_admin_menuitem_move_down',
                 'params' => [
                     'menuid' => $menuid,
-                    'item' => $item->getId(),
+                    'item'   => $item->getId(),
                 ],
             ];
         };
@@ -100,7 +118,7 @@ class MenuItemAdminListController extends AdminListController
     /**
      * The edit action.
      *
-     * @param int   $id
+     * @param int $id
      * @param mixed $menuid
      *
      * @Route("{menuid}/items/{id}/edit", requirements={"id" = "\d+"}, name="kunstmaanmenubundle_admin_menuitem_edit")
@@ -116,7 +134,7 @@ class MenuItemAdminListController extends AdminListController
     /**
      * The delete action.
      *
-     * @param int   $id
+     * @param int $id
      * @param mixed $menuid
      *
      * @Route("{menuid}/items/{id}/delete", requirements={"id" = "\d+"}, name="kunstmaanmenubundle_admin_menuitem_delete")

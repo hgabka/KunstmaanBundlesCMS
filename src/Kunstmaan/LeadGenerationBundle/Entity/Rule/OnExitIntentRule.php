@@ -106,11 +106,11 @@ class OnExitIntentRule extends AbstractRule
      */
     public function getJsProperties()
     {
-        return [
+        return array(
             'sensitivity' => $this->getSensitivity(),
             'timer' => $this->getTimer(),
-            'delay' => $this->getDelay(),
-        ];
+            'delay' => $this->getDelay()
+        );
     }
 
     /**
@@ -122,10 +122,10 @@ class OnExitIntentRule extends AbstractRule
     }
 
     /**
-     * @return OnExitIntentAdminType
+     * @return string
      */
     public function getAdminType()
     {
-        return new OnExitIntentAdminType();
+        return OnExitIntentAdminType::class;
     }
 }

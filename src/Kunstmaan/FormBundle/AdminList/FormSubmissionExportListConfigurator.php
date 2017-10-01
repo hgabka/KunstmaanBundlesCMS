@@ -132,9 +132,9 @@ class FormSubmissionExportListConfigurator implements ExportListConfiguratorInte
             foreach ($submission->getFields() as $field) {
                 $header = $this->translator->trans($field->getLabel());
                 if (!$isHeaderWritten) {
-                    $this->addExportField($header, $header);
+                    $this->addExportField($field->getFieldName(), $header);
                 }
-                $data[$header] = $field->__toString();
+                $data[$field->getFieldName()] = $field->__toString();
             }
             $isHeaderWritten = true;
             $collection->add([$data]);

@@ -26,21 +26,21 @@ abstract class AbstractPopup implements EntityInterface
     protected $id;
 
     /**
-     * @var string an unique name for each popup
+     * @var string An unique name for each popup.
      * @ORM\Column(type="string", name="name", unique=true)
      * @Assert\NotBlank()
      */
     protected $name;
 
     /**
-     * @var string the html element id of the popup
+     * @var string The html element id of the popup.
      * @ORM\Column(type="string", name="html_id")
      * @Assert\NotBlank()
      */
     protected $htmlId;
 
     /**
-     * @var ArrayCollection a list of rules that should be applied for this popup
+     * @var ArrayCollection A list of rules that should be applied for this popup.
      * @ORM\OneToMany(targetEntity="\Kunstmaan\LeadGenerationBundle\Entity\Rule\AbstractRule", mappedBy="popup", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     protected $rules;
@@ -61,6 +61,7 @@ abstract class AbstractPopup implements EntityInterface
 
         return $this;
     }
+
 
     /**
      * @return int
@@ -182,7 +183,7 @@ abstract class AbstractPopup implements EntityInterface
      * Get a list of available rules for this popup.
      * When null is returned, all rules are available.
      *
-     * @return null|array
+     * @return array|null
      */
     public function getAvailableRules()
     {
@@ -197,7 +198,7 @@ abstract class AbstractPopup implements EntityInterface
     abstract protected function getControllerAction();
 
     /**
-     * @return AbstractPopupAdminType
+     * @return string
      */
     abstract protected function getAdminType();
 }

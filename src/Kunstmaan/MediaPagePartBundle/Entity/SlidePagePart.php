@@ -1,20 +1,21 @@
 <?php
 
 namespace Kunstmaan\MediaPagePartBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
+
 use Kunstmaan\MediaBundle\Entity\Media;
 use Kunstmaan\MediaPagePartBundle\Form\SlidePagePartAdminType;
 use Kunstmaan\PagePartBundle\Entity\AbstractPagePart;
 
 /**
- * SlidePagePart.
+ * SlidePagePart
  *
  * @ORM\Entity
  * @ORM\Table(name="kuma_slide_page_parts")
  */
 class SlidePagePart extends AbstractPagePart
 {
+
     /**
      * @ORM\ManyToOne(targetEntity="Kunstmaan\MediaBundle\Entity\Media")
      * @ORM\JoinColumn(name="media_id", referencedColumnName="id")
@@ -22,19 +23,7 @@ class SlidePagePart extends AbstractPagePart
     protected $media;
 
     /**
-     * @return string
-     */
-    public function __toString()
-    {
-        if ($this->getMedia()) {
-            return $this->getMedia()->getUrl();
-        }
-
-        return '';
-    }
-
-    /**
-     * Get media.
+     * Get media
      *
      * @return Media
      */
@@ -44,7 +33,7 @@ class SlidePagePart extends AbstractPagePart
     }
 
     /**
-     * Set media.
+     * Set media
      *
      * @param Media $media
      *
@@ -60,16 +49,28 @@ class SlidePagePart extends AbstractPagePart
     /**
      * @return string
      */
-    public function getDefaultView()
+    public function __toString()
     {
-        return 'KunstmaanMediaPagePartBundle:SlidePagePart:view.html.twig';
+        if ($this->getMedia()) {
+            return $this->getMedia()->getUrl();
+        }
+
+        return "";
     }
 
     /**
-     * @return SlidePagePartAdminType
+     * @return string
+     */
+    public function getDefaultView()
+    {
+        return "KunstmaanMediaPagePartBundle:SlidePagePart:view.html.twig";
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getDefaultAdminType()
     {
-        return new SlidePagePartAdminType();
+        return SlidePagePartAdminType::class;
     }
 }

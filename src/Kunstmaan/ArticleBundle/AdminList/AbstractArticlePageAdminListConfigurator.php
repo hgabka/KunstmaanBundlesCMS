@@ -10,9 +10,11 @@ use Kunstmaan\AdminListBundle\AdminList\Configurator\AbstractDoctrineORMAdminLis
 use Kunstmaan\AdminListBundle\AdminList\FilterType\ORM\BooleanFilterType;
 use Kunstmaan\AdminListBundle\AdminList\FilterType\ORM\DateFilterType;
 use Kunstmaan\AdminListBundle\AdminList\FilterType\ORM\StringFilterType;
+use Kunstmaan\ArticleBundle\Entity\AbstractArticleOverviewPage;
+use Kunstmaan\NodeBundle\Entity\Node;
 
 /**
- * The AdminList configurator for the AbstractArticlePage.
+ * The AdminList configurator for the AbstractArticlePage
  */
 abstract class AbstractArticlePageAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
 {
@@ -37,7 +39,7 @@ abstract class AbstractArticlePageAdminListConfigurator extends AbstractDoctrine
         parent::__construct($em, $aclHelper);
         $this->locale = $locale;
         $this->setPermissionDefinition(
-            new PermissionDefinition([$permission], 'Kunstmaan\NodeBundle\Entity\Node', 'n')
+            new PermissionDefinition(array($permission), 'Kunstmaan\NodeBundle\Entity\Node', 'n')
         );
     }
 
@@ -48,7 +50,7 @@ abstract class AbstractArticlePageAdminListConfigurator extends AbstractDoctrine
      */
     public function getBundleName()
     {
-        return 'KunstmaanArticleBundle';
+        return "KunstmaanArticleBundle";
     }
 
     /**
@@ -58,11 +60,11 @@ abstract class AbstractArticlePageAdminListConfigurator extends AbstractDoctrine
      */
     public function getEntityName()
     {
-        return 'AbstractArticlePage';
+        return "AbstractArticlePage";
     }
 
     /**
-     * Configure filters.
+     * Configure filters
      */
     public function buildFilters()
     {
@@ -73,7 +75,7 @@ abstract class AbstractArticlePageAdminListConfigurator extends AbstractDoctrine
     }
 
     /**
-     * Configure the visible columns.
+     * Configure the visible columns
      */
     public function buildFields()
     {
@@ -81,6 +83,18 @@ abstract class AbstractArticlePageAdminListConfigurator extends AbstractDoctrine
             ->addField('created', 'article.page.list.header.created_at', true)
             ->addField('updated', 'article.page.list.header.updated_at', true)
             ->addField('online', 'article.page.list.header.online', true, 'KunstmaanNodeBundle:Admin:online.html.twig');
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    protected function getQueryBuilder()
+    {
+        $queryBuilder = $this->em
+            ->getRepository('KunstmaanNodeBundle:NodeTranslation')
+            ->createQueryBuilder('b');
+
+        return $queryBuilder;
     }
 
     /**
@@ -95,7 +109,7 @@ abstract class AbstractArticlePageAdminListConfigurator extends AbstractDoctrine
         $queryBuilder->andWhere('b.lang = :lang');
         $queryBuilder->andWhere('n.deleted = 0');
         $queryBuilder->andWhere('n.refEntityName = :class');
-        $queryBuilder->addOrderBy('b.updated', 'DESC');
+        $queryBuilder->addOrderBy("b.updated", "DESC");
         $queryBuilder->setParameter('lang', $this->locale);
     }
 
@@ -106,17 +120,17 @@ abstract class AbstractArticlePageAdminListConfigurator extends AbstractDoctrine
      */
     public function getEditUrlFor($item)
     {
-        // @var Node $node
+        /* @var Node $node */
         $node = $item->getNode();
 
-        return [
-            'path' => 'KunstmaanNodeBundle_nodes_edit',
-            'params' => ['id' => $node->getId()],
-        ];
+        return array(
+            'path'   => 'KunstmaanNodeBundle_nodes_edit',
+            'params' => array('id' => $node->getId())
+        );
     }
 
     /**
-     * Get the delete url for the given $item.
+     * Get the delete url for the given $item
      *
      * @param object $item
      *
@@ -124,17 +138,17 @@ abstract class AbstractArticlePageAdminListConfigurator extends AbstractDoctrine
      */
     public function getDeleteUrlFor($item)
     {
-        // @var Node $node
+        /* @var Node $node */
         $node = $item->getNode();
 
-        return [
-            'path' => 'KunstmaanNodeBundle_nodes_delete',
-            'params' => ['id' => $node->getId()],
-        ];
+        return array(
+            'path'   => 'KunstmaanNodeBundle_nodes_delete',
+            'params' => array('id' => $node->getId())
+        );
     }
 
     /**
-     * Returns the OverviewPage of these articles.
+     * Returns the OverviewPage of these articles
      *
      * @return AbstractArticleOverviewPage
      */
@@ -151,19 +165,13 @@ abstract class AbstractArticlePageAdminListConfigurator extends AbstractDoctrine
     }
 
     /**
-     * Returns all overview pages.
-     *
+     * Returns all overview pages
      * @return mixed
      */
     public function getOverviewPages()
     {
         return $this->getOverviewPageRepository()->findActiveOverviewPages();
     }
-
-    /**
-     * @return \Doctrine\ORM\EntityRepository
-     */
-    abstract public function getOverviewPageRepository();
 
     /**
      * @return string
@@ -174,8 +182,7 @@ abstract class AbstractArticlePageAdminListConfigurator extends AbstractDoctrine
     }
 
     /**
-     * Returns the full entity class name.
-     *
+     * Returns the full entity class name
      * @return string
      */
     public function getEntityClassName()
@@ -184,14 +191,7 @@ abstract class AbstractArticlePageAdminListConfigurator extends AbstractDoctrine
     }
 
     /**
-     * @return QueryBuilder
+     * @return \Doctrine\ORM\EntityRepository
      */
-    protected function getQueryBuilder()
-    {
-        $queryBuilder = $this->em
-            ->getRepository('KunstmaanNodeBundle:NodeTranslation')
-            ->createQueryBuilder('b');
-
-        return $queryBuilder;
-    }
+    abstract public function getOverviewPageRepository();
 }

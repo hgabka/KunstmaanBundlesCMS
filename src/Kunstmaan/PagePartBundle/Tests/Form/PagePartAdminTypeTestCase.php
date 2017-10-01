@@ -8,12 +8,11 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\Forms;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * PagePartAdminTypeTestCase.
- *
- * @coversNothing
+ * PagePartAdminTypeTestCase
  */
 class PagePartAdminTypeTestCase extends WebTestCase
 {

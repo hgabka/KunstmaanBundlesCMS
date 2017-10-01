@@ -6,9 +6,7 @@ use Kunstmaan\FormBundle\Entity\PageParts\SubmitButtonPagePart;
 use Kunstmaan\FormBundle\Form\SubmitButtonPagePartAdminType;
 
 /**
- * Tests for SubmitButtonPagePart.
- *
- * @coversNothing
+ * Tests for SubmitButtonPagePart
  */
 class SubmitButtonPagePartTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,7 +21,7 @@ class SubmitButtonPagePartTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new SubmitButtonPagePart();
+        $this->object = new SubmitButtonPagePart;
     }
 
     /**
@@ -35,54 +33,52 @@ class SubmitButtonPagePartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Kunstmaan\FormBundle\Entity\PageParts\SubmitButtonPagePart::setLabel
-     * @covers \Kunstmaan\FormBundle\Entity\PageParts\SubmitButtonPagePart::getLabel
+     * @covers Kunstmaan\FormBundle\Entity\PageParts\SubmitButtonPagePart::setLabel
+     * @covers Kunstmaan\FormBundle\Entity\PageParts\SubmitButtonPagePart::getLabel
      */
     public function testSetGetLabel()
     {
         $object = $this->object;
-        $label = 'Test label';
+        $label = "Test label";
         $object->setLabel($label);
-        $this->assertSame($label, $object->getLabel());
+        $this->assertEquals($label, $object->getLabel());
     }
 
     /**
-     * @covers \Kunstmaan\FormBundle\Entity\PageParts\SubmitButtonPagePart::__toString
+     * @covers Kunstmaan\FormBundle\Entity\PageParts\SubmitButtonPagePart::__toString
      */
     public function testToString()
     {
         $stringValue = $this->object->__toString();
         $this->assertNotNull($stringValue);
-        $this->assertInternalType('string', $stringValue);
+        $this->assertTrue(is_string($stringValue));
     }
 
     /**
-     * @covers \Kunstmaan\FormBundle\Entity\PageParts\SubmitButtonPagePart::getDefaultView
+     * @covers Kunstmaan\FormBundle\Entity\PageParts\SubmitButtonPagePart::getDefaultView
      */
     public function testGetDefaultView()
     {
         $stringValue = $this->object->getDefaultView();
         $this->assertNotNull($stringValue);
-        $this->assertInternalType('string', $stringValue);
+        $this->assertTrue(is_string($stringValue));
     }
 
     /**
-     * @covers \Kunstmaan\FormBundle\Entity\PageParts\SubmitButtonPagePart::getAdminView
+     * @covers Kunstmaan\FormBundle\Entity\PageParts\SubmitButtonPagePart::getAdminView
      */
     public function testGetAdminView()
     {
         $stringValue = $this->object->getAdminView();
         $this->assertNotNull($stringValue);
-        $this->assertInternalType('string', $stringValue);
+        $this->assertTrue(is_string($stringValue));
     }
 
     /**
-     * @covers \Kunstmaan\FormBundle\Entity\PageParts\SubmitButtonPagePart::getDefaultAdminType
+     * @covers Kunstmaan\FormBundle\Entity\PageParts\SubmitButtonPagePart::getDefaultAdminType
      */
     public function testGetDefaultAdminType()
     {
-        $adminType = $this->object->getDefaultAdminType();
-        $this->assertNotNull($adminType);
-        $this->assertTrue($adminType instanceof SubmitButtonPagePartAdminType);
+        $this->assertEquals(SubmitButtonPagePartAdminType::class, $this->object->getDefaultAdminType());
     }
 }

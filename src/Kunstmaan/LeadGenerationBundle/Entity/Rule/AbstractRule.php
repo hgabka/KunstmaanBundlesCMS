@@ -29,7 +29,7 @@ abstract class AbstractRule
     protected $popup;
 
     /**
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -46,7 +46,6 @@ abstract class AbstractRule
 
     /**
      * @param AbstractPopup $popup
-     *
      * @return AbstractRule
      */
     public function setPopup(AbstractPopup $popup)
@@ -76,7 +75,7 @@ abstract class AbstractRule
      * When the javascript code needs some properties that are not available in this entity, you can create a custom
      * service that implements the RuleServiceInterface to append extra properties.
      *
-     * @return null|RuleServiceInterface
+     * @return RuleServiceInterface|null
      */
     public function getService()
     {
@@ -105,7 +104,7 @@ abstract class AbstractRule
     abstract public function getJsFilePath();
 
     /**
-     * Get the rule admin type.
+     * Get the rule admin type
      *
      * @return AbstractRuleAdminType
      */

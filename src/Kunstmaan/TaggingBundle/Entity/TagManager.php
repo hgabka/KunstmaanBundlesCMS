@@ -6,10 +6,12 @@ use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use DoctrineExtensions\Taggable\Taggable as BaseTaggable;
 use DoctrineExtensions\Taggable\TagManager as BaseTagManager;
+
 use Kunstmaan\NodeBundle\Entity\AbstractPage;
 
 class TagManager extends BaseTagManager
 {
+
     const TAGGING_HYDRATOR = 'taggingHydrator';
 
     public function loadTagging(BaseTaggable $resource)
@@ -19,7 +21,7 @@ class TagManager extends BaseTagManager
                 parent::loadTagging($taggable);
             });
 
-            return;
+            return ;
         }
 
         parent::loadTagging($resource);
@@ -29,19 +31,20 @@ class TagManager extends BaseTagManager
     {
         $tags = clone $resource->getTags();
         parent::saveTagging($resource);
-        if (count($tags) !== count($resource->getTags())) {
+        if (sizeof($tags) !== sizeof($resource->getTags())) {
             // parent::saveTagging uses getTags by reference and removes elements, so it ends up empty :-/
             // this causes all tags to be deleted when an entity is persisted more than once in a request
             // Restore:
             $this->replaceTags($tags->toArray(), $resource);
         }
+
     }
 
+
     /**
-     * Gets all tags for the given taggable resource.
+     * Gets all tags for the given taggable resource
      *
      * @param BaseTaggable $resource Taggable resource
-     *
      * @return array
      */
     public function getTagging(BaseTaggable $resource)
@@ -49,7 +52,7 @@ class TagManager extends BaseTagManager
         $em = $this->em;
 
         $config = $em->getConfiguration();
-        if (null === $config->getCustomHydrationMode(self::TAGGING_HYDRATOR)) {
+        if (is_null($config->getCustomHydrationMode(self::TAGGING_HYDRATOR))) {
             $config->addCustomHydrationMode(self::TAGGING_HYDRATOR, 'Doctrine\ORM\Internal\Hydration\ObjectHydrator');
         }
 
@@ -69,8 +72,9 @@ class TagManager extends BaseTagManager
 
     public function findById($id)
     {
-        if (!isset($id) || null === $id) {
-            return null;
+
+        if (!isset($id) || is_null($id)) {
+            return NULL;
         }
         $builder = $this->em->createQueryBuilder();
 
@@ -93,11 +97,11 @@ class TagManager extends BaseTagManager
         return $tagsRepo->findAll();
     }
 
-    public function findRelatedItems(Taggable $item, $class, $locale, $nbOfItems = 1)
+    public function findRelatedItems(Taggable $item, $class, $locale, $nbOfItems=1)
     {
         $instance = new $class();
         if (!($instance instanceof Taggable)) {
-            return null;
+            return NULL;
         }
 
         $em = $this->em;
@@ -155,4 +159,5 @@ EOD;
 
         return $items;
     }
+
 }

@@ -4,6 +4,7 @@ namespace Kunstmaan\PagePartBundle\PagePartAdmin;
 
 interface PagePartAdminConfiguratorInterface
 {
+
     /**
      * @return array
      */

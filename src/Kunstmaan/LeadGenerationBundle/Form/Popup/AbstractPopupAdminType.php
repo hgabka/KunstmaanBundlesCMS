@@ -17,16 +17,16 @@ abstract class AbstractPopupAdminType extends AbstractType
      * @see FormTypeExtensionInterface::buildForm()
      *
      * @param FormBuilderInterface $builder The form builder
-     * @param array                $options The options
+     * @param array $options The options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', TextType::class, [
+        $builder->add('name', TextType::class, array(
             'label' => 'kuma_lead_generation.form.popup.name.label',
-            'attr' => [
+            'attr' => array(
                 'info_text' => 'kuma_lead_generation.form.popup.name.info_text',
-            ],
-        ]);
+            )
+        ));
         $builder->add('htmlId', TextType::class);
     }
 }

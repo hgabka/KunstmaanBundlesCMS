@@ -9,17 +9,15 @@ abstract class AbstractRedirectController extends Controller
 {
     /**
      * @Route("/{popup}", name="redirect_index", requirements={"popup": "\d+"})
-     *
-     * @param mixed $popup
      */
     public function indexAction($popup)
     {
         /** @var \Kunstmaan\LeadGenerationBundle\Entity\Popup\AbstractPopup $thePopup */
         $thePopup = $this->getDoctrine()->getRepository('KunstmaanLeadGenerationBundle:Popup\AbstractPopup')->find($popup);
 
-        return $this->render($this->getIndexTemplate(), [
-            'popup' => $thePopup,
-        ]);
+        return $this->render($this->getIndexTemplate(), array(
+            'popup' => $thePopup
+        ));
     }
 
     protected function getIndexTemplate()

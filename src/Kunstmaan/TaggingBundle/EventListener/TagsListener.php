@@ -5,25 +5,35 @@ namespace Kunstmaan\TaggingBundle\EventListener;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use DoctrineExtensions\Taggable\Taggable;
 use Kunstmaan\NodeBundle\Event\NodeEvent;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Kunstmaan\PagePartBundle\Event\PagePartEvent;
+use Kunstmaan\TaggingBundle\Entity\TagManager;
 
 class TagsListener
 {
     /**
-     * @var ContainerInterface
+     * @var TagManager
      */
-    protected $container;
+    protected $tagManager;
 
-    public function __construct(ContainerInterface $container)
+    /**
+     * @param TagManager $tagManager
+     */
+    public function __construct(TagManager $tagManager)
     {
-        $this->container = $container;
+        $this->tagManager = $tagManager;
     }
 
+    /**
+     * @return TagManager
+     */
     public function getTagManager()
     {
-        return $this->container->get('kuma_tagging.tag_manager');
+        return $this->tagManager;
     }
 
+    /**
+     * @param LifecycleEventArgs $args
+     */
     public function postLoad(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
@@ -34,8 +44,7 @@ class TagsListener
     }
 
     /**
-     * Runs the postPersist doctrine event and updates the current flag if needed.
-     *
+     * Runs the postPersist doctrine event and updates the current flag if needed
      * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
      */
     public function postPersist(LifecycleEventArgs $args)
@@ -48,8 +57,7 @@ class TagsListener
     }
 
     /**
-     * Runs the postUpdate doctrine event and updates the current flag if needed.
-     *
+     * Runs the postUpdate doctrine event and updates the current flag if needed
      * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
      */
     public function postUpdate(LifecycleEventArgs $args)
@@ -57,6 +65,9 @@ class TagsListener
         $this->postPersist($args);
     }
 
+    /**
+     * @param NodeEvent $event
+     */
     public function postNodePersist(NodeEvent $event)
     {
         $page = $event->getPage();
@@ -65,4 +76,14 @@ class TagsListener
             $this->getTagManager()->saveTagging($page);
         }
     }
+
+    public function postPagePartPersist(PagePartEvent $event)
+    {
+        $pagePart = $event->getPagePart();
+
+        if ($pagePart instanceof Taggable) {
+            $this->getTagManager()->saveTagging($pagePart);
+        }
+    }
+
 }

@@ -6,25 +6,18 @@ use Doctrine\ORM\Mapping as ORM;
 use Kunstmaan\PagePartBundle\Form\TextPagePartAdminType;
 
 /**
- * Class that defines a text page part object to add to a page.
+ * Class that defines a text page part object to add to a page
  *
  * @ORM\Entity
  * @ORM\Table(name="kuma_text_page_parts")
  */
 class TextPagePart extends AbstractPagePart
 {
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $content;
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return 'TextPagePart '.$this->getContent();
-    }
 
     /**
      * @return string
@@ -49,16 +42,24 @@ class TextPagePart extends AbstractPagePart
     /**
      * @return string
      */
-    public function getDefaultView()
+    public function __toString()
     {
-        return 'KunstmaanPagePartBundle:TextPagePart:view.html.twig';
+        return "TextPagePart " . $this->getContent();
     }
 
     /**
-     * @return TextPagePartAdminType
+     * @return string
+     */
+    public function getDefaultView()
+    {
+        return "KunstmaanPagePartBundle:TextPagePart:view.html.twig";
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getDefaultAdminType()
     {
-        return new TextPagePartAdminType();
+        return TextPagePartAdminType::class;
     }
 }

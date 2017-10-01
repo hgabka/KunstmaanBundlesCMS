@@ -52,9 +52,9 @@ class LocaleWhitelistRule extends AbstractRule
      */
     public function getJsProperties()
     {
-        return [
-            'locale' => $this->getLocale(),
-        ];
+        return array(
+            'locale' => $this->getLocale()
+        );
     }
 
     /**
@@ -74,10 +74,10 @@ class LocaleWhitelistRule extends AbstractRule
     }
 
     /**
-     * @return LocaleWhiteListAdminType
+     * @return string
      */
     public function getAdminType()
     {
-        return 'kunstmaan_lead_generation.rule.form.localewhitelistrule';
+        return LocaleWhiteListAdminType::class;
     }
 }

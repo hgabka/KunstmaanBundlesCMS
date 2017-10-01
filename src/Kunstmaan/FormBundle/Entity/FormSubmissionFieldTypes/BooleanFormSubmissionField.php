@@ -38,11 +38,11 @@ class BooleanFormSubmissionField extends FormSubmissionField
     /**
      * Returns the default form type for this FormSubmissionField.
      *
-     * @return ChoiceFormSubmissionType
+     * @return string
      */
     public function getDefaultAdminType()
     {
-        return new BooleanFormSubmissionType();
+        return BooleanFormSubmissionType::class;
     }
 
     /**

@@ -16,13 +16,13 @@ class MaxXTimeAdminType extends AbstractRuleAdminType
      * @see FormTypeExtensionInterface::buildForm()
      *
      * @param FormBuilderInterface $builder The form builder
-     * @param array                $options The options
+     * @param array $options The options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('times', IntegerType::class, [
+        $builder->add('times', IntegerType::class, array(
             'label' => 'kuma_lead_generation.form.max_x_time.times.label',
-        ]);
+        ));
     }
 
     /**

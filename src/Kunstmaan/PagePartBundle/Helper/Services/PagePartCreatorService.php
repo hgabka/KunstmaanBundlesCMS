@@ -20,11 +20,13 @@ use Kunstmaan\UtilitiesBundle\Helper\ClassLookup;
  * A class to facilitate the adding of PageParts to existing pages.
  *
  * NOTE: There is a similar implementation for adding pages. See the NodeBundle for more on this.
+ *
+ * @package Kunstmaan\PagePartBundle\Helper\Services
  */
 class PagePartCreatorService
 {
     /**
-     * @var EntityManager|EntityManagerInterface
+     * @var EntityManagerInterface|EntityManager
      */
     protected $em;
 
@@ -69,21 +71,21 @@ class PagePartCreatorService
     /**
      * Add a single pagepart to an existing page for a specific language, in an optional position.
      *
-     * @param mixed(Node|string)  $nodeOrInternalName
-     *                                                A Node instance or the internal name.
-     *                                                When the internal name is passed we'll get the node instance.
-     *                                                Based on the language we'll locate the correct Page instance.
-     * @param pagePartInterface   $pagePart
-     *                                                A completely configured pagepart for this language
-     * @param string              $language
-     *                                                The languagecode. nl|fr|en|.. . Just one.
-     * @param string              $context
-     *                                                Where you want the pagepart to be
+     * @param mixed(Node|string) $nodeOrInternalName
+     *      A Node instance or the internal name.
+     *      When the internal name is passed we'll get the node instance.
+     *      Based on the language we'll locate the correct Page instance.
+     * @param PagePartInterface $pagePart
+     *      A completely configured pagepart for this language.
+     * @param string $language
+     *      The languagecode. nl|fr|en|.. . Just one.
+     * @param string $context
+     *      Where you want the pagepart to be.
      * @param mixed(integer\NULL) $position
-     *                                                Leave null if you want to append at the end.
-     *                                                Otherwise set a position you would like and it'll inject the pagepart in that position.
-     *                                                It won't override pageparts but it will rather inject itself in that position and
-     *                                                push the other pageparts down.
+     *      Leave null if you want to append at the end.
+     *      Otherwise set a position you would like and it'll inject the pagepart in that position.
+     *      It won't override pageparts but it will rather inject itself in that position and
+     *      push the other pageparts down.
      */
     public function addPagePartToPage($nodeOrInternalName, PagePartInterface $pagePart, $language, $context = 'main', $position = null)
     {
@@ -95,7 +97,7 @@ class PagePartCreatorService
         $page = $translation->getRef($this->em);
 
         // Find latest position.
-        if (null === $position) {
+        if (is_null($position)) {
             $pageParts = $this->pagePartRepo->getPagePartRefs($page, $context);
             $position = count($pageParts) + 1;
         }
@@ -110,9 +112,9 @@ class PagePartCreatorService
      * A helper function to more easily append multiple pageparts in different manners.
      *
      * @param mixed(Node|string) $nodeOrInternalName
-     *                                               The node that you'd like to append the pageparts to. It's also possible to provide an internalname.
-     * @param array              $structure
-     *                                               The structure array is something like this:
+     *      The node that you'd like to append the pageparts to. It's also possible to provide an internalname.
+     * @param array $structure
+     *      The structure array is something like this:
      *
      *      array('main' => array(
      *          function() { return new DummyPagePart('A') }, function() { return new DummyPagePart('B') }
@@ -127,7 +129,7 @@ class PagePartCreatorService
      *
      *      Or optionally you can use the results of the getCreatorArgumentsForPagePartAndProperties function instead of an anonymous function.
      * @param string $language
-     *                         The language of the translation you want to append to
+     *      The language of the translation you want to append to.
      *
      * @throws \LogicException
      */
@@ -136,15 +138,15 @@ class PagePartCreatorService
         $node = $this->getNode($nodeOrInternalName);
 
         // First instantiate all PageParts. This way no PageParts will be saved if there is an issue instantiating some of them.
-        $instantiatedPageParts = [];
+        $instantiatedPageParts = array();
         foreach ($structure as $context => $pageParts) {
-            $instantiatedPageParts[$context] = [];
+            $instantiatedPageParts[$context] = array();
 
             foreach ($pageParts as $pagePartOrFunction) {
                 if (is_callable($pagePartOrFunction)) {
                     $pagePartOrFunction = $pagePartOrFunction();
 
-                    if (!isset($pagePartOrFunction) || (null === $pagePartOrFunction)) {
+                    if (!isset($pagePartOrFunction) || (is_null($pagePartOrFunction))) {
                         throw new \LogicException('A function returned nothing for a pagepart. Make sure you return your instantiated pageparts in your anonymous functions.');
                     }
                 }
@@ -166,15 +168,15 @@ class PagePartCreatorService
 
     /**
      * @param mixed(Node|string) $nodeOrInternalName
-     * @param string             $language
-     * @param string             $templateName
+     * @param string $language
+     * @param string $templateName
      */
     public function setPageTemplate($nodeOrInternalName, $language, $templateName)
     {
         $node = $this->getNode($nodeOrInternalName);
         /** @var $translation NodeTranslation */
         $translation = $node->getNodeTranslation($language, true);
-        /** @var EntityInterface|HasPageTemplateInterface $page */
+        /** @var HasPageTemplateInterface|EntityInterface $page */
         $page = $translation->getRef($this->em);
 
         /** @var PageTemplateConfigurationRepository $repo */
@@ -200,19 +202,19 @@ class PagePartCreatorService
      *
      * It'll return an anonymous function which instantiates the pagepart.
      *
-     * @param string $pagePartClassName the full class name of the pagepart you want to instantiate
-     * @param array  $setters           An array of setternames and their values. array('setName' => 'Kim', 'isDeveloper' => true)
+     * @param string $pagePartClassName The full class name of the pagepart you want to instantiate.
+     * @param array $setters An array of setternames and their values. array('setName' => 'Kim', 'isDeveloper' => true)
      *
-     * @return callable the function that will instantiate a pagepart
+     * @return callable The function that will instantiate a pagepart.
      */
     public function getCreatorArgumentsForPagePartAndProperties($pagePartClassName, array $setters = null)
     {
-        return function () use ($pagePartClassName, $setters) {
-            $pp = new $pagePartClassName();
+        return function() use ($pagePartClassName, $setters) {
+            $pp = new $pagePartClassName;
 
-            if (null !== $setters) {
+            if (!is_null($setters)) {
                 foreach ($setters as $setter => $value) {
-                    call_user_func([$pp, $setter], $value);
+                    call_user_func(array($pp, $setter), $value);
                 }
             }
 
@@ -228,7 +230,7 @@ class PagePartCreatorService
     private function getNode($nodeOrInternalName)
     {
         if (is_string($nodeOrInternalName)) {
-            return $this->nodeRepo->findOneBy(['internalName' => $nodeOrInternalName]);
+            return $this->nodeRepo->findOneBy(array('internalName' => $nodeOrInternalName));
         }
 
         return $nodeOrInternalName;

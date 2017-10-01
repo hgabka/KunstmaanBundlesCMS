@@ -10,8 +10,8 @@ use Kunstmaan\AdminListBundle\AdminList\FilterType\ORM;
 class PopupAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
 {
     /**
-     * @param EntityManager $em        The entity manager
-     * @param AclHelper     $aclHelper The acl helper
+     * @param EntityManager $em The entity manager
+     * @param AclHelper $aclHelper The acl helper
      */
     public function __construct(EntityManager $em, AclHelper $aclHelper = null)
     {
@@ -23,7 +23,7 @@ class PopupAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
     }
 
     /**
-     * Configure the visible columns.
+     * Configure the visible columns
      */
     public function buildFields()
     {
@@ -35,7 +35,7 @@ class PopupAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
     }
 
     /**
-     * Build filters for admin list.
+     * Build filters for admin list
      */
     public function buildFilters()
     {
@@ -44,7 +44,7 @@ class PopupAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
     }
 
     /**
-     * Get bundle name.
+     * Get bundle name
      *
      * @return string
      */
@@ -54,7 +54,7 @@ class PopupAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
     }
 
     /**
-     * Get entity name.
+     * Get entity name
      *
      * @return string
      */
@@ -64,7 +64,7 @@ class PopupAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
     }
 
     /**
-     * @param array|object $item
+     * @param object|array $item
      *
      * @return bool
      */
@@ -74,9 +74,9 @@ class PopupAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
     }
 
     /**
-     * Configure if it's possible to delete the given $item.
+     * Configure if it's possible to delete the given $item
      *
-     * @param array|object $item
+     * @param object|array $item
      *
      * @return bool
      */
@@ -86,7 +86,7 @@ class PopupAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurato
     }
 
     /**
-     * Configure if it's possible to add new items.
+     * Configure if it's possible to add new items
      *
      * @return bool
      */

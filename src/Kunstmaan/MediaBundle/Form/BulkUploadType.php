@@ -5,27 +5,13 @@ namespace Kunstmaan\MediaBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * BulkUploadType.
  */
 class BulkUploadType extends AbstractType
 {
-    /**
-     * @var string
-     */
-    protected $accept;
-
-    /**
-     * contructor.
-     *
-     * @param string $accept
-     */
-    public function __construct($accept = null)
-    {
-        $this->accept = $accept;
-    }
-
     /**
      * Builds the form.
      *
@@ -46,7 +32,7 @@ class BulkUploadType extends AbstractType
                 'label' => 'media.form.bulk_upload.files.label',
                 'required' => false,
                 'attr' => [
-                    'accept' => $this->accept,
+                    'accept' => $options['accept'],
                     'multiple' => 'multiple',
                 ],
                 'data_class' => null,
@@ -54,6 +40,13 @@ class BulkUploadType extends AbstractType
         );
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefault('accept', null);
+    }
     /**
      * Returns the name of this type.
      *

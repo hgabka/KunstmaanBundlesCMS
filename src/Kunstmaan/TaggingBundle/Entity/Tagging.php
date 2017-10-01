@@ -4,6 +4,7 @@ namespace Kunstmaan\TaggingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use DoctrineExtensions\Taggable\Entity\Tag as BaseTag;
+
 use DoctrineExtensions\Taggable\Entity\Tagging as BaseTagging;
 
 /**
@@ -12,6 +13,7 @@ use DoctrineExtensions\Taggable\Entity\Tagging as BaseTagging;
  */
 class Tagging extends BaseTagging
 {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="bigint")
@@ -46,7 +48,7 @@ class Tagging extends BaseTagging
     protected $updatedAt;
 
     /**
-     * Get id.
+     * Get id
      *
      * @return int
      */
@@ -56,7 +58,7 @@ class Tagging extends BaseTagging
     }
 
     /**
-     * Set id.
+     * Set id
      *
      * @param int $id The unique identifier
      */
@@ -66,7 +68,7 @@ class Tagging extends BaseTagging
     }
 
     /**
-     * Set tag.
+     * Set tag
      *
      * @param $tag
      */
@@ -76,7 +78,7 @@ class Tagging extends BaseTagging
     }
 
     /**
-     * Get tag.
+     * Get tag
      *
      * @return Tag
      */
@@ -86,7 +88,7 @@ class Tagging extends BaseTagging
     }
 
     /**
-     * Set resourceType.
+     * Set resourceType
      *
      * @param $resourceType
      */
@@ -96,7 +98,7 @@ class Tagging extends BaseTagging
     }
 
     /**
-     * Get resourceType.
+     * Get resourceType
      *
      * @return string
      */
@@ -106,7 +108,7 @@ class Tagging extends BaseTagging
     }
 
     /**
-     * Set resourceId.
+     * Set resourceId
      *
      * @param $resourceId
      */
@@ -116,7 +118,7 @@ class Tagging extends BaseTagging
     }
 
     /**
-     * Get resourceId.
+     * Get resourceId
      *
      * @return string
      */
@@ -126,7 +128,7 @@ class Tagging extends BaseTagging
     }
 
     /**
-     * set createdAt.
+     * set createdAt
      *
      * @param $createdAt
      */
@@ -136,7 +138,7 @@ class Tagging extends BaseTagging
     }
 
     /**
-     * Get createdAt.
+     * Get createdAt
      *
      * @return datetime
      */
@@ -146,7 +148,7 @@ class Tagging extends BaseTagging
     }
 
     /**
-     * Set UpdatedAt.
+     * Set UpdatedAt
      *
      * @param $updatedAt
      */
@@ -156,7 +158,7 @@ class Tagging extends BaseTagging
     }
 
     /**
-     * Get updatedAt.
+     * Get updatedAt
      *
      * @return datetime
      */
@@ -164,4 +166,5 @@ class Tagging extends BaseTagging
     {
         return $this->updatedAt;
     }
+
 }

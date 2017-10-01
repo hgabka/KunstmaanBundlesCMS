@@ -5,7 +5,9 @@ namespace Kunstmaan\TaggingBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use DoctrineExtensions\Taggable\Entity\Tag as BaseTag;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
 use Kunstmaan\TaggingBundle\Form\TagAdminType;
+
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -13,8 +15,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="kuma_tags")
  * @UniqueEntity("name")
  */
-class Tag extends BaseTag
+class Tag extends BaseTag implements Translatable
 {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="bigint")
@@ -23,6 +26,7 @@ class Tag extends BaseTag
     protected $id;
 
     /**
+     * @Gedmo\Translatable()
      * @ORM\Column(name="name", type="string", unique=true)
      */
     protected $name;
@@ -44,13 +48,17 @@ class Tag extends BaseTag
      */
     protected $tagging;
 
-    public function __toString()
-    {
-        return $this->getName();
-    }
+    /**
+     * @var string
+     *
+     * @Gedmo\Locale
+     * Used locale to override Translation listener`s locale
+     * this is not a mapped field of entity metadata, just a simple property
+     */
+    protected $locale;
 
     /**
-     * Get id.
+     * Get id
      *
      * @return int
      */
@@ -60,7 +68,7 @@ class Tag extends BaseTag
     }
 
     /**
-     * Set id.
+     * Set id
      *
      * @param int $id The unique identifier
      */
@@ -70,7 +78,7 @@ class Tag extends BaseTag
     }
 
     /**
-     * Set name.
+     * Set name
      *
      * @param string $name
      */
@@ -80,7 +88,7 @@ class Tag extends BaseTag
     }
 
     /**
-     * Get name.
+     * Get name
      *
      * @return string
      */
@@ -90,7 +98,7 @@ class Tag extends BaseTag
     }
 
     /**
-     * set createdAt.
+     * set createdAt
      *
      * @param $createdAt
      */
@@ -100,7 +108,7 @@ class Tag extends BaseTag
     }
 
     /**
-     * Get createdAt.
+     * Get createdAt
      *
      * @return datetime
      */
@@ -110,7 +118,7 @@ class Tag extends BaseTag
     }
 
     /**
-     * Set UpdatedAt.
+     * Set UpdatedAt
      *
      * @param $updatedAt
      */
@@ -120,17 +128,43 @@ class Tag extends BaseTag
     }
 
     /**
-     * Get updatedAt.
+     * Get updatedAt
      *
-     * @return datetime
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
         return $this->updatedAt;
     }
 
+    /**
+     * @return string
+     */
+    public function getTranslatableLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param string $locale
+     *
+     * @return Tag
+     */
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
     public function getDefaultAdminType()
     {
-        return new TagAdminType();
+        return TagAdminType::class;
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
 }

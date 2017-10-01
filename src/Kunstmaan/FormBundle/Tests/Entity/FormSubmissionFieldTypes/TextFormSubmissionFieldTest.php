@@ -1,14 +1,10 @@
 <?php
-
 namespace Kunstmaan\FormBundle\Tests\Entity\FormSubmissionFieldTypes;
-
 use Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\TextFormSubmissionField;
 use Kunstmaan\FormBundle\Form\TextFormSubmissionType;
 
 /**
- * Tests for TextFormSubmissionField.
- *
- * @coversNothing
+ * Tests for TextFormSubmissionField
  */
 class TextFormSubmissionFieldTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,7 +19,7 @@ class TextFormSubmissionFieldTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new TextFormSubmissionField();
+        $this->object = new TextFormSubmissionField;
     }
 
     /**
@@ -35,34 +31,32 @@ class TextFormSubmissionFieldTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\TextFormSubmissionField::getValue
-     * @covers \Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\TextFormSubmissionField::setValue
+     * @covers Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\TextFormSubmissionField::getValue
+     * @covers Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\TextFormSubmissionField::setValue
      */
     public function testGetSetValue()
     {
         $object = $this->object;
         $value = 'test';
         $object->setValue($value);
-        $this->assertSame($value, $object->getValue());
+        $this->assertEquals($value, $object->getValue());
     }
 
     /**
-     * @covers \Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\TextFormSubmissionField::getDefaultAdminType
+     * @covers Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\TextFormSubmissionField::getDefaultAdminType
      */
     public function testGetDefaultAdminType()
     {
-        $adminType = $this->object->getDefaultAdminType();
-        $this->assertNotNull($adminType);
-        $this->assertTrue($adminType instanceof TextFormSubmissionType);
+        $this->assertEquals(TextFormSubmissionType::class, $this->object->getDefaultAdminType());
     }
 
     /**
-     * @covers \Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\TextFormSubmissionField::__toString
+     * @covers Kunstmaan\FormBundle\Entity\FormSubmissionFieldTypes\TextFormSubmissionField::__toString
      */
     public function testToString()
     {
         $stringValue = $this->object->__toString();
         $this->assertNotNull($stringValue);
-        $this->assertInternalType('string', $stringValue);
+        $this->assertTrue(is_string($stringValue));
     }
 }

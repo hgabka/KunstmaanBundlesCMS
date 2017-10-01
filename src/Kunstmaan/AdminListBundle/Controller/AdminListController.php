@@ -39,7 +39,7 @@ abstract class AdminListController extends Controller
      * Shows the list of entities.
      *
      * @param AbstractAdminListConfigurator $configurator
-     * @param null|Request                  $request
+     * @param null|Request $request
      *
      * @return Response
      */
@@ -64,8 +64,8 @@ abstract class AdminListController extends Controller
      * Export a list of Entities.
      *
      * @param AbstractAdminListConfigurator $configurator The adminlist configurator
-     * @param string                        $_format      The format to export to
-     * @param null|Request                  $request
+     * @param string $_format The format to export to
+     * @param null|Request $request
      *
      * @throws AccessDeniedHttpException
      *
@@ -90,7 +90,7 @@ abstract class AdminListController extends Controller
      * Sets pagesize.
      *
      * @param AbstractAdminListConfigurator $configurator
-     * @param null|Request                  $request
+     * @param null|Request $request
      *
      * @return Response
      */
@@ -110,8 +110,8 @@ abstract class AdminListController extends Controller
      * Creates and processes the form to add a new Entity.
      *
      * @param AbstractAdminListConfigurator $configurator The adminlist configurator
-     * @param string                        $type         The type to add
-     * @param null|Request                  $request
+     * @param string $type The type to add
+     * @param null|Request $request
      *
      * @throws AccessDeniedHttpException
      *
@@ -125,7 +125,7 @@ abstract class AdminListController extends Controller
 
         // @var EntityManager $em
         $em = $this->getEntityManager();
-        $repo = $em->getRepository($configurator->getRepositoryName());
+
         $entityName = null;
         if (isset($type)) {
             $entityName = $type;
@@ -140,16 +140,12 @@ abstract class AdminListController extends Controller
         $helper = $configurator->decorateNewEntity($helper);
 
         $formType = $configurator->getAdminType($helper);
-        if (!is_object($formType) && is_string($formType)) {
-            $formType = $this->container->get($formType);
-        }
-        $formFqn = get_class($formType);
 
-        $event = new AdaptSimpleFormEvent($request, $formFqn, $helper, $configurator->getAdminTypeOptions());
+        $event = new AdaptSimpleFormEvent($request, $formType, $helper, $configurator->getAdminTypeOptions());
         $event = $this->container->get('event_dispatcher')->dispatch(Events::ADAPT_SIMPLE_FORM, $event);
         $tabPane = $event->getTabPane();
 
-        $form = $this->createForm($formFqn, $helper, $configurator->getAdminTypeOptions());
+        $form = $this->createForm($formType, $helper, $configurator->getAdminTypeOptions());
 
         if ($request->isMethod('POST')) {
             if ($tabPane) {
@@ -165,20 +161,16 @@ abstract class AdminListController extends Controller
                 $this->container->get('event_dispatcher')->dispatch(
                     AdminListEvents::PRE_ADD,
                     $adminListEvent
-                );
+                )
+                ;
 
                 // Check if Response is given
                 if ($adminListEvent->getResponse() instanceof Response) {
                     return $adminListEvent->getResponse();
                 }
 
-                // Check if Sortable interface is implemented
-                if ($configurator instanceof SortableInterface) {
-                    $sort = $configurator->getSortableField();
-                    $weight = $this->getMaxSortableField($repo, $sort);
-                    $setter = 'set'.ucfirst($sort);
-                    $helper->$setter($weight + 1);
-                }
+                // Set sort weight
+                $helper = $this->setSortWeightOnNewItem($configurator, $helper);
 
                 $em->persist($helper);
                 $em->flush();
@@ -188,7 +180,8 @@ abstract class AdminListController extends Controller
                 $this->container->get('event_dispatcher')->dispatch(
                     AdminListEvents::POST_ADD,
                     $adminListEvent
-                );
+                )
+                ;
 
                 // Check if Response is given
                 if ($adminListEvent->getResponse() instanceof Response) {
@@ -220,8 +213,8 @@ abstract class AdminListController extends Controller
      * Creates and processes the edit form for an Entity using its ID.
      *
      * @param AbstractAdminListConfigurator $configurator The adminlist configurator
-     * @param string                        $entityId     The id of the entity that will be edited
-     * @param null|Request                  $request
+     * @param string $entityId The id of the entity that will be edited
+     * @param null|Request $request
      *
      * @throws NotFoundHttpException
      * @throws AccessDeniedHttpException
@@ -242,16 +235,12 @@ abstract class AdminListController extends Controller
         }
 
         $formType = $configurator->getAdminType($helper);
-        if (!is_object($formType) && is_string($formType)) {
-            $formType = $this->container->get($formType);
-        }
-        $formFqn = get_class($formType);
 
-        $event = new AdaptSimpleFormEvent($request, $formFqn, $helper, $configurator->getAdminTypeOptions());
+        $event = new AdaptSimpleFormEvent($request, $formType, $helper, $configurator->getAdminTypeOptions());
         $event = $this->container->get('event_dispatcher')->dispatch(Events::ADAPT_SIMPLE_FORM, $event);
         $tabPane = $event->getTabPane();
 
-        $form = $this->createForm($formFqn, $helper, $configurator->getAdminTypeOptions());
+        $form = $this->createForm($formType, $helper, $configurator->getAdminTypeOptions());
 
         if ($request->isMethod('POST')) {
             if ($tabPane) {
@@ -267,7 +256,8 @@ abstract class AdminListController extends Controller
                 $this->container->get('event_dispatcher')->dispatch(
                     AdminListEvents::PRE_EDIT,
                     $adminListEvent
-                );
+                )
+                ;
 
                 // Check if Response is given
                 if ($adminListEvent->getResponse() instanceof Response) {
@@ -282,7 +272,8 @@ abstract class AdminListController extends Controller
                 $this->container->get('event_dispatcher')->dispatch(
                     AdminListEvents::POST_EDIT,
                     $adminListEvent
-                );
+                )
+                ;
 
                 // Check if Response is given
                 if ($adminListEvent->getResponse() instanceof Response) {
@@ -353,8 +344,8 @@ abstract class AdminListController extends Controller
      * Delete the Entity using its ID.
      *
      * @param AbstractAdminListConfigurator $configurator The adminlist configurator
-     * @param int                           $entityId     The id to delete
-     * @param null|Request                  $request
+     * @param int $entityId The id to delete
+     * @param null|Request $request
      *
      * @throws NotFoundHttpException
      * @throws AccessDeniedHttpException
@@ -379,7 +370,8 @@ abstract class AdminListController extends Controller
             $this->container->get('event_dispatcher')->dispatch(
                 AdminListEvents::PRE_DELETE,
                 $adminListEvent
-            );
+            )
+            ;
 
             // Check if Response is given
             if ($adminListEvent->getResponse() instanceof Response) {
@@ -394,7 +386,8 @@ abstract class AdminListController extends Controller
             $this->container->get('event_dispatcher')->dispatch(
                 AdminListEvents::POST_DELETE,
                 $adminListEvent
-            );
+            )
+            ;
 
             // Check if Response is given
             if ($adminListEvent->getResponse() instanceof Response) {
@@ -421,16 +414,17 @@ abstract class AdminListController extends Controller
         $repo = $em->getRepository($configurator->getRepositoryName());
         $item = $repo->find($entityId);
 
-        $setter = 'set'.ucfirst($sortableField);
-        $getter = 'get'.ucfirst($sortableField);
+        $setter = 'set' . ucfirst($sortableField);
+        $getter = 'get' . ucfirst($sortableField);
 
         $nextItem = $repo->createQueryBuilder('i')
-            ->where('i.'.$sortableField.' < :weight')
-            ->setParameter('weight', $item->$getter())
-            ->orderBy('i.'.$sortableField, 'DESC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
+                         ->where('i.' . $sortableField . ' < :weight')
+                         ->setParameter('weight', $item->$getter())
+                         ->orderBy('i.' . $sortableField, 'DESC')
+                         ->setMaxResults(1)
+                         ->getQuery()
+                         ->getOneOrNullResult()
+        ;
         if ($nextItem) {
             $nextItem->$setter($item->$getter());
             $em->persist($nextItem);
@@ -454,16 +448,17 @@ abstract class AdminListController extends Controller
         $repo = $em->getRepository($configurator->getRepositoryName());
         $item = $repo->find($entityId);
 
-        $setter = 'set'.ucfirst($sortableField);
-        $getter = 'get'.ucfirst($sortableField);
+        $setter = 'set' . ucfirst($sortableField);
+        $getter = 'get' . ucfirst($sortableField);
 
         $nextItem = $repo->createQueryBuilder('i')
-            ->where('i.'.$sortableField.' > :weight')
-            ->setParameter('weight', $item->$getter())
-            ->orderBy('i.'.$sortableField, 'ASC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
+                         ->where('i.' . $sortableField . ' > :weight')
+                         ->setParameter('weight', $item->$getter())
+                         ->orderBy('i.' . $sortableField, 'ASC')
+                         ->setMaxResults(1)
+                         ->getQuery()
+                         ->getOneOrNullResult()
+        ;
         if ($nextItem) {
             $nextItem->$setter($item->$getter());
             $em->persist($nextItem);
@@ -480,13 +475,34 @@ abstract class AdminListController extends Controller
         );
     }
 
+    /**
+     * Sets the sort weight on a new item. Can be overridden if a non-default sorting implementation is being used.
+     *
+     * @param AbstractAdminListConfigurator $configurator The adminlist configurator
+     * @param $item
+     *
+     * @return mixed
+     */
+    protected function setSortWeightOnNewItem(AbstractAdminListConfigurator $configurator, $item)
+    {
+        if ($configurator instanceof SortableInterface) {
+            $repo = $this->getEntityManager()->getRepository($configurator->getRepositoryName());
+            $sort = $configurator->getSortableField();
+            $weight = $this->getMaxSortableField($repo, $sort);
+            $setter = "set" . ucfirst($sort);
+            $item->$setter($weight + 1);
+        }
+
+        return $item;
+    }
+
     protected function buildSortableFieldActions(AbstractAdminListConfigurator $configurator)
     {
         // Check if Sortable interface is implemented
         if ($configurator instanceof SortableInterface) {
             $route = function (EntityInterface $item) use ($configurator) {
                 return [
-                    'path' => $configurator->getPathByConvention().'_move_up',
+                    'path'   => $configurator->getPathByConvention() . '_move_up',
                     'params' => ['id' => $item->getId()],
                 ];
             };
@@ -496,7 +512,7 @@ abstract class AdminListController extends Controller
 
             $route = function (EntityInterface $item) use ($configurator) {
                 return [
-                    'path' => $configurator->getPathByConvention().'_move_down',
+                    'path'   => $configurator->getPathByConvention() . '_move_down',
                     'params' => ['id' => $item->getId()],
                 ];
             };
@@ -509,10 +525,11 @@ abstract class AdminListController extends Controller
     private function getMaxSortableField($repo, $sort)
     {
         $maxWeight = $repo->createQueryBuilder('i')
-            ->select('max(i.'.$sort.')')
-            ->getQuery()
-            ->getSingleScalarResult();
+                          ->select('max(i.' . $sort . ')')
+                          ->getQuery()
+                          ->getSingleScalarResult()
+        ;
 
-        return (int) $maxWeight;
+        return (int)$maxWeight;
     }
 }

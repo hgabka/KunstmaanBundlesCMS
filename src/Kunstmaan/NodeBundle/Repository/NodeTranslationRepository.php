@@ -212,9 +212,9 @@ class NodeTranslationRepository extends EntityRepository
      * @param Node            $rootNode       Optional Root node of the tree you
      *                                        wish to use
      *
-     * @return null|NodeTranslation
+     * @return array
      */
-    public function getNodeTranslationForUrl(
+    public function getAllNodeTranslationsForUrl(
         $urlSlug,
         $locale = '',
         $includeDeleted = false,
@@ -232,7 +232,8 @@ class NodeTranslationRepository extends EntityRepository
             )
             ->addOrderBy('b.online', 'DESC')
             ->setFirstResult(0)
-            ->setMaxResults(1);
+        //    ->setMaxResults(1)
+        ;
 
         if (!$includeDeleted) {
             $qb->andWhere('n.deleted = 0');
@@ -262,8 +263,37 @@ class NodeTranslationRepository extends EntityRepository
                 ->setParameter('right', $rootNode->getRight());
         }
 
-        return $qb->getQuery()->getOneOrNullResult();
+        return $qb->getQuery()->getResult();
     }
+
+    /**
+         * Get the node translation for a given url
+         *
+         * @param string          $urlSlug        The full url
+         * @param string          $locale         The locale
+         * @param boolean         $includeDeleted Include deleted nodes
+         * @param NodeTranslation $toExclude      Optional NodeTranslation instance
+         *                                        you wish to exclude
+         * @param Node            $rootNode       Optional Root node of the tree you
+         *                                        wish to use
+         *
+         * @return NodeTranslation|null
+         */
+    public function getNodeTranslationForUrl(
+        $urlSlug,
+        $locale = '',
+        $includeDeleted = false,
+        NodeTranslation $toExclude = null,
+        Node $rootNode = null
+    ) {
+        $translations = $this->getAllNodeTranslationsForUrl($urlSlug, $locale, $includeDeleted, $toExclude, $rootNode);
+
+        if (empty($translations)) {
+            return null;
+        }
+
+        return $translations[0];
+     }
 
     /**
      * Get all top node translations.

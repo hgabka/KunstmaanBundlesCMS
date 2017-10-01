@@ -52,9 +52,9 @@ class UrlWhitelistRule extends AbstractRule
      */
     public function getJsProperties()
     {
-        return [
-            'urls' => explode(PHP_EOL, $this->getUrls()),
-        ];
+        return array(
+            'urls' => explode(PHP_EOL, $this->getUrls())
+        );
     }
 
     /**
@@ -66,10 +66,10 @@ class UrlWhitelistRule extends AbstractRule
     }
 
     /**
-     * @return UrlWhiteListAdminType
+     * @return string
      */
     public function getAdminType()
     {
-        return new UrlWhiteListAdminType();
+        return UrlWhiteListAdminType::class;
     }
 }

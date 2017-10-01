@@ -35,7 +35,7 @@ interface HasNodeInterface extends EntityInterface
     public function setParent(HasNodeInterface $hasNode);
 
     /**
-     * @return AbstractType
+     * @return string
      */
     public function getDefaultAdminType();
 

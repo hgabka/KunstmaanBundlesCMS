@@ -56,9 +56,9 @@ class AfterXScrollPercentRule extends AbstractRule
      */
     public function getJsProperties()
     {
-        return [
-            'percentage' => $this->getPercentage(),
-        ];
+        return array(
+            'percentage' => $this->getPercentage()
+        );
     }
 
     /**
@@ -70,10 +70,10 @@ class AfterXScrollPercentRule extends AbstractRule
     }
 
     /**
-     * @return AfterXScrollPercentAdminType
+     * @return string
      */
     public function getAdminType()
     {
-        return new AfterXScrollPercentRuleAdminType();
+        return AfterXScrollPercentRuleAdminType::class;
     }
 }

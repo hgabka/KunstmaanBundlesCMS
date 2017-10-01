@@ -5,9 +5,7 @@ namespace Kunstmaan\PagePartBundle\Tests\Entity;
 use Kunstmaan\PagePartBundle\Entity\LinePagePart;
 
 /**
- * LinePagePartTest.
- *
- * @coversNothing
+ * LinePagePartTest
  */
 class LinePagePartTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,26 +32,27 @@ class LinePagePartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Kunstmaan\PagePartBundle\Entity\LinePagePart::__toString
+     * @covers Kunstmaan\PagePartBundle\Entity\LinePagePart::__toString
      */
     public function testToString()
     {
-        $this->assertSame('LinePagePart', $this->object->__toString());
+        $this->assertEquals('LinePagePart', $this->object->__toString());
     }
 
     /**
-     * @covers \Kunstmaan\PagePartBundle\Entity\LinePagePart::getDefaultView
+     * @covers Kunstmaan\PagePartBundle\Entity\LinePagePart::getDefaultView
      */
     public function testGetDefaultView()
     {
-        $this->assertSame('KunstmaanPagePartBundle:LinePagePart:view.html.twig', $this->object->getDefaultView());
+        $this->assertEquals('KunstmaanPagePartBundle:LinePagePart:view.html.twig', $this->object->getDefaultView());
     }
 
     /**
-     * @covers \Kunstmaan\PagePartBundle\Entity\LinePagePart::getDefaultAdminType
+     * @covers Kunstmaan\PagePartBundle\Entity\LinePagePart::getDefaultAdminType
      */
     public function testGetDefaultAdminType()
     {
-        $this->assertInstanceOf('Kunstmaan\PagePartBundle\Form\LinePagePartAdminType', $this->object->getDefaultAdminType());
+        $this->assertEquals('Kunstmaan\PagePartBundle\Form\LinePagePartAdminType', $this->object->getDefaultAdminType());
     }
+
 }

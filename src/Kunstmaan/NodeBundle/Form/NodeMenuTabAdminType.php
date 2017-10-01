@@ -11,32 +11,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class NodeMenuTabAdminType extends AbstractType
 {
     /**
-     * @var bool
-     */
-    private $isStructureNode;
-
-    /**
-     * @param bool $isStructureNode
-     */
-    public function __construct($isStructureNode = false)
-    {
-        $this->isStructureNode = $isStructureNode;
-    }
-
-    /**
      * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (!$this->isStructureNode) {
+        if ($options['available_in_nav']) {
             $builder->add('hiddenFromNav', CheckboxType::class, [
-                'label' => 'kuma_node.form.menu_tab.hidden_from_menu.label',
+                'label'    => 'kuma_node.form.menu_tab.hidden_from_menu.label',
                 'required' => false,
             ]);
         }
         $builder->add('internalName', TextType::class, [
-            'label' => 'kuma_node.form.menu_tab.internal_name.label',
+            'label'    => 'kuma_node.form.menu_tab.internal_name.label',
             'required' => false,
         ]);
     }
@@ -52,7 +39,8 @@ class NodeMenuTabAdminType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'Kunstmaan\NodeBundle\Entity\Node',
+            'data_class'       => 'Kunstmaan\NodeBundle\Entity\Node',
+            'available_in_nav' => true,
         ]);
     }
 }

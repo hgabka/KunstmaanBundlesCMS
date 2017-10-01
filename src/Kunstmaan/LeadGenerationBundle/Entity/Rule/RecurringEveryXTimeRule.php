@@ -133,12 +133,12 @@ class RecurringEveryXTimeRule extends AbstractRule
      */
     public function getJsProperties()
     {
-        return [
+        return array(
             'minutes' => $this->getMinutes(),
             'hours' => $this->getHours(),
             'days' => $this->getDays(),
-            'times' => $this->getTimes(),
-        ];
+            'times' => $this->getTimes()
+        );
     }
 
     /**
@@ -150,10 +150,10 @@ class RecurringEveryXTimeRule extends AbstractRule
     }
 
     /**
-     * @return RecurringEveryXTimeAdminType
+     * @return string
      */
     public function getAdminType()
     {
-        return new RecurringEveryXTimeAdminType();
+        return RecurringEveryXTimeAdminType::class;
     }
 }

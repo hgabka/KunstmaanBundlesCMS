@@ -16,10 +16,11 @@ use Kunstmaan\PagePartBundle\PageTemplate\PageTemplateConfigurationReaderInterfa
 use Kunstmaan\PagePartBundle\PageTemplate\PageTemplateConfigurationService;
 
 /**
- * NodeListener.
+ * NodeListener
  */
 class NodeListener
 {
+
     /**
      * @var EntityManagerInterface
      */
@@ -51,7 +52,8 @@ class NodeListener
         PageTemplateConfigurationReaderInterface $templateReader,
         PagePartConfigurationReaderInterface $pagePartReader,
         PageTemplateConfigurationService $pageTemplateConfiguratiorService
-    ) {
+    )
+    {
         $this->em = $em;
         $this->pagePartAdminFactory = $pagePartAdminFactory;
         $this->templateReader = $templateReader;
@@ -70,35 +72,38 @@ class NodeListener
         if ($page instanceof HasPageTemplateInterface) {
             $pageTemplateWidget = new PageTemplateWidget($page, $event->getRequest(), $this->em, $this->pagePartAdminFactory, $this->templateReader, $this->pagePartReader, $this->pageTemplateConfiguratiorService);
 
-            // @var Tab $propertiesTab
+            /* @var Tab $propertiesTab */
             $propertiesTab = $tabPane->getTabByTitle('kuma_node.tab.properties.title');
-            if (null !== $propertiesTab) {
+            if (!is_null($propertiesTab)) {
                 $propertiesWidget = $propertiesTab->getWidget();
                 $tabPane->removeTab($propertiesTab);
-                $tabPane->addTab(new Tab('kuma_pagepart.tab.content.title', new ListWidget([$propertiesWidget, $pageTemplateWidget])), 0);
+                $tabPane->addTab(new Tab("kuma_pagepart.tab.content.title", new ListWidget(array($propertiesWidget, $pageTemplateWidget))), 0);
             } else {
-                $tabPane->addTab(new Tab('kuma_pagepart.tab.content.title', $pageTemplateWidget), 0);
+                $tabPane->addTab(new Tab("kuma_pagepart.tab.content.title", $pageTemplateWidget), 0);
             }
-        } elseif ($page instanceof HasPagePartsInterface) {
-            // @var HasPagePartsInterface $page
+        } else if ($page instanceof HasPagePartsInterface) {
+            /* @var HasPagePartsInterface $page */
             $pagePartAdminConfigurators = $this->pagePartReader->getPagePartAdminConfigurators($page);
 
             foreach ($pagePartAdminConfigurators as $index => $pagePartAdminConfiguration) {
                 $pagePartWidget = new PagePartWidget($page, $event->getRequest(), $this->em, $pagePartAdminConfiguration, $this->pagePartAdminFactory);
-                if (0 === $index) {
-                    // @var Tab $propertiesTab
+                if ($index == 0) {
+                    /* @var Tab $propertiesTab */
                     $propertiesTab = $tabPane->getTabByTitle('kuma_node.tab.properties.title');
 
-                    if (null !== $propertiesTab) {
+                    if (!is_null($propertiesTab)) {
                         $propertiesWidget = $propertiesTab->getWidget();
                         $tabPane->removeTab($propertiesTab);
-                        $tabPane->addTab(new Tab($pagePartAdminConfiguration->getName(), new ListWidget([$propertiesWidget, $pagePartWidget])), 0);
+                        $tabPane->addTab(new Tab($pagePartAdminConfiguration->getName(), new ListWidget(array($propertiesWidget, $pagePartWidget))), 0);
 
                         continue;
                     }
                 }
-                $tabPane->addTab(new Tab($pagePartAdminConfiguration->getName(), $pagePartWidget), count($tabPane->getTabs()));
+                $tabPane->addTab(new Tab($pagePartAdminConfiguration->getName(), $pagePartWidget), sizeof($tabPane->getTabs()));
+
+
             }
         }
     }
+
 }

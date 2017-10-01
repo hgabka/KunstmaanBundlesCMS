@@ -2,13 +2,14 @@
 
 namespace Kunstmaan\PagePartBundle\Form;
 
+use Kunstmaan\AdminBundle\Form\WysiwygType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * TextPagePartAdminType.
+ * TextPagePartAdminType
  */
 class TextPagePartAdminType extends AbstractType
 {
@@ -18,15 +19,10 @@ class TextPagePartAdminType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('content', TextareaType::class, [
+        $builder->add('content', WysiwygType::class, array(
             'label' => 'pagepart.text.content',
             'required' => false,
-            'attr' => [
-                'rows' => 32,
-                'cols' => 600,
-                'class' => 'js-rich-editor rich-editor',
-            ],
-        ]);
+        ));
     }
 
     /**
@@ -42,8 +38,8 @@ class TextPagePartAdminType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(array(
             'data_class' => 'Kunstmaan\PagePartBundle\Entity\TextPagePart',
-        ]);
+        ));
     }
 }

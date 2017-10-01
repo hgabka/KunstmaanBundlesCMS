@@ -38,11 +38,11 @@ class ContentPage extends AbstractPage implements HasPageTemplateInterface, Sear
     /**
      * Returns the default backend form type for this page
      *
-     * @return AbstractType
+     * @return string
      */
     public function getDefaultAdminType()
     {
-        return new ContentPageAdminType();
+        return ContentPageAdminType::class;
     }
 
     /**

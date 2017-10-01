@@ -21,11 +21,11 @@ class BehatTestPage extends AbstractPage implements HasPageTemplateInterface
     /**
      * Returns the default backend form type for this page
      *
-     * @return AbstractType
+     * @return string
      */
     public function getDefaultAdminType()
     {
-        return new BehatTestPageAdminType();
+        return BehatTestPageAdminType::class;
     }
 
     /**

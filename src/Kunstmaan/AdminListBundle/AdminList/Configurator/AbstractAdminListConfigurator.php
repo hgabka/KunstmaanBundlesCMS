@@ -303,11 +303,11 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
     }
 
     /**
-     * @param AbstractType $type
+     * @param string $type
      *
      * @return AbstractAdminListConfigurator
      */
-    public function setAdminType(AbstractType $type)
+    public function setAdminType($type)
     {
         $this->type = $type;
 
@@ -637,7 +637,7 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
             return $result->format('Y-m-d H:i:s');
         }
         if ($result instanceof PersistentCollection) {
-            $results = '';
+            $results = [];
             // @var Object $entry
             foreach ($result as $entry) {
                 $results[] = $entry->getName();

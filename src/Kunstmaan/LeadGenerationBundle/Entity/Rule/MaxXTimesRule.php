@@ -53,9 +53,9 @@ class MaxXTimesRule extends AbstractRule
      */
     public function getJsProperties()
     {
-        return [
+        return array(
             'times' => $this->getTimes(),
-        ];
+        );
     }
 
     /**
@@ -67,10 +67,10 @@ class MaxXTimesRule extends AbstractRule
     }
 
     /**
-     * @return MaxXTimeAdminType
+     * @return string
      */
     public function getAdminType()
     {
-        return new MaxXTimeAdminType();
+        return MaxXTimeAdminType::class;
     }
 }

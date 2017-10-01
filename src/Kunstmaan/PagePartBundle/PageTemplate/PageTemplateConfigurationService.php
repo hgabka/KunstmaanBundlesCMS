@@ -19,6 +19,7 @@ class PageTemplateConfigurationService
      */
     private $reader;
 
+
     /**
      * @param PageTemplateConfigurationRepository      $repo
      * @param PageTemplateConfigurationReaderInterface $reader
@@ -30,7 +31,7 @@ class PageTemplateConfigurationService
     }
 
     /**
-     * For convenience.
+     * For convenience
      *
      * @param HasPageTemplateInterface $page
      *
@@ -51,6 +52,7 @@ class PageTemplateConfigurationService
         $pageTemplateConfiguration = $this->repo->findFor($page);
 
         if (null === $pageTemplateConfiguration) {
+
             $pageTemplates = $this->reader->getPageTemplates($page);
             $names = array_keys($pageTemplates);
             $defaultPageTemplate = $pageTemplates[$names[0]];
@@ -63,4 +65,7 @@ class PageTemplateConfigurationService
 
         return $pageTemplateConfiguration;
     }
+
+
+
 }

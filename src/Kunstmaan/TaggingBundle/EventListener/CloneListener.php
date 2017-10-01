@@ -7,10 +7,11 @@ use DoctrineExtensions\Taggable\Taggable;
 use Kunstmaan\AdminBundle\Event\DeepCloneAndSaveEvent;
 
 /**
- * This listener will make sure the tags are copied as well.
+ * This listener will make sure the tags are copied as well
  */
 class CloneListener
 {
+
     protected $em;
 
     public function __construct(EntityManager $em)
@@ -30,4 +31,5 @@ class CloneListener
             $this->em->getRepository('KunstmaanTaggingBundle:Tag')->copyTags($originalEntity, $targetEntity);
         }
     }
+
 }

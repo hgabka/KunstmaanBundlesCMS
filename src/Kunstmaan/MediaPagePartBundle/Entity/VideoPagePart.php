@@ -1,20 +1,21 @@
 <?php
 
 namespace Kunstmaan\MediaPagePartBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
+
 use Kunstmaan\MediaBundle\Entity\Media;
 use Kunstmaan\MediaPagePartBundle\Form\VideoPagePartAdminType;
 use Kunstmaan\PagePartBundle\Entity\AbstractPagePart;
 
 /**
- * VideoPagePart.
+ * VideoPagePart
  *
  * @ORM\Entity
  * @ORM\Table(name="kuma_video_page_parts")
  */
 class VideoPagePart extends AbstractPagePart
 {
+
     /**
      * @ORM\ManyToOne(targetEntity="Kunstmaan\MediaBundle\Entity\Media")
      * @ORM\JoinColumn(name="media_id", referencedColumnName="id")
@@ -22,19 +23,7 @@ class VideoPagePart extends AbstractPagePart
     protected $media;
 
     /**
-     * @return string
-     */
-    public function __toString()
-    {
-        if ($this->getMedia()) {
-            return $this->getMedia()->getUrl();
-        }
-
-        return '';
-    }
-
-    /**
-     * Get media.
+     * Get media
      *
      * @return Media
      */
@@ -44,7 +33,7 @@ class VideoPagePart extends AbstractPagePart
     }
 
     /**
-     * Set media.
+     * Set media
      *
      * @param Media $media
      *
@@ -60,16 +49,28 @@ class VideoPagePart extends AbstractPagePart
     /**
      * @return string
      */
-    public function getDefaultView()
+    public function __toString()
     {
-        return 'KunstmaanMediaPagePartBundle:VideoPagePart:view.html.twig';
+        if ($this->getMedia()) {
+            return $this->getMedia()->getUrl();
+        }
+
+        return "";
     }
 
     /**
-     * @return VideoPagePartAdminType
+     * @return string
+     */
+    public function getDefaultView()
+    {
+        return "KunstmaanMediaPagePartBundle:VideoPagePart:view.html.twig";
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getDefaultAdminType()
     {
-        return new VideoPagePartAdminType();
+        return VideoPagePartAdminType::class;
     }
 }

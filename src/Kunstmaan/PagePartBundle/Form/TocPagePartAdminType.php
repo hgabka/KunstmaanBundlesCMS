@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * TocPagePartAdminType.
+ * TocPagePartAdminType
  */
 class TocPagePartAdminType extends AbstractType
 {
@@ -32,8 +32,8 @@ class TocPagePartAdminType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(array(
             'data_class' => 'Kunstmaan\PagePartBundle\Entity\TocPagePart',
-        ]);
+        ));
     }
 }

@@ -52,9 +52,9 @@ class UrlBlacklistRule extends AbstractRule
      */
     public function getJsProperties()
     {
-        return [
-            'urls' => explode(PHP_EOL, $this->getUrls()),
-        ];
+        return array(
+            'urls' => explode(PHP_EOL, $this->getUrls())
+        );
     }
 
     /**
@@ -66,10 +66,10 @@ class UrlBlacklistRule extends AbstractRule
     }
 
     /**
-     * @return UrlBlackListAdminType
+     * @return string
      */
     public function getAdminType()
     {
-        return new UrlBlackListAdminType();
+        return UrlBlackListAdminType::class;
     }
 }
