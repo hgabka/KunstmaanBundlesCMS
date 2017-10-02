@@ -1,6 +1,6 @@
 article:
     warning:
-        create_overview_page: Létre kell hoznod egy áttekintő oldalt, hogy csinálhass %type% oldalt!
+        create_overview_page: 'Létre kell hoznod egy áttekintő oldalt, hogy csinálhass %type% oldalt!'
     form:
         date:
             label: Dátum
@@ -8,7 +8,7 @@ article:
             label: Összegzés
     modal:
         add:
-            label: %type% hozzáadása a(z) %page% oldalhoz
+            label: '%type% hozzáadása a(z) %page% oldalhoz'
     author:
         list:
             header:
@@ -34,3 +34,12 @@ article:
                 created_at: Létrehozva
                 updated_at: Frissítve
                 online:     Online
+
+article_overview_page:
+    filter: Szűrő
+    category: Kategóriák
+    tag: Címkék
+    all: Összes
+    route:
+        category: kategória
+        tag: címke
