@@ -41,7 +41,7 @@ kuma_node:
                 label:  Belső név
         menu_tab_translation:
             slug:
-                label:  Elérési útaz URL-ben
+                label:  Elérési út az URL-ben
             weight:
                 label:  Súlyozás
                 title:  Az oldalak újrarendezéséhez használd
