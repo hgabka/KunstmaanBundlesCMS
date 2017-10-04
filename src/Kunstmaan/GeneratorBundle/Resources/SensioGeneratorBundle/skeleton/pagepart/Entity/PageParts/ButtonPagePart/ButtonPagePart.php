@@ -271,7 +271,7 @@ class {{ pagepart }} extends AbstractPagePart
     /**
      * Get the admin form type.
      *
-     * @return {{ adminType }}
+     * @return string
      */
     public function getDefaultAdminType()
     {

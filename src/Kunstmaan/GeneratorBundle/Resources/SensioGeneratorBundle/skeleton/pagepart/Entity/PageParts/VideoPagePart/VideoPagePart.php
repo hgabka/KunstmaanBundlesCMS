@@ -95,10 +95,10 @@ class {{ pagepart }} extends AbstractPagePart
     }
 
     /**
-     * @return VideoPagePartAdminType
+     * @return string
      */
     public function getDefaultAdminType()
     {
-        return new {{ adminType }}();
+        return {{ adminType }}::class;
     }
 }
