@@ -368,7 +368,7 @@ abstract class KunstmaanGenerateCommand extends GenerateDoctrineCommand
                     }
 
                     // Only accept a-z
-                    if (!preg_match('/^[a-zA-Z][a-zA-Z_0-9]+$/', $name) && '' !== $name) {
+                    if (!preg_match('/^[a-zA-Z][a-zA-Z_0-9]+$/', $name) && !empty($name)) {
                         throw new \InvalidArgumentException(sprintf('Name "%s" is invalid', $name));
                     }
 
