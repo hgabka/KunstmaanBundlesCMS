@@ -52,15 +52,15 @@ class GeneratePageCommand extends KunstmaanGenerateCommand
     protected function configure()
     {
         $this->setDescription('Generates a new page')
-            ->setHelp(
-                <<<'EOT'
+             ->setHelp(
+                 <<<'EOT'
 The <info>kuma:generate:page</info> command generates a new page and its configuration.
 
 <info>php bin/console kuma:generate:page</info>
 EOT
-            )
-            ->addOption('prefix', '', InputOption::VALUE_OPTIONAL, 'The prefix to be used in the table name of the generated entity')
-            ->setName('kuma:generate:page');
+             )
+             ->addOption('prefix', '', InputOption::VALUE_OPTIONAL, 'The prefix to be used in the table name of the generated entity')
+             ->setName('kuma:generate:page');
     }
 
     /**

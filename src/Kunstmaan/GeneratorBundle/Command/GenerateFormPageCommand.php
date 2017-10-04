@@ -52,15 +52,15 @@ class GenerateFormPageCommand extends KunstmaanGenerateCommand
     protected function configure()
     {
         $this->setDescription('Generates a new formpage')
-            ->setHelp(
-                <<<'EOT'
+             ->setHelp(
+                 <<<'EOT'
 The <info>kuma:generate:formpage</info> command generates a new formpage and its configuration.
 
 <info>php bin/console kuma:generate:formpage</info>
 EOT
-            )
-            ->addOption('prefix', '', InputOption::VALUE_OPTIONAL, 'The prefix to be used in the table name of the generated entity')
-            ->setName('kuma:generate:formpage');
+             )
+             ->addOption('prefix', '', InputOption::VALUE_OPTIONAL, 'The prefix to be used in the table name of the generated entity')
+             ->setName('kuma:generate:formpage');
     }
 
     /**

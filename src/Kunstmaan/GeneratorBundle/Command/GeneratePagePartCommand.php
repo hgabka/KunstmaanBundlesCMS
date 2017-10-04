@@ -46,15 +46,15 @@ class GeneratePagePartCommand extends KunstmaanGenerateCommand
     protected function configure()
     {
         $this->setDescription('Generates a new pagepart')
-            ->setHelp(
-                <<<'EOT'
+             ->setHelp(
+                 <<<'EOT'
 The <info>kuma:generate:pagepart</info> command generates a new pagepart and the pagepart configuration.
 
 <info>php bin/console kuma:generate:pagepart</info>
 EOT
-            )
-            ->addOption('prefix', '', InputOption::VALUE_OPTIONAL, 'The prefix to be used in the table name of the generated entity')
-            ->setName('kuma:generate:pagepart');
+             )
+             ->addOption('prefix', '', InputOption::VALUE_OPTIONAL, 'The prefix to be used in the table name of the generated entity')
+             ->setName('kuma:generate:pagepart');
     }
 
     /**

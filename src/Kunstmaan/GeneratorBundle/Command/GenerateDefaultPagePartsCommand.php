@@ -36,17 +36,17 @@ class GenerateDefaultPagePartsCommand extends KunstmaanGenerateCommand
     protected function configure()
     {
         $this->setDescription('Generates default pageparts')
-            ->setHelp(
-                <<<'EOT'
+             ->setHelp(
+                 <<<'EOT'
 The <info>kuma:generate:default-pageparts</info> command generates the default pageparts and adds the pageparts configuration.
 
 <info>php bin/console kuma:generate:default-pageparts</info>
 EOT
-            )
-            ->addOption('namespace', '', InputOption::VALUE_OPTIONAL, 'The namespace to generate the default pageparts in')
-            ->addOption('prefix', '', InputOption::VALUE_OPTIONAL, 'The prefix to be used in the table name of the generated entity')
-            ->addOption('contexts', '', InputOption::VALUE_OPTIONAL, 'The contexts were we need to allow the pageparts (separated multiple sections with a comma)')
-            ->setName('kuma:generate:default-pageparts');
+             )
+             ->addOption('namespace', '', InputOption::VALUE_OPTIONAL, 'The namespace to generate the default pageparts in')
+             ->addOption('prefix', '', InputOption::VALUE_OPTIONAL, 'The prefix to be used in the table name of the generated entity')
+             ->addOption('contexts', '', InputOption::VALUE_OPTIONAL, 'The contexts were we need to allow the pageparts (separated multiple sections with a comma)')
+             ->setName('kuma:generate:default-pageparts');
     }
 
     /**

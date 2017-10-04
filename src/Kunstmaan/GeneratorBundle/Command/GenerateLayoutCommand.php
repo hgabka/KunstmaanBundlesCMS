@@ -15,14 +15,16 @@ class GenerateLayoutCommand extends KunstmaanGenerateCommand
      */
     private $bundle;
 
+    private $browserSyncUrl;
+
     /**
      * @see Command
      */
     protected function configure()
     {
         $this->setDescription('Generates a basic layout')
-            ->setHelp(
-                <<<'EOT'
+             ->setHelp(
+                 <<<'EOT'
 The <info>kuma:generate:layout</info> command generates a basic website layout.
 
 <info>php bin/console kuma:generate:layout</info>
@@ -31,11 +33,11 @@ Use the <info>--namespace</info> option to indicate for which bundle you want to
 
 <info>php bin/console kuma:generate:layout --namespace=Namespace/NamedBundle</info>
 EOT
-            )
-            ->addOption('namespace', '', InputOption::VALUE_OPTIONAL, 'The namespace of the bundle where we need to create the layout in')
-            ->addOption('subcommand', '', InputOption::VALUE_OPTIONAL, 'Whether the command is called from an other command or not')
-            ->addOption('demosite', '', InputOption::VALUE_NONE, 'Pass this parameter when the demosite styles/javascipt should be generated')
-            ->setName('kuma:generate:layout');
+             )
+             ->addOption('namespace', '', InputOption::VALUE_OPTIONAL, 'The namespace of the bundle where we need to create the layout in')
+             ->addOption('subcommand', '', InputOption::VALUE_OPTIONAL, 'Whether the command is called from an other command or not')
+             ->addOption('demosite', '', InputOption::VALUE_NONE, 'Pass this parameter when the demosite styles/javascipt should be generated')
+             ->setName('kuma:generate:layout');
     }
 
     /**
@@ -60,7 +62,7 @@ EOT
         }
 
         $rootDir = $this->getApplication()->getKernel()->getRootDir().'/../';
-        $this->createGenerator()->generate($this->bundle, $rootDir, $this->assistant->getOption('demosite'));
+        $this->createGenerator()->generate($this->bundle, $rootDir, $this->assistant->getOption('demosite'), $this->browserSyncUrl);
 
         if (!$this->isSubCommand()) {
             $this->assistant->writeSection('Layout successfully created', 'bg=green;fg=black');
@@ -81,6 +83,8 @@ EOT
          */
         $bundleNamespace = $this->assistant->getOptionOrDefault('namespace', null);
         $this->bundle = $this->askForBundleName('layout', $bundleNamespace);
+
+        $this->browserSyncUrl = $this->assistant->ask('Which URL would you like to configure for browserSync?', 'http://myproject.dev');
     }
 
     /**

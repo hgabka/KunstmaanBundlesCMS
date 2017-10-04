@@ -23,7 +23,6 @@ class VarnishController extends Controller
      * @Route("/settings/varnish", name="kunstmaancachebundle_varnish_settings_ban")
      * @Template("KunstmaanCacheBundle:Varnish:ban.html.twig")
      *
-     *
      * @param Request $request
      *
      * @return array
@@ -52,7 +51,7 @@ class VarnishController extends Controller
     }
 
     /**
-     * Ban route from varnish
+     * Ban route from varnish.
      *
      * @Route("/varnish/ban/{node}", name="kunstmaancachebundle_varnish_ban")
      *
@@ -75,7 +74,7 @@ class VarnishController extends Controller
     }
 
     /**
-     * Check permission
+     * Check permission.
      *
      * @param string $roleToCheck
      *

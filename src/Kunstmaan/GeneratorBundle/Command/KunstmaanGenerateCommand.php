@@ -176,14 +176,12 @@ abstract class KunstmaanGenerateCommand extends GenerateDoctrineCommand
      * created by the user, we don't ask anything and just use that bundle. If the user provided
      * a namespace as input option, we try to get that bundle first.
      *
-     * @param string      $objectName          The thing we are going to create (pagepart, bundle, layout, ...)
-     * @param null|string $namespace           The namespace provided as input option
-     * @param string      $questionMoreBundles
-     * @param string      $questionOneBundle
+     * @param string      $objectName The thing we are going to create (pagepart, bundle, layout, ...)
+     * @param null|string $namespace  The namespace provided as input option
      *
      * @return BundleInterface
      */
-    protected function askForBundleName($objectName, $namespace = null, $questionMoreBundles = "\nIn which bundle do you want to create the %s", $questionOneBundle = "The %s will be created for the <comment>%s</comment> bundle.\n")
+    protected function askForBundleName($objectName, $namespace = null)
     {
         $ownBundles = $this->getOwnBundles();
         if (count($ownBundles) <= 0) {
@@ -217,7 +215,7 @@ abstract class KunstmaanGenerateCommand extends GenerateDoctrineCommand
                     $bundleSelect[$key] = $bundleInfo['name'];
                 }
                 $bundleId = $this->assistant->askSelect(
-                    sprintf($questionMoreBundles, $objectName),
+                    'In which bundle do you want to create the '.$objectName,
                     $bundleSelect
                 );
                 $bundleName = $ownBundles[$bundleId]['name'];
@@ -226,7 +224,7 @@ abstract class KunstmaanGenerateCommand extends GenerateDoctrineCommand
             } else {
                 $bundleName = $ownBundles[1]['name'];
                 $this->assistant->writeLine(
-                    [sprintf($questionOneBundle, $objectName, $bundleName)]
+                    ["The $objectName will be created for the <comment>$bundleName</comment> bundle.\n"]
                 );
             }
         }

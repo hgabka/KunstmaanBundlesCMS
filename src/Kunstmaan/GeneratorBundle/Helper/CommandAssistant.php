@@ -102,9 +102,9 @@ class CommandAssistant
     {
         $this->output->writeln(
             $this->getQuestionHelper()
-                ->getHelperSet()
-                ->get('formatter')
-                ->formatBlock($message, 'error')
+                 ->getHelperSet()
+                 ->get('formatter')
+                 ->formatBlock($message, 'error')
         );
         if ($exit) {
             exit;

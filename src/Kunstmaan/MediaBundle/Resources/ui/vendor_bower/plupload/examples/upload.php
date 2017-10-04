@@ -1,7 +1,6 @@
 <?php
 
 
-//!! is not recommended to be used in production environment as it is. Be sure to
 //!! revise it and customize to your needs.
 
 // Make sure file is not cached (as it happens for example on iOS devices)
