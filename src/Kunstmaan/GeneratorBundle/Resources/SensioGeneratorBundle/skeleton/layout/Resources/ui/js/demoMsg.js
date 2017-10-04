@@ -1,4 +1,6 @@
-const demoMsg = (function() {
+var AdivPublicBundle = AdivPublicBundle || {};
+
+AdivPublicBundle.demoMsg = (function($, window, undefined) {
 
     var init, initDemoMsg, hideDemoMsg;
 
@@ -7,10 +9,10 @@ const demoMsg = (function() {
     };
 
     initDemoMsg = function() {
-        var $hook = $('.js-demo-msg'),
-            $btn = $hook.find('.js-toggle-btn'),
-            $target = $($btn.data('target')),
-            _hasCookie = document.cookie.match(/(?:(?:^|.*;\s*)demosite\-message\s*\=\s*([^;]*).*$)|^.*$/)[1];
+    var $hook = $('.js-demo-msg'),
+        $btn = $hook.find('.js-toggle-btn'),
+        $target = $($btn.data('target')),
+        _hasCookie = document.cookie.match(/(?:(?:^|.*;\s*)demosite\-message\s*\=\s*([^;]*).*$)|^.*$/)[1];
 
         if (typeof _hasCookie === 'undefined' || _hasCookie === 'false') {
             $target.addClass('toggle-item--active');
@@ -38,6 +40,5 @@ const demoMsg = (function() {
     return {
         init: init
     };
-}());
 
-module.exports = demoMsg;
+}(jQuery, window));

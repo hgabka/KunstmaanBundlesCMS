@@ -1,6 +1,6 @@
-var {{ bundle.getName() }} = {{ bundle.getName() }} || {};
+var AdivPublicBundle = AdivPublicBundle || {};
 
-{{ bundle.getName() }}.cookieConsent = (function($, window, undefined) {
+AdivPublicBundle.cookieConsent = (function($, window, undefined) {
 
     var init;
 
