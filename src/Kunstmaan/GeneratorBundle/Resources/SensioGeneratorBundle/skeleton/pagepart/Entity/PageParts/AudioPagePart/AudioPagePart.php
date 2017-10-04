@@ -52,10 +52,10 @@ class {{ pagepart }} extends AbstractPagePart
     }
 
     /**
-     * @return {{ pagepart }}AdminType
+     * @return string
      */
     public function getDefaultAdminType()
     {
-        return new {{ adminType }}();
+        return {{ adminType }}::class;
     }
 }
