@@ -27,6 +27,7 @@ var gulp = require('gulp'),
     rebase = require("rebase/tasks/gulp-rebase"),
     notifier = require('node-notifier'),
     runSequence = require('run-sequence'),
+	autoprefixer = require('autoprefixer'),
     plugins = require('gulp-load-plugins')();
 
 
@@ -116,7 +117,7 @@ gulp.task('styles', function() {
         .pipe(plugins.combineMq())
 
         // Prefix where needed
-        .pipe(plugins.autoprefixer(config.browserSupport))
+        .pipe(plugins.postcss([autoprefixer(config.browserSupport)]))
 
         // Minify output
         .pipe(plugins.minifyCss())
@@ -153,7 +154,7 @@ gulp.task('admin-styles', function() {
         .pipe(plugins.combineMq())
 
         // Prefix where needed
-        .pipe(plugins.autoprefixer(config.browserSupport))
+        .pipe(plugins.postcss([autoprefixer(config.browserSupport)]))
 
         // Minify output
         .pipe(plugins.minifyCss())
