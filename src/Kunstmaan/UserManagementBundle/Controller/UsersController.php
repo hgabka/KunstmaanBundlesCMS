@@ -60,6 +60,18 @@ class UsersController extends BaseSettingsController
     }
 
     /**
+     * Get an instance of the admin user class.
+     *
+     * @return BaseUser
+     */
+    private function getUserClassInstance()
+    {
+        $userClassName = $this->getParameter('fos_user.model.user.class');
+
+        return new $userClassName();
+    }
+
+    /**
      * Add a user.
      *
      * @Route("/add", name="KunstmaanUserManagementBundle_settings_users_add")
@@ -93,9 +105,9 @@ class UsersController extends BaseSettingsController
 
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
-            if ($form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $user->setPasswordChanged(true);
-                // @var UserManager $userManager
+                /** @var UserManager $userManager */
                 $userManager = $this->container->get('fos_user.user_manager');
                 $userManager->updateUser($user, true);
 
@@ -139,7 +151,7 @@ class UsersController extends BaseSettingsController
 
         $this->denyAccessUnlessGranted($requiredRole);
 
-        // @var $em EntityManager
+        /** @var $em EntityManager */
         $em = $this->getDoctrine()->getManager();
 
         /** @var UserInterface $user */
@@ -174,7 +186,7 @@ class UsersController extends BaseSettingsController
                 $form->handleRequest($request);
             }
 
-            if ($form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 // @var UserManager $userManager
                 $userManager = $this->container->get('fos_user.user_manager');
                 $userManager->updateUser($user, true);
@@ -224,9 +236,9 @@ class UsersController extends BaseSettingsController
     {
         $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
 
-        // @var $em EntityManager
+        /** @var $em EntityManager */
         $em = $this->getDoctrine()->getManager();
-        // @var UserInterface $user
+        /** @var UserInterface $user */
         $user = $em->getRepository($this->getParameter('fos_user.model.user.class'))->find($id);
         if (null !== $user) {
             $userEvent = new UserEvent($user, $request);
@@ -260,17 +272,5 @@ class UsersController extends BaseSettingsController
                 ]
             )
         );
-    }
-
-    /**
-     * Get an instance of the admin user class.
-     *
-     * @return BaseUser
-     */
-    private function getUserClassInstance()
-    {
-        $userClassName = $this->getParameter('fos_user.model.user.class');
-
-        return new $userClassName();
     }
 }

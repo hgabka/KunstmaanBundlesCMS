@@ -46,7 +46,7 @@ class MediaController extends Controller
 
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
-            if ($form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $media = $helper->getMedia();
                 $em->getRepository('KunstmaanMediaBundle:Media')->save($media);
 
@@ -428,7 +428,7 @@ class MediaController extends Controller
 
             $form->handleRequest($request);
 
-            if ($form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $media = $helper->getMedia();
                 $media->setFolder($folder);
                 $em->getRepository('KunstmaanMediaBundle:Media')->save($media);
