@@ -28,6 +28,7 @@ var gulp = require('gulp'),
     notifier = require('node-notifier'),
     runSequence = require('run-sequence'),
 	autoprefixer = require('autoprefixer'),
+    babel = require('gulp-babel'),
     plugins = require('gulp-load-plugins')();
 
 
@@ -190,6 +191,7 @@ gulp.task('jshint', function() {
 // Production
 gulp.task('scripts-prod', ['jshint'], function() {
     return gulp.src(config.js.footer)
+	    .pipe(babel())
         // Uglify
         .pipe(plugins.uglify({
             mangle: {
