@@ -47,41 +47,47 @@
         {% endif %}
     {% endif %}
 
+    {% if page is defined %}
+        {%  set hideSidebar = hideSidebarInNodeEditAdmin(page) %}
+    {%  else  %}
+        {%  set hideSidebar = false %}
+    {%  endif %}
+
 
     <!-- Main Content -->
-    <main role="main" id="app__main" class="container-fluid app__main{% if lowestTopChild and navigationChildren | length > 0 %} app__main--has-sidebar{% else %} app__main--no-sidebar{% endif %}">
+    <main role="main" id="app__main" class="container-fluid app__main{% if not hideSidebar and lowestTopChild and navigationChildren | length > 0 %} app__main--has-sidebar{% else %} app__main--no-sidebar{% endif %}">
 
         <div class="row">
 
-            {% if lowestTopChild and navigationChildren | length > 0 %}
+            {% if not hideSidebar and lowestTopChild and navigationChildren | length > 0 %}
 
-                <!-- App Sidebar -->
-                <aside id="app__sidebar" class="col-md-3 app__sidebar">
-                    {% block sidebar %}
+            <!-- App Sidebar -->
+            <aside id="app__sidebar" class="col-md-3 app__sidebar">
+                {% block sidebar %}
                     {% include "KunstmaanAdminBundle:Default:sidebar.html.twig" %}
-                    {% endblock %}
-                </aside>
+                {% endblock %}
+            </aside>
 
 
-                <!-- App Content - with sidebar -->
-                <div id="app__content" class="col-md-9 col-md-offset-3 col--padded app__content">
+            <!-- App Content - with sidebar -->
+            <div id="app__content" class="col-md-9 col-md-offset-3 col--padded app__content">
 
-                    <!-- App Sidebar Toggle -->
-                    <button type="button" id="app__sidebar-toggle" class="btn--reset app__sidebar-toggle" title="toggle sidebar">
+                <!-- App Sidebar Toggle -->
+                <button type="button" id="app__sidebar-toggle" class="btn--reset app__sidebar-toggle" title="toggle sidebar">
                         <span class="app__sidebar-toggle__show-icon">
                             <i class="fa fa-caret-right"></i>
                             <i class="fa fa-list-ul"></i>
                         </span>
-                        <span class="app__sidebar-toggle__hide-icon">
+                    <span class="app__sidebar-toggle__hide-icon">
                             <i class="fa fa-caret-left"></i>
                             <i class="fa fa-list-ul"></i>
                         </span>
-                    </button>
-            {% else %}
+                </button>
+                {% else %}
 
                 <!-- App Content - full width -->
                 <div id="app__content" class="col-md-12 col--padded app__content">
-            {% endif %}
+                    {% endif %}
 
                     <!-- App Content - Breadcrumbs -->
                     {% block breadcrumb %}
