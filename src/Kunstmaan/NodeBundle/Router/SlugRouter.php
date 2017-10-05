@@ -23,6 +23,9 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class SlugRouter implements RouterInterface
 {
+    public static $SLUG = "_slug";
+    public static $SLUG_PREVIEW = "_slug_preview";
+
     /** @var RequestContext */
     protected $context;
 
@@ -41,6 +44,9 @@ class SlugRouter implements RouterInterface
     /** @var DomainConfigurationInterface */
     protected $domainConfiguration;
 
+    /** @var string */
+    protected $adminKey;
+
     /**
      * The constructor for this service.
      *
@@ -51,6 +57,7 @@ class SlugRouter implements RouterInterface
         $this->container = $container;
         $this->slugPattern = "[a-zA-Z0-9\-_\/]*";
         $this->domainConfiguration = $container->get('kunstmaan_admin.domain_configuration');
+        $this->adminKey            = $container->getParameter('kunstmaan_admin.admin_prefix');
     }
 
     /**
@@ -173,7 +180,7 @@ class SlugRouter implements RouterInterface
     protected function addPreviewRoute()
     {
         $routeParameters = $this->getPreviewRouteParameters();
-        $this->addRoute('_slug_preview', $routeParameters);
+        $this->addRoute(self::$SLUG_PREVIEW, $routeParameters);
     }
 
     /**
@@ -182,7 +189,7 @@ class SlugRouter implements RouterInterface
     protected function addSlugRoute()
     {
         $routeParameters = $this->getSlugRouteParameters();
-        $this->addRoute('_slug', $routeParameters);
+        $this->addRoute(self::$SLUG, $routeParameters);
     }
 
     /**
@@ -192,7 +199,7 @@ class SlugRouter implements RouterInterface
      */
     protected function getPreviewRouteParameters()
     {
-        $previewPath = '/admin/preview/{url}';
+        $previewPath = sprintf('/%s/preview/{url}', $this->adminKey);
         $previewDefaults = [
             '_controller' => 'KunstmaanNodeBundle:Slug:slug',
             'preview' => true,

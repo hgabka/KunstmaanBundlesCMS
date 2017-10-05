@@ -109,6 +109,16 @@ services:
         class: Kunstmaan\AdminBundle\Helper\CloneHelper
         arguments: ['@doctrine.orm.entity_manager', '@event_dispatcher']
 
+    kunstmaan_admin.adminroute.helper:
+        class: '%kunstmaan_admin.adminroute.helper.class%'
+        arguments: ['%kunstmaan_admin.admin_prefix%', '@request_stack']
+
+    kunstmaan_admin.adminroute.twig.extension:
+        class: '%kunstmaan_admin.adminroute.twig.class%'
+        arguments: ['@kunstmaan_admin.adminroute.helper']
+        tags:
+            -  { name: 'twig.extension' }
+
     kunstmaan_admin.clone.listener:
         class: '%kunstmaan_admin.clone.listener.class%'
         tags:
