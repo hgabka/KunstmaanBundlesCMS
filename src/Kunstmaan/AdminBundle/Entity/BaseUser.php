@@ -176,10 +176,10 @@ abstract class BaseUser extends AbstractUser
         $metadata->addPropertyConstraint('username', new NotBlank());
         $metadata->addPropertyConstraints(
             'plainPassword',
-            array(
-                new NotBlank(array("groups" => array("Registration"))),
-                new PasswordRestrictions(array("groups" => array("Registration","Default"))),
-            )
+            [
+                new NotBlank(['groups' => ['Registration']]),
+                new PasswordRestrictions(['groups' => ['Registration', 'Default']]),
+            ]
         );
         $metadata->addPropertyConstraint('email', new NotBlank());
         $metadata->addPropertyConstraint('email', new Email());

@@ -2,12 +2,11 @@
 
 namespace Kunstmaan\AdminBundle\Twig;
 
-use Kunstmaan\NodeBundle\Entity\HideSidebarInNodeEditInterface;
 use Kunstmaan\AdminBundle\Helper\Menu\MenuBuilder;
+use Kunstmaan\NodeBundle\Entity\HideSidebarInNodeEditInterface;
 
 class SidebarTwigExtension extends \Twig_Extension
 {
-
     /**
      * Get Twig functions defined in this extension.
      *
@@ -15,19 +14,20 @@ class SidebarTwigExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('hideSidebarInNodeEditAdmin', array($this, 'hideSidebarInNodeEditAdmin')),
-        );
+        return [
+            new \Twig_SimpleFunction('hideSidebarInNodeEditAdmin', [$this, 'hideSidebarInNodeEditAdmin']),
+        ];
     }
 
     /**
      * Return the admin menu MenuBuilder.
      *
+     * @param mixed $node
+     *
      * @return MenuBuilder
      */
     public function hideSidebarInNodeEditAdmin($node)
     {
-        return ($node instanceof HideSidebarInNodeEditInterface);
+        return $node instanceof HideSidebarInNodeEditInterface;
     }
-
 }

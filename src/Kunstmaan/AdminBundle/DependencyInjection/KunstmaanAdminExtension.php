@@ -55,11 +55,11 @@ class KunstmaanAdminExtension extends Extension implements PrependExtensionInter
         $container->setParameter('kunstmaan_admin.google_signin.client_secret', $config['google_signin']['client_secret']);
         $container->setParameter('kunstmaan_admin.google_signin.hosted_domains', $config['google_signin']['hosted_domains']);
 
-        $container->setParameter('kunstmaan_admin.password_restrictions.min_digits' , $config['password_restrictions']['min_digits']);
-        $container->setParameter('kunstmaan_admin.password_restrictions.min_uppercase' , $config['password_restrictions']['min_uppercase']);
-        $container->setParameter('kunstmaan_admin.password_restrictions.min_special_characters' , $config['password_restrictions']['min_special_characters']);
-        $container->setParameter('kunstmaan_admin.password_restrictions.min_length' , $config['password_restrictions']['min_length']);
-        $container->setParameter('kunstmaan_admin.password_restrictions.max_length' , $config['password_restrictions']['max_length']);
+        $container->setParameter('kunstmaan_admin.password_restrictions.min_digits', $config['password_restrictions']['min_digits']);
+        $container->setParameter('kunstmaan_admin.password_restrictions.min_uppercase', $config['password_restrictions']['min_uppercase']);
+        $container->setParameter('kunstmaan_admin.password_restrictions.min_special_characters', $config['password_restrictions']['min_special_characters']);
+        $container->setParameter('kunstmaan_admin.password_restrictions.min_length', $config['password_restrictions']['min_length']);
+        $container->setParameter('kunstmaan_admin.password_restrictions.max_length', $config['password_restrictions']['max_length']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
@@ -119,6 +119,25 @@ class KunstmaanAdminExtension extends Extension implements PrependExtensionInter
         return __DIR__.'/../Resources/config/schema';
     }
 
+    /**
+     * @param string $urlSlice
+     *
+     * @return string
+     */
+    protected function normalizeUrlSlice($urlSlice)
+    {
+        // Get rid of exotic characters that would break the url
+        $urlSlice = filter_var($urlSlice, FILTER_SANITIZE_URL);
+
+        // Remove leading and trailing slashes
+        $urlSlice = trim($urlSlice, '/');
+
+        // Make sure our $urlSlice is literally used in our regex
+        $urlSlice = preg_quote($urlSlice);
+
+        return $urlSlice;
+    }
+
     private function addSimpleMenuAdaptor(ContainerBuilder $container, array $menuItems)
     {
         $definition = new Definition('Kunstmaan\AdminBundle\Helper\Menu\SimpleMenuAdaptor', [
@@ -128,25 +147,5 @@ class KunstmaanAdminExtension extends Extension implements PrependExtensionInter
         $definition->addTag('kunstmaan_admin.menu.adaptor');
 
         $container->setDefinition('kunstmaan_admin.menu.adaptor.simple', $definition);
-    }
-
-
-    /**
-     * @param string $urlSlice
-     *
-     * @return string
-     */
-    protected function normalizeUrlSlice($urlSlice)
-    {
-        /* Get rid of exotic characters that would break the url */
-        $urlSlice = filter_var($urlSlice, FILTER_SANITIZE_URL);
-
-        /* Remove leading and trailing slashes */
-        $urlSlice = trim($urlSlice, '/');
-
-        /* Make sure our $urlSlice is literally used in our regex */
-        $urlSlice = preg_quote($urlSlice);
-
-        return $urlSlice;
     }
 }

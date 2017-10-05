@@ -23,8 +23,8 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class SlugRouter implements RouterInterface
 {
-    public static $SLUG = "_slug";
-    public static $SLUG_PREVIEW = "_slug_preview";
+    public static $SLUG = '_slug';
+    public static $SLUG_PREVIEW = '_slug_preview';
 
     /** @var RequestContext */
     protected $context;
@@ -57,7 +57,7 @@ class SlugRouter implements RouterInterface
         $this->container = $container;
         $this->slugPattern = "[a-zA-Z0-9\-_\/]*";
         $this->domainConfiguration = $container->get('kunstmaan_admin.domain_configuration');
-        $this->adminKey            = $container->getParameter('kunstmaan_admin.admin_prefix');
+        $this->adminKey = $container->getParameter('kunstmaan_admin.admin_prefix');
     }
 
     /**

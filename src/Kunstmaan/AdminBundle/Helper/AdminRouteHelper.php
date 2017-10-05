@@ -7,24 +7,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Class AdminRouteHelper
+ * Class AdminRouteHelper.
  */
 class AdminRouteHelper
 {
     protected static $ADMIN_MATCH_REGEX = '/^\/(app_[a-zA-Z]+\.php\/)?([a-zA-Z_-]{2,5}\/)?%s\/(.*)/';
 
     /**
-     * @var string $adminKey
+     * @var string
      */
     protected $adminKey;
 
     /**
-     * @var RequestStack $requestStack
+     * @var RequestStack
      */
     protected $requestStack;
 
     /**
-     * @param string $adminKey
+     * @param string       $adminKey
      * @param RequestStack $requestStack
      */
     public function __construct($adminKey, RequestStack $requestStack)
@@ -34,7 +34,7 @@ class AdminRouteHelper
     }
 
     /**
-     * Checks wether the given url points to an admin route
+     * Checks wether the given url points to an admin route.
      *
      * @param string $url
      *
@@ -49,7 +49,7 @@ class AdminRouteHelper
         preg_match(sprintf(self::$ADMIN_MATCH_REGEX, $this->adminKey), $url, $matches);
 
         // Check if path is part of admin area
-        if (count($matches) === 0) {
+        if (0 === count($matches)) {
             return false;
         }
 
@@ -57,16 +57,16 @@ class AdminRouteHelper
     }
 
     /**
-     * Checks the current request if it's route is equal to SlugRouter::$SLUG_PREVIEW
+     * Checks the current request if it's route is equal to SlugRouter::$SLUG_PREVIEW.
      *
      * @param string $url
      *
-     * @return boolean
+     * @return bool
      */
     protected function matchesPreviewRoute($url)
     {
         $routeName = $this->requestStack->getCurrentRequest()->get('_route');
 
-        return $routeName == SlugRouter::$SLUG_PREVIEW;
+        return $routeName === SlugRouter::$SLUG_PREVIEW;
     }
 }

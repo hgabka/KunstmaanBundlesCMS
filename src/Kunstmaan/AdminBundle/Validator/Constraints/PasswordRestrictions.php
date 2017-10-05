@@ -1,15 +1,14 @@
 <?php
-namespace Kunstmaan\AdminBundle\Validator\Constraints;
 
+namespace Kunstmaan\AdminBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
 /**
- * Class PasswordRestrictions
+ * Class PasswordRestrictions.
  */
 class PasswordRestrictions extends Constraint
 {
-
     const INVALID_MIN_DIGITS_ERROR = 1;
     const INVALID_MIN_UPPERCASE_ERROR = 2;
     const INVALID_MIN_SPECIAL_CHARACTERS_ERROR = 3;
@@ -24,11 +23,11 @@ class PasswordRestrictions extends Constraint
 
     /**
      * PasswordRestrictions constructor.
+     *
      * @param null $options
      */
     public function __construct($options = null)
     {
         parent::__construct($options);
     }
-
 }

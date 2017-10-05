@@ -60,18 +60,6 @@ class UsersController extends BaseSettingsController
     }
 
     /**
-     * Get an instance of the admin user class.
-     *
-     * @return BaseUser
-     */
-    private function getUserClassInstance()
-    {
-        $userClassName = $this->getParameter('fos_user.model.user.class');
-
-        return new $userClassName();
-    }
-
-    /**
      * Add a user.
      *
      * @Route("/add", name="KunstmaanUserManagementBundle_settings_users_add")
@@ -272,5 +260,17 @@ class UsersController extends BaseSettingsController
                 ]
             )
         );
+    }
+
+    /**
+     * Get an instance of the admin user class.
+     *
+     * @return BaseUser
+     */
+    private function getUserClassInstance()
+    {
+        $userClassName = $this->getParameter('fos_user.model.user.class');
+
+        return new $userClassName();
     }
 }
