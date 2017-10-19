@@ -21,3 +21,5 @@ services:
         arguments: ['@doctrine.orm.entity_manager', '@router']
         tags:
             - { name: 'kernel.event_listener', event: 'kunstmaan_node.configureSubActionMenu', method: 'onSubActionMenuConfigure' }
+
+    Kunstmaan\FormBundle\Helper\FormMailer: "@kunstmaan_form.form_mailer"
