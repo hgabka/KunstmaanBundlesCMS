@@ -6,6 +6,7 @@ use Kunstmaan\FormBundle\Entity\FormSubmission;
 use Swift_Mailer;
 use Swift_Message;
 use Swift_Mime_Message;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -17,7 +18,7 @@ class FormMailer implements FormMailerInterface
     /** @var \Swift_Mailer */
     protected $mailer;
 
-    /** @var \Symfony\Bundle\TwigBundle\TwigEngine */
+    /** @var EngineInterface */
     protected $templating;
 
     /** @var \Symfony\Component\DependencyInjection\ContainerInterface */
@@ -28,7 +29,7 @@ class FormMailer implements FormMailerInterface
      * @param TwigEngine         $templating The templating service
      * @param ContainerInterface $container  The container
      */
-    public function __construct(Swift_Mailer $mailer, TwigEngine $templating, ContainerInterface $container)
+    public function __construct(Swift_Mailer $mailer, EngineInterface $templating, ContainerInterface $container)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
