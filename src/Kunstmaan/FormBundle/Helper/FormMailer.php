@@ -15,13 +15,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class FormMailer implements FormMailerInterface
 {
     /** @var \Swift_Mailer */
-    private $mailer;
+    protected $mailer;
 
     /** @var \Symfony\Bundle\TwigBundle\TwigEngine */
-    private $templating;
+    protected $templating;
 
     /** @var \Symfony\Component\DependencyInjection\ContainerInterface */
-    private $container;
+    protected $container;
 
     /**
      * @param Swift_Mailer       $mailer     The mailer service
