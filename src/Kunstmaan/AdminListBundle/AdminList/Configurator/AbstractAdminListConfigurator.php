@@ -815,15 +815,20 @@ abstract class AbstractAdminListConfigurator implements AdminListConfiguratorInt
                 $this->pagesize = $adminListSessionData['pagesize'] ?? $this->getLimit();
             }
             if (!$query->has('orderBy')) {
-                $sort = $this->getDefaultSort();
-                if (!empty($sort)) {
-                    if (is_string($sort)) {
-                        $this->orderBy = $sort;
-                        $this->orderDirection = 'ASC';
-                    } elseif (is_array($sort)) {
-                        $this->orderBy = $sort[0];
-                        $this->orderDirection = in_array(strtoupper($sort[1]), ['ASC', 'DESC'], true) ? strtoupper($sort[1]) : 'ASC';
+                if (empty($adminListSessionData['orderBy'])) {
+                    $sort = $this->getDefaultSort();
+                    if (!empty($sort)) {
+                        if (is_string($sort)) {
+                            $this->orderBy = $sort;
+                            $this->orderDirection = 'ASC';
+                        } elseif (is_array($sort)) {
+                            $this->orderBy = $sort[0];
+                            $this->orderDirection = in_array(strtoupper($sort[1]), ['ASC', 'DESC'], true) ? strtoupper($sort[1]) : 'ASC';
+                        }
                     }
+                } else {
+                    $this->orderBy = $adminListSessionData['orderBy'];
+                    $this->orderDirection = $adminListSessionData['orderDirection'];
                 }
             }
         }
