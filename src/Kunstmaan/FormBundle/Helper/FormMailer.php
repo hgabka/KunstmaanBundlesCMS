@@ -44,6 +44,10 @@ class FormMailer implements FormMailerInterface
      */
     public function sendContactMail(FormSubmission $submission, $from, $to, $subject)
     {
+        if (empty($from) || empty($to) || empty($subject)) {
+            return;
+        }
+
         $request = $this->container->get('request_stack')->getCurrentRequest();
 
         $toArr = explode("\r\n", $to);

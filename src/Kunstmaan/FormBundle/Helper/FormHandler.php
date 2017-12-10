@@ -63,6 +63,7 @@ class FormHandler implements FormHandlerInterface
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
+
                 $formSubmission = new FormSubmission();
                 $formSubmission->setIpAddress($request->getClientIp());
                 $formSubmission->setNode($em->getRepository('KunstmaanNodeBundle:Node')->getNodeFor($page));
@@ -85,10 +86,9 @@ class FormHandler implements FormHandlerInterface
                 $from = $page->getFromEmail();
                 $to = $page->getToEmail();
                 $subject = $page->getSubject();
-                if (!empty($from) && !empty($to) && !empty($subject)) {
-                    $mailer = $this->container->get('kunstmaan_form.form_mailer');
-                    $mailer->sendContactMail($formSubmission, $from, $to, $subject);
-                }
+
+                $mailer = $this->container->get('kunstmaan_form.form_mailer');
+                $mailer->sendContactMail($formSubmission, $from, $to, $subject);
 
                 return new RedirectResponse($page->generateThankYouUrl($router, $context));
             }
